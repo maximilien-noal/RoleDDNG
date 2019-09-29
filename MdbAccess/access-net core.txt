@@ -1,0 +1,10 @@
+if(-not (test-path "hklm:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{90140000-00D1-0409-1000-0000000FF1CE}"))
+{
+    Install-ChocolateyPackage `
+            'MSAccess210-redist-x64' 'exe' "/Passive /NoRestart /Log:$($env:temp)\MSAccess210-redist.log" `
+            'http://download.microsoft.com/download/2/4/3/24375141-E08D-4803-AB0E-10F2E3A07AAA/AccessDatabaseEngine_x64.exe'
+}
+else
+{
+     Write-Host "Microsoft Access 2010 Redistributable is already installed on your machine."
+}
