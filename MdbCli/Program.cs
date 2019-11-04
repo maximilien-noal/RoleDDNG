@@ -1,5 +1,4 @@
-﻿using MdbAccess;
-using System;
+﻿using System;
 
 namespace MdbCli
 {
@@ -7,7 +6,7 @@ namespace MdbCli
     {
         static void Main()
         {
-            AccessDataBase.TestConnection();
+
         }
     }
 }
