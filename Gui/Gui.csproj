@@ -11,8 +11,4 @@
     <WarningsAsErrors />
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\GuiLib\GuiLib.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MdbCli
+namespace RoleDDNG.Models
 {
     public class Personnage
     {
@@ -91,8 +91,8 @@ namespace MdbCli
         public string ElementShugenja { get; set; }
         public string OrdreShugenja { get; set; }
 
-        public virtual ICollection<Equipement> Equipement { get; set; }
-        public virtual ICollection<PersonnageProgression> PersonnageProgression { get; set; }
-        public virtual ICollection<SortPersonnage> SortPersonnage { get; set; }
+        public virtual ICollection<Equipement> Equipement { get; private set; }
+        public virtual ICollection<PersonnageProgression> PersonnageProgression { get; private set; }
+        public virtual ICollection<SortPersonnage> SortPersonnage { get; private set; }
     }
 }

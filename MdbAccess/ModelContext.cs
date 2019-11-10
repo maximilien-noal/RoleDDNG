@@ -2,10 +2,12 @@
 using EntityFrameworkCore.Jet;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using RoleDDNG.Models;
+using Version = RoleDDNG.Models.Version;
 
-namespace MdbCli
+namespace RoleDDNG.MdbAccess
 {
-    public class ModelContext : DbContext
+    internal class ModelContext : DbContext
     {
         public ModelContext()
         {
@@ -26,10 +28,14 @@ namespace MdbCli
         public virtual DbSet<PersonnageProgression> PersonnageProgression { get; set; }
         public virtual DbSet<SortListe> SortListe { get; set; }
         public virtual DbSet<SortPersonnage> SortPersonnage { get; set; }
-        public virtual DbSet<Version> Version { get; set; }
+        public virtual DbSet<Models.Version> Version { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if(optionsBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(optionsBuilder));
+            }
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseJet("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\max\\Desktop\\db1.accdb;");
@@ -38,6 +44,10 @@ namespace MdbCli
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            if(modelBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(modelBuilder));
+            }
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
             modelBuilder.Entity<Capacites>(entity =>

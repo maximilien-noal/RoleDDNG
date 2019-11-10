@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MdbCli
+namespace RoleDDNG.Models
 {
     public class Donsperso
     {

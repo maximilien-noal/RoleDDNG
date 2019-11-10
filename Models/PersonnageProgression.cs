@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MdbCli
+namespace RoleDDNG.Models
 {
     public class PersonnageProgression
     {
@@ -13,7 +13,9 @@ namespace MdbCli
         public short? For { get; set; }
         public short? Dex { get; set; }
         public short? Con { get; set; }
+#pragma warning disable CA1720 // Identifier contains type name (Justification : Legacy column name)
         public short? Int { get; set; }
+#pragma warning restore CA1720 // Identifier contains type name (Justification : Legacy column name)
         public short? Sag { get; set; }
         public short? Cha { get; set; }
         public short? Niv { get; set; }
