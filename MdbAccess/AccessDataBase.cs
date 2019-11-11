@@ -9,7 +9,6 @@ namespace RoleDDNG.MdbAccess
     {
         private bool _disposed = false;
         private readonly OdbcConnection _dbConnection;
-        private readonly ModelContext _modelContext = new ModelContext();
 
         public AccessDataBase(string mdbFileName)
         {
@@ -19,11 +18,6 @@ namespace RoleDDNG.MdbAccess
             }
 
             _dbConnection = new OdbcConnection("Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=" + mdbFileName);
-        }
-
-        public T GetModel<T>() where T : Type
-        {
-            return _modelContext.Find<T>();
         }
 
         public void Dispose()
@@ -40,7 +34,6 @@ namespace RoleDDNG.MdbAccess
             }
             if(disposing)
             {
-                _modelContext.Dispose();
                 _dbConnection.Dispose();
             }
             _disposed = true;

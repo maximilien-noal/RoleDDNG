@@ -5,11 +5,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using FluentAssertions;
 
 namespace MdbAccess.Tests
 {
     public class AccessDataBaseTests
     {
+        [Fact]
+        public void CanBeInstantiated()
+        {
+            new AccessDataBase(@"..\..\..\MDBs\perso.mdb").Should().NotBeNull();
+        }
+
         //public static IEnumerable<object[]> GetConnection()
         //{
         //    //Construct the query
