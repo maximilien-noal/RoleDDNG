@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MdbAccess.Tests", "MdbAcces
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{92753968-60EA-422C-B355-AF066FA9BEA7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Role", "Role\Role.csproj", "{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{92753968-60EA-422C-B355-AF066FA9BEA7}.Release|x64.Build.0 = Release|Any CPU
 		{92753968-60EA-422C-B355-AF066FA9BEA7}.Release|x86.ActiveCfg = Release|Any CPU
 		{92753968-60EA-422C-B355-AF066FA9BEA7}.Release|x86.Build.0 = Release|Any CPU
+		{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}.Debug|x64.Build.0 = Debug|Any CPU
+		{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}.Debug|x86.Build.0 = Debug|Any CPU
+		{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}.Release|x64.ActiveCfg = Release|Any CPU
+		{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}.Release|x64.Build.0 = Release|Any CPU
+		{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}.Release|x86.ActiveCfg = Release|Any CPU
+		{8C6B4A9C-17FF-4825-B14F-3B5B8C588BFC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

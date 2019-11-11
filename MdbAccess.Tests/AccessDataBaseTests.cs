@@ -9,7 +9,8 @@ namespace MdbAccess.Tests
         [Fact]
         public void CanBeInstantiated()
         {
-            new AccessDataBase(@"..\..\..\MDBs\perso.mdb").Should().NotBeNull();
+            using var adb = new AccessDataBase(@"..\..\..\MDBs\perso.mdb");
+            adb.Should().NotBeNull();
         }
 
         //public static IEnumerable<object[]> GetConnection()

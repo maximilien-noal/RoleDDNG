@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp31</TargetFramework>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>RoleDDNG.Role</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appicon.png" />
+    <None Remove="back.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="appicon.png" />
+    <Resource Include="back.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
