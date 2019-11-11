@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RoleDDNG.Models
+namespace RoleDDNg.Models
 {
     public class Personnage
     {

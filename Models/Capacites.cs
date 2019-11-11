@@ -1,4 +1,4 @@
-﻿namespace RoleDDNG.Models
+﻿namespace RoleDDNg.Models
 {
     public class Capacites
     {

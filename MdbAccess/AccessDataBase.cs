@@ -2,7 +2,7 @@
 using System.Data.Odbc;
 using System.IO;
 
-namespace RoleDDNG.MdbAccess
+namespace RoleDDNg.MdbAccess
 {
     public class AccessDataBase : IDisposable
     {

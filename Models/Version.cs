@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RoleDDNG.Models
+namespace RoleDDNg.Models
 {
     public class Version
     {
