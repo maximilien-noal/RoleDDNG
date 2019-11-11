@@ -1,11 +1,6 @@
-using Dapper;
-using RoleDDNG.MdbAccess;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
 using FluentAssertions;
+using RoleDDNG.MdbAccess;
+using Xunit;
 
 namespace MdbAccess.Tests
 {
@@ -28,12 +23,6 @@ namespace MdbAccess.Tests
         //    //It's also a good idea if you use a string as a parameter that you use DbString instead of sending the variable directly
         //    //You will also need to specify the Length exactly as the length of the column in the Microsoft Access table
         //    var data = connection.Query<object>(queryText, new { Name = new DbString { Value = "Rebelle", Length = 0, IsAnsi = true } });
-        //}
-
-        //[Fact]
-        //public void TestConnection()
-        //{
-        //    Assert.True(AccessDataBase.TestConnection());
         //}
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace RoleDDNG.Models
+﻿namespace RoleDDNG.Models
 {
     public class Capacites
     {

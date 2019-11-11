@@ -1,7 +1,6 @@
-﻿using Dapper;
-using System;
+﻿using System;
 using System.Data.Odbc;
-using System.Linq;
+using System.IO;
 
 namespace RoleDDNG.MdbAccess
 {
@@ -16,6 +15,10 @@ namespace RoleDDNG.MdbAccess
             {
                 throw new ArgumentNullException(nameof(mdbFileName));
             }
+            if (File.Exists(mdbFileName) == false)
+            {
+                throw new FileNotFoundException(mdbFileName);
+            }
 
             _dbConnection = new OdbcConnection("Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=" + mdbFileName);
         }
@@ -28,11 +31,11 @@ namespace RoleDDNG.MdbAccess
 
         protected virtual void Dispose(bool disposing)
         {
-            if(_disposed)
+            if (_disposed)
             {
                 return;
             }
-            if(disposing)
+            if (disposing)
             {
                 _dbConnection.Dispose();
             }
