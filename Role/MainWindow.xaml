@@ -11,7 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="Fichier">
@@ -34,6 +34,6 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <Image Grid.Row="2" Source="back.jpg" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <Image Grid.Row="2" Source="back.jpg" />
     </Grid>
 </Window>
