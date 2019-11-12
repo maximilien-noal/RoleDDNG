@@ -15,39 +15,39 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem Header="Fichier">
-                <MenuItem Header="Assistant création personnage" InputGestureText="Ctrl + N"></MenuItem>
-                <MenuItem Header="Gestion des personnages"></MenuItem>
-                <MenuItem Header="Accéder aux fiches des personnages"></MenuItem>
-                <MenuItem Header="Gestion des objets" InputGestureText="Ctrl + I"></MenuItem>
+            <MenuItem Header="_Fichier">
+                <MenuItem Header="_Assistant création personnage" InputGestureText="Ctrl + N"></MenuItem>
+                <MenuItem Header="_Gestion des personnages"></MenuItem>
+                <MenuItem Header="_Accéder aux fiches des personnages"></MenuItem>
+                <MenuItem Header="_Gestion des objets" InputGestureText="Ctrl + I"></MenuItem>
                 <Separator />
-                <MenuItem Header="Importation des personnages" InputGestureText="Ctrl + M"></MenuItem>
+                <MenuItem Header="_Importation des personnages" InputGestureText="Ctrl + M"></MenuItem>
                 <Separator />
-                <MenuItem Header="Ouvrir une base de données de personnages" InputGestureText="Ctrl + O"></MenuItem>
+                <MenuItem Header="_Ouvrir une base de données de personnages" InputGestureText="Ctrl + O"></MenuItem>
                 <Separator />
-                <MenuItem Header="Quitter" InputGestureText="Alt + F4" Command="{Binding ExitAppCommand}"></MenuItem>
+                <MenuItem Header="_Quitter" InputGestureText="Alt + F4" Command="{Binding ExitAppCommand}"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Outils">
-                <MenuItem Header="Expérience des personnages" InputGestureText="Ctrl + X"></MenuItem>
-                <MenuItem Header="Générateur de villes"></MenuItem>
-                <MenuItem Header="Lanceur de dés" InputGestureText="Ctrl + D"></MenuItem>
+            <MenuItem Header="_Outils">
+                <MenuItem Header="_Expérience des personnages" InputGestureText="Ctrl + X"></MenuItem>
+                <MenuItem Header="_Générateur de villes"></MenuItem>
+                <MenuItem Header="_Lanceur de dés" InputGestureText="Ctrl + D"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Règles">
-                <MenuItem Header="Description des sorts" InputGestureText="Ctrl + S"></MenuItem>
-                <MenuItem Header="Description des races"></MenuItem>
-                <MenuItem Header="Description des dons"></MenuItem>
+            <MenuItem Header="_Règles">
+                <MenuItem Header="_Description des sorts" InputGestureText="Ctrl + S"></MenuItem>
+                <MenuItem Header="_Description des races"></MenuItem>
+                <MenuItem Header="_Description des dons"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Personnel">
-                <MenuItem Header="Insertion des sorts"></MenuItem>
-                <MenuItem Header="Insertion des races"></MenuItem>
-                <MenuItem Header="Insertion des dons"></MenuItem>
+            <MenuItem Header="_Personnel">
+                <MenuItem Header="_Insertion des sorts"></MenuItem>
+                <MenuItem Header="_Insertion des races"></MenuItem>
+                <MenuItem Header="_Insertion des dons"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Options"></MenuItem>
-            <MenuItem Header="Aide">
-                <MenuItem Header="Astuce du jour" />
-                <MenuItem Header="Lien vers le site" />
-                <MenuItem Header="Vérifier les mises à jour" />
-                <MenuItem Header="À propos de RoleDD" />
+            <MenuItem Header="_Options"></MenuItem>
+            <MenuItem Header="_Aide">
+                <MenuItem Header="_Astuce du jour" />
+                <MenuItem Header="_Lien vers le site" />
+                <MenuItem Header="_Vérifier les mises à jour" />
+                <MenuItem Header="_À propos de RoleDD" />
             </MenuItem>
         </Menu>
         <Border Grid.Row="1" Height="2">
