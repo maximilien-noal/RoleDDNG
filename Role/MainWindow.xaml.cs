@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RoleDDNg.Role.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace RoleDDNg.Role
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            new AboutBox(this).ShowDialog();
         }
     }
 }
