@@ -10,12 +10,12 @@
 
   <ItemGroup>
     <None Remove="appicon.png" />
-    <None Remove="back.jpg" />
+    <None Remove="back.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="appicon.png" />
-    <Resource Include="back.jpg" />
+    <Resource Include="back.png" />
   </ItemGroup>
 
   <ItemGroup>

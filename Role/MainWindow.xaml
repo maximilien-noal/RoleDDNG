@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RoleDDNg.Role"
+        xmlns:vm="clr-namespace:RoleDDNg.ViewModels;assembly=ViewModels"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         mc:Ignorable="d"
         Title="RoleDD Gestion des personnages pour Donjons &amp; Dragons 3.5" Height="754" Width="1218" Icon="appicon.png" ResizeMode="CanResizeWithGrip">
@@ -15,16 +16,39 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="Fichier">
+                <MenuItem Header="Assistant création personnage" InputGestureText="Ctrl + N"></MenuItem>
+                <MenuItem Header="Gestion des personnages"></MenuItem>
+                <MenuItem Header="Accéder aux fiches des personnages"></MenuItem>
+                <MenuItem Header="Gestion des objets" InputGestureText="Ctrl + I"></MenuItem>
+                <Separator />
+                <MenuItem Header="Importation des personnages" InputGestureText="Ctrl + M"></MenuItem>
+                <Separator />
+                <MenuItem Header="Ouvrir une base de données de personnages" InputGestureText="Ctrl + O"></MenuItem>
+                <Separator />
+                <MenuItem Header="Quitter" InputGestureText="Alt + F4" Command="{Binding ExitAppCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Outils">
                 <MenuItem Header="Expérience des personnages" InputGestureText="Ctrl + X"></MenuItem>
                 <MenuItem Header="Générateur de villes"></MenuItem>
                 <MenuItem Header="Lanceur de dés" InputGestureText="Ctrl + D"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Règles"></MenuItem>
-            <MenuItem Header="Personnel"></MenuItem>
+            <MenuItem Header="Règles">
+                <MenuItem Header="Description des sorts" InputGestureText="Ctrl + S"></MenuItem>
+                <MenuItem Header="Description des races"></MenuItem>
+                <MenuItem Header="Description des dons"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Personnel">
+                <MenuItem Header="Insertion des sorts"></MenuItem>
+                <MenuItem Header="Insertion des races"></MenuItem>
+                <MenuItem Header="Insertion des dons"></MenuItem>
+            </MenuItem>
             <MenuItem Header="Options"></MenuItem>
-            <MenuItem Header="Aide"></MenuItem>
+            <MenuItem Header="Aide">
+                <MenuItem Header="Astuce du jour" />
+                <MenuItem Header="Lien vers le site" />
+                <MenuItem Header="Vérifier les mises à jour" />
+                <MenuItem Header="À propos de RoleDD" />
+            </MenuItem>
         </Menu>
         <Border Grid.Row="1" Height="2">
             <Border.Background>
@@ -34,6 +58,6 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <Image Grid.Row="2" Source="back.jpg" />
+        <Image Grid.Row="2" Source="back.png" />
     </Grid>
 </Window>

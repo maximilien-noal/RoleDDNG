@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>netstandard21</TargetFramework>
+    <TargetFramework>netcoreapp31</TargetFramework>
     <RootNamespace>RoleDDNg.ViewModels</RootNamespace>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
