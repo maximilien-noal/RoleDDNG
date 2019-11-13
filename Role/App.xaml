@@ -5,11 +5,6 @@
              xmlns:local="clr-namespace:RoleDDNG.Role"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/PresentationFramework.Classic;component/themes/Classic.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-            <vm:ViewModelLocator x:Key="Locator" />
-        </ResourceDictionary>
+        <vm:ViewModelLocator x:Key="Locator" />
     </Application.Resources>
 </Application>
