@@ -29,4 +29,10 @@
     <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Hammer.MDIContainer.Control">
+      <HintPath>..\Libs\Hammer.MDIContainer.Control.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
