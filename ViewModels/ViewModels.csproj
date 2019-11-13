@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp31</TargetFramework>
-    <RootNamespace>RoleDDNg.ViewModels</RootNamespace>
+    <RootNamespace>RoleDDNG.ViewModels</RootNamespace>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <UseWPF>true</UseWPF>
   </PropertyGroup>

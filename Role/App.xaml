@@ -1,8 +1,8 @@
-﻿<Application x:Class="RoleDDNg.Role.App"
+﻿<Application x:Class="RoleDDNG.Role.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="clr-namespace:RoleDDNg.ViewModels;assembly=ViewModels"
-             xmlns:local="clr-namespace:RoleDDNg.Role"
+             xmlns:vm="clr-namespace:RoleDDNG.ViewModels;assembly=ViewModels"
+             xmlns:local="clr-namespace:RoleDDNG.Role"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>

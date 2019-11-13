@@ -4,7 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-namespace RoleDDNg.Models
+namespace RoleDDNG.Models
 {
     public class Personnage : ObservableObject
     {

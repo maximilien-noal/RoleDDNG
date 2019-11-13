@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp31</TargetFramework>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <UseWPF>true</UseWPF>
-    <RootNamespace>RoleDDNg.Role</RootNamespace>
+    <RootNamespace>RoleDDNG.Role</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

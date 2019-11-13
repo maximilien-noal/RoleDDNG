@@ -14,7 +14,7 @@
 
 using GalaSoft.MvvmLight.Ioc;
 
-namespace RoleDDNg.ViewModels
+namespace RoleDDNG.ViewModels
 {
     /// <summary>
     /// This class contains static references to all the view models in the

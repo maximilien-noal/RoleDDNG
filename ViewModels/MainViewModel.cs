@@ -3,7 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Windows;
 
-namespace RoleDDNg.ViewModels
+namespace RoleDDNG.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {

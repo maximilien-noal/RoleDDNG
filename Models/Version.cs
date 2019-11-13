@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
 
-namespace RoleDDNg.Models
+namespace RoleDDNG.Models
 {
     public class Version : ObservableObject
     {

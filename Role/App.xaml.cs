@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace RoleDDNg.Role
+namespace RoleDDNG.Role
 {
     /// <summary>
     /// Interaction logic for App.xaml

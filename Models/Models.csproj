@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard21</TargetFramework>
-    <RootNamespace>RoleDDNg.Models</RootNamespace>
+    <RootNamespace>RoleDDNG.Models</RootNamespace>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 

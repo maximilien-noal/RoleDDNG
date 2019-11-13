@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard21</TargetFramework>
-    <RootNamespace>RoleDDNg.MdbAccess</RootNamespace>
+    <RootNamespace>RoleDDNG.MdbAccess</RootNamespace>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 

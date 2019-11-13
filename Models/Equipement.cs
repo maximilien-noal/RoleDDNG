@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 
-namespace RoleDDNg.Models
+namespace RoleDDNG.Models
 {
     public class Equipement : ObservableObject
     {

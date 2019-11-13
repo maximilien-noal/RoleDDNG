@@ -1,10 +1,10 @@
-﻿<Window x:Class="RoleDDNg.Role.MainWindow"
+﻿<Window x:Class="RoleDDNG.Role.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RoleDDNg.Role"
-        xmlns:vm="clr-namespace:RoleDDNg.ViewModels;assembly=ViewModels"
+        xmlns:local="clr-namespace:RoleDDNG.Role"
+        xmlns:vm="clr-namespace:RoleDDNG.ViewModels;assembly=ViewModels"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         mc:Ignorable="d"
         Title="RoleDD Gestion des personnages pour Donjons &amp; Dragons 3.5" Height="754" Width="1218" Icon="appicon.png" ResizeMode="CanResizeWithGrip">
