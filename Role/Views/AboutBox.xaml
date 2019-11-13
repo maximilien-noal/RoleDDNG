@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RoleDDNG.Role.Views" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         mc:Ignorable="d"
         Title="À propos de RoleDD" SizeToContent="WidthAndHeight">
-    <Grid>
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
