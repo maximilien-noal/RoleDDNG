@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using RoleDDNG.Models;
 using RoleDDNG.ViewModels.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -54,10 +55,9 @@ namespace RoleDDNG.ViewModels
 
         public int NumberofSides { get => _numberOfSides; set { Set(nameof(NumberofSides), ref _numberOfSides, value); } }
 
-        private ObservableCollection<int> _results = new ObservableCollection<int>();
-
         public event EventHandler Closing;
 
+        private ObservableCollection<int> _results = new ObservableCollection<int>();
         public ObservableCollection<int> Results { get => _results; private set { Set(nameof(Results), ref _results, value); } }
 
         public RelayCommand Roll { get; private set; }

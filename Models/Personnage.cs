@@ -165,6 +165,7 @@ namespace RoleDDNG.Models
         private string _ordreShugenja = "";
         public string OrdreShugenja { get => _ordreShugenja; set { Set(nameof(OrdreShugenja), ref _ordreShugenja, value); } }
 
+        public virtual ObservableCollection<DiceRollEntry> DiceRollEntries { get; private set; } = new ObservableCollection<DiceRollEntry>();
         public virtual ObservableCollection<Equipement> Equipement { get; private set; } = new ObservableCollection<Equipement>();
         public virtual ObservableCollection<PersonnageProgression> PersonnageProgression { get; private set; } = new ObservableCollection<PersonnageProgression>();
         public virtual ObservableCollection<SortPersonnage> SortPersonnage { get; private set; } = new ObservableCollection<SortPersonnage>();

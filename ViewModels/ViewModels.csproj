@@ -14,4 +14,8 @@
     </PackageReference>
     <PackageReference Include="MvvmLightStd10" Version="5.4.1.2" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Models\Models.csproj" />
+  </ItemGroup>
 </Project>
