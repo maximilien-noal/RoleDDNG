@@ -32,6 +32,6 @@
             <Image Stretch="Fill" Source="Assets/diceButton.png" />
         </Button>
         <Label Margin="5" Grid.Row="2" Grid.Column="0" TextBlock.FontWeight="ExtraBold">Résultat</Label>
-        <TextBox Margin="5" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" IsReadOnly="True" TextBlock.FontWeight="ExtraBold" Text="{Binding Results, Mode=OneWay, Converter={StaticResource ListOfIntsToStringConverter}}"></TextBox>
+        <TextBox Margin="5" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="{Binding Results, Mode=OneWay, Converter={StaticResource ListOfIntsToStringConverter}}"></TextBox>
     </Grid>
 </UserControl>
