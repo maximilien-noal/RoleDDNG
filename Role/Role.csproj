@@ -11,11 +11,13 @@
   <ItemGroup>
     <None Remove="appicon.png" />
     <None Remove="back.png" />
+    <None Remove="UserControls\Assets\diceButton.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="appicon.png" />
     <Resource Include="back.png" />
+    <Resource Include="UserControls\Assets\diceButton.png" />
   </ItemGroup>
 
   <ItemGroup>

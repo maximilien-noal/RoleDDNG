@@ -39,6 +39,7 @@ namespace RoleDDNG.ViewModels
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<DiceRollViewModel>();
         }
 
 #pragma warning disable CA1822
@@ -50,6 +51,14 @@ namespace RoleDDNG.ViewModels
             get
             {
                 return SimpleIoc.Default.GetInstance<MainViewModel>();
+            }
+        }
+
+        public DiceRollViewModel DiceRoll
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<DiceRollViewModel>();
             }
         }
 

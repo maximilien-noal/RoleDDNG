@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:MDI="clr-namespace:Hammer.MDIContainer.Control;assembly=Hammer.MDIContainer.Control"
         xmlns:local="clr-namespace:RoleDDNG.Role"
         xmlns:vm="clr-namespace:RoleDDNG.ViewModels;assembly=ViewModels"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
@@ -30,7 +31,7 @@
             <MenuItem Header="_Outils">
                 <MenuItem Header="_Expérience des personnages" InputGestureText="Ctrl + X"></MenuItem>
                 <MenuItem Header="_Générateur de villes"></MenuItem>
-                <MenuItem Header="_Lanceur de dés" InputGestureText="Ctrl + D"></MenuItem>
+                <MenuItem Header="_Lanceur de dés" InputGestureText="Ctrl + D" Command="{Binding ShowDiceRollWindow}"></MenuItem>
             </MenuItem>
             <MenuItem Header="_Règles">
                 <MenuItem Header="_Description des sorts" InputGestureText="Ctrl + S"></MenuItem>
@@ -59,5 +60,13 @@
             </Border.Background>
         </Border>
         <Image Grid.Row="2" Source="back.png" />
+        <MDI:MdiContainer Grid.Row="2" Margin="4" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedWindow, Mode=TwoWay}">
+            <MDI:MdiContainer.Resources>
+                <Style TargetType="{x:Type MDI:MdiWindow}">
+                    <Setter Property="Title" Value="{Binding Title}" />
+                    <Setter Property="CanClose" Value="{Binding CanClose, UpdateSourceTrigger=PropertyChanged}" />
+                </Style>
+            </MDI:MdiContainer.Resources>
+        </MDI:MdiContainer>
     </Grid>
 </Window>

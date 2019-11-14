@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:uc="clr-namespace:RoleDDNG.Role.UserControls"
+                    xmlns:vm="clr-namespace:RoleDDNG.ViewModels;assembly=ViewModels">
+
+    <DataTemplate DataType="{x:Type vm:DiceRollViewModel}">
+        <uc:DiceRollUserControl />
+    </DataTemplate>
+</ResourceDictionary>
