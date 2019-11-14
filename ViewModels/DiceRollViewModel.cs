@@ -37,7 +37,7 @@ namespace RoleDDNG.ViewModels
             Results.Clear();
             for (int i = 0; i < NumberOfDices; i++)
             {
-                Results.Add(_rng.Next(0, NumberofSides));
+                Results.Add(_rng.Next(0, NumberofSides + 1));
             }
             RaisePropertyChanged(nameof(Results));
         }
