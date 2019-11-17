@@ -21,6 +21,7 @@ namespace RoleDDNG.MdbAccess
             }
 
             _dbConnection = new OdbcConnection("Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=" + mdbFileName);
+            _dbConnection.Open();
         }
 
         public void Dispose()
