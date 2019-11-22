@@ -76,6 +76,10 @@ namespace RoleDDNG.Models.Roles
         private string _don_1 = "";
 
         public string Don_1 { get => _don_1; set { Set(nameof(_don_1), ref _don_1, value); } }
+
+        private string _don_2 = "";
+
+        public string Don_2 { get => _don_2; set { Set(nameof(_don_2), ref _don_2, value); } }
 #pragma warning disable CA1707 // Justification : Legacy column name compatibility
     }
 }
