@@ -6,17 +6,18 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <UseWPF>true</UseWPF>
     <RootNamespace>RoleDDNG.Role</RootNamespace>
+    <ApplicationIcon />
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="appicon.png" />
-    <None Remove="back.png" />
+    <None Remove="Assets\appicon.png" />
+    <None Remove="Assets\back.png" />
     <None Remove="UserControls\Assets\diceButton.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="appicon.png" />
-    <Resource Include="back.png" />
+    <Resource Include="Assets\appicon.png" />
+    <Resource Include="Assets\back.png" />
     <Resource Include="UserControls\Assets\diceButton.png" />
   </ItemGroup>
 

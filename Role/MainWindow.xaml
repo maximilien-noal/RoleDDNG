@@ -8,7 +8,7 @@
         xmlns:vm="clr-namespace:RoleDDNG.ViewModels;assembly=ViewModels"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         mc:Ignorable="d"
-        Title="RoleDD Gestion des personnages pour Donjons &amp; Dragons 3.5" Height="754" Width="1218" Icon="appicon.png" ResizeMode="CanResizeWithGrip">
+        Title="RoleDD Gestion des personnages pour Donjons &amp; Dragons 3.5" Height="754" Width="1218" Icon="Assets/appicon.png" ResizeMode="CanResizeWithGrip">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -59,7 +59,7 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <Image Grid.Row="2" Source="back.png" />
+        <Image Grid.Row="2" Source="Assets/back.png" />
         <MDI:MdiContainer Grid.Row="2" Margin="4" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedWindow, Mode=TwoWay}">
             <MDI:MdiContainer.Resources>
                 <Style TargetType="{x:Type MDI:MdiWindow}">
