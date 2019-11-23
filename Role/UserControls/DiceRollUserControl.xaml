@@ -7,24 +7,23 @@
              xmlns:vm="clr-namespace:RoleDDNG.ViewModels;assembly=ViewModels"
              xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
              DataContext="{Binding Source={StaticResource Locator}, Path=DiceRoll}"
-             mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d">
     <UserControl.Resources>
         <converters:ListOfIntsToStringConverter x:Key="ListOfIntsToStringConverter" />
         <converters:IntToStringConverter x:Key="IntToStringConverter" />
     </UserControl.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Label Margin="5" Grid.Row="0" Grid.Column="0">Nombre de dés</Label>
         <TextBox Margin="5" Grid.Row="0" Grid.Column="1" Text="{Binding NumberOfDices, Mode=TwoWay}"></TextBox>
@@ -34,7 +33,7 @@
             <Image Stretch="Fill" Source="Assets/diceButton.png" />
         </Button>
         <TextBox Margin="5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="{Binding Results, Mode=OneWay, Converter={StaticResource ListOfIntsToStringConverter}}"></TextBox>
-        <Label Margin="5" Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" TextBlock.FontWeight="ExtraBold">Résultat</Label>
+        <Label Margin="5" Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Résultat</Label>
         <TextBox Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="{Binding Sum, Mode=OneWay, Converter={StaticResource IntToStringConverter}}"></TextBox>
     </Grid>
 </UserControl>
