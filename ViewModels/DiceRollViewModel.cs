@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using RoleDDNG.Models;
 using RoleDDNG.ViewModels.Interfaces;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -10,7 +11,7 @@ namespace RoleDDNG.ViewModels
 {
     public class DiceRollViewModel : ViewModelBase, IContent
     {
-        private static readonly Random _rng = new Random();
+        private static readonly Random _rng = new Random(1000);
 
         public DiceRollViewModel()
         {
@@ -41,6 +42,7 @@ namespace RoleDDNG.ViewModels
                 Results.Add(_rng.Next(0, NumberofSides + 1));
             }
             RaisePropertyChanged(nameof(Results));
+            Sum = Results.Sum(x => x);
         }
 
         public string Title => "Lanceur de dés";
@@ -56,6 +58,10 @@ namespace RoleDDNG.ViewModels
         public int NumberofSides { get => _numberOfSides; set { Set(nameof(NumberofSides), ref _numberOfSides, value); } }
 
         public event EventHandler Closing;
+
+        private int _sum = 0;
+
+        public int Sum { get => _sum; set { Set(nameof(Sum), ref _sum, value); } }
 
         private ObservableCollection<int> _results = new ObservableCollection<int>();
         public ObservableCollection<int> Results { get => _results; private set { Set(nameof(Results), ref _results, value); } }

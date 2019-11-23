@@ -8,7 +8,7 @@ namespace RoleDDNG.Role.Converters
 {
 #pragma warning disable CA1812 // Justification : instantiated from the XAML side
 
-    internal class ListOfIntsToStringConverter : IValueConverter
+    internal class IntToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -16,18 +16,9 @@ namespace RoleDDNG.Role.Converters
             {
                 return "";
             }
-            if (value is IList<int> intCollection)
+            if (value is int integer)
             {
-                var stringBuilder = new StringBuilder();
-                for (int i = 0; i < intCollection.Count; i++)
-                {
-                    stringBuilder.Append(intCollection[i].ToString(CultureInfo.CurrentCulture));
-                    if (i != intCollection.Count - 1)
-                    {
-                        stringBuilder.Append(", ");
-                    }
-                }
-                return stringBuilder.ToString();
+                return integer.ToString(CultureInfo.CurrentCulture);
             }
             return "";
         }
@@ -37,6 +28,13 @@ namespace RoleDDNG.Role.Converters
             if (value is null)
             {
                 return Double.NaN;
+            }
+            if (value is string str)
+            {
+                if (int.TryParse(str, out int result))
+                {
+                    return result;
+                }
             }
             return Double.NaN;
         }
