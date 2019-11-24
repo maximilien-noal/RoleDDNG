@@ -1,17 +1,17 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using RoleDDNG.Models;
 using RoleDDNG.ViewModels.Interfaces;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using RoleDDNG.ViewModels.RNG;
+using System.Linq;
 
 namespace RoleDDNG.ViewModels
 {
     public class DiceRollViewModel : ViewModelBase, IContent
     {
+        private static readonly Random _rng = new Random(1000);
+
         public DiceRollViewModel()
         {
             DiceTypes.Add(4);
@@ -38,7 +38,7 @@ namespace RoleDDNG.ViewModels
             Results.Clear();
             for (int i = 0; i < NumberOfDices; i++)
             {
-                Results.Add(StaticRNG.RNG.Next(0, NumberofSides + 1));
+                Results.Add(_rng.Next(0, NumberofSides + 1));
             }
             RaisePropertyChanged(nameof(Results));
             Sum = Results.Sum(x => x);
