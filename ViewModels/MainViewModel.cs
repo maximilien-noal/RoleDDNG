@@ -18,7 +18,7 @@ namespace RoleDDNG.ViewModels
         public MainViewModel()
         {
             _backgrounds.Add("Assets/backgrounds/christmas.jpg");
-            _backgrounds.Add("Assets/backgrounds/christmas2.jpg");
+            _backgrounds.Add("Assets/backgrounds/christmas2.png");
             _backgrounds.Add("Assets/backgrounds/christmas3.jpg");
             _backgrounds.Add("Assets/backgrounds/christmasEve.jpg");
             _backgrounds.Add("Assets/backgrounds/citiesInTheSky.png");
