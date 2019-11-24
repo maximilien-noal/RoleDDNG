@@ -12,13 +12,72 @@
   <ItemGroup>
     <None Remove="Assets\appicon.png" />
     <None Remove="Assets\back.png" />
+    <None Remove="Assets\backgrounds\christmas.jpg" />
+    <None Remove="Assets\backgrounds\christmas2.png" />
+    <None Remove="Assets\backgrounds\christmas3.jpg" />
+    <None Remove="Assets\backgrounds\christmasEve.jpg" />
+    <None Remove="Assets\backgrounds\citiesInTheSky.png" />
+    <None Remove="Assets\backgrounds\deer.jpg" />
+    <None Remove="Assets\backgrounds\deer2.jpg" />
+    <None Remove="Assets\backgrounds\diceTable.jpg" />
+    <None Remove="Assets\backgrounds\dwarfHouse.jpg" />
+    <None Remove="Assets\backgrounds\faery.png" />
+    <None Remove="Assets\backgrounds\forest.png" />
+    <None Remove="Assets\backgrounds\forest2.jpg" />
+    <None Remove="Assets\backgrounds\halloween.jpg" />
+    <None Remove="Assets\backgrounds\halloween2.png" />
+    <None Remove="Assets\backgrounds\halloween3.png" />
+    <None Remove="Assets\backgrounds\halloween4.jpg" />
+    <None Remove="Assets\backgrounds\halloween5.png" />
+    <None Remove="Assets\backgrounds\halloween6.png" />
+    <None Remove="Assets\backgrounds\halloween7.png" />
+    <None Remove="Assets\backgrounds\halloween8.png" />
+    <None Remove="Assets\backgrounds\IceQueen.png" />
+    <None Remove="Assets\backgrounds\imp.png" />
+    <None Remove="Assets\backgrounds\LotsOfDices.png" />
+    <None Remove="Assets\backgrounds\merchant.jpg" />
+    <None Remove="Assets\backgrounds\sorceress.png" />
+    <None Remove="Assets\backgrounds\sword.png" />
+    <None Remove="Assets\backgrounds\unicorn.png" />
+    <None Remove="Assets\backgrounds\warrior.jpg" />
     <None Remove="Assets\splashscreen.png" />
     <None Remove="UserControls\Assets\diceButton.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\backgrounds\halloween4.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\appicon.png" />
-    <Resource Include="Assets\back.png" />
+    <Resource Include="Assets\backgrounds\christmas.jpg" />
+    <Resource Include="Assets\backgrounds\christmas2.png" />
+    <Resource Include="Assets\backgrounds\christmas3.jpg" />
+    <Resource Include="Assets\backgrounds\christmasEve.jpg" />
+    <Resource Include="Assets\backgrounds\citiesInTheSky.png" />
+    <Resource Include="Assets\backgrounds\deer.jpg" />
+    <Resource Include="Assets\backgrounds\deer2.jpg" />
+    <Resource Include="Assets\backgrounds\diceTable.jpg" />
+    <Resource Include="Assets\backgrounds\dwarfHouse.jpg" />
+    <Resource Include="Assets\backgrounds\faery.png" />
+    <Resource Include="Assets\backgrounds\forest.png" />
+    <Resource Include="Assets\backgrounds\forest2.jpg" />
+    <Resource Include="Assets\backgrounds\halloween.jpg" />
+    <Resource Include="Assets\backgrounds\halloween2.png" />
+    <Resource Include="Assets\backgrounds\halloween3.png" />
+    <Resource Include="Assets\backgrounds\halloween5.png" />
+    <Resource Include="Assets\backgrounds\halloween6.png" />
+    <Resource Include="Assets\backgrounds\halloween7.png" />
+    <Resource Include="Assets\backgrounds\halloween8.png" />
+    <Resource Include="Assets\backgrounds\IceQueen.png" />
+    <Resource Include="Assets\backgrounds\imp.png" />
+    <Resource Include="Assets\backgrounds\LotsOfDices.png" />
+    <Resource Include="Assets\backgrounds\merchant.jpg" />
+    <Resource Include="Assets\backgrounds\original.png" />
+    <Resource Include="Assets\backgrounds\sorceress.png" />
+    <Resource Include="Assets\backgrounds\sword.png" />
+    <Resource Include="Assets\backgrounds\unicorn.png" />
+    <Resource Include="Assets\backgrounds\warrior.jpg" />
     <Resource Include="Assets\splashscreen.png" />
     <Resource Include="UserControls\Assets\diceButton.png" />
   </ItemGroup>

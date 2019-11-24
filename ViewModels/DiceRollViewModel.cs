@@ -6,13 +6,12 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using RoleDDNG.ViewModels.RNG;
 
 namespace RoleDDNG.ViewModels
 {
     public class DiceRollViewModel : ViewModelBase, IContent
     {
-        private static readonly Random _rng = new Random(1000);
-
         public DiceRollViewModel()
         {
             DiceTypes.Add(4);
@@ -39,7 +38,7 @@ namespace RoleDDNG.ViewModels
             Results.Clear();
             for (int i = 0; i < NumberOfDices; i++)
             {
-                Results.Add(_rng.Next(0, NumberofSides + 1));
+                Results.Add(StaticRNG.RNG.Next(0, NumberofSides + 1));
             }
             RaisePropertyChanged(nameof(Results));
             Sum = Results.Sum(x => x);

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 
-namespace RoleDDNG.Role.Views
+namespace RoleDDNG.Role.Dialogs
 {
     /// <summary>
     /// Interaction logic for AboutBox.xaml

@@ -1,4 +1,4 @@
-﻿using RoleDDNG.Role.Views;
+﻿using RoleDDNG.Role.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

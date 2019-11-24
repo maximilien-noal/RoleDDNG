@@ -59,7 +59,7 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <Image Grid.Row="2" Source="Assets/back.png" />
+        <Image Grid.Row="2" Source="{Binding BackgroundSource}" />
         <MDI:MdiContainer Grid.Row="2" Margin="4" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedWindow, Mode=TwoWay}">
             <MDI:MdiContainer.Resources>
                 <Style TargetType="{x:Type MDI:MdiWindow}">
