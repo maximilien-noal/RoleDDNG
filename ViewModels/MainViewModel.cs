@@ -48,6 +48,7 @@ namespace RoleDDNG.ViewModels
             _backgrounds.Add("Assets/backgrounds/IceQueen.png");
             BackgroundSource = _backgrounds[StaticRNG.RNG.Next(0, _backgrounds.Count)];
             ShowDiceRollWindow = new RelayCommand(ShowDiceRollWindow_Execute);
+            ExitApp = new RelayCommand(ExitApp_Execute);
         }
 
         private void ShowDiceRollWindow_Execute()
@@ -73,7 +74,12 @@ namespace RoleDDNG.ViewModels
         public RelayCommand ShowDiceRollWindow { get; private set; }
 
 #pragma warning disable CA1822 // Static bindings work, but makes the designer view throw an error.
-        public RelayCommand ExitAppCommand { get => new RelayCommand(() => { Application.Current.Dispatcher.Invoke(() => Application.Current.MainWindow.Close()); }); }
+        public RelayCommand ExitApp { get; private set; }
+
+        private void ExitApp_Execute()
+        {
+            //TODO
+        }
     }
 
 #pragma warning restore CA1822

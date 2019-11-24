@@ -26,7 +26,7 @@
                 <Separator />
                 <MenuItem Header="_Ouvrir une base de données de personnages" InputGestureText="Ctrl + O"></MenuItem>
                 <Separator />
-                <MenuItem Header="_Quitter" Command="{Binding ExitAppCommand}"></MenuItem>
+                <MenuItem Header="_Quitter" Click="ExitMenuItem_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="_Outils">
                 <MenuItem Header="_Expérience des personnages" InputGestureText="Ctrl + X"></MenuItem>

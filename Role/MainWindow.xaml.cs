@@ -1,4 +1,5 @@
 ﻿using RoleDDNG.Role.Dialogs;
+using RoleDDNG.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +25,27 @@ namespace RoleDDNG.Role
         public MainWindow()
         {
             InitializeComponent();
+            Closing += MainWindow_Closing;
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveAndExit();
         }
 
         private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
         {
             new AboutBox(this).ShowDialog();
+        }
+
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() => Application.Current.MainWindow.Close());
+        }
+
+        private void SaveAndExit()
+        {
+            ((MainViewModel)DataContext).ExitApp.Execute(null);
         }
     }
 }
