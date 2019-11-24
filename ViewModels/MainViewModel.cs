@@ -1,12 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using RoleDDNG.ViewModels.Interfaces;
-using System;
-using System.Linq;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Collections.Generic;
 using RoleDDNG.ViewModels.RNG;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace RoleDDNG.ViewModels
 {
