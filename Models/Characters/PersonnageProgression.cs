@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RoleDDNG.Models.Characters
 {
@@ -20,10 +21,11 @@ namespace RoleDDNG.Models.Characters
         public short? Dex { get => _dex; set { Set(nameof(Dex), ref _dex, value); } }
         private short? _con = 0;
         public short? Con { get => _con; set { Set(nameof(Con), ref _con, value); } }
-#pragma warning disable CA1720 // Identifier contains type name (Justification : Legacy column name)
         private short? _int = 0;
-        public short? Int { get => _int; set { Set(nameof(Int), ref _int, value); } }
-#pragma warning restore CA1720 // Identifier contains type name (Justification : Legacy column name)
+
+        [Column("Int")]
+        public short? Intelligence { get => _int; set { Set(nameof(Intelligence), ref _int, value); } }
+
         private short? _sag = 0;
         public short? Sag { get => _sag; set { Set(nameof(Sag), ref _sag, value); } }
         private short? _cha = 0;
