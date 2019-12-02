@@ -1,7 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+
 using RoleDDNG.ViewModels.Interfaces;
 using RoleDDNG.ViewModels.RNG;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

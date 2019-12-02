@@ -1,5 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
+
 using RoleDDNG.Models.Structs;
+
 using System;
 
 namespace RoleDDNG.Models.Options

@@ -1,5 +1,7 @@
 using FluentAssertions;
+
 using RoleDDNG.MdbAccess;
+
 using Xunit;
 
 namespace MdbAccess.Tests

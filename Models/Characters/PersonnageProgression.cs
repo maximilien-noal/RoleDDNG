@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RoleDDNG.Models.Characters

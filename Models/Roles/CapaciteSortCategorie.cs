@@ -1,8 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace RoleDDNG.Models.Roles
 {
-    public class Aberration : ObservableObject
+    public class CapaciteSortCategorie : ObservableObject
     {
         private string _nom = "";
 

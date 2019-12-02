@@ -1,8 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
-using System;
-using System.Collections.Generic;
+
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace RoleDDNG.Models.Roles
 {
@@ -10,6 +8,9 @@ namespace RoleDDNG.Models.Roles
     {
         private string _archetype = "";
 
+        /// <summary>
+        /// Key
+        /// </summary>
         public string Archetype { get => _archetype; set { Set(nameof(Archetype), ref _archetype, value); } }
 
         private string _description = "";
