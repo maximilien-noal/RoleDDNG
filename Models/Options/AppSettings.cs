@@ -8,7 +8,7 @@ namespace RoleDDNG.Models.Options
 {
     public class AppSettings : ObservableObject
     {
-        private WindowPlacement _mainWindowPlacement;
+        private WindowPlacement _mainWindowPlacement = default;
 
         public WindowPlacement MainWindowPlacement { get => _mainWindowPlacement; set { Set(nameof(MainWindowPlacement), ref _mainWindowPlacement, value); } }
 

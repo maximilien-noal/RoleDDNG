@@ -11,10 +11,14 @@ using System.Linq;
 
 namespace RoleDDNG.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public sealed class MainViewModel : ViewModelBase
     {
-        private IContent _selectedWindow = null;
+        private IContent _selectedWindow = default;
         public IContent SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
+
+        private string _mainWindowPlacement = default;
+
+        public string MainWindowPlacement { get => _mainWindowPlacement; set { Set(nameof(MainWindowPlacement), ref _mainWindowPlacement, value); } }
 
         public MainViewModel()
         {
@@ -83,12 +87,11 @@ namespace RoleDDNG.ViewModels
 
         public RelayCommand ShowDiceRollWindow { get; private set; }
 
-#pragma warning disable CA1822 // Static bindings work, but makes the designer view throw an error.
+#pragma warning disable CA1822 // Static bindings work, but make the designer view throw an error.
         public RelayCommand ExitApp { get; private set; }
 
         private void ExitApp_Execute()
         {
-            //TODO
         }
     }
 
