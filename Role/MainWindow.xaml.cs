@@ -28,7 +28,7 @@ namespace RoleDDNG.Role
 
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(() => Application.Current.MainWindow.Close());
+            Application.Current.MainWindow.Close();
         }
 
         private void SaveAndExit()
