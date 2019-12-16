@@ -41,7 +41,7 @@ namespace RoleDDNG.Role
             ((MainViewModel)DataContext).ExitApp.Execute(null);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_SourceInitialized(object sender, System.EventArgs e)
         {
             var windowPlacement = ((MainViewModel)DataContext).AppSettings.MainWindowPlacement;
             NativeMethods.SetWindowPlacement(new WindowInteropHelper(this).Handle, ref windowPlacement);

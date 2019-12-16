@@ -12,11 +12,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels
 {
-    public sealed class MainViewModel : ViewModelBase
+    public sealed class MainViewModel : ViewModelBase, IBusyStateNotifier
     {
+        private bool _isBusy = true;
+
+        public bool IsBusy { get => _isBusy; set { Set(nameof(IsBusy), ref _isBusy, value); } }
+
         private IContent _selectedWindow = default;
         public IContent SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
 
@@ -26,18 +32,19 @@ namespace RoleDDNG.ViewModels
 
         public AppSettings AppSettings { get => _appSettings; set { Set(nameof(AppSettings), ref _appSettings, value); } }
 
-        private readonly ISerializer<AppSettings> _asyncSettingsSerializer;
+        private readonly ISerializer<AppSettings> _settingsSerializer;
 
         public MainViewModel(ISerializer<AppSettings> serializer)
         {
+            IsBusy = true;
             if (Directory.Exists(Path.GetDirectoryName(_appSettingsFilePath)) == false)
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(_appSettingsFilePath));
             }
-            _asyncSettingsSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _settingsSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             if (File.Exists(_appSettingsFilePath))
             {
-                AppSettings = _asyncSettingsSerializer.Deserialize(_appSettingsFilePath);
+                AppSettings = _settingsSerializer.Deserialize(_appSettingsFilePath);
             }
             if (DateTime.Now.Month == 12)
             {
@@ -80,6 +87,7 @@ namespace RoleDDNG.ViewModels
             BackgroundSource = _backgrounds[StaticRNG.RNG.Next(0, _backgrounds.Count)];
             ShowDiceRollWindow = new RelayCommand(ShowDiceRollWindow_Execute);
             ExitApp = new RelayCommand(ExitApp_Execute);
+            IsBusy = false;
         }
 
         private void ShowDiceRollWindow_Execute()
@@ -109,7 +117,9 @@ namespace RoleDDNG.ViewModels
 
         private void ExitApp_Execute()
         {
-            _asyncSettingsSerializer.Serialize(_appSettingsFilePath, AppSettings);
+            IsBusy = true;
+            _settingsSerializer.Serialize(_appSettingsFilePath, AppSettings);
+            IsBusy = false;
         }
     }
 
