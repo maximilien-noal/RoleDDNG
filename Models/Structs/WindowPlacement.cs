@@ -29,7 +29,7 @@ namespace RoleDDNG.Models.Structs
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this, base.GetHashCode());
+            return HashCode.Combine(this.Flags, this.ShowCmd, this.Length, this.NormalPosition, base.GetHashCode());
         }
 
         public static bool operator ==(WindowPlacement left, WindowPlacement right)

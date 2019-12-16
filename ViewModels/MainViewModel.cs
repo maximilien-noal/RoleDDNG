@@ -1,12 +1,16 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-
+using Microsoft.VisualStudio.Threading;
+using RoleDDNG.Interfaces.Serialization;
+using RoleDDNG.Models.Options;
+using RoleDDNG.Models.Structs;
 using RoleDDNG.ViewModels.Interfaces;
 using RoleDDNG.ViewModels.RNG;
 
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 
 namespace RoleDDNG.ViewModels
@@ -16,12 +20,25 @@ namespace RoleDDNG.ViewModels
         private IContent _selectedWindow = default;
         public IContent SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
 
-        private string _mainWindowPlacement = default;
+        private readonly string _appSettingsFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RoleDDNG\\ROLE.CFG");
 
-        public string MainWindowPlacement { get => _mainWindowPlacement; set { Set(nameof(MainWindowPlacement), ref _mainWindowPlacement, value); } }
+        private AppSettings _appSettings = new AppSettings();
 
-        public MainViewModel()
+        public AppSettings AppSettings { get => _appSettings; set { Set(nameof(AppSettings), ref _appSettings, value); } }
+
+        private readonly ISerializer<AppSettings> _asyncSettingsSerializer;
+
+        public MainViewModel(ISerializer<AppSettings> serializer)
         {
+            if (Directory.Exists(Path.GetDirectoryName(_appSettingsFilePath)) == false)
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(_appSettingsFilePath));
+            }
+            _asyncSettingsSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            if (File.Exists(_appSettingsFilePath))
+            {
+                AppSettings = _asyncSettingsSerializer.Deserialize(_appSettingsFilePath);
+            }
             if (DateTime.Now.Month == 12)
             {
                 _backgrounds.Add("Assets/backgrounds/christmas.jpg");
@@ -92,6 +109,7 @@ namespace RoleDDNG.ViewModels
 
         private void ExitApp_Execute()
         {
+            _asyncSettingsSerializer.Serialize(_appSettingsFilePath, AppSettings);
         }
     }
 

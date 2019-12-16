@@ -12,8 +12,8 @@ namespace RoleDDNG.Models.Options
 
         public WindowPlacement MainWindowPlacement { get => _mainWindowPlacement; set { Set(nameof(MainWindowPlacement), ref _mainWindowPlacement, value); } }
 
-        private Uri _bdd = default;
+        private string _bdd = default;
 
-        public Uri Bdd { get => _bdd; set { Set(nameof(_bdd), ref _bdd, value); } }
+        public string Bdd { get => _bdd; set { Set(nameof(_bdd), ref _bdd, value); } }
     }
 }

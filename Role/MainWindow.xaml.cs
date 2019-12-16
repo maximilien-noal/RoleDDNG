@@ -1,7 +1,10 @@
-﻿using RoleDDNG.Role.Dialogs;
+﻿using RoleDDNG.Models.Structs;
+using RoleDDNG.Role.Dialogs;
+using RoleDDNG.Role.PInvoke;
 using RoleDDNG.ViewModels;
 
 using System.Windows;
+using System.Windows.Interop;
 
 namespace RoleDDNG.Role
 {
@@ -33,7 +36,15 @@ namespace RoleDDNG.Role
 
         private void SaveAndExit()
         {
+            NativeMethods.GetWindowPlacement(new WindowInteropHelper(this).Handle, out WindowPlacement windowPlacement);
+            ((MainViewModel)DataContext).AppSettings.MainWindowPlacement = windowPlacement;
             ((MainViewModel)DataContext).ExitApp.Execute(null);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var windowPlacement = ((MainViewModel)DataContext).AppSettings.MainWindowPlacement;
+            NativeMethods.SetWindowPlacement(new WindowInteropHelper(this).Handle, ref windowPlacement);
         }
     }
 }

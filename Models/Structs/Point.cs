@@ -30,7 +30,7 @@ namespace RoleDDNG.Models.Structs
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this, base.GetHashCode());
+            return HashCode.Combine(this.X, this.Y, base.GetHashCode());
         }
 
         public static bool operator ==(Point left, Point right)
