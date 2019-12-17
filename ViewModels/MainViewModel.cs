@@ -1,19 +1,21 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using Microsoft.VisualStudio.Threading;
-using RoleDDNG.Interfaces.Serialization;
-using RoleDDNG.Models.Options;
-using RoleDDNG.Models.Structs;
-using RoleDDNG.ViewModels.Interfaces;
-using RoleDDNG.ViewModels.RNG;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
+
+using AsyncAwaitBestPractices.MVVM;
+
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+
+using Microsoft.VisualStudio.Threading;
+
+using RoleDDNG.Interfaces.Serialization;
+using RoleDDNG.Models.Options;
+using RoleDDNG.ViewModels.Interfaces;
+using RoleDDNG.ViewModels.RNG;
 
 namespace RoleDDNG.ViewModels
 {
@@ -32,20 +34,17 @@ namespace RoleDDNG.ViewModels
 
         public AppSettings AppSettings { get => _appSettings; set { Set(nameof(AppSettings), ref _appSettings, value); } }
 
-        private readonly ISerializer<AppSettings> _settingsSerializer;
+        private readonly IAsyncSerializer<AppSettings> _settingsSerializer;
 
-        public MainViewModel(ISerializer<AppSettings> serializer)
+        public MainViewModel(IAsyncSerializer<AppSettings> serializer)
         {
             IsBusy = true;
-            if (Directory.Exists(Path.GetDirectoryName(_appSettingsFilePath)) == false)
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(_appSettingsFilePath));
-            }
+
+            ShowDiceRollWindow = new RelayCommand(ShowDiceRollWindowMethod);
+            ExitApp = new AsyncCommand(ExitAppMethodAsync);
+            LoadAppSettings = new AsyncCommand(LoadAppSettingsMethodAsync);
             _settingsSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            if (File.Exists(_appSettingsFilePath))
-            {
-                AppSettings = _settingsSerializer.Deserialize(_appSettingsFilePath);
-            }
+
             if (DateTime.Now.Month == 12)
             {
                 _backgrounds.Add("Assets/backgrounds/christmas.jpg");
@@ -85,12 +84,21 @@ namespace RoleDDNG.ViewModels
                 _backgrounds.Add("Assets/backgrounds/warrior.jpg");
             }
             BackgroundSource = _backgrounds[StaticRNG.RNG.Next(0, _backgrounds.Count)];
-            ShowDiceRollWindow = new RelayCommand(ShowDiceRollWindow_Execute);
-            ExitApp = new RelayCommand(ExitApp_Execute);
+            LoadAppSettings.Execute(this);
             IsBusy = false;
         }
 
-        private void ShowDiceRollWindow_Execute()
+        public IAsyncCommand LoadAppSettings { get; private set; }
+
+        private async Task LoadAppSettingsMethodAsync()
+        {
+            if (File.Exists(_appSettingsFilePath))
+            {
+                AppSettings = await _settingsSerializer.DeserializeAsync(_appSettingsFilePath).ConfigureAwait(true);
+            }
+        }
+
+        private void ShowDiceRollWindowMethod()
         {
             if (Items.OfType<DiceRollViewModel>().Any() == false)
             {
@@ -113,12 +121,17 @@ namespace RoleDDNG.ViewModels
         public RelayCommand ShowDiceRollWindow { get; private set; }
 
 #pragma warning disable CA1822 // Static bindings work, but make the designer view throw an error.
-        public RelayCommand ExitApp { get; private set; }
+        public IAsyncCommand ExitApp { get; private set; }
 
-        private void ExitApp_Execute()
+        private async Task ExitAppMethodAsync()
         {
             IsBusy = true;
-            _settingsSerializer.Serialize(_appSettingsFilePath, AppSettings);
+            if (Directory.Exists(Path.GetDirectoryName(_appSettingsFilePath)) == false)
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(_appSettingsFilePath));
+            }
+
+            await _settingsSerializer.SerializeAsync(_appSettingsFilePath, AppSettings).ConfigureAwait(false);
             IsBusy = false;
         }
     }

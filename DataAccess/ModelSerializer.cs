@@ -2,27 +2,35 @@
 
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
 namespace DataAccess
 {
-    public class ModelSerializer<T> : ISerializer<T>
+    public class ModelSerializer<T> : IAsyncSerializer<T>
     {
-        public T Deserialize(string filePath)
+        public Task<T> DeserializeAsync(string filePath)
         {
-            XmlReaderSettings settings = new XmlReaderSettings() { XmlResolver = null };
-            using XmlReader reader = XmlReader.Create(filePath, settings);
-            var serializer = new XmlSerializer(typeof(T));
-            return (T)serializer.Deserialize(reader);
+            return Task.Run<T>(() =>
+            {
+                XmlReaderSettings settings = new XmlReaderSettings() { XmlResolver = null };
+                using XmlReader reader = XmlReader.Create(filePath, settings);
+                var serializer = new XmlSerializer(typeof(T));
+                return (T)serializer.Deserialize(reader);
+            });
         }
 
-        public void Serialize(string filePath, T objectToSerialize)
+        public Task SerializeAsync(string filePath, T objectToSerialize)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            using var writer = new StreamWriter(filePath, false, Encoding.Unicode);
-            serializer.Serialize(writer, objectToSerialize);
-            writer.Close();
+            return Task.Run(() =>
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                using var writer = new StreamWriter(filePath, false, Encoding.Unicode);
+                serializer.Serialize(writer, objectToSerialize);
+                writer.Close();
+            });
         }
     }
 }

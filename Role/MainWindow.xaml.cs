@@ -1,10 +1,13 @@
-﻿using RoleDDNG.Models.Structs;
+﻿using Microsoft.VisualStudio.Threading;
+using RoleDDNG.Models.Structs;
 using RoleDDNG.Role.Dialogs;
 using RoleDDNG.Role.PInvoke;
 using RoleDDNG.ViewModels;
-
+using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Threading;
 
 namespace RoleDDNG.Role
 {
@@ -13,15 +16,32 @@ namespace RoleDDNG.Role
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool _forceClose = false;
+
         public MainWindow()
         {
             InitializeComponent();
             Closing += MainWindow_Closing;
         }
 
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+#pragma warning disable VSTHRD100 // Avoid async void methods (this is an event)
+
+        private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+#pragma warning restore VSTHRD100 // Avoid async void methods (this is an event)
         {
-            SaveAndExit();
+            e.Cancel = true;
+            if (_forceClose)
+            {
+                e.Cancel = false;
+                return;
+            }
+            await SaveAndExitAsync().ConfigureAwait(true);
+        }
+
+        public void CloseForced()
+        {
+            _forceClose = true;
+            Close();
         }
 
         private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
@@ -34,11 +54,12 @@ namespace RoleDDNG.Role
             Application.Current.MainWindow.Close();
         }
 
-        private void SaveAndExit()
+        private async Task SaveAndExitAsync()
         {
             NativeMethods.GetWindowPlacement(new WindowInteropHelper(this).Handle, out WindowPlacement windowPlacement);
             ((MainViewModel)DataContext).AppSettings.MainWindowPlacement = windowPlacement;
-            ((MainViewModel)DataContext).ExitApp.Execute(null);
+            await ((MainViewModel)DataContext).ExitApp.ExecuteAsync().ConfigureAwait(true);
+            CloseForced();
         }
 
         private void Window_SourceInitialized(object sender, System.EventArgs e)
