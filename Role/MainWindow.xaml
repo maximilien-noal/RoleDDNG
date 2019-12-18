@@ -1,25 +1,22 @@
 ﻿<Window x:Class="RoleDDNG.Role.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:MDI="clr-namespace:Hammer.MDIContainer.Control;assembly=Hammer.MDIContainer.Control"
-        xmlns:local="clr-namespace:RoleDDNG.Role"
-        xmlns:vm="clr-namespace:RoleDDNG.ViewModels;assembly=ViewModels"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         mc:Ignorable="d"
         Title="RoleDD Gestion des personnages pour Donjons &amp; Dragons 3.5" Height="754" Width="1218" Icon="Assets/appicon.png" ResizeMode="CanResizeWithGrip" SourceInitialized="Window_SourceInitialized">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Menu Grid.Row="0">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical" Grid.Row="0">
+            <Menu>
                 <MenuItem Header="_Fichier">
                     <MenuItem Header="_Assistant création personnage" InputGestureText="Ctrl + N"></MenuItem>
                     <MenuItem Header="_Gestion des personnages"></MenuItem>
@@ -37,7 +34,7 @@
                     <MenuItem Header="_Générateur de villes"></MenuItem>
                     <MenuItem Header="_Lanceur de dés" InputGestureText="Ctrl + D" Command="{Binding ShowDiceRollWindow}"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="_Règles">
+                <MenuItem Header="_Règles" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <MenuItem Header="_Description des sorts" InputGestureText="Ctrl + S"></MenuItem>
                     <MenuItem Header="_Description des races"></MenuItem>
                     <MenuItem Header="_Description des dons"></MenuItem>
@@ -55,7 +52,7 @@
                     <MenuItem Header="_À propos de RoleDD" Click="AboutMenuItem_Click" />
                 </MenuItem>
             </Menu>
-            <Border Grid.Row="1" Height="2">
+            <Border Height="2">
                 <Border.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="LightGray" />
@@ -63,8 +60,10 @@
                     </LinearGradientBrush>
                 </Border.Background>
             </Border>
-            <Image Grid.Row="2" Source="{Binding BackgroundSource}" />
-            <MDI:MdiContainer Grid.Row="2" Margin="4" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedWindow, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
+        </StackPanel>
+        <Image Source="{Binding BackgroundSource}" Grid.Row="1" />
+        <ScrollViewer Grid.Row="1">
+            <MDI:MdiContainer ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedWindow, Mode=TwoWay}">
                 <MDI:MdiContainer.Resources>
                     <Style TargetType="{x:Type MDI:MdiWindow}">
                         <Setter Property="Title" Value="{Binding Title}" />
@@ -72,9 +71,9 @@
                     </Style>
                 </MDI:MdiContainer.Resources>
             </MDI:MdiContainer>
-            <Grid  Grid.RowSpan="3" Background="#7F000000" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="17">Chargement en cours...</TextBlock>
-            </Grid>
+        </ScrollViewer>
+        <Grid Background="#7F000000" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="17">Chargement en cours...</TextBlock>
         </Grid>
-    </ScrollViewer>
+    </Grid>
 </Window>
