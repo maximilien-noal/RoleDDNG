@@ -63,7 +63,7 @@
         </StackPanel>
         <Image Source="{Binding BackgroundSource}" Grid.Row="1" />
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1">
-            <MDI:MdiContainer Grid.Row="1" ClipToBounds="False" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedWindow, Mode=TwoWay}">
+            <MDI:MdiContainer Grid.Row="1" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedWindow, Mode=TwoWay}">
                 <MDI:MdiContainer.Resources>
                     <Style TargetType="{x:Type MDI:MdiWindow}">
                         <Setter Property="Title" Value="{Binding Title}" />
