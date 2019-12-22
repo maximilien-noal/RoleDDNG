@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.Threading;
+﻿using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Interop;
+
+using Microsoft.VisualStudio.Threading;
+
 using RoleDDNG.Models.Structs;
 using RoleDDNG.Role.Dialogs;
 using RoleDDNG.Role.PInvoke;
 using RoleDDNG.ViewModels;
-using System;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Threading;
 
 namespace RoleDDNG.Role
 {

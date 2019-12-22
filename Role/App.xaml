@@ -4,33 +4,13 @@
              xmlns:vm="clr-namespace:RoleDDNG.ViewModels;assembly=ViewModels"
              xmlns:local="clr-namespace:RoleDDNG.Role"
              StartupUri="MainWindow.xaml"
-    xmlns:Control="clr-namespace:Hammer.MDIContainer.Control;assembly=Hammer.MDIContainer.Control"
-    xmlns:panels="clr-namespace:RoleDDNG.Role.Panels">
+    xmlns:Control="clr-namespace:Hammer.MDI.Control;assembly=Hammer.MDIContainer.Control">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/DataTemplates/ContentTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <vm:ViewModelLocator x:Key="Locator" />
-            <SolidColorBrush x:Key="ContainerBackground" Color="Transparent" />
-            <SolidColorBrush x:Key="ContainerBorder" Color="Transparent" />
-            <Style TargetType="{x:Type Control:MdiContainer}">
-                <Setter Property="IsTabStop" Value="False" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Control:MdiContainer}">
-                            <ItemsPresenter />
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="ItemsPanel">
-                    <Setter.Value>
-                        <ItemsPanelTemplate>
-                            <panels:AutoResizeCanvas Background="{StaticResource ContainerBackground}" ClipToBounds="True" IsItemsHost="True" />
-                        </ItemsPanelTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

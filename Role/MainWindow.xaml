@@ -3,13 +3,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:MDI="clr-namespace:Hammer.MDIContainer.Control;assembly=Hammer.MDIContainer.Control"
+        xmlns:MDI="clr-namespace:Hammer.MDI.Control;assembly=Hammer.MDIContainer.Control"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         mc:Ignorable="d"
         Title="RoleDD Gestion des personnages pour Donjons &amp; Dragons 3.5" Height="754" Width="1218" Icon="Assets/appicon.png" ResizeMode="CanResizeWithGrip" SourceInitialized="Window_SourceInitialized">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="D" Modifiers="Control" Command="{Binding ShowDiceRollWindow}" />
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

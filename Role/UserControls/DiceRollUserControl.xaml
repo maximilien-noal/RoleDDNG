@@ -12,28 +12,32 @@
         <converters:ListOfIntsToStringConverter x:Key="ListOfIntsToStringConverter" />
         <converters:IntToStringConverter x:Key="IntToStringConverter" />
     </UserControl.Resources>
-    <Grid Margin="5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Label Margin="5" Grid.Row="0" Grid.Column="0">Nombre de dés</Label>
-        <TextBox Margin="5" Grid.Row="0" Grid.Column="1" Text="{Binding NumberOfDices, Mode=TwoWay}"></TextBox>
-        <Label Margin="5" Grid.Row="1" Grid.Column="0">Type de dés</Label>
-        <ComboBox Margin="5" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding DiceTypes}" SelectedValue="{Binding NumberofSides, Mode=TwoWay}"></ComboBox>
-        <Button Margin="5" MinWidth="147" MinHeight="54" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Command="{Binding Roll}">
-            <Image Stretch="Fill" Source="Assets/diceButton.png" />
-        </Button>
-        <TextBox Margin="5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="{Binding Results, Mode=OneWay, Converter={StaticResource ListOfIntsToStringConverter}}"></TextBox>
-        <Label Margin="5" Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Résultat</Label>
-        <TextBox Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="{Binding Sum, Mode=OneWay, Converter={StaticResource IntToStringConverter}}"></TextBox>
-    </Grid>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Margin="5" Grid.Row="0" Grid.Column="0">Nombre de dés</Label>
+            <TextBox Margin="5" Grid.Row="0" Grid.Column="1" Text="{Binding NumberOfDices, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
+            <Label Margin="5" Grid.Row="1" Grid.Column="0">Type de dés</Label>
+            <ComboBox Margin="5" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding DiceTypes}" SelectedValue="{Binding NumberofSides, Mode=TwoWay}"></ComboBox>
+            <Button Margin="5" IsDefault="True" MinWidth="147" MinHeight="54" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Command="{Binding Roll}">
+                <Image Stretch="Fill" Source="Assets/diceButton.png" />
+            </Button>
+            <TextBox Margin="5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="{Binding Results, Mode=OneWay, Converter={StaticResource ListOfIntsToStringConverter}}">
+            </TextBox>
+            <Label Margin="5" Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Résultat</Label>
+            <TextBox Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="{Binding Sum, Mode=OneWay, Converter={StaticResource IntToStringConverter}}"></TextBox>
+        </Grid>
+    </ScrollViewer>
 </UserControl>
