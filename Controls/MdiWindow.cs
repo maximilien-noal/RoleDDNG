@@ -58,13 +58,13 @@ namespace Hammer.MDI.Control
         {
             Container = container;
             Container.SizeChanged += OnContainerSizeChanged;
-            // SizeChanged +=
             LastHeight = ActualHeight;
             LastWidth = ActualWidth;
         }
 
         public void Position()
         {
+            SetValue(IsMinimizeButtonEnabledProperty, true);
             SetValue(IsResizableProperty, true);
             var actualContainerHeight = Container.ActualHeight;
             var actualContainerWidth = Container.ActualWidth;
