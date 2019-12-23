@@ -89,6 +89,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Threading" Version="16.4.43" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.43" />
+    <PackageReference Include="PresentationTheme.Aero" Version="0.5.0" />
   </ItemGroup>
 
   <ItemGroup>
