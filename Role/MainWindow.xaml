@@ -55,14 +55,6 @@
                     <MenuItem Header="_À propos de RoleDD" Click="AboutMenuItem_Click" />
                 </MenuItem>
             </Menu>
-            <Border Height="2">
-                <Border.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="LightGray" />
-                        <GradientStop Color="Black" Offset="1" />
-                    </LinearGradientBrush>
-                </Border.Background>
-            </Border>
         </StackPanel>
         <Image Source="{Binding BackgroundSource}" Grid.Row="1" />
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1">
