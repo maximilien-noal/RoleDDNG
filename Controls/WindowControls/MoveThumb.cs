@@ -81,11 +81,14 @@ namespace Hammer.MDI.Control.WindowControls
                     window.Normalize();
                 }
 
-                if (window.WindowState != WindowState.Minimized)
+                if (window.WindowState == WindowState.Normal)
                 {
                     window.LastLeft = AutoResizeCanvas.GetLeft(window);
                     window.LastTop = AutoResizeCanvas.GetTop(window);
+                }
 
+                if (window.WindowState != WindowState.Minimized)
+                {
                     var candidateLeft = window.LastLeft + e.HorizontalChange;
                     var candidateTop = window.LastTop + e.VerticalChange;
 

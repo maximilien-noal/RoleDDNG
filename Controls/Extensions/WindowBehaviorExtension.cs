@@ -14,6 +14,14 @@ namespace Hammer.MDI.Control.Extensions
         {
             if (window.IsResizable)
             {
+                if (window.WindowState == WindowState.Normal)
+                {
+                    window.LastLeft = AutoResizeCanvas.GetLeft(window);
+                    window.LastTop = AutoResizeCanvas.GetTop(window);
+                    window.LastWidth = window.ActualWidth;
+                    window.LastHeight = window.ActualHeight;
+                }
+
                 AutoResizeCanvas.SetTop(window, 0.0);
                 AutoResizeCanvas.SetLeft(window, 0.0);
 
@@ -37,8 +45,13 @@ namespace Hammer.MDI.Control.Extensions
         {
             var index = window.Container.MinimizedWindowsCount;
 
-            window.LastWidth = window.ActualWidth;
-            window.LastHeight = window.ActualHeight;
+            if (window.WindowState == WindowState.Normal)
+            {
+                window.LastLeft = AutoResizeCanvas.GetLeft(window);
+                window.LastTop = AutoResizeCanvas.GetTop(window);
+                window.LastWidth = window.ActualWidth;
+                window.LastHeight = window.ActualHeight;
+            }
             AutoResizeCanvas.SetTop(window, window.Container.ActualHeight - 32);
             AutoResizeCanvas.SetLeft(window, index * 205);
 

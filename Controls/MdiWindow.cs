@@ -344,7 +344,6 @@ namespace Hammer.MDI.Control
                 var newWindow = (e.NewFocus is MdiWindow) ? (e.NewFocus as MdiWindow) : (parent as MdiWindow);
                 Container.SetValue(MdiContainer.SelectedItemProperty, newWindow.DataContext);
                 newWindow.IsSelected = true;
-                //RaiseEvent(new RoutedEventArgs(FocusChangedEvent, DataContext));
             }
         }
 

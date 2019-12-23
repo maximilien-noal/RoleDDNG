@@ -18,17 +18,17 @@ namespace Hammer.MdiControls.Panels
         protected override Size MeasureOverride(Size constraint)
         {
             var maxRightBottomChildSize = new Size();
-            var foundMaximizedWindow = false;
+            var foundMaximizedOrMinizedWindow = false;
             foreach (UIElement internalChild in InternalChildren)
             {
                 if (internalChild == null) { continue; }
-                if (internalChild is MdiWindow window && window.WindowState == WindowState.Maximized)
+                if (internalChild is MdiWindow window && (window.WindowState == WindowState.Maximized || window.WindowState == WindowState.Minimized))
                 {
-                    foundMaximizedWindow = true;
+                    foundMaximizedOrMinizedWindow = true;
                 }
 
                 internalChild.Measure(RenderSize);
-                if (foundMaximizedWindow == false)
+                if (foundMaximizedOrMinizedWindow == false)
                 {
                     var childRight = internalChild.DesiredSize.Width + GetLeft(internalChild);
                     var childBottom = internalChild.DesiredSize.Height + GetTop(internalChild);
@@ -42,7 +42,7 @@ namespace Hammer.MdiControls.Panels
                     }
                 }
             }
-            if (foundMaximizedWindow)
+            if (foundMaximizedOrMinizedWindow)
             {
                 _lastMeasure = RenderSize;
                 return new Size();
@@ -60,7 +60,7 @@ namespace Hammer.MdiControls.Panels
             {
                 InvalidateMeasure();
             }
-            if (IsAnyInternalChildMaximized())
+            if (IsAnyInternalChildMaximizedOrMinimized())
             {
                 foreach (UIElement children in InternalChildren)
                 {
@@ -83,7 +83,7 @@ namespace Hammer.MdiControls.Panels
             {
                 return false;
             }
-            if (IsAnyInternalChildMaximized())
+            if (IsAnyInternalChildMaximizedOrMinimized())
             {
                 return IsLastMeasureEqualToArrangeSize(arrangeSize) == false;
             }
@@ -96,13 +96,13 @@ namespace Hammer.MdiControls.Panels
             return _lastMeasure.Width == arrangeSize.Width && _lastMeasure.Height == arrangeSize.Height;
         }
 
-        private bool IsAnyInternalChildMaximized()
+        private bool IsAnyInternalChildMaximizedOrMinimized()
         {
             var anyMaximized = false;
             foreach (UIElement internalChild in InternalChildren)
             {
                 if (internalChild == null) { continue; }
-                if (internalChild is MdiWindow window && window.WindowState == WindowState.Maximized)
+                if (internalChild is MdiWindow window && (window.WindowState == WindowState.Maximized || window.WindowState == WindowState.Minimized))
                 {
                     return true;
                 }
