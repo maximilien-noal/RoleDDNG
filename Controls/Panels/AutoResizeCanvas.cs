@@ -45,7 +45,7 @@ namespace Hammer.MdiControls.Panels
             if (foundMaximizedWindow)
             {
                 _lastMeasure = RenderSize;
-                return _lastMeasure;
+                return new Size();
             }
             _lastMeasure = maxRightBottomChildSize;
             return _lastMeasure;
@@ -56,59 +56,25 @@ namespace Hammer.MdiControls.Panels
         /// </summary>
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            if (arrangeSize.Height < 0 || arrangeSize.Width < 0)
-            {
-                arrangeSize.Height = 0;
-                arrangeSize.Width = 0;
-                InvalidateArrange();
-            }
             if (IsLastMeasureObsolete(arrangeSize))
             {
                 InvalidateMeasure();
             }
-            foreach (UIElement internalChild in InternalChildren)
+            if (IsAnyInternalChildMaximized())
             {
-                if (internalChild != null)
+                foreach (UIElement children in InternalChildren)
                 {
-                    double x = 0.0;
-                    double y = 0.0;
-                    double left = GetLeft(internalChild);
-                    if (!double.IsNaN(left))
+                    if (children == null)
                     {
-                        x = left;
+                        continue;
                     }
-                    else
+                    if (children is MdiWindow window && window.WindowState == WindowState.Normal)
                     {
-                        double right = GetRight(internalChild);
-                        if (!double.IsNaN(right))
-                        {
-                            x = arrangeSize.Width - internalChild.DesiredSize.Width - right;
-                        }
-                    }
-                    double top = GetTop(internalChild);
-                    if (!double.IsNaN(top))
-                    {
-                        y = top;
-                    }
-                    else
-                    {
-                        double bottom = GetBottom(internalChild);
-                        if (!double.IsNaN(bottom))
-                        {
-                            y = arrangeSize.Height - internalChild.DesiredSize.Height - bottom;
-                        }
-                    }
-                    if (internalChild is MdiWindow window && window.WindowState == WindowState.Maximized)
-                    {
-                        internalChild.Arrange(new Rect(new Point(0, 0), RenderSize));
-                    }
-                    else
-                    {
-                        internalChild.Arrange(new Rect(new Point(x, y), internalChild.DesiredSize));
+                        window.WindowState = WindowState.Maximized;
                     }
                 }
             }
-            return arrangeSize;
+            return base.ArrangeOverride(arrangeSize);
         }
 
         private bool IsLastMeasureObsolete(Size arrangeSize)
