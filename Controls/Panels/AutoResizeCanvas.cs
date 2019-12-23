@@ -1,12 +1,12 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+
 using Hammer.MDI.Control;
 
 namespace Hammer.MdiControls.Panels
 {
     /// <summary>
-    /// <inheritdoc/>
+    /// A <see cref="Canvas"/> where its size is dependant of its children
     /// </summary>
     public class AutoResizeCanvas : Canvas
     {
