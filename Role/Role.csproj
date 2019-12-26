@@ -83,13 +83,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AdonisUI" Version="1.12.1" />
+    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.12.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Threading" Version="16.4.43" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.43" />
-    <PackageReference Include="PresentationTheme.Aero" Version="0.5.0" />
+    <PackageReference Include="System.Management" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>

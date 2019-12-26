@@ -10,6 +10,9 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}" />
+    </Window.Style>
     <Window.InputBindings>
         <KeyBinding Key="D" Modifiers="Control" Command="{Binding ShowDiceRollWindow}" />
     </Window.InputBindings>
@@ -20,39 +23,39 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical" Grid.Row="0">
             <Menu>
-                <MenuItem Header="_Fichier">
-                    <MenuItem Header="_Assistant création personnage" InputGestureText="Ctrl + N"></MenuItem>
-                    <MenuItem Header="_Gestion des personnages"></MenuItem>
-                    <MenuItem Header="_Accéder aux fiches des personnages"></MenuItem>
-                    <MenuItem Header="_Gestion des objets" InputGestureText="Ctrl + I"></MenuItem>
+                <MenuItem Header="Fichier">
+                    <MenuItem Header="Assistant création personnage" InputGestureText="Ctrl + N"></MenuItem>
+                    <MenuItem Header="Gestion des personnages"></MenuItem>
+                    <MenuItem Header="Accéder aux fiches des personnages"></MenuItem>
+                    <MenuItem Header="Gestion des objets" InputGestureText="Ctrl + I"></MenuItem>
                     <Separator />
-                    <MenuItem Header="_Importation des personnages" InputGestureText="Ctrl + M"></MenuItem>
+                    <MenuItem Header="Importation des personnages" InputGestureText="Ctrl + M"></MenuItem>
                     <Separator />
-                    <MenuItem Header="_Ouvrir une base de données de personnages" InputGestureText="Ctrl + O"></MenuItem>
+                    <MenuItem Header="Ouvrir une base de données de personnages" InputGestureText="Ctrl + O"></MenuItem>
                     <Separator />
-                    <MenuItem Header="_Quitter" Click="ExitMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Quitter" Click="ExitMenuItem_Click"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="_Outils">
-                    <MenuItem Header="_Expérience des personnages" InputGestureText="Ctrl + X"></MenuItem>
-                    <MenuItem Header="_Générateur de villes"></MenuItem>
-                    <MenuItem Header="_Lanceur de dés" InputGestureText="Ctrl + D" Command="{Binding ShowDiceRollWindow}"></MenuItem>
+                <MenuItem Header="Outils">
+                    <MenuItem Header="Expérience des personnages" InputGestureText="Ctrl + X"></MenuItem>
+                    <MenuItem Header="Générateur de villes"></MenuItem>
+                    <MenuItem Header="Lanceur de dés" InputGestureText="Ctrl + D" Command="{Binding ShowDiceRollWindow}"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="_Règles" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                    <MenuItem Header="_Description des sorts" InputGestureText="Ctrl + S"></MenuItem>
-                    <MenuItem Header="_Description des races"></MenuItem>
-                    <MenuItem Header="_Description des dons"></MenuItem>
+                <MenuItem Header="Règles" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <MenuItem Header="Description des sorts" InputGestureText="Ctrl + S"></MenuItem>
+                    <MenuItem Header="Description des races"></MenuItem>
+                    <MenuItem Header="Description des dons"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="_Personnel">
-                    <MenuItem Header="_Insertion des sorts"></MenuItem>
-                    <MenuItem Header="_Insertion des races"></MenuItem>
-                    <MenuItem Header="_Insertion des dons"></MenuItem>
+                <MenuItem Header="Personnel">
+                    <MenuItem Header="Insertion des sorts"></MenuItem>
+                    <MenuItem Header="Insertion des races"></MenuItem>
+                    <MenuItem Header="Insertion des dons"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="_Options"></MenuItem>
-                <MenuItem Header="_Aide">
-                    <MenuItem Header="_Astuce du jour" />
-                    <MenuItem Header="_Lien vers le site" />
-                    <MenuItem Header="_Vérifier les mises à jour" />
-                    <MenuItem Header="_À propos de RoleDD" Click="AboutMenuItem_Click" />
+                <MenuItem Header="Options"></MenuItem>
+                <MenuItem Header="Aide">
+                    <MenuItem Header="Astuce du jour" />
+                    <MenuItem Header="Lien vers le site" />
+                    <MenuItem Header="Vérifier les mises à jour" />
+                    <MenuItem Header="À propos de RoleDD" Click="AboutMenuItem_Click" />
                 </MenuItem>
             </Menu>
         </StackPanel>
