@@ -6,7 +6,9 @@
         xmlns:MDI="clr-namespace:Hammer.MDI.Control;assembly=Hammer.MDIContainer.Control"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         mc:Ignorable="d"
-        Title="RoleDD Gestion des personnages pour Donjons &amp; Dragons 3.5" Height="754" Width="1218" Icon="Assets/appicon.png" ResizeMode="CanResizeWithGrip" SourceInitialized="Window_SourceInitialized">
+        xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+        Title="RoleDD Gestion des personnages pour Donjons &amp; Dragons 3.5" Height="754" Width="1218" Icon="Assets/appicon.png" ResizeMode="CanResizeWithGrip" SourceInitialized="Window_SourceInitialized"
+        Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>

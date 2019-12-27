@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
+using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Security.Principal;
 using System.Windows;
-
-using AdonisUI;
 
 using Microsoft.Win32;
 
@@ -17,6 +15,89 @@ namespace RoleDDNG.Role
     /// </summary>
     public partial class App : Application
     {
+        private class ResourceLocator
+        {
+            public static Uri ClassicTheme => new Uri("pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml", UriKind.Absolute);
+
+            public static Uri LightColorScheme => new Uri("pack://application:,,,/AdonisUI;component/ColorSchemes/Light.xaml", UriKind.Absolute);
+
+            public static Uri DarkColorScheme => new Uri("pack://application:,,,/AdonisUI;component/ColorSchemes/Dark.xaml", UriKind.Absolute);
+
+            /// <summary>
+            /// Removes all resources of AdonisUI from the provided resource dictionary.
+            /// </summary>
+            /// <param name="rootResourceDictionary">The resource dictionary containing AdonisUI's resources. Expected are the resource dictionaries of the app or window.</param>
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exception")]
+            public static void RemoveAdonisResources(ResourceDictionary rootResourceDictionary)
+            {
+                Uri[] adonisResources = { ClassicTheme };
+                ResourceDictionary currentTheme = FindFirstContainedResourceDictionaryByUri(rootResourceDictionary, adonisResources);
+
+                if (currentTheme != null)
+                {
+                    if (!RemoveResourceDictionaryFromResourcesDeep(currentTheme, rootResourceDictionary))
+                        throw new Exception("The currently active color scheme was found but could not be removed.");
+                }
+            }
+
+            /// <summary>
+            /// Adds any Adonis theme to the provided resource dictionary.
+            /// </summary>
+            /// <param name="rootResourceDictionary">The resource dictionary containing AdonisUI's resources. Expected are the resource dictionaries of the app or window.</param>
+            public static void AddAdonisResources(ResourceDictionary rootResourceDictionary)
+            {
+                rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = ClassicTheme });
+            }
+
+            /// <summary>
+            /// Adds a resource dictionary with the specified uri to the MergedDictionaries collection of the <see cref="rootResourceDictionary"/>.
+            /// Additionally all child ResourceDictionaries are traversed recursively to find the current color scheme which is removed if found.
+            /// </summary>
+            /// <param name="rootResourceDictionary">The resource dictionary containing the currently active color scheme. It will receive the new color scheme in its MergedDictionaries. Expected are the resource dictionaries of the app or window.</param>
+            /// <param name="colorSchemeResourceUri">The Uri of the color scheme to be set. Can be taken from the <see cref="ResourceLocator"/> class.</param>
+            /// <param name="currentColorSchemeResourceUri">Optional uri to an external color scheme that is not provided by AdonisUI.</param>
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exception")]
+            public static void SetColorScheme(ResourceDictionary rootResourceDictionary, Uri colorSchemeResourceUri, Uri currentColorSchemeResourceUri = null)
+            {
+                Uri[] knownColorSchemes = currentColorSchemeResourceUri != null ? new[] { currentColorSchemeResourceUri } : new[] { LightColorScheme, DarkColorScheme };
+
+                ResourceDictionary currentTheme = FindFirstContainedResourceDictionaryByUri(rootResourceDictionary, knownColorSchemes);
+
+                if (currentTheme != null)
+                {
+                    if (!RemoveResourceDictionaryFromResourcesDeep(currentTheme, rootResourceDictionary))
+                        throw new Exception("The currently active color scheme was found but could not be removed.");
+                }
+
+                rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = colorSchemeResourceUri });
+            }
+
+            private static ResourceDictionary FindFirstContainedResourceDictionaryByUri(ResourceDictionary resourceDictionary, Uri[] knownColorSchemes)
+            {
+                if (knownColorSchemes.Any(scheme => resourceDictionary.Source != null && resourceDictionary.Source.IsAbsoluteUri && resourceDictionary.Source.AbsoluteUri.Equals(scheme.AbsoluteUri, StringComparison.InvariantCulture)))
+                    return resourceDictionary;
+
+                if (!resourceDictionary.MergedDictionaries.Any())
+                    return null;
+
+                return resourceDictionary.MergedDictionaries.FirstOrDefault(d => FindFirstContainedResourceDictionaryByUri(d, knownColorSchemes) != null);
+            }
+
+            private static bool RemoveResourceDictionaryFromResourcesDeep(ResourceDictionary resourceDictionaryToRemove, ResourceDictionary rootResourceDictionary)
+            {
+                if (!rootResourceDictionary.MergedDictionaries.Any())
+                    return false;
+
+                if (rootResourceDictionary.MergedDictionaries.Contains(resourceDictionaryToRemove))
+                {
+                    rootResourceDictionary.MergedDictionaries.Remove(resourceDictionaryToRemove);
+                    return true;
+                }
+
+                return rootResourceDictionary.MergedDictionaries.Any(dict => RemoveResourceDictionaryFromResourcesDeep(resourceDictionaryToRemove, dict));
+            }
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             var splash = new SplashScreen(Assembly.GetExecutingAssembly(), "Assets/splashscreen.png");
@@ -46,8 +127,7 @@ namespace RoleDDNG.Role
             using var watcher = new ManagementEventWatcher(query);
             watcher.EventArrived += Watcher_EventArrived;
 
-            // Start listening for events
-            //watcher.Start(); //Disabled because InvalidOperationException is thrown by System.Uri on the third theme change at runtime...
+            watcher.Start();
         }
 
         private void Watcher_EventArrived(object sender, EventArrivedEventArgs e)
@@ -83,11 +163,11 @@ namespace RoleDDNG.Role
         {
             if (theme == ResourceLocator.DarkColorScheme)
             {
-                ResourceLocator.SetColorScheme(Application.Current.Resources, ResourceLocator.DarkColorScheme, ResourceLocator.LightColorScheme);
+                ResourceLocator.SetColorScheme(Current.Resources, ResourceLocator.DarkColorScheme, ResourceLocator.LightColorScheme);
             }
             else
             {
-                ResourceLocator.SetColorScheme(Application.Current.Resources, ResourceLocator.LightColorScheme, ResourceLocator.DarkColorScheme);
+                ResourceLocator.SetColorScheme(Current.Resources, ResourceLocator.LightColorScheme, ResourceLocator.DarkColorScheme);
             }
         }
     }

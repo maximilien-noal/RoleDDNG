@@ -6,7 +6,7 @@
     <!--Colors-->
     <SolidColorBrush x:Key="ActiveWindowColor" Color="{DynamicResource {x:Static adonisUi:Colors.AccentColor}}" />
     <SolidColorBrush x:Key="InactiveWindowColor" Color="{DynamicResource {x:Static adonisUi:Colors.DisabledAccentForegroundColor}}" />
-    <SolidColorBrush x:Key="WindowContentBorder" Color="DarkGray" />
+    <SolidColorBrush x:Key="WindowContentBorder" Color="{DynamicResource {x:Static adonisUi:Colors.Layer1BorderColor}}" />
     <SolidColorBrush x:Key="ContainerBackground" Color="Transparent" />
     <SolidColorBrush x:Key="ContainerBorder" Color="Transparent" />
     <SolidColorBrush x:Key="WindowButtonPenColor" Color="Black" />
