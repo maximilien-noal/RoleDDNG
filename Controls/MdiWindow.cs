@@ -64,8 +64,6 @@ namespace Hammer.MDI.Control
 
         public void Position()
         {
-            SetValue(IsMinimizeButtonEnabledProperty, true);
-            SetValue(IsResizableProperty, true);
             var actualContainerHeight = Container.ActualHeight;
             var actualContainerWidth = Container.ActualWidth;
             UpdateLayout();
@@ -73,8 +71,8 @@ namespace Hammer.MDI.Control
             var actualWidth = ActualWidth;
             var actualHeight = ActualHeight;
 
-            var left = Math.Max(0, (actualContainerWidth - actualWidth) / 2);
-            var top = Math.Max(0, (actualContainerHeight - actualHeight) / 2);
+            var left = Math.Max(0, (actualContainerWidth - actualWidth) / 4);
+            var top = Math.Max(0, (actualContainerHeight - actualHeight) / 4);
 
             SetValue(AutoResizeCanvas.LeftProperty, left);
             SetValue(AutoResizeCanvas.TopProperty, top);
@@ -189,17 +187,6 @@ namespace Hammer.MDI.Control
         public static readonly RoutedEvent ClosingEvent = EventManager.RegisterRoutedEvent(
             "Closing", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
-        [Bindable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsCloseButtonEnabled
-        {
-            get { return (bool)GetValue(IsCloseButtonEnabledProperty); }
-            set { SetValue(IsCloseButtonEnabledProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsCloseButtonEnabledProperty =
-            DependencyProperty.Register("IsCloseButtonEnabled", typeof(bool), typeof(MdiWindow), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.NotDataBindable));
-
         public event RoutedEventHandler Closing
         {
             add { AddHandler(ClosingEvent, value); }
@@ -233,73 +220,6 @@ namespace Hammer.MDI.Control
         {
             add { AddHandler(WindowStateChangedEvent, value); }
             remove { RemoveHandler(WindowStateChangedEvent, value); }
-        }
-
-        public bool IsMinimizeButtonEnabled
-        {
-            get { return (bool)GetValue(IsMinimizeButtonEnabledProperty); }
-            set
-            {
-                if (!value)
-                {
-                    Height = double.NaN;
-                    Width = double.NaN;
-                }
-                SetValue(IsMinimizeButtonEnabledProperty, value);
-            }
-        }
-
-        public static readonly DependencyProperty IsMinimizeButtonEnabledProperty =
-            DependencyProperty.Register("IsMinimizeButtonEnabled", typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(IsMinimizeButtonEnabledChangedCallback));
-
-        private static void IsMinimizeButtonEnabledChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (!((bool)e.NewValue))
-            {
-                ((MdiWindow)d).Height = double.NaN;
-                ((MdiWindow)d).Width = double.NaN;
-            }
-
-            if (e.NewValue == null) return;
-            ((MdiWindow)d).IsMinimizeButtonEnabled = (bool)e.NewValue;
-        }
-
-        public bool CanClose
-        {
-            get { return (bool)GetValue(CanCloseProperty); }
-            set { SetValue(CanCloseProperty, value); }
-        }
-
-        public static readonly DependencyProperty CanCloseProperty =
-            DependencyProperty.Register("CanClose", typeof(bool), typeof(MdiWindow), new FrameworkPropertyMetadata(true));
-
-        public bool IsResizable
-        {
-            get { return (bool)GetValue(IsResizableProperty); }
-            set
-            {
-                if (!value)
-                {
-                    Height = double.NaN;
-                    Width = double.NaN;
-                }
-                SetValue(IsResizableProperty, value);
-            }
-        }
-
-        public static readonly DependencyProperty IsResizableProperty =
-            DependencyProperty.Register("IsResizable", typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(IsResizableChangedCallback));
-
-        private static void IsResizableChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (!((bool)e.NewValue))
-            {
-                ((MdiWindow)d).Height = double.NaN;
-                ((MdiWindow)d).Width = double.NaN;
-            }
-
-            if (e.NewValue == null) return;
-            ((MdiWindow)d).IsResizable = (bool)e.NewValue;
         }
 
         private static void OnWindowStateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
@@ -371,16 +291,7 @@ namespace Hammer.MDI.Control
 
         private void CloseWindow(object sender, RoutedEventArgs e)
         {
-            var canCloseBinding = BindingOperations.GetBindingExpression(this, CanCloseProperty);
-            if (canCloseBinding != null)
-            {
-                canCloseBinding.UpdateTarget();
-            }
-
-            if (CanClose)
-            {
-                RaiseEvent(new RoutedEventArgs(ClosingEvent));
-            }
+            RaiseEvent(new RoutedEventArgs(ClosingEvent));
         }
     }
 }

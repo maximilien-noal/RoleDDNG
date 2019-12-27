@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace RoleDDNG.ViewModels
+namespace RoleDDNG.ViewModels.ToolsVMs
 {
     public class DiceRollViewModel : ViewModelBase, IContent
     {
@@ -24,15 +24,6 @@ namespace RoleDDNG.ViewModels
             DiceTypes.Add(20);
             DiceTypes.Add(100);
             Roll = new RelayCommand(Roll_Execute);
-            CloseCommand = new RelayCommand(Close_Execute);
-        }
-
-        private void Close_Execute()
-        {
-            if (CanClose)
-            {
-                Closing?.Invoke(this, EventArgs.Empty);
-            }
         }
 
         private void Roll_Execute()
@@ -48,8 +39,6 @@ namespace RoleDDNG.ViewModels
 
         public string Title => "Lanceur de dés";
 
-        public bool CanClose => true;
-
         private int _numberOfDices = 1;
 
         public int NumberOfDices { get => _numberOfDices; set { Set(nameof(NumberOfDices), ref _numberOfDices, value); } }
@@ -57,8 +46,6 @@ namespace RoleDDNG.ViewModels
         private int _numberOfSides = 6;
 
         public int NumberofSides { get => _numberOfSides; set { Set(nameof(NumberofSides), ref _numberOfSides, value); } }
-
-        public event EventHandler Closing;
 
         private int _sum = 0;
 
@@ -68,8 +55,6 @@ namespace RoleDDNG.ViewModels
         public ObservableCollection<int> Results { get => _results; private set { Set(nameof(Results), ref _results, value); } }
 
         public RelayCommand Roll { get; private set; }
-
-        public RelayCommand CloseCommand { get; private set; }
 
         public List<int> DiceTypes { get; private set; } = new List<int>();
     }

@@ -60,7 +60,6 @@ namespace Hammer.MDI.Control
         {
             if (element is MdiWindow window)
             {
-                window.IsCloseButtonEnabled = InternalItemSource != null;
                 window.FocusChanged += OnWindowFocusChanged;
                 window.Closing += OnWindowClosing;
                 window.WindowStateChanged += OnWindowStateChanged;

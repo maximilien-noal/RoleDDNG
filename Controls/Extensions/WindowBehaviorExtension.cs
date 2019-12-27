@@ -12,23 +12,20 @@ namespace Hammer.MDI.Control.Extensions
     {
         public static void Maximize(this MdiWindow window)
         {
-            if (window.IsResizable)
+            if (window.WindowState == WindowState.Normal)
             {
-                if (window.WindowState == WindowState.Normal)
-                {
-                    window.LastLeft = AutoResizeCanvas.GetLeft(window);
-                    window.LastTop = AutoResizeCanvas.GetTop(window);
-                    window.LastWidth = window.ActualWidth;
-                    window.LastHeight = window.ActualHeight;
-                }
-
-                AutoResizeCanvas.SetTop(window, 0.0);
-                AutoResizeCanvas.SetLeft(window, 0.0);
-
-                AnimateResize(window, window.Container.ActualWidth - 4, window.Container.ActualHeight - 4, true);
-
-                window.WindowState = WindowState.Maximized;
+                window.LastLeft = AutoResizeCanvas.GetLeft(window);
+                window.LastTop = AutoResizeCanvas.GetTop(window);
+                window.LastWidth = window.ActualWidth;
+                window.LastHeight = window.ActualHeight;
             }
+
+            AutoResizeCanvas.SetTop(window, 0.0);
+            AutoResizeCanvas.SetLeft(window, 0.0);
+
+            AnimateResize(window, window.Container.ActualWidth - 4, window.Container.ActualHeight - 4, true);
+
+            window.WindowState = WindowState.Maximized;
         }
 
         public static void Normalize(this MdiWindow window)

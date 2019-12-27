@@ -16,6 +16,7 @@ using RoleDDNG.Interfaces.Serialization;
 using RoleDDNG.Models.Options;
 using RoleDDNG.ViewModels.Interfaces;
 using RoleDDNG.ViewModels.RNG;
+using RoleDDNG.ViewModels.ToolsVMs;
 
 namespace RoleDDNG.ViewModels
 {
@@ -41,6 +42,7 @@ namespace RoleDDNG.ViewModels
             IsBusy = true;
 
             ShowDiceRollWindow = new RelayCommand(ShowDiceRollWindowMethod);
+            ShowTownGeneratorWindow = new RelayCommand(ShowTownGeneratorWindowMethod);
             ExitApp = new AsyncCommand(ExitAppMethodAsync);
             LoadAppSettings = new AsyncCommand(LoadAppSettingsMethodAsync);
             _settingsSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
@@ -98,13 +100,22 @@ namespace RoleDDNG.ViewModels
             }
         }
 
+        private void ShowTownGeneratorWindowMethod()
+        {
+            AddMdiWindow<TownGeneratorViewModel>();
+        }
+
         private void ShowDiceRollWindowMethod()
         {
-            if (Items.OfType<DiceRollViewModel>().Any() == false)
+            AddMdiWindow<DiceRollViewModel>();
+        }
+
+        private void AddMdiWindow<T>() where T : IContent, new()
+        {
+            if (Items.OfType<T>().Any() == false)
             {
-                var diceViewModel = new DiceRollViewModel();
-                diceViewModel.Closing += delegate { Items.Remove(diceViewModel); };
-                Items.Add(diceViewModel);
+                var viewModel = new T();
+                Items.Add(viewModel);
             }
         }
 
@@ -119,6 +130,7 @@ namespace RoleDDNG.ViewModels
         public ObservableCollection<IContent> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
 
         public RelayCommand ShowDiceRollWindow { get; private set; }
+        public RelayCommand ShowTownGeneratorWindow { get; private set; }
 
 #pragma warning disable CA1822 // Static bindings work, but make the designer view throw an error.
         public IAsyncCommand ExitApp { get; private set; }

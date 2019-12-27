@@ -155,9 +155,9 @@
                                         <windowControls:MoveThumb x:Name="PART_MoverThumb" />
                                         <TextBlock Text="{TemplateBinding Title}" Margin="2,2" IsHitTestVisible="False" />
                                         <StackPanel x:Name="PART_ButtonBar" Orientation="Horizontal" HorizontalAlignment="Right" Margin="2,2,0,2" VerticalAlignment="Center">
-                                            <windowControls:WindowButton x:Name="PART_ButtonBar_MinimizeButton" Icon="{StaticResource MinimizeShape}" IsEnabled="{TemplateBinding IsMinimizeButtonEnabled}" />
-                                            <windowControls:WindowButton x:Name="PART_ButtonBar_MaximizeButton" Icon="{StaticResource MaximizeShape}" IsEnabled="{TemplateBinding IsResizable}" />
-                                            <windowControls:WindowButton x:Name="PART_ButtonBar_CloseButton" Icon="{StaticResource CloseShape}" IsEnabled="{TemplateBinding IsCloseButtonEnabled}" />
+                                            <windowControls:WindowButton x:Name="PART_ButtonBar_MinimizeButton" Icon="{StaticResource MinimizeShape}" />
+                                            <windowControls:WindowButton x:Name="PART_ButtonBar_MaximizeButton" Icon="{StaticResource MaximizeShape}" />
+                                            <windowControls:WindowButton x:Name="PART_ButtonBar_CloseButton" Icon="{StaticResource CloseShape}" />
                                         </StackPanel>
                                     </Grid>
                                     <Border.ToolTip>
@@ -168,7 +168,7 @@
                                         </ToolTip>
                                     </Border.ToolTip>
                                 </Border>
-                                <Control x:Name="PART_ResizerThumb" Grid.Row="0" Grid.RowSpan="2" IsEnabled="{TemplateBinding IsResizable}" Style="{StaticResource ResizeDecorator}" />
+                                <Control x:Name="PART_ResizerThumb" Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource ResizeDecorator}" />
                                 <Border x:Name="PART_BorderContent" BorderBrush="{StaticResource WindowContentBorder}" BorderThickness="1" Grid.Row="1">
                                     <ContentPresenter x:Name="PART_Content" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                                 </Border>

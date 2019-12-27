@@ -15,6 +15,7 @@
 using DataAccess;
 using GalaSoft.MvvmLight.Ioc;
 using RoleDDNG.Models.Options;
+using RoleDDNG.ViewModels.ToolsVMs;
 
 namespace RoleDDNG.ViewModels
 {
@@ -42,6 +43,7 @@ namespace RoleDDNG.ViewModels
 
             SimpleIoc.Default.Register(() => new MainViewModel(new ModelSerializer<AppSettings>()));
             SimpleIoc.Default.Register<DiceRollViewModel>();
+            SimpleIoc.Default.Register<TownGeneratorViewModel>();
         }
 
 #pragma warning disable CA1822
@@ -61,6 +63,14 @@ namespace RoleDDNG.ViewModels
             get
             {
                 return SimpleIoc.Default.GetInstance<DiceRollViewModel>();
+            }
+        }
+
+        public TownGeneratorViewModel TownGenerator
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<TownGeneratorViewModel>();
             }
         }
 
