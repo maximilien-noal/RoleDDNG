@@ -2,8 +2,6 @@
 
 using RoleDDNG.Models.Structs;
 
-using System;
-
 namespace RoleDDNG.Models.Options
 {
     public class AppSettings : ObservableObject

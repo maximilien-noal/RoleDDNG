@@ -9,9 +9,37 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=TownGenerator}"
              mc:Ignorable="d"
              Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
-
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <Grid>
-        </Grid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Text="Nom de la communauté :" />
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="2" MinWidth="200" Text="{Binding TownName}" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Margin="2" Text="Population de la communauté :" />
+                <TextBox Grid.Row="0" Grid.Column="3" Margin="2" MinWidth="50" Text="{Binding PopCount}" />
+                <TextBlock Grid.Row="1" Grid.Column="0"  Margin="2" Text="Type de communauté :" />
+                <ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding TownTypes}" SelectedItem="{Binding TownType}" />
+                <TextBlock Grid.Row="1" Grid.Column="2"  Margin="2" Text="% d'impôt" />
+                <TextBox Grid.Row="1" Grid.Column="3" Margin="2" Text="{Binding TaxPercentage}" />
+                <TextBlock Grid.Row="1" Grid.Column="4"  Margin="2" Text="% de dîme" />
+                <TextBox Grid.Row="1" Grid.Column="5" Margin="2" MinWidth="50" Text="{Binding DimePercentage}" />
+                <Button Grid.Row="2" Grid.ColumnSpan="6"  Margin="2" Content="Générer" Command="{Binding Generate}" />
+            </Grid>
+            <ScrollViewer DockPanel.Dock="Bottom">
+                <TextBox AcceptsReturn="True" IsReadOnly="True" Text="{Binding Result}" />
+            </ScrollViewer>
+        </DockPanel>
     </ScrollViewer>
 </UserControl>

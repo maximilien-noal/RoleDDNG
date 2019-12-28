@@ -19,25 +19,18 @@ namespace RoleDDNG.Role
     {
         private bool _forceClose = false;
 
-        public RelayCommand ExitAppCommand { get; private set; }
         public RelayCommand HelpCommand { get; private set; }
 
         public MainWindow()
         {
-            InitializeComponent();
-            ExitAppCommand = new RelayCommand(ExitAppCommandMethod);
             HelpCommand = new RelayCommand(HelpCommandMethod);
+            InitializeComponent();
             Closing += MainWindow_Closing;
-        }
-
-        private void ExitAppCommandMethod()
-        {
-            Close();
         }
 
         private void HelpCommandMethod()
         {
-            AboutMenuItem_Click(this, (RoutedEventArgs)EventArgs.Empty);
+            AboutMenuItem_Click(this, new RoutedEventArgs());
         }
 
 #pragma warning disable VSTHRD100 // Avoid async void methods (this is an event)
