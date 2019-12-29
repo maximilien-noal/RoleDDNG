@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
@@ -13,10 +14,10 @@ namespace RoleDDNG.ViewModels.ToolsVMs
     {
         public RelayCommand Generate { get; private set; }
 
-        private string _townName = "";
+        private string _townName = "Nom";
         public string TownName { get => _townName; set { Set(nameof(TownName), ref _townName, value); } }
 
-        private string _townType = "";
+        private string _townType = "Isolée";
 
         public string TownType { get => _townType; set { Set(nameof(TownType), ref _townType, value); } }
 
@@ -47,205 +48,422 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         private void GenerateMethod()
         {
             var generatedTownInfo = new StringBuilder();
-            generatedTownInfo.Append(TownName + ", " + TypeVille() + " de " + PopCount + " habitants." + Environment.NewLine);
-            generatedTownInfo.Append("Limite financière : " + LimiteFinanciere() + " Po" + Environment.NewLine);
-            generatedTownInfo.Append("Liquidite disponible : " + LiquiditeDisponible() + " Po" + Environment.NewLine);
-            generatedTownInfo.Append(Environment.NewLine + "Les revenus" + Environment.NewLine);
-            generatedTownInfo.Append("Revenus en or : " + RevenuOr() + " Po/mois" + Environment.NewLine);
-            generatedTownInfo.Append("Revenus en matières premières : " + RevenuPremiere() + " Po/mois" + Environment.NewLine);
-            generatedTownInfo.Append("Revenus totaux : " + Revenu() + " Po/mois" + Environment.NewLine);
-            generatedTownInfo.Append(Environment.NewLine + "Les impôts" + Environment.NewLine);
-            generatedTownInfo.Append("Impôts en or : " + RevenuOr() * TaxPercentage / 100 + " Po/mois" + Environment.NewLine);
-            generatedTownInfo.Append("Impôts en matières premières : " + RevenuPremiere() * TaxPercentage / 100 + " Po/mois" + Environment.NewLine);
-            generatedTownInfo.Append("Impôts totaux : " + Revenu() * TaxPercentage / 100 + " Po/mois" + Environment.NewLine);
-            generatedTownInfo.Append(Environment.NewLine + "La dîme" + Environment.NewLine);
-            generatedTownInfo.Append("Dîme en or : " + RevenuOr() * DimePercentage / 100 + " Po/mois" + Environment.NewLine);
-            generatedTownInfo.Append("Dîme en matières premières : " + RevenuPremiere() * DimePercentage / 100 + " Po/mois" + Environment.NewLine);
-            generatedTownInfo.Append("Dîme totaux : " + Revenu() * DimePercentage / 100 + " Po/mois" + Environment.NewLine);
-            generatedTownInfo.Append(Environment.NewLine + "Les instances" + Environment.NewLine);
-            generatedTownInfo.Append(Instances() + Environment.NewLine);
-            generatedTownInfo.Append(Environment.NewLine + "Les Pnjs" + Environment.NewLine);
-            //fldstrSortie.Append(Pnj(PopCount); //TODO : Translate PNJ method
-            generatedTownInfo.Append(Environment.NewLine + "Mélange de races" + Environment.NewLine);
-            generatedTownInfo.Append(Race() + Environment.NewLine);
+            generatedTownInfo.Append($"{TownName}, {GetTypeVille()} de {PopCount} habitants.{Environment.NewLine}");
+            generatedTownInfo.Append($"Limite financière : {GetLimiteFinanciere()} Po{Environment.NewLine}");
+            generatedTownInfo.Append($"Liquidite disponible : {GetLiquiditeDisponible()} Po{Environment.NewLine}");
+            generatedTownInfo.Append($"{Environment.NewLine}Les revenus{Environment.NewLine}");
+            generatedTownInfo.Append($"Revenus en or : {GetGoldRevenu()} Po/mois{Environment.NewLine}");
+            generatedTownInfo.Append($"Revenus en matières premières : {GetRevenuFactor()} Po/mois{Environment.NewLine}");
+            generatedTownInfo.Append($"Revenus totaux : {GetRevenu()} Po/mois{Environment.NewLine}");
+            generatedTownInfo.Append($"{Environment.NewLine}Les impôts{Environment.NewLine}");
+            generatedTownInfo.Append($"Impôts en or : {GetGoldRevenu() * TaxPercentage / 100} Po/mois{Environment.NewLine}");
+            generatedTownInfo.Append($"Impôts en matières premières : {GetRevenuFactor() * TaxPercentage / 100} Po/mois{Environment.NewLine}");
+            generatedTownInfo.Append($"Impôts totaux : {GetRevenu() * TaxPercentage / 100} Po/mois{Environment.NewLine}");
+            generatedTownInfo.Append($"{Environment.NewLine}La dîme{Environment.NewLine}");
+            generatedTownInfo.Append($"Dîme en or : {GetGoldRevenu() * DimePercentage / 100} Po/mois{Environment.NewLine}");
+            generatedTownInfo.Append($"Dîme en matières premières : {GetRevenuFactor() * DimePercentage / 100} Po/mois{Environment.NewLine}");
+            generatedTownInfo.Append($"Dîme totaux : {GetRevenu() * DimePercentage / 100} Po/mois{Environment.NewLine}");
+            generatedTownInfo.Append($"{Environment.NewLine}Les instances{Environment.NewLine}");
+            generatedTownInfo.Append($"{Instances()}{Environment.NewLine}");
+            generatedTownInfo.Append($"{Environment.NewLine}Les PNJs{Environment.NewLine}");
+            generatedTownInfo.Append($"{GetPNJs()}");
+            generatedTownInfo.Append($"{Environment.NewLine}Mélange de races{Environment.NewLine}");
+            generatedTownInfo.Append($"{GetRaces()}{Environment.NewLine}");
             Result = generatedTownInfo.ToString();
+        }
+
+        private struct PNJ
+        {
+            public string Classe { get; set; }
+            public int Nombre { get; set; }
+            public int Face { get; set; }
+        }
+
+        private string GetPNJs()
+        {
+            //Avoid OutOfMemoryException of StringBuilder
+            if (PopCount > 1000)
+            {
+                PopCount = 1000;
+            }
+            double commandant = Convert.ToInt32(StaticRNG.RNG.NextDouble() * 100) + 1;
+            if (commandant < 61)
+            {
+                commandant = 8.1;
+            }
+            else if (commandant < 81)
+            {
+                commandant = 7.2;
+            }
+            else
+            {
+                commandant = 7.1;
+            }
+
+            var tabPnj = new PNJ[16];
+            tabPnj[0].Classe = "Adepte"; tabPnj[0].Nombre = 1; tabPnj[0].Face = 6;
+            tabPnj[1].Classe = "Barbare"; tabPnj[1].Nombre = 1; tabPnj[1].Face = 4;
+            tabPnj[2].Classe = "Barde"; tabPnj[2].Nombre = 1; tabPnj[2].Face = 6;
+            tabPnj[3].Classe = "Druide"; tabPnj[3].Nombre = 1; tabPnj[3].Face = 6;
+            tabPnj[4].Classe = "Ensorceleur"; tabPnj[4].Nombre = 1; tabPnj[4].Face = 4;
+            tabPnj[5].Classe = "Expert"; tabPnj[5].Nombre = 3; tabPnj[5].Face = 4;
+            tabPnj[6].Classe = "Gens du peuple"; tabPnj[6].Nombre = 4; tabPnj[6].Face = 4;
+            tabPnj[7].Classe = "Guerrier"; tabPnj[7].Nombre = 1; tabPnj[7].Face = 8;
+            tabPnj[8].Classe = "Homme d'armes"; tabPnj[8].Nombre = 2; tabPnj[8].Face = 4;
+            tabPnj[9].Classe = "Magicien"; tabPnj[9].Nombre = 1; tabPnj[9].Face = 4;
+            tabPnj[10].Classe = "Moine"; tabPnj[10].Nombre = 1; tabPnj[10].Face = 4;
+            tabPnj[11].Classe = "Noble"; tabPnj[11].Nombre = 1; tabPnj[12].Face = 4;
+            tabPnj[12].Classe = "Paladin"; tabPnj[12].Nombre = 1; tabPnj[13].Face = 3;
+            tabPnj[13].Classe = "Prêtre"; tabPnj[13].Nombre = 1; tabPnj[14].Face = 6;
+            tabPnj[14].Classe = "Rôdeur"; tabPnj[14].Nombre = 1; tabPnj[15].Face = 3;
+            tabPnj[15].Classe = "Roublard"; tabPnj[15].Nombre = 1; tabPnj[15].Face = 8;
+
+            var modificateur = 0;
+            if (PopCount >= 0)
+            {
+                modificateur = -3;
+            }
+            if (PopCount > 80)
+            {
+                modificateur = -2;
+            }
+            if (PopCount > 400)
+            {
+                modificateur = -1;
+            }
+            if (PopCount > 900)
+            {
+                modificateur = 0;
+            }
+            if (PopCount > 2000)
+            {
+                modificateur = 3;
+            }
+            if (PopCount > 5000)
+            {
+                modificateur = 6;
+            }
+            if (PopCount > 12000)
+            {
+                modificateur = 9;
+            }
+            if (PopCount > 25000)
+            {
+                modificateur = 12;
+            }
+            int nombre = Math.Max(1, Convert.ToInt32(modificateur / 3));
+            var totalPnj = 0;
+
+            var niveauCommandant = 0;
+            var pnjs = new StringBuilder();
+            for (int j = 0; j < tabPnj.Length - 1; j++)
+            {
+                int bonusModificateur = 0;
+                if ((j == 3 || j == 14) && modificateur < -1)
+                {
+                    if (DiceRoll(1, 20, 0) == 20)
+                    {
+                        bonusModificateur = 10;
+                    }
+                }
+                var niveauPnj = new int[20];
+                var niveau = 0;
+                for (int i = 0; i < nombre; i++)
+                {
+                    niveau = DiceRoll(tabPnj[j].Nombre, tabPnj[j].Face, modificateur + bonusModificateur, niveauPnj.Length - 1);
+                    if (niveau > 0)
+                    {
+                        niveauPnj[niveau] = niveauPnj[niveau] + 1;
+                        totalPnj += 1;
+                        int multiplicateur = 1;
+                        do
+                        {
+                            multiplicateur *= 2;
+                            niveau = Convert.ToInt32((niveau + 1) / 2);
+                            if (!(niveau == 1 &&
+                                (tabPnj[j].Classe == "Adepte" ||
+                                tabPnj[j].Classe == "Expert" ||
+                                tabPnj[j].Classe == "Gens du peuple" ||
+                                tabPnj[j].Classe == "Homme d'armes" ||
+                                tabPnj[j].Classe == "Noble")))
+                            {
+                                niveauPnj[niveau] = niveauPnj[niveau] + multiplicateur;
+                                totalPnj += multiplicateur;
+                            }
+                        } while (niveau > 1);
+                    }
+                    int k = 0;
+                    if (niveau > 0)
+                    {
+                        pnjs.Append(tabPnj[j].Classe + " : ");
+                        for (i = niveauPnj.Length - 1; i > 0; i--)
+                        {
+                            if (niveauPnj[i] != 0)
+                            {
+                                if (k != 0)
+                                {
+                                    pnjs.Append(", ");
+                                }
+                                else
+                                {
+                                    k++;
+                                }
+                                pnjs.Append($"{niveauPnj[i]} de niveau {i}");
+                            }
+                        }
+                    }
+                    k = -1;
+                    if (j == Convert.ToInt32(commandant))
+                    {
+                        for (int l = niveauPnj.Length - 1; l > 0; l--)
+                        {
+                            if (niveauPnj[l] != 0)
+                            {
+                                if ((commandant - Convert.ToInt32(commandant)) * 10 < 1)
+                                {
+                                    niveauCommandant = l;
+                                    break;
+                                }
+                                else if (k != -1)
+                                {
+                                    niveauCommandant = l;
+                                    break;
+                                }
+                                else
+                                {
+                                    k = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (niveau > 0)
+                {
+                    pnjs.Append(Environment.NewLine);
+                }
+            }
+
+            double reste = PopCount - totalPnj;
+            pnjs.Append($"{Environment.NewLine}Les classes de Pnj de niveau 1{Environment.NewLine}");
+            pnjs.Append($"Gens du peuple : {GetZeroIfNegative(Convert.ToInt32(0.91 * reste))}{Environment.NewLine}");
+            pnjs.Append($"Homme d'armes : {GetZeroIfNegative(Convert.ToInt32(0.05 * reste))}{Environment.NewLine}");
+            pnjs.Append($"Expert : {GetZeroIfNegative(Convert.ToInt32(0.03 * reste))}{Environment.NewLine}");
+            pnjs.Append($"Adepte : {GetZeroIfNegative(Convert.ToInt32(0.005 * reste))}{Environment.NewLine}");
+            pnjs.Append($"Noble : {GetZeroIfNegative(Convert.ToInt32(0.005 * reste))}{Environment.NewLine}");
+
+            pnjs.Append($"{Environment.NewLine}Commandant de la garde/prévôt{Environment.NewLine}");
+            if (niveauCommandant > 0)
+            {
+                if (commandant == 8.1)
+                {
+                    pnjs.Append($"Homme d'armes du plus haut niveau {niveauCommandant}{Environment.NewLine}");
+                }
+                else if (commandant == 7.2)
+                {
+                    pnjs.Append($"Deuxième guerrier de la communauté {niveauCommandant}{Environment.NewLine}");
+                }
+                if (commandant == 7.1)
+                {
+                    pnjs.Append($"Guerrier de plus haut niveau {niveauCommandant}{Environment.NewLine}");
+                }
+            }
+            else
+            {
+                pnjs.Append($"Il n'y a aucun guerrier ou homme d'armes dans cette communauté, choisir un autre PNJ{Environment.NewLine}");
+            }
+            return pnjs.ToString();
+        }
+
+        private static int GetZeroIfNegative(int expr)
+        {
+            if (expr < 0)
+            {
+                return 0;
+            }
+            return expr;
         }
 
         private string Instances()
         {
-            var Nombre = 1;
+            var number = 1;
 
             if (PopCount > 5000)
             {
-                Nombre = Nombre + 1;
+                number += 1;
             }
             if (PopCount > 12000)
             {
-                Nombre = Nombre + 1;
+                number += 1;
             }
             if (PopCount > 25000)
             {
-                Nombre = Nombre + 1;
+                number += 1;
             }
 
-            var D20 = 0;
-            var instances = "";
-            for (int i = 0; i < Nombre; i++)
+            var d20 = 0;
+            var instances = new StringBuilder();
+            for (int i = 1; i <= number; i++)
             {
-                if (string.IsNullOrWhiteSpace(instances) == false)
+                if (instances.Length > 0)
                 {
-                    instances = instances + ", ";
+                    instances.Append(Environment.NewLine);
                 }
                 if (PopCount >= 0)
                 {
-                    D20 = Des(1, 20, -1);
+                    d20 = DiceRoll(1, 20, -1);
                 }
                 if (PopCount > 80)
                 {
-                    D20 = Des(1, 20, 0);
+                    d20 = DiceRoll(1, 20, 0);
                 }
                 if (PopCount > 400)
                 {
-                    D20 = Des(1, 20, 1);
+                    d20 = DiceRoll(1, 20, 1);
                 }
                 if (PopCount > 900)
                 {
-                    D20 = Des(1, 20, 2);
+                    d20 = DiceRoll(1, 20, 2);
                 }
                 if (PopCount > 2000)
                 {
-                    D20 = Des(1, 20, 3);
+                    d20 = DiceRoll(1, 20, 3);
                 }
                 if (PopCount > 5000)
                 {
-                    D20 = Des(1, 20, 4);
+                    d20 = DiceRoll(1, 20, 4);
                 }
                 if (PopCount > 12000)
                 {
-                    D20 = Des(1, 20, 5);
+                    d20 = DiceRoll(1, 20, 5);
                 }
                 if (PopCount > 25000)
                 {
-                    D20 = Des(1, 20, 6);
+                    d20 = DiceRoll(1, 20, 6);
                 }
-                if (D20 < 14)
+                if (d20 < 14)
                 {
-                    instances = instances + "Traditionnel";
-                    if (Des(1, 20, 0) == 20)
+                    instances.Append("Traditionnel");
+                    if (DiceRoll(1, 20, 0) == 20)
                     {
-                        instances = instances + " et influence monstrueuse";
+                        instances.Append(" et influence monstrueuse");
+                    }
+                }
+                else
+                {
+                    if (d20 > 18)
+                    {
+                        instances.Append("Magique");
                     }
                     else
                     {
-                        if (D20 > 18)
-                        {
-                            instances = instances + "Magique";
-                        }
-                        else
-                        {
-                            instances = instances + "Inhabituel";
-                        }
+                        instances.Append("Inhabituel");
                     }
                 }
-                instances = instances + " d'alignement " + Alignement();
+                instances.Append($" d'alignement {GetAlignement()}");
             }
 
-            return instances;
+            return instances.ToString();
         }
 
-        private static int Des(int nombre, int face, int plus)
+        private static int DiceRoll(int nombre, int face, int plus, int maxValue = 0)
         {
-            var des = 0;
+            var dice = 0;
             for (int i = 0; i < nombre; i++)
             {
-                des = des + Convert.ToInt32(face * StaticRNG.RNG.Next()) + 1;
+                if (maxValue != 0)
+                {
+                    dice = dice + Convert.ToInt32(face * StaticRNG.RNG.Next(0, maxValue)) + 1;
+                }
+                else
+                {
+                    dice = dice + Convert.ToInt32(face * StaticRNG.RNG.Next()) + 1;
+                }
             }
-            des = des + plus;
-            return des;
+            dice += plus;
+            if (maxValue != 0 && dice > maxValue)
+            {
+                dice = maxValue;
+            }
+            return dice;
         }
 
-        private static string Alignement()
+        private static string GetAlignement()
         {
-            var D100 = 0;
-
-            D100 = Des(1, 100, 0);
-
-            var alignement = "";
-
-            if (D100 > 0)
+            var d100 = DiceRoll(1, 100, 0);
+            if (d100 > 0)
             {
-                alignement = "Loyal bon";
+                return "Loyal bon";
             }
-            if (D100 > 35)
+            if (d100 > 35)
             {
-                alignement = "Neutre bon";
+                return "Neutre bon";
             }
-            if (D100 > 39)
+            if (d100 > 39)
             {
-                alignement = "Chaotique bon";
+                return "Chaotique bon";
             }
-            if (D100 > 41)
+            if (d100 > 41)
             {
-                alignement = "Loyal neutre";
+                return "Loyal neutre";
             }
-            if (D100 > 61)
+            if (d100 > 61)
             {
-                alignement = "Neutre";
+                return "Neutre";
             }
-            if (D100 > 63)
+            if (d100 > 63)
             {
-                alignement = "Chaotique neutre";
+                return "Chaotique neutre";
             }
-            if (D100 > 64)
+            if (d100 > 64)
             {
-                alignement = "Loyal mauvais";
+                return "Loyal mauvais";
             }
-            if (D100 > 90)
+            if (d100 > 90)
             {
-                alignement = "Neutre mauvais";
+                return "Neutre mauvais";
             }
-            if (D100 > 98)
+            if (d100 > 98)
             {
-                alignement = "Chaotique mauvais";
+                return "Chaotique mauvais";
             }
 
-            return alignement;
+            return "Chaotique bon";
         }
 
-        private string Race()
+        private string GetRaces()
         {
-            var race = "";
+            var race = new StringBuilder();
             if (TownType == "Isolée")
             {
-                race = race + "Humains : " + Convert.ToInt32(PopCount * 0.96) + Environment.NewLine;
-                race = race + "Halfelins : " + Convert.ToInt32(PopCount * 0.02) + Environment.NewLine;
-                race = race + "Elfes : " + Convert.ToInt32(PopCount * 0.1) + Environment.NewLine;
-                race = race + "Autres races : " + Convert.ToInt32(PopCount * 0.01) + Environment.NewLine;
+                race.Append($"Humains : {Convert.ToInt32(PopCount * 0.96)}{Environment.NewLine}");
+                race.Append($"Halfelins : {Convert.ToInt32(PopCount * 0.02)}{Environment.NewLine}");
+                race.Append($"Elfes : {Convert.ToInt32(PopCount * 0.1)}{Environment.NewLine}");
+                race.Append($"Autres races : {Convert.ToInt32(PopCount * 0.01)}{Environment.NewLine}");
             }
             else if (TownType == "Ouverte")
             {
-                race = race + "Humains : " + Convert.ToInt32(PopCount * 0.79) + Environment.NewLine;
-                race = race + "Halfelins : " + Convert.ToInt32(PopCount * 0.09) + Environment.NewLine;
-                race = race + "Elfes : " + Convert.ToInt32(PopCount * 0.05) + Environment.NewLine;
-                race = race + "Nains : " + Convert.ToInt32(PopCount * 0.03) + Environment.NewLine;
-                race = race + "Gnomes : " + Convert.ToInt32(PopCount * 0.02) + Environment.NewLine;
-                race = race + "Demi-elfes : " + Convert.ToInt32(PopCount * 0.01) + Environment.NewLine;
-                race = race + "Demi-orques : " + Convert.ToInt32(PopCount * 0.01) + Environment.NewLine;
+                race.Append($"Humains : {Convert.ToInt32(PopCount * 0.79)}{Environment.NewLine}");
+                race.Append($"Halfelins : {Convert.ToInt32(PopCount * 0.09)}{Environment.NewLine}");
+                race.Append($"Elfes : {Convert.ToInt32(PopCount * 0.05)}{Environment.NewLine}");
+                race.Append($"Nains : {Convert.ToInt32(PopCount * 0.03)}{Environment.NewLine}");
+                race.Append($"Gnomes : {Convert.ToInt32(PopCount * 0.02)}{Environment.NewLine}");
+                race.Append($"Demi-elfes : {Convert.ToInt32(PopCount * 0.01)}{Environment.NewLine}");
+                race.Append($"Demi-orques : {Convert.ToInt32(PopCount * 0.01)}{Environment.NewLine}");
             }
             else if (TownType == "Intégrée")
             {
-                race = race + "Humains : " + Convert.ToInt32(PopCount * 0.37) + Environment.NewLine;
-                race = race + "Halfelins : " + Convert.ToInt32(PopCount * 0.2) + Environment.NewLine;
-                race = race + "Elfes : " + Convert.ToInt32(PopCount * 0.18) + Environment.NewLine;
-                race = race + "Nains : " + Convert.ToInt32(PopCount * 0.1) + Environment.NewLine;
-                race = race + "Gnomes : " + Convert.ToInt32(PopCount * 0.07) + Environment.NewLine;
-                race = race + "Demi-elfes : " + Convert.ToInt32(PopCount * 0.05) + Environment.NewLine;
-                race = race + "Demi-orques : " + Convert.ToInt32(PopCount * 0.03) + Environment.NewLine;
+                race.Append($"Humains : {Convert.ToInt32(PopCount * 0.37)}{Environment.NewLine}");
+                race.Append($"Halfelins : {Convert.ToInt32(PopCount * 0.2)}{Environment.NewLine}");
+                race.Append($"Elfes : {Convert.ToInt32(PopCount * 0.18)}{Environment.NewLine}");
+                race.Append($"Nains : {Convert.ToInt32(PopCount * 0.1)}{Environment.NewLine}");
+                race.Append($"Gnomes : {Convert.ToInt32(PopCount * 0.07)}{Environment.NewLine}");
+                race.Append($"Demi-elfes : {Convert.ToInt32(PopCount * 0.05)}{Environment.NewLine}");
+                race.Append($"Demi-orques : {Convert.ToInt32(PopCount * 0.03)}{Environment.NewLine}");
             }
-            return race;
+            return race.ToString();
         }
 
-        private double RevenuPremiere()
+        private double GetRevenuFactor()
         {
             if (PopCount <= 80)
             {
@@ -278,7 +496,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             return 10 * PopCount * 0.2;
         }
 
-        private double RevenuOr()
+        private double GetGoldRevenu()
         {
             if (PopCount <= 80)
             {
@@ -311,7 +529,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             return 10 * PopCount * 0.8;
         }
 
-        private double Revenu()
+        private double GetRevenu()
         {
             if (PopCount <= 80)
             {
@@ -344,7 +562,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             return 10 * PopCount;
         }
 
-        private long LiquiditeDisponible()
+        private long GetLiquiditeDisponible()
         {
             if (PopCount <= 80)
             {
@@ -377,7 +595,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             return 5000 * PopCount;
         }
 
-        private long LimiteFinanciere()
+        private long GetLimiteFinanciere()
         {
             if (PopCount <= 0)
             {
@@ -414,7 +632,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             return 100000;
         }
 
-        private string TypeVille()
+        private string GetTypeVille()
         {
             if (PopCount <= 80)
             {
