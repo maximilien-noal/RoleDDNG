@@ -28,33 +28,33 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical" Grid.Row="0">
             <Menu>
-                <MenuItem Header="Fichier">
-                    <MenuItem Header="Assistant création personnage" InputGestureText="Ctrl + N"></MenuItem>
-                    <MenuItem Header="Gestion des personnages" InputGestureText="Ctrl + P"></MenuItem>
-                    <MenuItem Header="Accéder aux fiches des personnages" InputGestureText="Ctrl + F"></MenuItem>
-                    <MenuItem Header="Gestion des objets" InputGestureText="Ctrl + I"></MenuItem>
+                <MenuItem Header="_Fichier">
+                    <MenuItem Header="_Assistant création personnage" InputGestureText="Ctrl + N"></MenuItem>
+                    <MenuItem Header="_Gestion des personnages" InputGestureText="Ctrl + P"></MenuItem>
+                    <MenuItem Header="_Accéder aux fiches des personnages" InputGestureText="Ctrl + F"></MenuItem>
+                    <MenuItem Header="_Gestion des objets" InputGestureText="Ctrl + I"></MenuItem>
                     <Separator />
-                    <MenuItem Header="Importation des personnages" InputGestureText="Ctrl + M"></MenuItem>
+                    <MenuItem Header="_Importation des personnages" InputGestureText="Ctrl + M"></MenuItem>
                     <Separator />
-                    <MenuItem Header="Ouvrir une base de données de personnages" InputGestureText="Ctrl + O"></MenuItem>
+                    <MenuItem Header="_Ouvrir une base de données de personnages" InputGestureText="Ctrl + O"></MenuItem>
                     <Separator />
-                    <MenuItem Header="Quitter" InputGestureText="Alt + F4" Click="ExitMenuItem_Click"></MenuItem>
+                    <MenuItem Header="_Quitter" InputGestureText="Alt + F4" Click="ExitMenuItem_Click"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="Outils">
-                    <MenuItem Header="Expérience des personnages" InputGestureText="Ctrl + X"></MenuItem>
-                    <MenuItem Header="Générateur de villes" InputGestureText="Ctrl + G" Command="{Binding ShowTownGeneratorWindow}"></MenuItem>
-                    <MenuItem Header="Lanceur de dés" InputGestureText="Ctrl + D" Command="{Binding ShowDiceRollWindow}"></MenuItem>
+                <MenuItem Header="_Outils">
+                    <MenuItem Header="_Expérience des personnages" InputGestureText="Ctrl + X"></MenuItem>
+                    <MenuItem Header="_Générateur de villes" InputGestureText="Ctrl + G" Command="{Binding ShowTownGeneratorWindow}"></MenuItem>
+                    <MenuItem Header="_Lanceur de dés" InputGestureText="Ctrl + D" Command="{Binding ShowDiceRollWindow}"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="Règles" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                    <MenuItem Header="Description des sorts" InputGestureText="Ctrl + S"></MenuItem>
-                    <MenuItem Header="Description des races" InputGestureText="Ctrl + R"></MenuItem>
-                    <MenuItem Header="Description des dons"  InputGestureText="Ctrl + T"></MenuItem>
+                <MenuItem Header="_Règles" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <MenuItem Header="_Description des sorts" InputGestureText="Ctrl + S"></MenuItem>
+                    <MenuItem Header="_Description des races" InputGestureText="Ctrl + R"></MenuItem>
+                    <MenuItem Header="_Description des dons"  InputGestureText="Ctrl + T"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="Aide">
-                    <MenuItem Header="Astuce du jour" />
-                    <MenuItem Header="Lien vers le site" />
-                    <MenuItem Header="Vérifier les mises à jour" />
-                    <MenuItem Header="À propos de RoleDD" InputGestureText="F1" Click="AboutMenuItem_Click" />
+                <MenuItem Header="_Aide">
+                    <MenuItem Header="_Astuce du jour" />
+                    <MenuItem Header="_Lien vers le site" />
+                    <MenuItem Header="_Vérifier les mises à jour" />
+                    <MenuItem Header="_À propos de RoleDD" InputGestureText="F1" Click="AboutMenuItem_Click" />
                 </MenuItem>
             </Menu>
         </StackPanel>
