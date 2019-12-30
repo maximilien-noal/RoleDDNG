@@ -7,7 +7,7 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=TownGenerator}"
              mc:Ignorable="d"
              Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -34,7 +34,7 @@
             <TextBlock Grid.Row="1" Grid.Column="4"  Margin="2" Text="% de dîme" />
             <TextBox Grid.Row="1" Grid.Column="5" Margin="2" MinWidth="50" Text="{Binding DimePercentage}" />
             <Button Grid.Row="2" Grid.ColumnSpan="6"  Margin="2" Content="Générer" Command="{Binding Generate}" />
-            <ScrollViewer Grid.Row="3" Grid.ColumnSpan="6">
+            <ScrollViewer Grid.Row="3" Grid.ColumnSpan="6" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <TextBox AcceptsReturn="True" IsReadOnly="True" Text="{Binding Result}" />
             </ScrollViewer>
         </Grid>

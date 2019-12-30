@@ -86,7 +86,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         private string GetPNJs()
         {
-            double commandant = Convert.ToInt32(StaticRNG.RNG.NextDouble() * 100) + 1;
+            double commandant = Convert.ToInt32(StaticRNG.LimitedRNG.NextDouble() * 100) + 1;
             if (commandant < 61)
             {
                 commandant = 8.1;
@@ -375,7 +375,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             var dice = 0;
             for (int i = 0; i < nombre; i++)
             {
-                dice += GetZeroIfNegative(Convert.ToInt32(face * StaticRNG.RNG.Next()) + 1);
+                dice += GetZeroIfNegative(Convert.ToInt32(face * StaticRNG.LimitedRNG.Next()) + 1);
             }
             dice += plus;
             return dice;

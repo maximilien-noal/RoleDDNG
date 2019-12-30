@@ -1,12 +1,12 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
 using RoleDDNG.ViewModels.Interfaces;
 using RoleDDNG.ViewModels.RNG;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace RoleDDNG.ViewModels.ToolsVMs
 {
@@ -29,7 +29,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             Results.Clear();
             for (int i = 0; i < NumberOfDices; i++)
             {
-                Results.Add(StaticRNG.RNG.Next(0, NumberofSides + 1));
+                Results.Add(StaticRNG.LimitedRNG.Next(0, NumberofSides + 1));
             }
             RaisePropertyChanged(nameof(Results));
             Sum = Results.Sum(x => x);
