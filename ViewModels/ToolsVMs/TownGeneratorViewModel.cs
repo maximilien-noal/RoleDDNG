@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+
+using AsyncAwaitBestPractices.MVVM;
 
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 
 using RoleDDNG.ViewModels.Interfaces;
 using RoleDDNG.ViewModels.RNG;
@@ -12,7 +14,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 {
     public class TownGeneratorViewModel : ViewModelBase, IContent
     {
-        public RelayCommand Generate { get; private set; }
+        public AsyncCommand Generate { get; private set; }
 
         private string _townName = "Nom";
         public string TownName { get => _townName; set { Set(nameof(TownName), ref _townName, value); } }
@@ -21,15 +23,15 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         public string TownType { get => _townType; set { Set(nameof(TownType), ref _townType, value); } }
 
-        private int _popCount = 0;
+        private int _popCount = 500;
 
         public int PopCount { get => _popCount; set { Set(nameof(PopCount), ref _popCount, value); } }
 
-        private int _taxPercentage = 0;
+        private int _taxPercentage = 10;
 
         public int TaxPercentage { get => _taxPercentage; set { Set(nameof(TaxPercentage), ref _taxPercentage, value); } }
 
-        private int _dimePercentage = 0;
+        private int _dimePercentage = 10;
 
         public int DimePercentage { get => _dimePercentage; set { Set(nameof(DimePercentage), ref _dimePercentage, value); } }
 
@@ -42,34 +44,37 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         public TownGeneratorViewModel()
         {
-            Generate = new RelayCommand(GenerateMethod);
+            Generate = new AsyncCommand(GenerateMethodAsync);
         }
 
-        private void GenerateMethod()
+        private async Task GenerateMethodAsync()
         {
-            var generatedTownInfo = new StringBuilder();
-            generatedTownInfo.Append($"{TownName}, {GetTypeVille()} de {PopCount} habitants.{Environment.NewLine}");
-            generatedTownInfo.Append($"Limite financière : {GetLimiteFinanciere()} Po{Environment.NewLine}");
-            generatedTownInfo.Append($"Liquidite disponible : {GetLiquiditeDisponible()} Po{Environment.NewLine}");
-            generatedTownInfo.Append($"{Environment.NewLine}Les revenus{Environment.NewLine}");
-            generatedTownInfo.Append($"Revenus en or : {GetGoldRevenu()} Po/mois{Environment.NewLine}");
-            generatedTownInfo.Append($"Revenus en matières premières : {GetRevenuFactor()} Po/mois{Environment.NewLine}");
-            generatedTownInfo.Append($"Revenus totaux : {GetRevenu()} Po/mois{Environment.NewLine}");
-            generatedTownInfo.Append($"{Environment.NewLine}Les impôts{Environment.NewLine}");
-            generatedTownInfo.Append($"Impôts en or : {GetGoldRevenu() * TaxPercentage / 100} Po/mois{Environment.NewLine}");
-            generatedTownInfo.Append($"Impôts en matières premières : {GetRevenuFactor() * TaxPercentage / 100} Po/mois{Environment.NewLine}");
-            generatedTownInfo.Append($"Impôts totaux : {GetRevenu() * TaxPercentage / 100} Po/mois{Environment.NewLine}");
-            generatedTownInfo.Append($"{Environment.NewLine}La dîme{Environment.NewLine}");
-            generatedTownInfo.Append($"Dîme en or : {GetGoldRevenu() * DimePercentage / 100} Po/mois{Environment.NewLine}");
-            generatedTownInfo.Append($"Dîme en matières premières : {GetRevenuFactor() * DimePercentage / 100} Po/mois{Environment.NewLine}");
-            generatedTownInfo.Append($"Dîme totaux : {GetRevenu() * DimePercentage / 100} Po/mois{Environment.NewLine}");
-            generatedTownInfo.Append($"{Environment.NewLine}Les instances{Environment.NewLine}");
-            generatedTownInfo.Append($"{Instances()}{Environment.NewLine}");
-            generatedTownInfo.Append($"{Environment.NewLine}Les PNJs{Environment.NewLine}");
-            generatedTownInfo.Append($"{GetPNJs()}");
-            generatedTownInfo.Append($"{Environment.NewLine}Mélange de races{Environment.NewLine}");
-            generatedTownInfo.Append($"{GetRaces()}{Environment.NewLine}");
-            Result = generatedTownInfo.ToString();
+            Result = await Task.Run(() =>
+            {
+                var generatedTownInfo = new StringBuilder();
+                generatedTownInfo.Append($"{TownName}, {GetTypeVille()} de {PopCount} habitants.{Environment.NewLine}");
+                generatedTownInfo.Append($"Limite financière : {GetLimiteFinanciere()} Po{Environment.NewLine}");
+                generatedTownInfo.Append($"Liquidite disponible : {GetLiquiditeDisponible()} Po{Environment.NewLine}");
+                generatedTownInfo.Append($"{Environment.NewLine}Les revenus{Environment.NewLine}");
+                generatedTownInfo.Append($"Revenus en or : {GetGoldRevenu()} Po/mois{Environment.NewLine}");
+                generatedTownInfo.Append($"Revenus en matières premières : {GetRevenuFactor()} Po/mois{Environment.NewLine}");
+                generatedTownInfo.Append($"Revenus totaux : {GetRevenu()} Po/mois{Environment.NewLine}");
+                generatedTownInfo.Append($"{Environment.NewLine}Les impôts{Environment.NewLine}");
+                generatedTownInfo.Append($"Impôts en or : {GetGoldRevenu() * TaxPercentage / 100} Po/mois{Environment.NewLine}");
+                generatedTownInfo.Append($"Impôts en matières premières : {GetRevenuFactor() * TaxPercentage / 100} Po/mois{Environment.NewLine}");
+                generatedTownInfo.Append($"Impôts totaux : {GetRevenu() * TaxPercentage / 100} Po/mois{Environment.NewLine}");
+                generatedTownInfo.Append($"{Environment.NewLine}La dîme{Environment.NewLine}");
+                generatedTownInfo.Append($"Dîme en or : {GetGoldRevenu() * DimePercentage / 100} Po/mois{Environment.NewLine}");
+                generatedTownInfo.Append($"Dîme en matières premières : {GetRevenuFactor() * DimePercentage / 100} Po/mois{Environment.NewLine}");
+                generatedTownInfo.Append($"Dîme totaux : {GetRevenu() * DimePercentage / 100} Po/mois{Environment.NewLine}");
+                generatedTownInfo.Append($"{Environment.NewLine}Les instances{Environment.NewLine}");
+                generatedTownInfo.Append($"{Instances()}{Environment.NewLine}");
+                generatedTownInfo.Append($"{Environment.NewLine}Les PNJs{Environment.NewLine}");
+                generatedTownInfo.Append($"{GetPNJs()}");
+                generatedTownInfo.Append($"{Environment.NewLine}Mélange de races{Environment.NewLine}");
+                generatedTownInfo.Append($"{GetRaces()}{Environment.NewLine}");
+                return generatedTownInfo.ToString();
+            }).ConfigureAwait(true);
         }
 
         private struct PNJ
@@ -81,11 +86,6 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         private string GetPNJs()
         {
-            //Avoid OutOfMemoryException of StringBuilder
-            if (PopCount > 1000)
-            {
-                PopCount = 1000;
-            }
             double commandant = Convert.ToInt32(StaticRNG.RNG.NextDouble() * 100) + 1;
             if (commandant < 61)
             {
@@ -123,31 +123,31 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             {
                 modificateur = -3;
             }
-            if (PopCount > 80)
+            else if (PopCount > 80)
             {
                 modificateur = -2;
             }
-            if (PopCount > 400)
+            else if (PopCount > 400)
             {
                 modificateur = -1;
             }
-            if (PopCount > 900)
+            else if (PopCount > 900)
             {
                 modificateur = 0;
             }
-            if (PopCount > 2000)
+            else if (PopCount > 2000)
             {
                 modificateur = 3;
             }
-            if (PopCount > 5000)
+            else if (PopCount > 5000)
             {
                 modificateur = 6;
             }
-            if (PopCount > 12000)
+            else if (PopCount > 12000)
             {
                 modificateur = 9;
             }
-            if (PopCount > 25000)
+            else if (PopCount > 25000)
             {
                 modificateur = 12;
             }
@@ -170,7 +170,12 @@ namespace RoleDDNG.ViewModels.ToolsVMs
                 var niveau = 0;
                 for (int i = 0; i < nombre; i++)
                 {
-                    niveau = DiceRoll(tabPnj[j].Nombre, tabPnj[j].Face, modificateur + bonusModificateur, niveauPnj.Length - 1);
+                    niveau = DiceRoll(tabPnj[j].Nombre, tabPnj[j].Face, modificateur + bonusModificateur);
+
+                    if (niveau > niveauPnj.Length - 1)
+                    {
+                        niveau = niveauPnj.Length - 1;
+                    }
                     if (niveau > 0)
                     {
                         niveauPnj[niveau] = niveauPnj[niveau] + 1;
@@ -365,25 +370,14 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             return instances.ToString();
         }
 
-        private static int DiceRoll(int nombre, int face, int plus, int maxValue = 0)
+        private static int DiceRoll(int nombre, int face, int plus)
         {
             var dice = 0;
             for (int i = 0; i < nombre; i++)
             {
-                if (maxValue != 0)
-                {
-                    dice = dice + Convert.ToInt32(face * StaticRNG.RNG.Next(0, maxValue)) + 1;
-                }
-                else
-                {
-                    dice = dice + Convert.ToInt32(face * StaticRNG.RNG.Next()) + 1;
-                }
+                dice += GetZeroIfNegative(Convert.ToInt32(face * StaticRNG.RNG.Next()) + 1);
             }
             dice += plus;
-            if (maxValue != 0 && dice > maxValue)
-            {
-                dice = maxValue;
-            }
             return dice;
         }
 
