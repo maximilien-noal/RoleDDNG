@@ -22,9 +22,9 @@ namespace RoleDDNG.ViewModels
 {
     public sealed class MainViewModel : ViewModelBase, IBusyStateNotifier
     {
-        private bool _isBusy = true;
+        private bool isBusy = true;
 
-        public bool IsBusy { get => _isBusy; set { Set(nameof(IsBusy), ref _isBusy, value); } }
+        public bool IsBusy { get => isBusy; set { Set(nameof(IsBusy), ref isBusy, value); } }
 
         private IContent _selectedWindow = default;
         public IContent SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }

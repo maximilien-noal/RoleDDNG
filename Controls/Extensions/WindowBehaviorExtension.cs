@@ -113,7 +113,9 @@ namespace Hammer.MDI.Control.Extensions
                         break;
 
                     default:
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
                         throw new NotSupportedException("Invalid WindowState");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
                 }
             }
         }

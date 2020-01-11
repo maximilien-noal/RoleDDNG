@@ -1,16 +1,15 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-
-using Hammer.MDI.Control;
-
-namespace Hammer.MdiControls.Panels
+﻿namespace Hammer.MdiControls.Panels
 {
+    using System.Windows;
+    using System.Windows.Controls;
+    using Hammer.MDI.Control;
+
     /// <summary>
-    /// A <see cref="Canvas"/> where its size is dependant of its children
+    /// A <see cref="Canvas"/> where its size is dependant of its children.
     /// </summary>
     public class AutoResizeCanvas : Canvas
     {
-        private Size _lastMeasure = new Size();
+        private Size lastMeasure = default;
 
         /// <summary>
         /// <inheritdoc/>
@@ -44,11 +43,11 @@ namespace Hammer.MdiControls.Panels
             }
             if (foundMaximizedOrMinizedWindow)
             {
-                _lastMeasure = RenderSize;
+                lastMeasure = RenderSize;
                 return new Size();
             }
-            _lastMeasure = maxRightBottomChildSize;
-            return _lastMeasure;
+            lastMeasure = maxRightBottomChildSize;
+            return lastMeasure;
         }
 
         /// <summary>
@@ -88,12 +87,12 @@ namespace Hammer.MdiControls.Panels
                 return IsLastMeasureEqualToArrangeSize(arrangeSize) == false;
             }
             var maxChildRightBottom = GetMaxRightBottomChild();
-            return _lastMeasure.Width != maxChildRightBottom.Width || _lastMeasure.Height != maxChildRightBottom.Height;
+            return lastMeasure.Width != maxChildRightBottom.Width || lastMeasure.Height != maxChildRightBottom.Height;
         }
 
         private bool IsLastMeasureEqualToArrangeSize(Size arrangeSize)
         {
-            return _lastMeasure.Width == arrangeSize.Width && _lastMeasure.Height == arrangeSize.Height;
+            return lastMeasure.Width == arrangeSize.Width && lastMeasure.Height == arrangeSize.Height;
         }
 
         private bool IsAnyInternalChildMaximizedOrMinimized()

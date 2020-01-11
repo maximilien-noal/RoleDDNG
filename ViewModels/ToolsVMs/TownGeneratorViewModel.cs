@@ -17,6 +17,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         public AsyncCommand Generate { get; private set; }
 
         private string _townName = "Nom";
+
         public string TownName { get => _townName; set { Set(nameof(TownName), ref _townName, value); } }
 
         private string _townType = "Isolée";
@@ -40,6 +41,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         public string Result { get => _result; set { Set(nameof(Result), ref _result, value); } }
 
         public static List<string> TownTypes => new List<string>(new string[] { "Isolée", "Ouverte", "Intégrée" });
+
         public string Title => "Générateur de ville";
 
         public TownGeneratorViewModel()
@@ -80,7 +82,9 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         private struct PNJ
         {
             public string Classe { get; set; }
+
             public int Nombre { get; set; }
+
             public int Face { get; set; }
         }
 
