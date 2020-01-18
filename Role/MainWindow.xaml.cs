@@ -1,8 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
+
 using GalaSoft.MvvmLight.Command;
+
 using Microsoft.VisualStudio.Threading;
 
 using RoleDDNG.Models.Structs;
@@ -19,13 +20,29 @@ namespace RoleDDNG.Role
     {
         private bool _forceClose = false;
 
-        public RelayCommand HelpCommand { get; private set; }
-
         public MainWindow()
         {
             HelpCommand = new RelayCommand(HelpCommandMethod);
             InitializeComponent();
             Closing += MainWindow_Closing;
+        }
+
+        public RelayCommand HelpCommand { get; private set; }
+
+        public void CloseForced()
+        {
+            _forceClose = true;
+            Close();
+        }
+
+        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            new AboutBox(this).ShowDialog();
+        }
+
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Close();
         }
 
         private void HelpCommandMethod()
@@ -45,22 +62,6 @@ namespace RoleDDNG.Role
                 return;
             }
             await SaveAndExitAsync().ConfigureAwait(true);
-        }
-
-        public void CloseForced()
-        {
-            _forceClose = true;
-            Close();
-        }
-
-        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            new AboutBox(this).ShowDialog();
-        }
-
-        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.MainWindow.Close();
         }
 
         private async Task SaveAndExitAsync()

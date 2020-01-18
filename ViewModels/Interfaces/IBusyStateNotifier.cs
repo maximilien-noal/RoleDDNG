@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GalaSoft.MvvmLight;
-
-namespace RoleDDNG.ViewModels.Interfaces
+﻿namespace RoleDDNG.ViewModels.Interfaces
 {
     public interface IBusyStateNotifier
     {

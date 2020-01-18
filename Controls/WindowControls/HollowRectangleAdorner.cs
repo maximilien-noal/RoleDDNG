@@ -2,7 +2,6 @@
 
 using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
@@ -21,6 +20,7 @@ namespace Hammer.MDI.Control.WindowControls
         protected override Size MeasureOverride(Size constraint)
         {
             var result = base.MeasureOverride(constraint);
+
             // ... add custom measure code here if desired ...
             InvalidateVisual();
             return result;

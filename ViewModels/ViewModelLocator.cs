@@ -13,15 +13,17 @@
 */
 
 using DataAccess;
+
 using GalaSoft.MvvmLight.Ioc;
+
 using RoleDDNG.Models.Options;
 using RoleDDNG.ViewModels.ToolsVMs;
 
 namespace RoleDDNG.ViewModels
 {
     /// <summary>
-    /// This class contains static references to all the view models in the
-    /// application and provides an entry point for the bindings.
+    /// This class contains static references to all the view models in the application and provides
+    /// an entry point for the bindings.
     /// </summary>
     public class ViewModelLocator
     {
@@ -48,21 +50,21 @@ namespace RoleDDNG.ViewModels
 
 #pragma warning disable CA1822
 
-        // Justification : class must implement a parameterless public constructor for the XAML side,
-        // where it initializes the SimpleIoc used here
-        public MainViewModel Main
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<MainViewModel>();
-            }
-        }
-
         public DiceRollViewModel DiceRoll
         {
             get
             {
                 return SimpleIoc.Default.GetInstance<DiceRollViewModel>();
+            }
+        }
+
+        // Justification : class must implement a parameterless public constructor for the XAML
+        // side, where it initializes the SimpleIoc used here
+        public MainViewModel Main
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<MainViewModel>();
             }
         }
 

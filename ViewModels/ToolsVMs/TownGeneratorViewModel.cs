@@ -14,39 +14,102 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 {
     public class TownGeneratorViewModel : ViewModelBase, IContent
     {
-        public AsyncCommand Generate { get; private set; }
-
-        private string _townName = "Nom";
-
-        public string TownName { get => _townName; set { Set(nameof(TownName), ref _townName, value); } }
-
-        private string _townType = "Isolée";
-
-        public string TownType { get => _townType; set { Set(nameof(TownType), ref _townType, value); } }
+        private int _dimePercentage = 10;
 
         private int _popCount = 500;
 
-        public int PopCount { get => _popCount; set { Set(nameof(PopCount), ref _popCount, value); } }
+        private string _result = "";
 
         private int _taxPercentage = 10;
 
-        public int TaxPercentage { get => _taxPercentage; set { Set(nameof(TaxPercentage), ref _taxPercentage, value); } }
+        private string _townName = "Nom";
 
-        private int _dimePercentage = 10;
-
-        public int DimePercentage { get => _dimePercentage; set { Set(nameof(DimePercentage), ref _dimePercentage, value); } }
-
-        private string _result = "";
-
-        public string Result { get => _result; set { Set(nameof(Result), ref _result, value); } }
-
-        public static List<string> TownTypes => new List<string>(new string[] { "Isolée", "Ouverte", "Intégrée" });
-
-        public string Title => "Générateur de ville";
+        private string _townType = "Isolée";
 
         public TownGeneratorViewModel()
         {
             Generate = new AsyncCommand(GenerateMethodAsync);
+        }
+
+        public static List<string> TownTypes => new List<string>(new string[] { "Isolée", "Ouverte", "Intégrée" });
+
+        public int DimePercentage { get => _dimePercentage; set { Set(nameof(DimePercentage), ref _dimePercentage, value); } }
+
+        public AsyncCommand Generate { get; private set; }
+
+        public int PopCount { get => _popCount; set { Set(nameof(PopCount), ref _popCount, value); } }
+
+        public string Result { get => _result; set { Set(nameof(Result), ref _result, value); } }
+
+        public int TaxPercentage { get => _taxPercentage; set { Set(nameof(TaxPercentage), ref _taxPercentage, value); } }
+
+        public string Title => "Générateur de ville";
+
+        public string TownName { get => _townName; set { Set(nameof(TownName), ref _townName, value); } }
+
+        public string TownType { get => _townType; set { Set(nameof(TownType), ref _townType, value); } }
+
+        private static int DiceRoll(int nombre, int face, int plus)
+        {
+            var dice = 0;
+            for (int i = 0; i < nombre; i++)
+            {
+                dice += GetZeroIfNegative(Convert.ToInt32(face * StaticRNG.LimitedRNG.Next()) + 1);
+            }
+            dice += plus;
+            return dice;
+        }
+
+        private static string GetAlignement()
+        {
+            var d100 = DiceRoll(1, 100, 0);
+            if (d100 > 0)
+            {
+                return "Loyal bon";
+            }
+            if (d100 > 35)
+            {
+                return "Neutre bon";
+            }
+            if (d100 > 39)
+            {
+                return "Chaotique bon";
+            }
+            if (d100 > 41)
+            {
+                return "Loyal neutre";
+            }
+            if (d100 > 61)
+            {
+                return "Neutre";
+            }
+            if (d100 > 63)
+            {
+                return "Chaotique neutre";
+            }
+            if (d100 > 64)
+            {
+                return "Loyal mauvais";
+            }
+            if (d100 > 90)
+            {
+                return "Neutre mauvais";
+            }
+            if (d100 > 98)
+            {
+                return "Chaotique mauvais";
+            }
+
+            return "Chaotique bon";
+        }
+
+        private static int GetZeroIfNegative(int expr)
+        {
+            if (expr < 0)
+            {
+                return 0;
+            }
+            return expr;
         }
 
         private async Task GenerateMethodAsync()
@@ -79,13 +142,107 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             }).ConfigureAwait(true);
         }
 
-        private struct PNJ
+        private double GetGoldRevenu()
         {
-            public string Classe { get; set; }
+            if (PopCount <= 80)
+            {
+                return 2.5 * PopCount * 0.05;
+            }
+            if (PopCount <= 400)
+            {
+                return 3 * PopCount * 0.1;
+            }
+            if (PopCount <= 900)
+            {
+                return 3.7 * PopCount * 0.2;
+            }
+            if (PopCount <= 2000)
+            {
+                return 4.5 * PopCount * 0.3;
+            }
+            if (PopCount <= 5000)
+            {
+                return 5.5 * PopCount * 0.4;
+            }
+            if (PopCount <= 12000)
+            {
+                return 6.7 * PopCount * 0.5;
+            }
+            if (PopCount <= 25000)
+            {
+                return 8.2 * PopCount * 0.65;
+            }
+            return 10 * PopCount * 0.8;
+        }
 
-            public int Nombre { get; set; }
+        private long GetLimiteFinanciere()
+        {
+            if (PopCount <= 0)
+            {
+                return 0;
+            }
+            if (PopCount <= 80)
+            {
+                return 40;
+            }
+            if (PopCount <= 400)
+            {
+                return 100;
+            }
+            if (PopCount <= 900)
+            {
+                return 200;
+            }
+            if (PopCount <= 2000)
+            {
+                return 800;
+            }
+            if (PopCount <= 5000)
+            {
+                return 3000;
+            }
+            if (PopCount <= 12000)
+            {
+                return 15000;
+            }
+            if (PopCount <= 25000)
+            {
+                return 40000;
+            }
+            return 100000;
+        }
 
-            public int Face { get; set; }
+        private long GetLiquiditeDisponible()
+        {
+            if (PopCount <= 80)
+            {
+                return 2 * PopCount;
+            }
+            if (PopCount <= 400)
+            {
+                return 5 * PopCount;
+            }
+            if (PopCount <= 900)
+            {
+                return 10 * PopCount;
+            }
+            if (PopCount <= 2000)
+            {
+                return 40 * PopCount;
+            }
+            if (PopCount <= 5000)
+            {
+                return 150 * PopCount;
+            }
+            if (PopCount <= 12000)
+            {
+                return 750 * PopCount;
+            }
+            if (PopCount <= 25000)
+            {
+                return 2000 * PopCount;
+            }
+            return 5000 * PopCount;
         }
 
         private string GetPNJs()
@@ -283,13 +440,136 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             return pnjs.ToString();
         }
 
-        private static int GetZeroIfNegative(int expr)
+        private string GetRaces()
         {
-            if (expr < 0)
+            var race = new StringBuilder();
+            if (TownType == "Isolée")
             {
-                return 0;
+                race.Append($"Humains : {Convert.ToInt32(PopCount * 0.96)}{Environment.NewLine}");
+                race.Append($"Halfelins : {Convert.ToInt32(PopCount * 0.02)}{Environment.NewLine}");
+                race.Append($"Elfes : {Convert.ToInt32(PopCount * 0.1)}{Environment.NewLine}");
+                race.Append($"Autres races : {Convert.ToInt32(PopCount * 0.01)}{Environment.NewLine}");
             }
-            return expr;
+            else if (TownType == "Ouverte")
+            {
+                race.Append($"Humains : {Convert.ToInt32(PopCount * 0.79)}{Environment.NewLine}");
+                race.Append($"Halfelins : {Convert.ToInt32(PopCount * 0.09)}{Environment.NewLine}");
+                race.Append($"Elfes : {Convert.ToInt32(PopCount * 0.05)}{Environment.NewLine}");
+                race.Append($"Nains : {Convert.ToInt32(PopCount * 0.03)}{Environment.NewLine}");
+                race.Append($"Gnomes : {Convert.ToInt32(PopCount * 0.02)}{Environment.NewLine}");
+                race.Append($"Demi-elfes : {Convert.ToInt32(PopCount * 0.01)}{Environment.NewLine}");
+                race.Append($"Demi-orques : {Convert.ToInt32(PopCount * 0.01)}{Environment.NewLine}");
+            }
+            else if (TownType == "Intégrée")
+            {
+                race.Append($"Humains : {Convert.ToInt32(PopCount * 0.37)}{Environment.NewLine}");
+                race.Append($"Halfelins : {Convert.ToInt32(PopCount * 0.2)}{Environment.NewLine}");
+                race.Append($"Elfes : {Convert.ToInt32(PopCount * 0.18)}{Environment.NewLine}");
+                race.Append($"Nains : {Convert.ToInt32(PopCount * 0.1)}{Environment.NewLine}");
+                race.Append($"Gnomes : {Convert.ToInt32(PopCount * 0.07)}{Environment.NewLine}");
+                race.Append($"Demi-elfes : {Convert.ToInt32(PopCount * 0.05)}{Environment.NewLine}");
+                race.Append($"Demi-orques : {Convert.ToInt32(PopCount * 0.03)}{Environment.NewLine}");
+            }
+            return race.ToString();
+        }
+
+        private double GetRevenu()
+        {
+            if (PopCount <= 80)
+            {
+                return 2.5 * PopCount;
+            }
+            if (PopCount <= 400)
+            {
+                return 3 * PopCount;
+            }
+            if (PopCount <= 900)
+            {
+                return 3.7 * PopCount;
+            }
+            if (PopCount <= 2000)
+            {
+                return 4.5 * PopCount;
+            }
+            if (PopCount <= 5000)
+            {
+                return 5.5 * PopCount;
+            }
+            if (PopCount <= 12000)
+            {
+                return 6.7 * PopCount;
+            }
+            if (PopCount <= 25000)
+            {
+                return 8.2 * PopCount;
+            }
+            return 10 * PopCount;
+        }
+
+        private double GetRevenuFactor()
+        {
+            if (PopCount <= 80)
+            {
+                return 2.5 * PopCount * 0.95;
+            }
+            if (PopCount <= 400)
+            {
+                return 3 * PopCount * 0.9;
+            }
+            if (PopCount <= 900)
+            {
+                return 3.7 * PopCount * 0.8;
+            }
+            if (PopCount <= 2000)
+            {
+                return 4.5 * PopCount * 0.7;
+            }
+            if (PopCount <= 5000)
+            {
+                return 5.5 * PopCount * 0.6;
+            }
+            if (PopCount <= 12000)
+            {
+                return 6.7 * PopCount * 0.5;
+            }
+            if (PopCount <= 25000)
+            {
+                return 8.2 * PopCount * 0.35;
+            }
+            return 10 * PopCount * 0.2;
+        }
+
+        private string GetTypeVille()
+        {
+            if (PopCount <= 80)
+            {
+                return "Lieu dit";
+            }
+            if (PopCount <= 400)
+            {
+                return "Hameau";
+            }
+            if (PopCount <= 900)
+            {
+                return "Village";
+            }
+            if (PopCount <= 2000)
+            {
+                return "Bourg";
+            }
+            if (PopCount <= 5000)
+            {
+                return "Ville";
+            }
+            if (PopCount <= 12000)
+            {
+                return "Grande ville";
+            }
+            if (PopCount <= 25000)
+            {
+                return "Cité";
+            }
+            return "Métropole";
         }
 
         private string Instances()
@@ -374,293 +654,13 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             return instances.ToString();
         }
 
-        private static int DiceRoll(int nombre, int face, int plus)
+        private struct PNJ
         {
-            var dice = 0;
-            for (int i = 0; i < nombre; i++)
-            {
-                dice += GetZeroIfNegative(Convert.ToInt32(face * StaticRNG.LimitedRNG.Next()) + 1);
-            }
-            dice += plus;
-            return dice;
-        }
+            public string Classe { get; set; }
 
-        private static string GetAlignement()
-        {
-            var d100 = DiceRoll(1, 100, 0);
-            if (d100 > 0)
-            {
-                return "Loyal bon";
-            }
-            if (d100 > 35)
-            {
-                return "Neutre bon";
-            }
-            if (d100 > 39)
-            {
-                return "Chaotique bon";
-            }
-            if (d100 > 41)
-            {
-                return "Loyal neutre";
-            }
-            if (d100 > 61)
-            {
-                return "Neutre";
-            }
-            if (d100 > 63)
-            {
-                return "Chaotique neutre";
-            }
-            if (d100 > 64)
-            {
-                return "Loyal mauvais";
-            }
-            if (d100 > 90)
-            {
-                return "Neutre mauvais";
-            }
-            if (d100 > 98)
-            {
-                return "Chaotique mauvais";
-            }
+            public int Face { get; set; }
 
-            return "Chaotique bon";
-        }
-
-        private string GetRaces()
-        {
-            var race = new StringBuilder();
-            if (TownType == "Isolée")
-            {
-                race.Append($"Humains : {Convert.ToInt32(PopCount * 0.96)}{Environment.NewLine}");
-                race.Append($"Halfelins : {Convert.ToInt32(PopCount * 0.02)}{Environment.NewLine}");
-                race.Append($"Elfes : {Convert.ToInt32(PopCount * 0.1)}{Environment.NewLine}");
-                race.Append($"Autres races : {Convert.ToInt32(PopCount * 0.01)}{Environment.NewLine}");
-            }
-            else if (TownType == "Ouverte")
-            {
-                race.Append($"Humains : {Convert.ToInt32(PopCount * 0.79)}{Environment.NewLine}");
-                race.Append($"Halfelins : {Convert.ToInt32(PopCount * 0.09)}{Environment.NewLine}");
-                race.Append($"Elfes : {Convert.ToInt32(PopCount * 0.05)}{Environment.NewLine}");
-                race.Append($"Nains : {Convert.ToInt32(PopCount * 0.03)}{Environment.NewLine}");
-                race.Append($"Gnomes : {Convert.ToInt32(PopCount * 0.02)}{Environment.NewLine}");
-                race.Append($"Demi-elfes : {Convert.ToInt32(PopCount * 0.01)}{Environment.NewLine}");
-                race.Append($"Demi-orques : {Convert.ToInt32(PopCount * 0.01)}{Environment.NewLine}");
-            }
-            else if (TownType == "Intégrée")
-            {
-                race.Append($"Humains : {Convert.ToInt32(PopCount * 0.37)}{Environment.NewLine}");
-                race.Append($"Halfelins : {Convert.ToInt32(PopCount * 0.2)}{Environment.NewLine}");
-                race.Append($"Elfes : {Convert.ToInt32(PopCount * 0.18)}{Environment.NewLine}");
-                race.Append($"Nains : {Convert.ToInt32(PopCount * 0.1)}{Environment.NewLine}");
-                race.Append($"Gnomes : {Convert.ToInt32(PopCount * 0.07)}{Environment.NewLine}");
-                race.Append($"Demi-elfes : {Convert.ToInt32(PopCount * 0.05)}{Environment.NewLine}");
-                race.Append($"Demi-orques : {Convert.ToInt32(PopCount * 0.03)}{Environment.NewLine}");
-            }
-            return race.ToString();
-        }
-
-        private double GetRevenuFactor()
-        {
-            if (PopCount <= 80)
-            {
-                return 2.5 * PopCount * 0.95;
-            }
-            if (PopCount <= 400)
-            {
-                return 3 * PopCount * 0.9;
-            }
-            if (PopCount <= 900)
-            {
-                return 3.7 * PopCount * 0.8;
-            }
-            if (PopCount <= 2000)
-            {
-                return 4.5 * PopCount * 0.7;
-            }
-            if (PopCount <= 5000)
-            {
-                return 5.5 * PopCount * 0.6;
-            }
-            if (PopCount <= 12000)
-            {
-                return 6.7 * PopCount * 0.5;
-            }
-            if (PopCount <= 25000)
-            {
-                return 8.2 * PopCount * 0.35;
-            }
-            return 10 * PopCount * 0.2;
-        }
-
-        private double GetGoldRevenu()
-        {
-            if (PopCount <= 80)
-            {
-                return 2.5 * PopCount * 0.05;
-            }
-            if (PopCount <= 400)
-            {
-                return 3 * PopCount * 0.1;
-            }
-            if (PopCount <= 900)
-            {
-                return 3.7 * PopCount * 0.2;
-            }
-            if (PopCount <= 2000)
-            {
-                return 4.5 * PopCount * 0.3;
-            }
-            if (PopCount <= 5000)
-            {
-                return 5.5 * PopCount * 0.4;
-            }
-            if (PopCount <= 12000)
-            {
-                return 6.7 * PopCount * 0.5;
-            }
-            if (PopCount <= 25000)
-            {
-                return 8.2 * PopCount * 0.65;
-            }
-            return 10 * PopCount * 0.8;
-        }
-
-        private double GetRevenu()
-        {
-            if (PopCount <= 80)
-            {
-                return 2.5 * PopCount;
-            }
-            if (PopCount <= 400)
-            {
-                return 3 * PopCount;
-            }
-            if (PopCount <= 900)
-            {
-                return 3.7 * PopCount;
-            }
-            if (PopCount <= 2000)
-            {
-                return 4.5 * PopCount;
-            }
-            if (PopCount <= 5000)
-            {
-                return 5.5 * PopCount;
-            }
-            if (PopCount <= 12000)
-            {
-                return 6.7 * PopCount;
-            }
-            if (PopCount <= 25000)
-            {
-                return 8.2 * PopCount;
-            }
-            return 10 * PopCount;
-        }
-
-        private long GetLiquiditeDisponible()
-        {
-            if (PopCount <= 80)
-            {
-                return 2 * PopCount;
-            }
-            if (PopCount <= 400)
-            {
-                return 5 * PopCount;
-            }
-            if (PopCount <= 900)
-            {
-                return 10 * PopCount;
-            }
-            if (PopCount <= 2000)
-            {
-                return 40 * PopCount;
-            }
-            if (PopCount <= 5000)
-            {
-                return 150 * PopCount;
-            }
-            if (PopCount <= 12000)
-            {
-                return 750 * PopCount;
-            }
-            if (PopCount <= 25000)
-            {
-                return 2000 * PopCount;
-            }
-            return 5000 * PopCount;
-        }
-
-        private long GetLimiteFinanciere()
-        {
-            if (PopCount <= 0)
-            {
-                return 0;
-            }
-            if (PopCount <= 80)
-            {
-                return 40;
-            }
-            if (PopCount <= 400)
-            {
-                return 100;
-            }
-            if (PopCount <= 900)
-            {
-                return 200;
-            }
-            if (PopCount <= 2000)
-            {
-                return 800;
-            }
-            if (PopCount <= 5000)
-            {
-                return 3000;
-            }
-            if (PopCount <= 12000)
-            {
-                return 15000;
-            }
-            if (PopCount <= 25000)
-            {
-                return 40000;
-            }
-            return 100000;
-        }
-
-        private string GetTypeVille()
-        {
-            if (PopCount <= 80)
-            {
-                return "Lieu dit";
-            }
-            if (PopCount <= 400)
-            {
-                return "Hameau";
-            }
-            if (PopCount <= 900)
-            {
-                return "Village";
-            }
-            if (PopCount <= 2000)
-            {
-                return "Bourg";
-            }
-            if (PopCount <= 5000)
-            {
-                return "Ville";
-            }
-            if (PopCount <= 12000)
-            {
-                return "Grande ville";
-            }
-            if (PopCount <= 25000)
-            {
-                return "Cité";
-            }
-            return "Métropole";
+            public int Nombre { get; set; }
         }
     }
 }

@@ -1,15 +1,14 @@
-﻿using Hammer.MDI.Control.Events;
-using Hammer.MDI.Control.Extensions;
-using Hammer.MDI.Control.WindowControls;
-using Hammer.MdiControls.Panels;
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+
+using Hammer.MDI.Control.Events;
+using Hammer.MDI.Control.Extensions;
+using Hammer.MDI.Control.WindowControls;
+using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control
 {
@@ -28,70 +27,142 @@ namespace Hammer.MDI.Control
     [DebuggerDisplay("{Title}")]
     public sealed class MdiWindow : ContentControl
     {
-        internal double LastTop { get; set; }
-        internal double LastLeft { get; set; }
-        internal double LastWidth { get; set; }
-        internal double LastHeight { get; set; }
+        public static readonly RoutedEvent ClosingEvent = EventManager.RegisterRoutedEvent(
+            "Closing", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
-        internal MdiContainer Container { get; private set; }
-        internal WindowState PreviousWindowState { get; set; }
+        public static readonly RoutedEvent FocusChangedEvent = EventManager.RegisterRoutedEvent(
+           "FocusChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
-        public Image Tumblr { get; private set; }
+        public static readonly DependencyProperty HasDropShadowProperty =
+            DependencyProperty.Register("HasDropShadow", typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(true));
+
+        public static readonly DependencyProperty IsModalProperty =
+            DependencyProperty.Register("IsModal", typeof(bool?), typeof(MdiWindow), new UIPropertyMetadata(IsModalChangedCallback));
+
+        public static readonly DependencyProperty IsSelectedProperty =
+            DependencyProperty.Register("IsSelected", typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(false));
+
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(string), typeof(MdiWindow), new PropertyMetadata(string.Empty));
+
+        public static readonly RoutedEvent WindowStateChangedEvent = EventManager.RegisterRoutedEvent(
+           "WindowStateChanged", RoutingStrategy.Bubble, typeof(WindowStateChangedRoutedEventHandler), typeof(MdiWindow));
+
+        public static readonly DependencyProperty WindowStateProperty =
+            DependencyProperty.Register("WindowState", typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
 
         private WindowButton _closeButton;
+
         private WindowButton _maximizeButton;
+
         private WindowButton _minimizeButton;
 
-        public MdiWindow()
-        {
-            _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
-        }
+        private Adorner _myAdorner;
+
+        private AdornerLayer _myAdornerLayer;
 
         static MdiWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MdiWindow), new FrameworkPropertyMetadata(typeof(MdiWindow)));
         }
 
-        private AdornerLayer _myAdornerLayer;
-
-        internal void Initialize(MdiContainer container)
+        public MdiWindow()
         {
-            Container = container;
-            Container.SizeChanged += OnContainerSizeChanged;
-            LastHeight = ActualHeight;
-            LastWidth = ActualWidth;
+            _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
         }
 
-        public void Position()
+        public delegate void WindowStateChangedRoutedEventHandler(object sender, WindowStateChangedEventArgs e);
+
+        public event RoutedEventHandler Closing
         {
-            var actualContainerHeight = Container.ActualHeight;
-            var actualContainerWidth = Container.ActualWidth;
-            UpdateLayout();
-            InvalidateMeasure();
-            var actualWidth = ActualWidth;
-            var actualHeight = ActualHeight;
-
-            var left = Math.Max(0, (actualContainerWidth - actualWidth) / 4);
-            var top = Math.Max(0, (actualContainerHeight - actualHeight) / 4);
-
-            SetValue(AutoResizeCanvas.LeftProperty, left);
-            SetValue(AutoResizeCanvas.TopProperty, top);
+            add { AddHandler(ClosingEvent, value); }
+            remove { RemoveHandler(ClosingEvent, value); }
         }
 
-        private void OnContainerSizeChanged(object sender, SizeChangedEventArgs e)
+        public event RoutedEventHandler FocusChanged
         {
-            if (WindowState == WindowState.Maximized)
-            {
-                Width += e.NewSize.Width - e.PreviousSize.Width;
-                Height += e.NewSize.Height - e.PreviousSize.Height;
+            add { AddHandler(FocusChangedEvent, value); }
+            remove { RemoveHandler(FocusChangedEvent, value); }
+        }
 
-                this.RemoveWindowLock();
+        public event WindowStateChangedRoutedEventHandler WindowStateChanged
+        {
+            add { AddHandler(WindowStateChangedEvent, value); }
+            remove { RemoveHandler(WindowStateChangedEvent, value); }
+        }
+
+        public bool HasDropShadow
+        {
+            get { return (bool)GetValue(HasDropShadowProperty); }
+            set { SetValue(HasDropShadowProperty, value); }
+        }
+
+        public bool IsModal
+        {
+            get
+            {
+                return (bool)GetValue(IsModalProperty);
             }
 
-            if (WindowState == WindowState.Minimized)
+            set
             {
-                AutoResizeCanvas.SetTop(this, Container.ActualHeight - 32);
+                if (value)
+                {
+                    if (_myAdornerLayer == null)
+                        _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
+                    if (_myAdorner == null)
+                    {
+                        _myAdorner = new HollowRectangleAdorner(this);
+                    }
+                    _myAdornerLayer.Add(_myAdorner);
+                }
+                else
+                {
+                    _myAdornerLayer?.Remove(_myAdorner);
+                }
+                if (Container != null)
+                    Container.IsModal = value;
+
+                SetValue(IsModalProperty, value);
             }
+        }
+
+        public bool IsSelected
+        {
+            get { return (bool)GetValue(IsSelectedProperty); }
+
+            set { SetValue(IsSelectedProperty, value); }
+        }
+
+        public string Title
+        {
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        public Image Tumblr { get; private set; }
+
+        public WindowState WindowState
+        {
+            get { return (WindowState)GetValue(WindowStateProperty); }
+            set { SetValue(WindowStateProperty, value); }
+        }
+
+        internal MdiContainer Container { get; private set; }
+
+        internal double LastHeight { get; set; }
+
+        internal double LastLeft { get; set; }
+
+        internal double LastTop { get; set; }
+
+        internal double LastWidth { get; set; }
+
+        internal WindowState PreviousWindowState { get; set; }
+
+        public void DoFocus(MouseButtonEventArgs mouseButtonEventArgs)
+        {
+            OnMouseLeftButtonDown(mouseButtonEventArgs);
         }
 
         public override void OnApplyTemplate()
@@ -117,135 +188,38 @@ namespace Hammer.MDI.Control
             Tumblr = GetTemplateChild("PART_Tumblr") as Image;
         }
 
-        public bool IsSelected
+        public void Position()
         {
-            get { return (bool)GetValue(IsSelectedProperty); }
-            set
-            {
-                SetValue(IsSelectedProperty, value);
-            }
+            var actualContainerHeight = Container.ActualHeight;
+            var actualContainerWidth = Container.ActualWidth;
+            UpdateLayout();
+            InvalidateMeasure();
+            var actualWidth = ActualWidth;
+            var actualHeight = ActualHeight;
+
+            var left = Math.Max(0, (actualContainerWidth - actualWidth) / 4);
+            var top = Math.Max(0, (actualContainerHeight - actualHeight) / 4);
+
+            SetValue(AutoResizeCanvas.LeftProperty, left);
+            SetValue(AutoResizeCanvas.TopProperty, top);
         }
 
-        private Adorner _myAdorner;
-
-        public bool IsModal
+        internal void Initialize(MdiContainer container)
         {
-            get { return (bool)GetValue(IsModalProperty); }
-            set
-            {
-                if (value)
-                {
-                    if (_myAdornerLayer == null)
-                        _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
-                    if (_myAdorner == null)
-                    {
-                        _myAdorner = new HollowRectangleAdorner(this);
-                    }
-                    _myAdornerLayer.Add(_myAdorner);
-                }
-                else
-                {
-                    _myAdornerLayer?.Remove(_myAdorner);
-                }
-                if (Container != null)
-                    Container.IsModal = value;
-
-                SetValue(IsModalProperty, value);
-            }
+            Container = container;
+            Container.SizeChanged += OnContainerSizeChanged;
+            LastHeight = ActualHeight;
+            LastWidth = ActualWidth;
         }
 
-        public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register("IsSelected", typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(false));
-
-        public static readonly DependencyProperty IsModalProperty =
-            DependencyProperty.Register("IsModal", typeof(bool?), typeof(MdiWindow), new UIPropertyMetadata(IsModalChangedCallback));
-
-        private static void IsModalChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            if (e.NewValue == null) return;
-            ((MdiWindow)d).IsModal = (bool)e.NewValue;
-        }
+            base.OnGotKeyboardFocus(e);
 
-        public string Title
-        {
-            get { return (string)GetValue(TitleProperty); }
-            set { SetValue(TitleProperty, value); }
-        }
-
-        public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(MdiWindow), new PropertyMetadata(string.Empty));
-
-        public WindowState WindowState
-        {
-            get { return (WindowState)GetValue(WindowStateProperty); }
-            set { SetValue(WindowStateProperty, value); }
-        }
-
-        public static readonly DependencyProperty WindowStateProperty =
-            DependencyProperty.Register("WindowState", typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
-
-        public static readonly RoutedEvent ClosingEvent = EventManager.RegisterRoutedEvent(
-            "Closing", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
-
-        public event RoutedEventHandler Closing
-        {
-            add { AddHandler(ClosingEvent, value); }
-            remove { RemoveHandler(ClosingEvent, value); }
-        }
-
-        public static readonly RoutedEvent FocusChangedEvent = EventManager.RegisterRoutedEvent(
-           "FocusChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
-
-        public event RoutedEventHandler FocusChanged
-        {
-            add { AddHandler(FocusChangedEvent, value); }
-            remove { RemoveHandler(FocusChangedEvent, value); }
-        }
-
-        public bool HasDropShadow
-        {
-            get { return (bool)GetValue(HasDropShadowProperty); }
-            set { SetValue(HasDropShadowProperty, value); }
-        }
-
-        public static readonly DependencyProperty HasDropShadowProperty =
-            DependencyProperty.Register("HasDropShadow", typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(true));
-
-        public delegate void WindowStateChangedRoutedEventHandler(object sender, WindowStateChangedEventArgs e);
-
-        public static readonly RoutedEvent WindowStateChangedEvent = EventManager.RegisterRoutedEvent(
-           "WindowStateChanged", RoutingStrategy.Bubble, typeof(WindowStateChangedRoutedEventHandler), typeof(MdiWindow));
-
-        public event WindowStateChangedRoutedEventHandler WindowStateChanged
-        {
-            add { AddHandler(WindowStateChangedEvent, value); }
-            remove { RemoveHandler(WindowStateChangedEvent, value); }
-        }
-
-        private static void OnWindowStateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            if (obj is MdiWindow window)
-            {
-                window.PreviousWindowState = (WindowState)e.OldValue;
-
-                var args = new WindowStateChangedEventArgs(WindowStateChangedEvent, (WindowState)e.OldValue, (WindowState)e.NewValue);
-                window.RaiseEvent(args);
-            }
-        }
-
-        public void DoFocus(MouseButtonEventArgs mouseButtonEventArgs)
-        {
-            OnMouseLeftButtonDown(mouseButtonEventArgs);
-        }
-
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
             IsSelected = true;
             Panel.SetZIndex(this, 2);
-            RaiseEvent(new RoutedEventArgs(FocusChangedEvent, DataContext));
 
-            Focus();
+            RaiseEvent(new RoutedEventArgs(FocusChangedEvent, DataContext));
         }
 
         protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
@@ -267,14 +241,52 @@ namespace Hammer.MDI.Control
             }
         }
 
-        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            base.OnGotKeyboardFocus(e);
-
+            base.OnMouseLeftButtonDown(e);
             IsSelected = true;
             Panel.SetZIndex(this, 2);
-
             RaiseEvent(new RoutedEventArgs(FocusChangedEvent, DataContext));
+
+            Focus();
+        }
+
+        private static void IsModalChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue == null) return;
+            ((MdiWindow)d).IsModal = (bool)e.NewValue;
+        }
+
+        private static void OnWindowStateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            if (obj is MdiWindow window)
+            {
+                window.PreviousWindowState = (WindowState)e.OldValue;
+
+                var args = new WindowStateChangedEventArgs(WindowStateChangedEvent, (WindowState)e.OldValue, (WindowState)e.NewValue);
+                window.RaiseEvent(args);
+            }
+        }
+
+        private void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(ClosingEvent));
+        }
+
+        private void OnContainerSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                Width += e.NewSize.Width - e.PreviousSize.Width;
+                Height += e.NewSize.Height - e.PreviousSize.Height;
+
+                this.RemoveWindowLock();
+            }
+
+            if (WindowState == WindowState.Minimized)
+            {
+                AutoResizeCanvas.SetTop(this, Container.ActualHeight - 32);
+            }
         }
 
         private void ToggleMaximizeWindow(object sender, RoutedEventArgs e)
@@ -287,11 +299,6 @@ namespace Hammer.MDI.Control
         {
             Focus();
             this.ToggleMinimize();
-        }
-
-        private void CloseWindow(object sender, RoutedEventArgs e)
-        {
-            RaiseEvent(new RoutedEventArgs(ClosingEvent));
         }
     }
 }

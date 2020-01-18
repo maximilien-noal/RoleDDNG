@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace RoleDDNG.Models.Structs
@@ -12,10 +11,15 @@ namespace RoleDDNG.Models.Structs
     public struct WindowPlacement : IEquatable<WindowPlacement>
     {
         public int Length { get; set; }
+
         public int Flags { get; set; }
+
         public int ShowCmd { get; set; }
+
         public Point MinPosition { get; set; }
+
         public Point MaxPosition { get; set; }
+
         public Rect NormalPosition { get; set; }
 
         /// <inheritdoc />

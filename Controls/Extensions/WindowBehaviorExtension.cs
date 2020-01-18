@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -28,16 +27,6 @@ namespace Hammer.MDI.Control.Extensions
             window.WindowState = WindowState.Maximized;
         }
 
-        public static void Normalize(this MdiWindow window)
-        {
-            AutoResizeCanvas.SetTop(window, window.LastTop);
-            AutoResizeCanvas.SetLeft(window, window.LastLeft);
-
-            AnimateResize(window, window.LastWidth, window.LastHeight, false);
-
-            window.WindowState = WindowState.Normal;
-        }
-
         public static void Minimize(this MdiWindow window)
         {
             var index = window.Container.MinimizedWindowsCount;
@@ -60,21 +49,20 @@ namespace Hammer.MDI.Control.Extensions
             window.Tumblr.Source = window.CreateSnapshot();
         }
 
-        private static void AnimateResize(MdiWindow window, double newWidth, double newHeight, bool lockWindow)
+        public static void Normalize(this MdiWindow window)
         {
-            window.LayoutTransform = new ScaleTransform();
+            AutoResizeCanvas.SetTop(window, window.LastTop);
+            AutoResizeCanvas.SetLeft(window, window.LastLeft);
 
-            var widthAnimation = new DoubleAnimation(window.ActualWidth, newWidth, new Duration(TimeSpan.FromMilliseconds(10)));
-            var heightAnimation = new DoubleAnimation(window.ActualHeight, newHeight, new Duration(TimeSpan.FromMilliseconds(10)));
+            AnimateResize(window, window.LastWidth, window.LastHeight, false);
 
-            if (lockWindow == false)
-            {
-                widthAnimation.Completed += (s, e) => window.BeginAnimation(FrameworkElement.WidthProperty, null);
-                heightAnimation.Completed += (s, e) => window.BeginAnimation(FrameworkElement.HeightProperty, null);
-            }
+            window.WindowState = WindowState.Normal;
+        }
 
-            window.BeginAnimation(FrameworkElement.WidthProperty, widthAnimation, HandoffBehavior.Compose);
-            window.BeginAnimation(FrameworkElement.HeightProperty, heightAnimation, HandoffBehavior.Compose);
+        public static void RemoveWindowLock(this MdiWindow window)
+        {
+            window.BeginAnimation(FrameworkElement.WidthProperty, null);
+            window.BeginAnimation(FrameworkElement.HeightProperty, null);
         }
 
         public static void ToggleMaximize(this MdiWindow window)
@@ -120,10 +108,21 @@ namespace Hammer.MDI.Control.Extensions
             }
         }
 
-        public static void RemoveWindowLock(this MdiWindow window)
+        private static void AnimateResize(MdiWindow window, double newWidth, double newHeight, bool lockWindow)
         {
-            window.BeginAnimation(FrameworkElement.WidthProperty, null);
-            window.BeginAnimation(FrameworkElement.HeightProperty, null);
+            window.LayoutTransform = new ScaleTransform();
+
+            var widthAnimation = new DoubleAnimation(window.ActualWidth, newWidth, new Duration(TimeSpan.FromMilliseconds(10)));
+            var heightAnimation = new DoubleAnimation(window.ActualHeight, newHeight, new Duration(TimeSpan.FromMilliseconds(10)));
+
+            if (lockWindow == false)
+            {
+                widthAnimation.Completed += (s, e) => window.BeginAnimation(FrameworkElement.WidthProperty, null);
+                heightAnimation.Completed += (s, e) => window.BeginAnimation(FrameworkElement.HeightProperty, null);
+            }
+
+            window.BeginAnimation(FrameworkElement.WidthProperty, widthAnimation, HandoffBehavior.Compose);
+            window.BeginAnimation(FrameworkElement.HeightProperty, heightAnimation, HandoffBehavior.Compose);
         }
     }
 }

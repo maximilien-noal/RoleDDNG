@@ -8,6 +8,7 @@ namespace RoleDDNG.Models.Structs
     public struct Point : IEquatable<Point>
     {
         public int X { get; set; }
+
         public int Y { get; set; }
 
         public Point(int x, int y)

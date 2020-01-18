@@ -22,20 +22,21 @@ namespace RoleDDNG.ViewModels
 {
     public sealed class MainViewModel : ViewModelBase, IBusyStateNotifier
     {
-        private bool isBusy = true;
-
-        public bool IsBusy { get => isBusy; set { Set(nameof(IsBusy), ref isBusy, value); } }
-
-        private IContent _selectedWindow = default;
-        public IContent SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
-
         private readonly string _appSettingsFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RoleDDNG\\ROLE.CFG");
+
+        private readonly List<string> _backgrounds = new List<string>();
+
+        private readonly IAsyncSerializer<AppSettings> _settingsSerializer;
 
         private AppSettings _appSettings = new AppSettings();
 
-        public AppSettings AppSettings { get => _appSettings; set { Set(nameof(AppSettings), ref _appSettings, value); } }
+        private string _backgroundSource = "Assets/backgrounds/original.png";
 
-        private readonly IAsyncSerializer<AppSettings> _settingsSerializer;
+        private ObservableCollection<IContent> _items = new ObservableCollection<IContent>();
+
+        private IContent _selectedWindow = default;
+
+        private bool isBusy = true;
 
         public MainViewModel(IAsyncSerializer<AppSettings> serializer)
         {
@@ -90,25 +91,23 @@ namespace RoleDDNG.ViewModels
             IsBusy = false;
         }
 
+        public AppSettings AppSettings { get => _appSettings; set { Set(nameof(AppSettings), ref _appSettings, value); } }
+
+        public string BackgroundSource { get => _backgroundSource; private set { Set(nameof(BackgroundSource), ref _backgroundSource, value); } }
+
+        public IAsyncCommand ExitApp { get; private set; }
+
+        public bool IsBusy { get => isBusy; set { Set(nameof(IsBusy), ref isBusy, value); } }
+
+        public ObservableCollection<IContent> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
+
         public IAsyncCommand LoadAppSettings { get; private set; }
 
-        private async Task LoadAppSettingsMethodAsync()
-        {
-            if (File.Exists(_appSettingsFilePath))
-            {
-                AppSettings = await _settingsSerializer.DeserializeAsync(_appSettingsFilePath).ConfigureAwait(true);
-            }
-        }
+        public IContent SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
 
-        private void ShowTownGeneratorWindowMethod()
-        {
-            AddMdiWindow<TownGeneratorViewModel>();
-        }
+        public RelayCommand ShowDiceRollWindow { get; private set; }
 
-        private void ShowDiceRollWindowMethod()
-        {
-            AddMdiWindow<DiceRollViewModel>();
-        }
+        public RelayCommand ShowTownGeneratorWindow { get; private set; }
 
         private void AddMdiWindow<T>() where T : IContent, new()
         {
@@ -118,22 +117,6 @@ namespace RoleDDNG.ViewModels
                 Items.Add(viewModel);
             }
         }
-
-        private readonly List<string> _backgrounds = new List<string>();
-
-        private string _backgroundSource = "Assets/backgrounds/original.png";
-
-        public string BackgroundSource { get => _backgroundSource; private set { Set(nameof(BackgroundSource), ref _backgroundSource, value); } }
-
-        private ObservableCollection<IContent> _items = new ObservableCollection<IContent>();
-
-        public ObservableCollection<IContent> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
-
-        public RelayCommand ShowDiceRollWindow { get; private set; }
-        public RelayCommand ShowTownGeneratorWindow { get; private set; }
-
-#pragma warning disable CA1822 // Static bindings work, but make the designer view throw an error.
-        public IAsyncCommand ExitApp { get; private set; }
 
         private async Task ExitAppMethodAsync()
         {
@@ -146,6 +129,26 @@ namespace RoleDDNG.ViewModels
             await _settingsSerializer.SerializeAsync(_appSettingsFilePath, AppSettings).ConfigureAwait(false);
             IsBusy = false;
         }
+
+        private async Task LoadAppSettingsMethodAsync()
+        {
+            if (File.Exists(_appSettingsFilePath))
+            {
+                AppSettings = await _settingsSerializer.DeserializeAsync(_appSettingsFilePath).ConfigureAwait(true);
+            }
+        }
+
+        private void ShowDiceRollWindowMethod()
+        {
+            AddMdiWindow<DiceRollViewModel>();
+        }
+
+        private void ShowTownGeneratorWindowMethod()
+        {
+            AddMdiWindow<TownGeneratorViewModel>();
+        }
+
+#pragma warning disable CA1822 // Static bindings work, but make the designer view throw an error.
     }
 
 #pragma warning restore CA1822

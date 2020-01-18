@@ -12,6 +12,14 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 {
     public class DiceRollViewModel : ViewModelBase, IContent
     {
+        private int _numberOfDices = 1;
+
+        private int _numberOfSides = 6;
+
+        private ObservableCollection<int> _results = new ObservableCollection<int>();
+
+        private int _sum = 0;
+
         public DiceRollViewModel()
         {
             DiceTypes.Add(4);
@@ -24,6 +32,20 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             Roll = new RelayCommand(Roll_Execute);
         }
 
+        public List<int> DiceTypes { get; private set; } = new List<int>();
+
+        public int NumberOfDices { get => _numberOfDices; set { Set(nameof(NumberOfDices), ref _numberOfDices, value); } }
+
+        public int NumberofSides { get => _numberOfSides; set { Set(nameof(NumberofSides), ref _numberOfSides, value); } }
+
+        public ObservableCollection<int> Results { get => _results; private set { Set(nameof(Results), ref _results, value); } }
+
+        public RelayCommand Roll { get; private set; }
+
+        public int Sum { get => _sum; set { Set(nameof(Sum), ref _sum, value); } }
+
+        public string Title => "Lanceur de dés";
+
         private void Roll_Execute()
         {
             Results.Clear();
@@ -34,26 +56,5 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             RaisePropertyChanged(nameof(Results));
             Sum = Results.Sum(x => x);
         }
-
-        public string Title => "Lanceur de dés";
-
-        private int _numberOfDices = 1;
-
-        public int NumberOfDices { get => _numberOfDices; set { Set(nameof(NumberOfDices), ref _numberOfDices, value); } }
-
-        private int _numberOfSides = 6;
-
-        public int NumberofSides { get => _numberOfSides; set { Set(nameof(NumberofSides), ref _numberOfSides, value); } }
-
-        private int _sum = 0;
-
-        public int Sum { get => _sum; set { Set(nameof(Sum), ref _sum, value); } }
-
-        private ObservableCollection<int> _results = new ObservableCollection<int>();
-        public ObservableCollection<int> Results { get => _results; private set { Set(nameof(Results), ref _results, value); } }
-
-        public RelayCommand Roll { get; private set; }
-
-        public List<int> DiceTypes { get; private set; } = new List<int>();
     }
 }
