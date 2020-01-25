@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-using AsyncAwaitBestPractices.MVVM;
+﻿using AsyncAwaitBestPractices.MVVM;
 
 using GalaSoft.MvvmLight;
 
 using RoleDDNG.ViewModels.Interfaces;
 using RoleDDNG.ViewModels.RNG;
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.ToolsVMs
 {
@@ -151,14 +151,14 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             {
                 modificateur = 12;
             }
-            int nombre = Math.Max(1, Convert.ToInt32(modificateur / 3));
+            var nombre = Math.Max(1, Convert.ToInt32(modificateur / 3));
             var totalPnj = 0;
 
             var niveauCommandant = 0;
             var pnjs = new StringBuilder();
             for (int j = 0; j < tabPnj.Length - 1; j++)
             {
-                int bonusModificateur = 0;
+                var bonusModificateur = 0;
                 if ((j == 3 || j == 14) && modificateur < -1)
                 {
                     if (DiceRoll(1, 20, 0) == 20)
@@ -180,7 +180,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
                     {
                         niveauPnj[niveau] = niveauPnj[niveau] + 1;
                         totalPnj += 1;
-                        int multiplicateur = 1;
+                        var multiplicateur = 1;
                         do
                         {
                             multiplicateur *= 2;
@@ -197,7 +197,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
                             }
                         } while (niveau > 1);
                     }
-                    int k = 0;
+                    var k = 0;
                     if (niveau > 0)
                     {
                         pnjs.Append(tabPnj[j].Classe + " : ");

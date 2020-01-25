@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.Win32;
+
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Security.Principal;
 using System.Windows;
-
-using Microsoft.Win32;
 
 namespace RoleDDNG.Role
 {
@@ -31,7 +31,7 @@ namespace RoleDDNG.Role
             public static void RemoveAdonisResources(ResourceDictionary rootResourceDictionary)
             {
                 Uri[] adonisResources = { ClassicTheme };
-                ResourceDictionary currentTheme = FindFirstContainedResourceDictionaryByUri(rootResourceDictionary, adonisResources);
+                var currentTheme = FindFirstContainedResourceDictionaryByUri(rootResourceDictionary, adonisResources);
 
                 if (currentTheme != null)
                 {
@@ -59,9 +59,9 @@ namespace RoleDDNG.Role
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exception")]
             public static void SetColorScheme(ResourceDictionary rootResourceDictionary, Uri colorSchemeResourceUri, Uri currentColorSchemeResourceUri = null)
             {
-                Uri[] knownColorSchemes = currentColorSchemeResourceUri != null ? new[] { currentColorSchemeResourceUri } : new[] { LightColorScheme, DarkColorScheme };
+                var knownColorSchemes = currentColorSchemeResourceUri != null ? new[] { currentColorSchemeResourceUri } : new[] { LightColorScheme, DarkColorScheme };
 
-                ResourceDictionary currentTheme = FindFirstContainedResourceDictionaryByUri(rootResourceDictionary, knownColorSchemes);
+                var currentTheme = FindFirstContainedResourceDictionaryByUri(rootResourceDictionary, knownColorSchemes);
 
                 if (currentTheme != null)
                 {
@@ -117,7 +117,7 @@ namespace RoleDDNG.Role
         private void WatchTheme()
         {
             var currentUser = WindowsIdentity.GetCurrent();
-            string query = string.Format(
+            var query = string.Format(
                 CultureInfo.InvariantCulture,
                 @"SELECT * FROM RegistryValueChangeEvent WHERE Hive = 'HKEY_USERS' AND KeyPath = '{0}\\{1}' AND ValueName = '{2}'",
                 currentUser.User.Value,
@@ -126,7 +126,6 @@ namespace RoleDDNG.Role
 
             using var watcher = new ManagementEventWatcher(query);
             watcher.EventArrived += Watcher_EventArrived;
-
             watcher.Start();
         }
 
@@ -147,14 +146,14 @@ namespace RoleDDNG.Role
 
         private static Uri GetWindowsTheme()
         {
-            using RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
-            object registryValueObject = key?.GetValue(RegistryValueName);
+            var key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
+            var registryValueObject = key?.GetValue(RegistryValueName);
             if (registryValueObject == null)
             {
                 return ResourceLocator.LightColorScheme;
             }
 
-            int registryValue = (int)registryValueObject;
+            var registryValue = (int)registryValueObject;
 
             return registryValue > 0 ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme;
         }

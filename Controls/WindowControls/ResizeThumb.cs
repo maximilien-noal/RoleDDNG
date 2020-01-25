@@ -1,8 +1,8 @@
 ﻿using Hammer.MDI.Control.Extensions;
 using Hammer.MdiControls.Panels;
+
 using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace Hammer.MDI.Control.WindowControls
@@ -40,6 +40,9 @@ namespace Hammer.MDI.Control.WindowControls
                         AutoResizeCanvas.SetTop(window, AutoResizeCanvas.GetTop(window) + deltaVertical);
                         window.Height -= deltaVertical;
                         break;
+
+                    default:
+                        throw new Exception("Unexpected Case");
                 }
 
                 switch (HorizontalAlignment)
@@ -53,6 +56,15 @@ namespace Hammer.MDI.Control.WindowControls
                     case HorizontalAlignment.Right:
                         deltaHorizontal = Math.Min(-e.HorizontalChange, window.ActualWidth - window.MinWidth);
                         window.Width -= deltaHorizontal;
+                        break;
+
+                    case HorizontalAlignment.Center:
+                        break;
+
+                    case HorizontalAlignment.Stretch:
+                        break;
+
+                    default:
                         break;
                 }
             }

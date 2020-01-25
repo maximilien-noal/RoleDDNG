@@ -2,12 +2,11 @@
 using Hammer.MDI.Control.Extensions;
 using Hammer.MDI.Control.WindowControls;
 using Hammer.MdiControls.Panels;
+
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 
@@ -155,10 +154,10 @@ namespace Hammer.MDI.Control
         }
 
         public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register("IsSelected", typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(false));
+            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(false));
 
         public static readonly DependencyProperty IsModalProperty =
-            DependencyProperty.Register("IsModal", typeof(bool?), typeof(MdiWindow), new UIPropertyMetadata(IsModalChangedCallback));
+            DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiWindow), new UIPropertyMetadata(IsModalChangedCallback));
 
         private static void IsModalChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -173,7 +172,7 @@ namespace Hammer.MDI.Control
         }
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(MdiWindow), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(Title), typeof(string), typeof(MdiWindow), new PropertyMetadata(string.Empty));
 
         public WindowState WindowState
         {
@@ -182,10 +181,10 @@ namespace Hammer.MDI.Control
         }
 
         public static readonly DependencyProperty WindowStateProperty =
-            DependencyProperty.Register("WindowState", typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
+            DependencyProperty.Register(nameof(WindowState), typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
 
         public static readonly RoutedEvent ClosingEvent = EventManager.RegisterRoutedEvent(
-            "Closing", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
+            nameof(Closing), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
         public event RoutedEventHandler Closing
         {
@@ -194,7 +193,7 @@ namespace Hammer.MDI.Control
         }
 
         public static readonly RoutedEvent FocusChangedEvent = EventManager.RegisterRoutedEvent(
-           "FocusChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
+           nameof(FocusChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
         public event RoutedEventHandler FocusChanged
         {
@@ -209,12 +208,12 @@ namespace Hammer.MDI.Control
         }
 
         public static readonly DependencyProperty HasDropShadowProperty =
-            DependencyProperty.Register("HasDropShadow", typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(true));
+            DependencyProperty.Register(nameof(HasDropShadow), typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(true));
 
         public delegate void WindowStateChangedRoutedEventHandler(object sender, WindowStateChangedEventArgs e);
 
         public static readonly RoutedEvent WindowStateChangedEvent = EventManager.RegisterRoutedEvent(
-           "WindowStateChanged", RoutingStrategy.Bubble, typeof(WindowStateChangedRoutedEventHandler), typeof(MdiWindow));
+           nameof(WindowStateChanged), RoutingStrategy.Bubble, typeof(WindowStateChangedRoutedEventHandler), typeof(MdiWindow));
 
         public event WindowStateChangedRoutedEventHandler WindowStateChanged
         {

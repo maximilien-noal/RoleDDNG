@@ -29,7 +29,7 @@ namespace Hammer.MDI.Control
         }
 
         public static readonly DependencyProperty IsModalProperty =
-            DependencyProperty.Register("IsModal", typeof(bool?), typeof(MdiContainer), new UIPropertyMetadata(IsModalChangedCallback));
+            DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiContainer), new UIPropertyMetadata(IsModalChangedCallback));
 
         private static void IsModalChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

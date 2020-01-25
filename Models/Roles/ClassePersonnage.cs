@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using GalaSoft.MvvmLight;
 
-using GalaSoft.MvvmLight;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RoleDDNG.Models.Roles
 {
-    [Table("Classe")]
+    [Table(nameof(Classe))]
     public class ClassePersonnage : ObservableObject
     {
         private string _classe = "";

@@ -19,6 +19,6 @@ namespace Hammer.MDI.Control.WindowControls
         }
 
         public static readonly DependencyProperty IconProperty =
-            DependencyProperty.Register("Icon", typeof(Brush), typeof(WindowButton), new UIPropertyMetadata(Brushes.Transparent));
+            DependencyProperty.Register(nameof(Icon), typeof(Brush), typeof(WindowButton), new UIPropertyMetadata(Brushes.Transparent));
     }
 }
