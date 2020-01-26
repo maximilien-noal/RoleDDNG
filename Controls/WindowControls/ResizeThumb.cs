@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 using Hammer.MDI.Control.Extensions;
-using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control.WindowControls
 {
@@ -37,7 +37,7 @@ namespace Hammer.MDI.Control.WindowControls
 
                     case VerticalAlignment.Top:
                         deltaVertical = Math.Min(e.VerticalChange, window.ActualHeight - window.MinHeight);
-                        AutoResizeCanvas.SetTop(window, AutoResizeCanvas.GetTop(window) + deltaVertical);
+                        Canvas.SetTop(window, Canvas.GetTop(window) + deltaVertical);
                         window.Height -= deltaVertical;
                         break;
 
@@ -49,7 +49,7 @@ namespace Hammer.MDI.Control.WindowControls
                 {
                     case HorizontalAlignment.Left:
                         var deltaHorizontal = Math.Min(e.HorizontalChange, window.ActualWidth - window.MinWidth);
-                        AutoResizeCanvas.SetLeft(window, AutoResizeCanvas.GetLeft(window) + deltaHorizontal);
+                        Canvas.SetLeft(window, Canvas.GetLeft(window) + deltaHorizontal);
                         window.Width -= deltaHorizontal;
                         break;
 

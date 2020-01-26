@@ -2,10 +2,9 @@
 
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-
-using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control.WindowControls
 {
@@ -43,8 +42,8 @@ namespace Hammer.MDI.Control.WindowControls
             };
             var renderPen = new Pen(new SolidColorBrush(Colors.Transparent), 0);
 
-            var x = Math.Max(0, AutoResizeCanvas.GetLeft(AdornedElement));
-            var y = Math.Max(0, AutoResizeCanvas.GetTop(AdornedElement));
+            var x = Math.Max(0, Canvas.GetLeft(AdornedElement));
+            var y = Math.Max(0, Canvas.GetTop(AdornedElement));
             var w = AdornedElement.DesiredSize.Width;
             var h = AdornedElement.DesiredSize.Height;
             var ww = (AdornedElement as MdiWindow).Container.ActualWidth;
@@ -66,7 +65,7 @@ namespace Hammer.MDI.Control.WindowControls
             var rectangle3 = new Rect(pointG, pointK);
             var rectangle4 = new Rect(pointD, pointH);
 
-            drawingContext.PushTransform(new TranslateTransform(-AutoResizeCanvas.GetLeft(AdornedElement), -AutoResizeCanvas.GetTop(AdornedElement)));
+            drawingContext.PushTransform(new TranslateTransform(-Canvas.GetLeft(AdornedElement), -Canvas.GetTop(AdornedElement)));
             drawingContext.DrawRectangle(renderBrush, renderPen, rectangle1);
             drawingContext.DrawRectangle(renderBrush, renderPen, rectangle2);
             drawingContext.DrawRectangle(renderBrush, renderPen, rectangle3);

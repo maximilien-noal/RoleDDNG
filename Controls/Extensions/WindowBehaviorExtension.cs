@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-
-using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control.Extensions
 {
@@ -13,14 +12,14 @@ namespace Hammer.MDI.Control.Extensions
         {
             if (window.WindowState == WindowState.Normal)
             {
-                window.LastLeft = AutoResizeCanvas.GetLeft(window);
-                window.LastTop = AutoResizeCanvas.GetTop(window);
+                window.LastLeft = Canvas.GetLeft(window);
+                window.LastTop = Canvas.GetTop(window);
                 window.LastWidth = window.ActualWidth;
                 window.LastHeight = window.ActualHeight;
             }
 
-            AutoResizeCanvas.SetTop(window, 0.0);
-            AutoResizeCanvas.SetLeft(window, 0.0);
+            Canvas.SetTop(window, 0.0);
+            Canvas.SetLeft(window, 0.0);
 
             AnimateResize(window, window.Container.ActualWidth - 4, window.Container.ActualHeight - 4, true);
 
@@ -33,13 +32,13 @@ namespace Hammer.MDI.Control.Extensions
 
             if (window.WindowState == WindowState.Normal)
             {
-                window.LastLeft = AutoResizeCanvas.GetLeft(window);
-                window.LastTop = AutoResizeCanvas.GetTop(window);
+                window.LastLeft = Canvas.GetLeft(window);
+                window.LastTop = Canvas.GetTop(window);
                 window.LastWidth = window.ActualWidth;
                 window.LastHeight = window.ActualHeight;
             }
-            AutoResizeCanvas.SetTop(window, window.Container.ActualHeight - 32);
-            AutoResizeCanvas.SetLeft(window, index * 205);
+            Canvas.SetTop(window, window.Container.ActualHeight - 32);
+            Canvas.SetLeft(window, index * 205);
 
             RemoveWindowLock(window);
             AnimateResize(window, 200, 32, true);
@@ -51,8 +50,8 @@ namespace Hammer.MDI.Control.Extensions
 
         public static void Normalize(this MdiWindow window)
         {
-            AutoResizeCanvas.SetTop(window, window.LastTop);
-            AutoResizeCanvas.SetLeft(window, window.LastLeft);
+            Canvas.SetTop(window, window.LastTop);
+            Canvas.SetLeft(window, window.LastLeft);
 
             AnimateResize(window, window.LastWidth, window.LastHeight, false);
 
