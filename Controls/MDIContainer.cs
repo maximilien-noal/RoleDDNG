@@ -1,59 +1,51 @@
-﻿using Hammer.MDI.Control.Events;
-
-using System.Collections;
+﻿using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+
+using Hammer.MDI.Control.Events;
 
 namespace Hammer.MDI.Control
 {
     public sealed class MdiContainer : Selector
     {
-        private IList InternalItemSource { get; set; }
-        internal int MinimizedWindowsCount { get; private set; }
-
-        public MdiContainer() : base()
-        {
-            this.SelectionChanged += MdiContainer_SelectionChanged;
-        }
-
-        private void MdiContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count > 0)
-            {
-                if (ItemContainerGenerator.ContainerFromItem(e.AddedItems[0]) is MdiWindow windowNew)
-                {
-                    windowNew.SetValue(MdiWindow.IsSelectedProperty, true);
-                }
-            }
-        }
-
         public static readonly DependencyProperty IsModalProperty =
             DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiContainer), new UIPropertyMetadata(IsModalChangedCallback));
-
-        private static void IsModalChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue == null) return;
-            ((MdiContainer)d).IsModal = (bool)e.NewValue;
-        }
-
-        public bool IsModal
-        {
-            get { return (bool)GetValue(IsModalProperty); }
-            set
-            {
-                SetValue(IsModalProperty, value);
-            }
-        }
 
         static MdiContainer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MdiContainer), new FrameworkPropertyMetadata(typeof(MdiContainer)));
         }
 
+        public MdiContainer() : base()
+        {
+            this.SelectionChanged += MdiContainer_SelectionChanged;
+        }
+
+        public bool IsModal
+        {
+            get { return (bool)GetValue(IsModalProperty); }
+
+            set { SetValue(IsModalProperty, value); }
+        }
+
+        internal int MinimizedWindowsCount { get; private set; }
+
+        private IList InternalItemSource { get; set; }
+
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new MdiWindow();
+        }
+
+        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+        {
+            base.OnItemsSourceChanged(oldValue, newValue);
+
+            if (newValue != null && newValue is IList)
+            {
+                InternalItemSource = newValue as IList;
+            }
         }
 
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
@@ -73,15 +65,20 @@ namespace Hammer.MDI.Control
             base.PrepareContainerForItemOverride(element, item);
         }
 
-        private void OnWindowStateChanged(object sender, WindowStateChangedEventArgs e)
+        private static void IsModalChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue == WindowState.Minimized)
+            if (e.NewValue == null) return;
+            ((MdiContainer)d).IsModal = (bool)e.NewValue;
+        }
+
+        private void MdiContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
             {
-                MinimizedWindowsCount++;
-            }
-            else if (e.OldValue == WindowState.Minimized)
-            {
-                MinimizedWindowsCount--;
+                if (ItemContainerGenerator.ContainerFromItem(e.AddedItems[0]) is MdiWindow windowNew)
+                {
+                    windowNew.SetValue(MdiWindow.IsSelectedProperty, true);
+                }
             }
         }
 
@@ -102,16 +99,6 @@ namespace Hammer.MDI.Control
                 window.Closing -= OnWindowClosing;
                 window.WindowStateChanged -= OnWindowStateChanged;
                 window.DataContext = null;
-            }
-        }
-
-        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
-        {
-            base.OnItemsSourceChanged(oldValue, newValue);
-
-            if (newValue != null && newValue is IList)
-            {
-                InternalItemSource = newValue as IList;
             }
         }
 
@@ -137,6 +124,18 @@ namespace Hammer.MDI.Control
                 SelectedItem = e.OriginalSource;
 
                 ((MdiWindow)ItemContainerGenerator.ContainerFromItem(SelectedItem)).IsSelected = true;
+            }
+        }
+
+        private void OnWindowStateChanged(object sender, WindowStateChangedEventArgs e)
+        {
+            if (e.NewValue == WindowState.Minimized)
+            {
+                MinimizedWindowsCount++;
+            }
+            else if (e.OldValue == WindowState.Minimized)
+            {
+                MinimizedWindowsCount--;
             }
         }
     }

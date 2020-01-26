@@ -1,12 +1,12 @@
-﻿using Microsoft.Win32;
-
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Security.Principal;
 using System.Windows;
+
+using Microsoft.Win32;
 
 namespace RoleDDNG.Role
 {
@@ -15,13 +15,94 @@ namespace RoleDDNG.Role
     /// </summary>
     public partial class App : Application
     {
+        private const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+
+        private const string RegistryValueName = "AppsUseLightTheme";
+
+        private Uri _currentTheme = default;
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            var splash = new SplashScreen(Assembly.GetExecutingAssembly(), "Assets/splashscreen.png");
+            splash.Show(true, true);
+
+            base.OnStartup(e);
+            WatchTheme();
+            CHangeThemeIfWindowsChangedIt();
+        }
+
+        private static void ChangeTheme(Uri theme)
+        {
+            if (theme == ResourceLocator.DarkColorScheme)
+            {
+                ResourceLocator.SetColorScheme(Current.Resources, ResourceLocator.DarkColorScheme, ResourceLocator.LightColorScheme);
+            }
+            else
+            {
+                ResourceLocator.SetColorScheme(Current.Resources, ResourceLocator.LightColorScheme, ResourceLocator.DarkColorScheme);
+            }
+        }
+
+        private static Uri GetWindowsTheme()
+        {
+            var key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
+            var registryValueObject = key?.GetValue(RegistryValueName);
+            if (registryValueObject == null)
+            {
+                return ResourceLocator.LightColorScheme;
+            }
+
+            var registryValue = (int)registryValueObject;
+
+            return registryValue > 0 ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme;
+        }
+
+        private void CHangeThemeIfWindowsChangedIt()
+        {
+            var newWindowsTheme = GetWindowsTheme();
+            if (_currentTheme != newWindowsTheme)
+            {
+                _currentTheme = newWindowsTheme;
+                ChangeTheme(_currentTheme);
+            }
+        }
+
+        private void Watcher_EventArrived(object sender, EventArrivedEventArgs e)
+        {
+            CHangeThemeIfWindowsChangedIt();
+        }
+
+        private void WatchTheme()
+        {
+            var currentUser = WindowsIdentity.GetCurrent();
+            var query = string.Format(
+                CultureInfo.InvariantCulture,
+                @"SELECT * FROM RegistryValueChangeEvent WHERE Hive = 'HKEY_USERS' AND KeyPath = '{0}\\{1}' AND ValueName = '{2}'",
+                currentUser.User.Value,
+                RegistryKeyPath.Replace(@"\", @"\\", System.StringComparison.InvariantCulture),
+                RegistryValueName);
+
+            using var watcher = new ManagementEventWatcher(query);
+            watcher.EventArrived += Watcher_EventArrived;
+            watcher.Start();
+        }
+
         private class ResourceLocator
         {
-            public static Uri ClassicTheme => new Uri("pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml", UriKind.Absolute);
+            public static Uri DarkColorScheme => new Uri("pack://application:,,,/AdonisUI;component/ColorSchemes/Dark.xaml", UriKind.Absolute);
 
             public static Uri LightColorScheme => new Uri("pack://application:,,,/AdonisUI;component/ColorSchemes/Light.xaml", UriKind.Absolute);
 
-            public static Uri DarkColorScheme => new Uri("pack://application:,,,/AdonisUI;component/ColorSchemes/Dark.xaml", UriKind.Absolute);
+            public static Uri ClassicTheme => new Uri("pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml", UriKind.Absolute);
+
+            /// <summary>
+            /// Adds any Adonis theme to the provided resource dictionary.
+            /// </summary>
+            /// <param name="rootResourceDictionary">The resource dictionary containing AdonisUI's resources. Expected are the resource dictionaries of the app or window.</param>
+            public static void AddAdonisResources(ResourceDictionary rootResourceDictionary)
+            {
+                rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = ClassicTheme });
+            }
 
             /// <summary>
             /// Removes all resources of AdonisUI from the provided resource dictionary.
@@ -38,15 +119,6 @@ namespace RoleDDNG.Role
                     if (!RemoveResourceDictionaryFromResourcesDeep(currentTheme, rootResourceDictionary))
                         throw new Exception("The currently active color scheme was found but could not be removed.");
                 }
-            }
-
-            /// <summary>
-            /// Adds any Adonis theme to the provided resource dictionary.
-            /// </summary>
-            /// <param name="rootResourceDictionary">The resource dictionary containing AdonisUI's resources. Expected are the resource dictionaries of the app or window.</param>
-            public static void AddAdonisResources(ResourceDictionary rootResourceDictionary)
-            {
-                rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = ClassicTheme });
             }
 
             /// <summary>
@@ -95,78 +167,6 @@ namespace RoleDDNG.Role
                 }
 
                 return rootResourceDictionary.MergedDictionaries.Any(dict => RemoveResourceDictionaryFromResourcesDeep(resourceDictionaryToRemove, dict));
-            }
-        }
-
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            var splash = new SplashScreen(Assembly.GetExecutingAssembly(), "Assets/splashscreen.png");
-            splash.Show(true, true);
-
-            base.OnStartup(e);
-            WatchTheme();
-            CHangeThemeIfWindowsChangedIt();
-        }
-
-        private Uri _currentTheme = default;
-
-        private const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
-
-        private const string RegistryValueName = "AppsUseLightTheme";
-
-        private void WatchTheme()
-        {
-            var currentUser = WindowsIdentity.GetCurrent();
-            var query = string.Format(
-                CultureInfo.InvariantCulture,
-                @"SELECT * FROM RegistryValueChangeEvent WHERE Hive = 'HKEY_USERS' AND KeyPath = '{0}\\{1}' AND ValueName = '{2}'",
-                currentUser.User.Value,
-                RegistryKeyPath.Replace(@"\", @"\\", System.StringComparison.InvariantCulture),
-                RegistryValueName);
-
-            using var watcher = new ManagementEventWatcher(query);
-            watcher.EventArrived += Watcher_EventArrived;
-            watcher.Start();
-        }
-
-        private void Watcher_EventArrived(object sender, EventArrivedEventArgs e)
-        {
-            CHangeThemeIfWindowsChangedIt();
-        }
-
-        private void CHangeThemeIfWindowsChangedIt()
-        {
-            var newWindowsTheme = GetWindowsTheme();
-            if (_currentTheme != newWindowsTheme)
-            {
-                _currentTheme = newWindowsTheme;
-                ChangeTheme(_currentTheme);
-            }
-        }
-
-        private static Uri GetWindowsTheme()
-        {
-            var key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
-            var registryValueObject = key?.GetValue(RegistryValueName);
-            if (registryValueObject == null)
-            {
-                return ResourceLocator.LightColorScheme;
-            }
-
-            var registryValue = (int)registryValueObject;
-
-            return registryValue > 0 ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme;
-        }
-
-        private static void ChangeTheme(Uri theme)
-        {
-            if (theme == ResourceLocator.DarkColorScheme)
-            {
-                ResourceLocator.SetColorScheme(Current.Resources, ResourceLocator.DarkColorScheme, ResourceLocator.LightColorScheme);
-            }
-            else
-            {
-                ResourceLocator.SetColorScheme(Current.Resources, ResourceLocator.LightColorScheme, ResourceLocator.DarkColorScheme);
             }
         }
     }

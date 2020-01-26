@@ -1,10 +1,10 @@
-﻿using Hammer.MDI.Control.Extensions;
-using Hammer.MdiControls.Panels;
-using System;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+
+using Hammer.MDI.Control.Extensions;
+using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control.WindowControls
 {
@@ -18,23 +18,6 @@ namespace Hammer.MDI.Control.WindowControls
         public MoveThumb()
         {
             DragDelta += OnMoveThumbDragDelta;
-        }
-
-        protected override void OnMouseDown(MouseButtonEventArgs e)
-        {
-            if (e is null)
-            {
-                return;
-            }
-
-            var window = VisualTreeExtension.FindMdiWindow(this);
-
-            if (window != null)
-            {
-                window.DoFocus(e);
-            }
-
-            base.OnMouseDown(e);
         }
 
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
@@ -68,6 +51,23 @@ namespace Hammer.MDI.Control.WindowControls
             }
 
             e.Handled = true;
+        }
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            if (e is null)
+            {
+                return;
+            }
+
+            var window = VisualTreeExtension.FindMdiWindow(this);
+
+            if (window != null)
+            {
+                window.DoFocus(e);
+            }
+
+            base.OnMouseDown(e);
         }
 
         private void OnMoveThumbDragDelta(object sender, DragDeltaEventArgs e)

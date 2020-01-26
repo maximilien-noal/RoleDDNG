@@ -7,6 +7,9 @@ namespace Hammer.MDI.Control.WindowControls
 
     public class WindowButton : ButtonBase
     {
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register(nameof(Icon), typeof(Brush), typeof(WindowButton), new UIPropertyMetadata(Brushes.Transparent));
+
         static WindowButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WindowButton), new FrameworkPropertyMetadata(typeof(WindowButton)));
@@ -17,8 +20,5 @@ namespace Hammer.MDI.Control.WindowControls
             get { return (Brush)GetValue(IconProperty); }
             set { SetValue(IconProperty, value); }
         }
-
-        public static readonly DependencyProperty IconProperty =
-            DependencyProperty.Register(nameof(Icon), typeof(Brush), typeof(WindowButton), new UIPropertyMetadata(Brushes.Transparent));
     }
 }

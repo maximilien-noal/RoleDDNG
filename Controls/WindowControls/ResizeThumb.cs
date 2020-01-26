@@ -1,9 +1,9 @@
-﻿using Hammer.MDI.Control.Extensions;
-using Hammer.MdiControls.Panels;
-
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+
+using Hammer.MDI.Control.Extensions;
+using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control.WindowControls
 {

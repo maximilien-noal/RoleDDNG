@@ -15,6 +15,32 @@ namespace Hammer.MdiControls.Panels
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
+        protected override Size ArrangeOverride(Size arrangeSize)
+        {
+            if (IsLastMeasureObsolete(arrangeSize))
+            {
+                InvalidateMeasure();
+            }
+            if (IsAnyInternalChildMaximizedOrMinimized())
+            {
+                foreach (UIElement children in InternalChildren)
+                {
+                    if (children == null)
+                    {
+                        continue;
+                    }
+                    if (children is MdiWindow window && window.WindowState == WindowState.Normal)
+                    {
+                        window.WindowState = WindowState.Maximized;
+                    }
+                }
+            }
+            return base.ArrangeOverride(arrangeSize);
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         protected override Size MeasureOverride(Size constraint)
         {
             var maxRightBottomChildSize = new Size();
@@ -51,65 +77,6 @@ namespace Hammer.MdiControls.Panels
             return _lastMeasure;
         }
 
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        protected override Size ArrangeOverride(Size arrangeSize)
-        {
-            if (IsLastMeasureObsolete(arrangeSize))
-            {
-                InvalidateMeasure();
-            }
-            if (IsAnyInternalChildMaximizedOrMinimized())
-            {
-                foreach (UIElement children in InternalChildren)
-                {
-                    if (children == null)
-                    {
-                        continue;
-                    }
-                    if (children is MdiWindow window && window.WindowState == WindowState.Normal)
-                    {
-                        window.WindowState = WindowState.Maximized;
-                    }
-                }
-            }
-            return base.ArrangeOverride(arrangeSize);
-        }
-
-        private bool IsLastMeasureObsolete(Size arrangeSize)
-        {
-            if (InternalChildren.Count == 0)
-            {
-                return false;
-            }
-            if (IsAnyInternalChildMaximizedOrMinimized())
-            {
-                return IsLastMeasureEqualToArrangeSize(arrangeSize) == false;
-            }
-            var maxChildRightBottom = GetMaxRightBottomChild();
-            return _lastMeasure.Width != maxChildRightBottom.Width || _lastMeasure.Height != maxChildRightBottom.Height;
-        }
-
-        private bool IsLastMeasureEqualToArrangeSize(Size arrangeSize)
-        {
-            return _lastMeasure.Width == arrangeSize.Width && _lastMeasure.Height == arrangeSize.Height;
-        }
-
-        private bool IsAnyInternalChildMaximizedOrMinimized()
-        {
-            var anyMaximized = false;
-            foreach (UIElement internalChild in InternalChildren)
-            {
-                if (internalChild == null) { continue; }
-                if (internalChild is MdiWindow window && (window.WindowState == WindowState.Maximized || window.WindowState == WindowState.Minimized))
-                {
-                    return true;
-                }
-            }
-            return anyMaximized;
-        }
-
         private Size GetMaxRightBottomChild()
         {
             var maxRightBottomChildSize = new Size();
@@ -129,6 +96,39 @@ namespace Hammer.MdiControls.Panels
                 }
             }
             return maxRightBottomChildSize;
+        }
+
+        private bool IsAnyInternalChildMaximizedOrMinimized()
+        {
+            var anyMaximized = false;
+            foreach (UIElement internalChild in InternalChildren)
+            {
+                if (internalChild == null) { continue; }
+                if (internalChild is MdiWindow window && (window.WindowState == WindowState.Maximized || window.WindowState == WindowState.Minimized))
+                {
+                    return true;
+                }
+            }
+            return anyMaximized;
+        }
+
+        private bool IsLastMeasureEqualToArrangeSize(Size arrangeSize)
+        {
+            return _lastMeasure.Width == arrangeSize.Width && _lastMeasure.Height == arrangeSize.Height;
+        }
+
+        private bool IsLastMeasureObsolete(Size arrangeSize)
+        {
+            if (InternalChildren.Count == 0)
+            {
+                return false;
+            }
+            if (IsAnyInternalChildMaximizedOrMinimized())
+            {
+                return IsLastMeasureEqualToArrangeSize(arrangeSize) == false;
+            }
+            var maxChildRightBottom = GetMaxRightBottomChild();
+            return _lastMeasure.Width != maxChildRightBottom.Width || _lastMeasure.Height != maxChildRightBottom.Height;
         }
     }
 }

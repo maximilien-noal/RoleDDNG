@@ -1,15 +1,16 @@
-﻿using RoleDDNG.Models.Structs;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
+
+using RoleDDNG.Models.Structs;
 
 namespace RoleDDNG.Role.PInvoke
 {
     internal static class NativeMethods
     {
         [DllImport("user32.dll")]
-        public static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WindowPlacement lpwndpl);
+        public static extern bool GetWindowPlacement(IntPtr hWnd, out WindowPlacement lpwndpl);
 
         [DllImport("user32.dll")]
-        public static extern bool GetWindowPlacement(IntPtr hWnd, out WindowPlacement lpwndpl);
+        public static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WindowPlacement lpwndpl);
     }
 }

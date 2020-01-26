@@ -13,7 +13,9 @@
 */
 
 using DataAccess;
+
 using GalaSoft.MvvmLight.Ioc;
+
 using RoleDDNG.Models.Options;
 using RoleDDNG.ViewModels.ToolsVMs;
 

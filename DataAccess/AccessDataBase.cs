@@ -6,8 +6,9 @@ namespace RoleDDNG.DataAccess
 {
     public class AccessDataBase : IDisposable
     {
-        private bool _disposed = false;
         private readonly OdbcConnection _dbConnection;
+
+        private bool _disposed = false;
 
         public AccessDataBase(string mdbFileName)
         {
