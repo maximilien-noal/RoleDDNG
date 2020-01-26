@@ -1,10 +1,10 @@
-﻿using RoleDDNG.Interfaces.Serialization;
-
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+
+using RoleDDNG.Interfaces.Serialization;
 
 namespace DataAccess
 {
@@ -18,7 +18,7 @@ namespace DataAccess
                 var reader = XmlReader.Create(filePath, settings);
                 var serializer = new XmlSerializer(typeof(T));
                 return (T)serializer.Deserialize(reader);
-            }).ConfigureAwait(true);
+            }).ConfigureAwait(false);
             return deserializedMdodel;
         }
 
@@ -30,7 +30,7 @@ namespace DataAccess
                 using var writer = new StreamWriter(filePath, false, Encoding.Unicode);
                 serializer.Serialize(writer, objectToSerialize);
                 writer.Close();
-            }).ConfigureAwait(true);
+            }).ConfigureAwait(false);
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
+
 using GalaSoft.MvvmLight.Command;
+
 using Microsoft.VisualStudio.Threading;
 
 using RoleDDNG.Models.Structs;

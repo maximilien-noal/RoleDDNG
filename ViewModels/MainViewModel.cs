@@ -27,6 +27,7 @@ namespace RoleDDNG.ViewModels
         public bool IsBusy { get => _isBusy; set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
         private IContent _selectedWindow = default;
+
         public IContent SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
 
         private readonly string _appSettingsFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RoleDDNG\\ROLE.CFG");
@@ -130,9 +131,11 @@ namespace RoleDDNG.ViewModels
         public ObservableCollection<IContent> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
 
         public RelayCommand ShowDiceRollWindow { get; private set; }
+
         public RelayCommand ShowTownGeneratorWindow { get; private set; }
 
 #pragma warning disable CA1822 // Static bindings work, but make the designer view throw an error.
+
         public IAsyncCommand ExitApp { get; private set; }
 
         private async Task ExitAppMethodAsync()
