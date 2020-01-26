@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using AsyncAwaitBestPractices.MVVM;
 
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 
+using RoleDDNG.Interfaces.Printing;
 using RoleDDNG.ViewModels.Interfaces;
 using RoleDDNG.ViewModels.RNG;
 
@@ -14,6 +17,8 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 {
     public class TownGeneratorViewModel : ViewModelBase, IContent
     {
+        private readonly ITextPrinter _textPrinterService;
+
         private int _dimePercentage = 10;
 
         private int _popCount = 500;
@@ -28,7 +33,9 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         public TownGeneratorViewModel()
         {
+            _textPrinterService = SimpleIoc.Default.GetInstance<ITextPrinter>();
             Generate = new AsyncCommand(GenerateMethodAsync);
+            Print = new RelayCommand(PrintMethod);
         }
 
         public static List<string> TownTypes => new List<string>(new string[] { "Isolée", "Ouverte", "Intégrée" });
@@ -38,6 +45,8 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         public AsyncCommand Generate { get; private set; }
 
         public int PopCount { get => _popCount; set { Set(nameof(PopCount), ref _popCount, value); } }
+
+        public RelayCommand Print { get; private set; }
 
         public string Result { get => _result; set { Set(nameof(Result), ref _result, value); } }
 
@@ -652,6 +661,14 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             }
 
             return instances.ToString();
+        }
+
+        private void PrintMethod()
+        {
+            if (string.IsNullOrWhiteSpace(Result) == false)
+            {
+                _textPrinterService.PrintText(Result);
+            }
         }
 
         private struct PNJ

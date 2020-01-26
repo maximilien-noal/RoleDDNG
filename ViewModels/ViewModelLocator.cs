@@ -78,7 +78,7 @@ namespace RoleDDNG.ViewModels
 
 #pragma warning restore CA1822
 
-        public static void Cleanup()
+        internal static void Cleanup()
         {
             // TODO Clear the ViewModels
         }

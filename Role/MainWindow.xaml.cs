@@ -3,10 +3,13 @@ using System.Windows;
 using System.Windows.Interop;
 
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 
 using Microsoft.VisualStudio.Threading;
 
+using RoleDDNG.Interfaces.Printing;
 using RoleDDNG.Models.Structs;
+using RoleDDNG.OSServices;
 using RoleDDNG.Role.Dialogs;
 using RoleDDNG.Role.PInvoke;
 using RoleDDNG.ViewModels;
@@ -24,8 +27,9 @@ namespace RoleDDNG.Role
 
         public MainWindow()
         {
-            HelpCommand = new RelayCommand(HelpCommandMethod);
             InitializeComponent();
+            SimpleIoc.Default.Register<ITextPrinter, TextPrinter>();
+            HelpCommand = new RelayCommand(HelpCommandMethod);
             Closing += MainWindow_Closing;
         }
 
