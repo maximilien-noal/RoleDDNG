@@ -12,11 +12,8 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using DataAccess;
-
 using GalaSoft.MvvmLight.Ioc;
 
-using RoleDDNG.Models.Options;
 using RoleDDNG.ViewModels.ToolsVMs;
 
 namespace RoleDDNG.ViewModels
@@ -43,7 +40,7 @@ namespace RoleDDNG.ViewModels
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
 
-            SimpleIoc.Default.Register(() => new MainViewModel(new ModelSerializer<AppSettings>()));
+            SimpleIoc.Default.Register(() => new MainViewModel());
             SimpleIoc.Default.Register<DiceRollViewModel>();
             SimpleIoc.Default.Register<TownGeneratorViewModel>();
         }

@@ -9,6 +9,7 @@ using AsyncAwaitBestPractices.MVVM;
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 
 using Microsoft.VisualStudio.Threading;
 
@@ -36,9 +37,7 @@ namespace RoleDDNG.ViewModels
 
         public AppSettings AppSettings { get => _appSettings; set { Set(nameof(AppSettings), ref _appSettings, value); } }
 
-        private readonly IAsyncSerializer<AppSettings> _settingsSerializer;
-
-        public MainViewModel(IAsyncSerializer<AppSettings> serializer)
+        public MainViewModel()
         {
             IsBusy = true;
 
@@ -46,7 +45,6 @@ namespace RoleDDNG.ViewModels
             ShowTownGeneratorWindow = new RelayCommand(ShowTownGeneratorWindowMethod);
             ExitApp = new AsyncCommand(ExitAppMethodAsync);
             LoadAppSettings = new AsyncCommand(LoadAppSettingsMethodAsync);
-            _settingsSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
 
             if (DateTime.Now.Month == 12)
             {
@@ -97,7 +95,8 @@ namespace RoleDDNG.ViewModels
         {
             if (File.Exists(_appSettingsFilePath))
             {
-                AppSettings = await _settingsSerializer.DeserializeAsync(_appSettingsFilePath).ConfigureAwait(true);
+                var serializer = SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>();
+                AppSettings = await serializer.DeserializeAsync(_appSettingsFilePath).ConfigureAwait(true);
             }
         }
 
@@ -146,7 +145,7 @@ namespace RoleDDNG.ViewModels
                 Directory.CreateDirectory(Path.GetDirectoryName(_appSettingsFilePath));
             }
 
-            await _settingsSerializer.SerializeAsync(_appSettingsFilePath, AppSettings).ConfigureAwait(false);
+            await SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>().SerializeAsync(_appSettingsFilePath, AppSettings).ConfigureAwait(false);
             IsBusy = false;
         }
     }

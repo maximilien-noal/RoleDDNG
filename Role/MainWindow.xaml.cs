@@ -7,7 +7,10 @@ using GalaSoft.MvvmLight.Ioc;
 
 using Microsoft.VisualStudio.Threading;
 
+using RoleDDNG.DataAccess;
 using RoleDDNG.Interfaces.Printing;
+using RoleDDNG.Interfaces.Serialization;
+using RoleDDNG.Models.Options;
 using RoleDDNG.Models.Structs;
 using RoleDDNG.OSServices.Windows;
 using RoleDDNG.Role.Dialogs;
@@ -27,8 +30,9 @@ namespace RoleDDNG.Role
 
         public MainWindow()
         {
-            InitializeComponent();
+            SimpleIoc.Default.Register<IAsyncSerializer<AppSettings>, ModelSerializer<AppSettings>>();
             SimpleIoc.Default.Register<ITextPrinter, TextPrinter>();
+            InitializeComponent();
             HelpCommand = new RelayCommand(HelpCommandMethod);
             Closing += MainWindow_Closing;
         }
