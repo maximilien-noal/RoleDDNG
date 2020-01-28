@@ -101,7 +101,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Controls\Hammer.MDIContainer.Control.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
-    <ProjectReference Include="..\OSServices\OSServices.csproj" />
+    <ProjectReference Include="..\OSServices\Windows\OSServices.Windows.csproj" />
     <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.Threading;
 
 using RoleDDNG.Interfaces.Printing;
 using RoleDDNG.Models.Structs;
-using RoleDDNG.OSServices;
+using RoleDDNG.OSServices.Windows;
 using RoleDDNG.Role.Dialogs;
 using RoleDDNG.Role.PInvoke;
 using RoleDDNG.ViewModels;

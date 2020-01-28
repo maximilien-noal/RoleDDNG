@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hammer.MDIContainer.Control
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Tests", "DataAccess.Tests\DataAccess.Tests.csproj", "{ADB884B2-CABC-4693-AAC1-0C721C41CECA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSServices", "OSServices\OSServices.csproj", "{24AA0210-2AE4-47B9-8B64-FDFA3CB5D91A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSServices.Windows", "OSServices\Windows\OSServices.Windows.csproj", "{24AA0210-2AE4-47B9-8B64-FDFA3CB5D91A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

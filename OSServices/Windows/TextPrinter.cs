@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 using RoleDDNG.Interfaces.Printing;
 
-namespace RoleDDNG.OSServices
+namespace RoleDDNG.OSServices.Windows
 {
     public class TextPrinter : ITextPrinter
     {
