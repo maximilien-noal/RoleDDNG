@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 using Hammer.MDI.Control.Extensions;
+using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control.WindowControls
 {
@@ -83,8 +83,8 @@ namespace Hammer.MDI.Control.WindowControls
 
                 if (window.WindowState == WindowState.Normal)
                 {
-                    window.LastLeft = Canvas.GetLeft(window);
-                    window.LastTop = Canvas.GetTop(window);
+                    window.LastLeft = AutoResizeCanvas.GetLeft(window);
+                    window.LastTop = AutoResizeCanvas.GetTop(window);
                 }
 
                 if (window.WindowState != WindowState.Minimized)
@@ -92,8 +92,8 @@ namespace Hammer.MDI.Control.WindowControls
                     var candidateLeft = window.LastLeft + e.HorizontalChange;
                     var candidateTop = window.LastTop + e.VerticalChange;
 
-                    Canvas.SetLeft(window, Math.Min(Math.Max(0, candidateLeft), window.Container.ActualWidth - 25));
-                    Canvas.SetTop(window, Math.Min(Math.Max(0, candidateTop), window.Container.ActualHeight - 25));
+                    AutoResizeCanvas.SetLeft(window, Math.Min(Math.Max(0, candidateLeft), window.Container.ActualWidth - 25));
+                    AutoResizeCanvas.SetTop(window, Math.Min(Math.Max(0, candidateTop), window.Container.ActualHeight - 25));
                 }
             }
         }
