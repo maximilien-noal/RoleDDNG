@@ -8,11 +8,13 @@ using GalaSoft.MvvmLight.Ioc;
 using Microsoft.VisualStudio.Threading;
 
 using RoleDDNG.DataAccess;
+using RoleDDNG.Interfaces.Backgrounds;
 using RoleDDNG.Interfaces.Printing;
 using RoleDDNG.Interfaces.Serialization;
 using RoleDDNG.Models.Options;
 using RoleDDNG.Models.Structs;
 using RoleDDNG.OSServices.Windows;
+using RoleDDNG.Role.Backgrounds;
 using RoleDDNG.Role.Dialogs;
 using RoleDDNG.Role.PInvoke;
 using RoleDDNG.ViewModels;
@@ -30,6 +32,7 @@ namespace RoleDDNG.Role
 
         public MainWindow()
         {
+            SimpleIoc.Default.Register<IBackgroundSource, BackgroundSource>();
             SimpleIoc.Default.Register<IAsyncSerializer<AppSettings>, ModelSerializer<AppSettings>>();
             SimpleIoc.Default.Register<ITextPrinter, TextPrinter>();
             InitializeComponent();
