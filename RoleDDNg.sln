@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Tests", "DataAcc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSServices.Windows", "OSServices\Windows\OSServices.Windows.csproj", "{24AA0210-2AE4-47B9-8B64-FDFA3CB5D91A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSServices.CrossPlatform", "OSServices\OSServices.CrossPlatform\OSServices.CrossPlatform.csproj", "{63924A1A-0D00-4F7A-A932-140F9C0530E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,18 @@ Global
 		{24AA0210-2AE4-47B9-8B64-FDFA3CB5D91A}.Release|x64.Build.0 = Release|Any CPU
 		{24AA0210-2AE4-47B9-8B64-FDFA3CB5D91A}.Release|x86.ActiveCfg = Release|Any CPU
 		{24AA0210-2AE4-47B9-8B64-FDFA3CB5D91A}.Release|x86.Build.0 = Release|Any CPU
+		{63924A1A-0D00-4F7A-A932-140F9C0530E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63924A1A-0D00-4F7A-A932-140F9C0530E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63924A1A-0D00-4F7A-A932-140F9C0530E6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{63924A1A-0D00-4F7A-A932-140F9C0530E6}.Debug|x64.Build.0 = Debug|Any CPU
+		{63924A1A-0D00-4F7A-A932-140F9C0530E6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{63924A1A-0D00-4F7A-A932-140F9C0530E6}.Debug|x86.Build.0 = Debug|Any CPU
+		{63924A1A-0D00-4F7A-A932-140F9C0530E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63924A1A-0D00-4F7A-A932-140F9C0530E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63924A1A-0D00-4F7A-A932-140F9C0530E6}.Release|x64.ActiveCfg = Release|Any CPU
+		{63924A1A-0D00-4F7A-A932-140F9C0530E6}.Release|x64.Build.0 = Release|Any CPU
+		{63924A1A-0D00-4F7A-A932-140F9C0530E6}.Release|x86.ActiveCfg = Release|Any CPU
+		{63924A1A-0D00-4F7A-A932-140F9C0530E6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

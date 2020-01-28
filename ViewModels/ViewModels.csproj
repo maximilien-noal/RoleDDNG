@@ -26,5 +26,6 @@
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\OSServices\OSServices.CrossPlatform\OSServices.CrossPlatform.csproj" />
   </ItemGroup>
 </Project>
