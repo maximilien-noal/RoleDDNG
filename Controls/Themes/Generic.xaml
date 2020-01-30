@@ -1,8 +1,9 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:windowControls="clr-namespace:Hammer.MDI.Control.WindowControls"
-    xmlns:local="clr-namespace:Hammer.MDI.Control" xmlns:panels="clr-namespace:Hammer.MdiControls.Panels">
+    xmlns:local="clr-namespace:Hammer.MDI.Control"
+    xmlns:panels="clr-namespace:Hammer.MdiControls.Panels"
+    xmlns:windowControls="clr-namespace:Hammer.MDI.Control.WindowControls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Hammer.MDIContainer.Control;component/Themes/DefaultTheme.xaml" />
@@ -15,7 +16,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MdiContainer}">
-                    <Border BorderBrush="{StaticResource ContainerBorder}" BorderThickness="2" CornerRadius="1">
+                    <Border
+                        BorderBrush="{StaticResource ContainerBorder}"
+                        BorderThickness="2"
+                        CornerRadius="1">
                         <ItemsPresenter />
                     </Border>
                 </ControlTemplate>
@@ -24,13 +28,16 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <panels:AutoResizeCanvas Background="{StaticResource ContainerBackground}" IsItemsHost="True" ClipToBounds="True" />
+                    <panels:AutoResizeCanvas
+                        Background="{StaticResource ContainerBackground}"
+                        ClipToBounds="True"
+                        IsItemsHost="True" />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <!-- MoveThumb Template -->
+    <!--  MoveThumb Template  -->
     <Style TargetType="{x:Type windowControls:MoveThumb}">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="False" />
@@ -43,7 +50,7 @@
         </Setter>
     </Style>
 
-    <!-- ResizeDecorator Template -->
+    <!--  ResizeDecorator Template  -->
     <Style TargetType="{x:Type windowControls:ResizeThumb}">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Opacity" Value="0" />
@@ -56,36 +63,83 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="RenderTransform">
             <Setter.Value>
-                <ScaleTransform ScaleX="0.7" CenterX="90" />
+                <ScaleTransform CenterX="90" ScaleX="0.7" />
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <EventTrigger RoutedEvent="ToolTip.Opened">
                 <BeginStoryboard HandoffBehavior="Compose">
-                    <Storyboard TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" RenderOptions.BitmapScalingMode="HighQuality">
-                        <DoubleAnimation From="0.7" To="1" Duration="0:0:0.1" />
+                    <Storyboard RenderOptions.BitmapScalingMode="HighQuality" TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)">
+                        <DoubleAnimation
+                            From="0.7"
+                            To="1"
+                            Duration="0:0:0.1" />
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type Control}" x:Key="ResizeDecorator">
+    <Style x:Key="ResizeDecorator" TargetType="{x:Type Control}">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Opacity" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate  TargetType="{x:Type Control}">
+                <ControlTemplate TargetType="{x:Type Control}">
                     <Grid Focusable="False" Opacity="0">
-                        <windowControls:ResizeThumb Height="2" Cursor="SizeNS" Margin="0 -2 0 0" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
-                        <windowControls:ResizeThumb Width="2" Cursor="SizeWE" Margin="-2 0 0 0"  VerticalAlignment="Stretch" HorizontalAlignment="Left" />
-                        <windowControls:ResizeThumb Width="2" Cursor="SizeWE" Margin="0 0 -2 0" VerticalAlignment="Stretch" HorizontalAlignment="Right" />
-                        <windowControls:ResizeThumb Height="2" Cursor="SizeNS" Margin="0 0 0 -2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" />
-                        <windowControls:ResizeThumb Width="2" Height="2" Cursor="SizeNWSE" Margin="-2 -2 0 0" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                        <windowControls:ResizeThumb Width="2" Height="2" Cursor="SizeNESW" Margin="0 -2 -2 0" VerticalAlignment="Top" HorizontalAlignment="Right" />
-                        <windowControls:ResizeThumb Width="2" Height="2" Cursor="SizeNESW" Margin="-2 0 0 -2" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-                        <windowControls:ResizeThumb Width="2" Height="2" Cursor="SizeNWSE" Margin="0 0 -2 -2" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+                        <windowControls:ResizeThumb
+                            Height="2"
+                            Margin="0,-2,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            Cursor="SizeNS" />
+                        <windowControls:ResizeThumb
+                            Width="2"
+                            Margin="-2,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Stretch"
+                            Cursor="SizeWE" />
+                        <windowControls:ResizeThumb
+                            Width="2"
+                            Margin="0,0,-2,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Stretch"
+                            Cursor="SizeWE" />
+                        <windowControls:ResizeThumb
+                            Height="2"
+                            Margin="0,0,0,-2"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Bottom"
+                            Cursor="SizeNS" />
+                        <windowControls:ResizeThumb
+                            Width="2"
+                            Height="2"
+                            Margin="-2,-2,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Cursor="SizeNWSE" />
+                        <windowControls:ResizeThumb
+                            Width="2"
+                            Height="2"
+                            Margin="0,-2,-2,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Cursor="SizeNESW" />
+                        <windowControls:ResizeThumb
+                            Width="2"
+                            Height="2"
+                            Margin="-2,0,0,-2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Cursor="SizeNESW" />
+                        <windowControls:ResizeThumb
+                            Width="2"
+                            Height="2"
+                            Margin="0,0,-2,-2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Cursor="SizeNWSE" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -107,21 +161,35 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type windowControls:WindowButton}">
-                    <Border CornerRadius="4" x:Name="PART_Border" BorderBrush="Transparent" BorderThickness="1"
-                            Background="{TemplateBinding Background}"
-                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                            Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
-                        <Rectangle Fill="{TemplateBinding Icon}" SnapsToDevicePixels="True"
-                                   Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
-                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                    <Border
+                        x:Name="PART_Border"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="Transparent"
+                        BorderThickness="1"
+                        CornerRadius="4">
+                        <Rectangle
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Fill="{TemplateBinding Icon}"
+                            SnapsToDevicePixels="True" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{StaticResource WindowButtonOnMouseOverColor}" />
-                            <Setter Property="BorderBrush" Value="{StaticResource WindowButtonOnMouseOverColorBorder}" TargetName="PART_Border" />
+                            <Setter TargetName="PART_Border" Property="BorderBrush" Value="{StaticResource WindowButtonOnMouseOverColorBorder}" />
                             <Setter Property="Effect">
                                 <Setter.Value>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" Color="{StaticResource WindowButtonEffect}" Opacity="0.5" />
+                                    <DropShadowEffect
+                                        BlurRadius="10"
+                                        Opacity="0.5"
+                                        ShadowDepth="0"
+                                        Color="{StaticResource WindowButtonEffect}" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
@@ -143,18 +211,36 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MdiWindow}">
                     <Border>
-                        <Border x:Name="PART_Border" CornerRadius="4" BorderBrush="{StaticResource InactiveWindowColor}" BorderThickness="4">
+                        <Border
+                            x:Name="PART_Border"
+                            BorderBrush="{StaticResource InactiveWindowColor}"
+                            BorderThickness="4"
+                            CornerRadius="4">
                             <Grid x:Name="PART_BorderGrid" Background="{TemplateBinding Background}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="24" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <Border x:Name="PART_Header" Background="{StaticResource InactiveWindowColor}" Height="24" VerticalAlignment="Top"
-                                    ToolTipService.IsEnabled="False" ToolTipService.Placement="Top" ToolTipService.HasDropShadow="False">
+                                <Border
+                                    x:Name="PART_Header"
+                                    Height="24"
+                                    VerticalAlignment="Top"
+                                    Background="{StaticResource InactiveWindowColor}"
+                                    ToolTipService.HasDropShadow="False"
+                                    ToolTipService.IsEnabled="False"
+                                    ToolTipService.Placement="Top">
                                     <Grid VerticalAlignment="Center">
                                         <windowControls:MoveThumb x:Name="PART_MoverThumb" />
-                                        <TextBlock Text="{TemplateBinding Title}" Margin="2,2" IsHitTestVisible="False" />
-                                        <StackPanel x:Name="PART_ButtonBar" Orientation="Horizontal" HorizontalAlignment="Right" Margin="2,2,0,2" VerticalAlignment="Center">
+                                        <TextBlock
+                                            Margin="2,2"
+                                            IsHitTestVisible="False"
+                                            Text="{TemplateBinding Title}" />
+                                        <StackPanel
+                                            x:Name="PART_ButtonBar"
+                                            Margin="2,2,0,2"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
                                             <windowControls:WindowButton x:Name="PART_ButtonBar_MinimizeButton" Icon="{StaticResource MinimizeShape}" />
                                             <windowControls:WindowButton x:Name="PART_ButtonBar_MaximizeButton" Icon="{StaticResource MaximizeShape}" />
                                             <windowControls:WindowButton x:Name="PART_ButtonBar_CloseButton" Icon="{StaticResource CloseShape}" />
@@ -162,15 +248,31 @@
                                     </Grid>
                                     <Border.ToolTip>
                                         <ToolTip Style="{StaticResource TumblrStyle}">
-                                            <Viewbox Width="180" Height="180" RenderOptions.BitmapScalingMode="HighQuality" Panel.ZIndex="100">
+                                            <Viewbox
+                                                Width="180"
+                                                Height="180"
+                                                Panel.ZIndex="100"
+                                                RenderOptions.BitmapScalingMode="HighQuality">
                                                 <Image x:Name="PART_Tumblr" Stretch="UniformToFill" />
                                             </Viewbox>
                                         </ToolTip>
                                     </Border.ToolTip>
                                 </Border>
-                                <Control x:Name="PART_ResizerThumb" Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource ResizeDecorator}" />
-                                <Border x:Name="PART_BorderContent" BorderBrush="{StaticResource WindowContentBorder}" BorderThickness="1" Grid.Row="1">
-                                    <ContentPresenter x:Name="PART_Content" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                <Control
+                                    x:Name="PART_ResizerThumb"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Style="{StaticResource ResizeDecorator}" />
+                                <Border
+                                    x:Name="PART_BorderContent"
+                                    Grid.Row="1"
+                                    BorderBrush="{StaticResource WindowContentBorder}"
+                                    BorderThickness="1">
+                                    <ContentPresenter
+                                        x:Name="PART_Content"
+                                        Margin="2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch" />
                                 </Border>
                             </Grid>
                         </Border>
@@ -196,7 +298,11 @@
                             <MultiTrigger.Setters>
                                 <Setter TargetName="PART_Border" Property="Effect">
                                     <Setter.Value>
-                                        <DropShadowEffect Color="Black" Opacity="1" ShadowDepth="0" BlurRadius="20" />
+                                        <DropShadowEffect
+                                            BlurRadius="20"
+                                            Opacity="1"
+                                            ShadowDepth="0"
+                                            Color="Black" />
                                     </Setter.Value>
                                 </Setter>
                             </MultiTrigger.Setters>

@@ -11,18 +11,11 @@ namespace Hammer.MDI.Control.Extensions
     {
         public static void Maximize(this MdiWindow window)
         {
-            if (window.WindowState == WindowState.Normal)
-            {
-                window.LastLeft = AutoResizeCanvas.GetLeft(window);
-                window.LastTop = AutoResizeCanvas.GetTop(window);
-                window.LastWidth = window.ActualWidth;
-                window.LastHeight = window.ActualHeight;
-            }
-
+            SaveLastSize(window);
             AutoResizeCanvas.SetTop(window, 0.0);
             AutoResizeCanvas.SetLeft(window, 0.0);
 
-            AnimateResize(window, window.Container.ActualWidth - 4, window.Container.ActualHeight - 4, true);
+            AnimateResize(window, window.Container.ActualWidth, window.Container.ActualHeight, true);
 
             window.WindowState = WindowState.Maximized;
         }
@@ -31,13 +24,7 @@ namespace Hammer.MDI.Control.Extensions
         {
             var index = window.Container.MinimizedWindowsCount;
 
-            if (window.WindowState == WindowState.Normal)
-            {
-                window.LastLeft = AutoResizeCanvas.GetLeft(window);
-                window.LastTop = AutoResizeCanvas.GetTop(window);
-                window.LastWidth = window.ActualWidth;
-                window.LastHeight = window.ActualHeight;
-            }
+            SaveLastSize(window);
             AutoResizeCanvas.SetTop(window, window.Container.ActualHeight - 32);
             AutoResizeCanvas.SetLeft(window, index * 205);
 
@@ -101,7 +88,7 @@ namespace Hammer.MDI.Control.Extensions
                         break;
 
                     default:
-                        throw new NotSupportedException("Invalid WindowState");
+                        break;
                 }
             }
         }
@@ -121,6 +108,17 @@ namespace Hammer.MDI.Control.Extensions
 
             window.BeginAnimation(FrameworkElement.WidthProperty, widthAnimation, HandoffBehavior.Compose);
             window.BeginAnimation(FrameworkElement.HeightProperty, heightAnimation, HandoffBehavior.Compose);
+        }
+
+        private static void SaveLastSize(MdiWindow window)
+        {
+            if (window.WindowState == WindowState.Normal)
+            {
+                window.LastLeft = AutoResizeCanvas.GetLeft(window);
+                window.LastTop = AutoResizeCanvas.GetTop(window);
+                window.LastWidth = window.ActualWidth;
+                window.LastHeight = window.ActualHeight;
+            }
         }
     }
 }

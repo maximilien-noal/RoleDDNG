@@ -32,17 +32,17 @@ namespace Hammer.MDI.Control.WindowControls
                 {
                     case VerticalAlignment.Bottom:
                         var deltaVertical = Math.Min(-e.VerticalChange, window.ActualHeight - window.MinHeight);
-                        window.Height -= deltaVertical;
+                        window.Height = Math.Abs(window.Height - deltaVertical);
                         break;
 
                     case VerticalAlignment.Top:
                         deltaVertical = Math.Min(e.VerticalChange, window.ActualHeight - window.MinHeight);
                         AutoResizeCanvas.SetTop(window, AutoResizeCanvas.GetTop(window) + deltaVertical);
-                        window.Height -= deltaVertical;
+                        window.Height = Math.Abs(window.Height - deltaVertical);
                         break;
 
                     default:
-                        throw new Exception("Unexpected Case");
+                        break;
                 }
 
                 switch (HorizontalAlignment)
@@ -50,12 +50,12 @@ namespace Hammer.MDI.Control.WindowControls
                     case HorizontalAlignment.Left:
                         var deltaHorizontal = Math.Min(e.HorizontalChange, window.ActualWidth - window.MinWidth);
                         AutoResizeCanvas.SetLeft(window, AutoResizeCanvas.GetLeft(window) + deltaHorizontal);
-                        window.Width -= deltaHorizontal;
+                        window.Width = Math.Abs(window.Width - deltaHorizontal);
                         break;
 
                     case HorizontalAlignment.Right:
                         deltaHorizontal = Math.Min(-e.HorizontalChange, window.ActualWidth - window.MinWidth);
-                        window.Width -= deltaHorizontal;
+                        window.Width = Math.Abs(window.Width - deltaHorizontal);
                         break;
 
                     case HorizontalAlignment.Center:

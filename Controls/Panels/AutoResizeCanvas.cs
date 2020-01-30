@@ -29,10 +29,6 @@ namespace Hammer.MdiControls.Panels
                     {
                         continue;
                     }
-                    if (children is MdiWindow window && window.WindowState == WindowState.Normal)
-                    {
-                        window.WindowState = WindowState.Maximized;
-                    }
                 }
             }
             return base.ArrangeOverride(arrangeSize);
