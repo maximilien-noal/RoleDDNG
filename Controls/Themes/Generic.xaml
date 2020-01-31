@@ -89,54 +89,54 @@
                 <ControlTemplate TargetType="{x:Type Control}">
                     <Grid Focusable="False" Opacity="0">
                         <windowControls:ResizeThumb
-                            Height="2"
-                            Margin="0,-2,0,0"
+                            Height="10"
+                            Margin="0,-5,0,0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Top"
                             Cursor="SizeNS" />
                         <windowControls:ResizeThumb
-                            Width="2"
-                            Margin="-2,0,0,0"
+                            Width="10"
+                            Margin="-5,0,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Stretch"
                             Cursor="SizeWE" />
                         <windowControls:ResizeThumb
-                            Width="2"
-                            Margin="0,0,-2,0"
+                            Width="10"
+                            Margin="0,0,-5,0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Stretch"
                             Cursor="SizeWE" />
                         <windowControls:ResizeThumb
-                            Height="2"
-                            Margin="0,0,0,-2"
+                            Height="10"
+                            Margin="0,0,0,-5"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Bottom"
                             Cursor="SizeNS" />
                         <windowControls:ResizeThumb
-                            Width="2"
-                            Height="2"
-                            Margin="-2,-2,0,0"
+                            Width="10"
+                            Height="10"
+                            Margin="-5,-5,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Cursor="SizeNWSE" />
                         <windowControls:ResizeThumb
-                            Width="2"
-                            Height="2"
-                            Margin="0,-2,-2,0"
+                            Width="10"
+                            Height="10"
+                            Margin="0,-5,-5,0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             Cursor="SizeNESW" />
                         <windowControls:ResizeThumb
-                            Width="2"
-                            Height="2"
-                            Margin="-2,0,0,-2"
+                            Width="10"
+                            Height="10"
+                            Margin="-5,0,0,-5"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
                             Cursor="SizeNESW" />
                         <windowControls:ResizeThumb
-                            Width="2"
-                            Height="2"
-                            Margin="0,0,-2,-2"
+                            Width="10"
+                            Height="10"
+                            Margin="0,0,-5,-5"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Bottom"
                             Cursor="SizeNWSE" />
