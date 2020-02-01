@@ -199,6 +199,44 @@
         </Setter>
     </Style>
 
+    <Style x:Key="MenuButtonStyle" TargetType="{x:Type windowControls:WindowButton}">
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Margin" Value="1,0,0,0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type windowControls:WindowButton}">
+                    <Border
+                        x:Name="PART_Border"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="Transparent"
+                        BorderThickness="1"
+                        CornerRadius="4">
+                        <Rectangle
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Fill="{TemplateBinding Icon}"
+                            SnapsToDevicePixels="True" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type local:MdiWindow}">
         <Setter Property="MinHeight" Value="200" />
         <Setter Property="MinWidth" Value="200" />
@@ -231,10 +269,19 @@
                                     ToolTipService.Placement="Top">
                                     <Grid VerticalAlignment="Center">
                                         <windowControls:MoveThumb x:Name="PART_MoverThumb" />
-                                        <TextBlock
-                                            Margin="2,2"
-                                            IsHitTestVisible="False"
-                                            Text="{TemplateBinding Title}" />
+                                        <StackPanel
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <windowControls:WindowButton
+                                                x:Name="PART_ButtonBar_MenuButton"
+                                                Icon="{StaticResource MenuShape}"
+                                                Style="{StaticResource MenuButtonStyle}" />
+                                            <TextBlock
+                                                Margin="2,2"
+                                                IsHitTestVisible="False"
+                                                Text="{TemplateBinding Title}" />
+                                        </StackPanel>
                                         <StackPanel
                                             x:Name="PART_ButtonBar"
                                             Margin="2,2,0,2"

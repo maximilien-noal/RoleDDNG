@@ -16,6 +16,7 @@ namespace Hammer.MDI.Control
     [TemplatePart(Name = "PART_BorderGrid", Type = typeof(Grid))]
     [TemplatePart(Name = "PART_Header", Type = typeof(Border))]
     [TemplatePart(Name = "PART_ButtonBar", Type = typeof(StackPanel))]
+    [TemplatePart(Name = "PART_ButtonBar_MenuButton", Type = typeof(WindowButton))]
     [TemplatePart(Name = "PART_ButtonBar_CloseButton", Type = typeof(WindowButton))]
     [TemplatePart(Name = "PART_ButtonBar_MaximizeButton", Type = typeof(WindowButton))]
     [TemplatePart(Name = "PART_ButtonBar_MinimizeButton", Type = typeof(WindowButton))]
@@ -54,6 +55,8 @@ namespace Hammer.MDI.Control
         private WindowButton _closeButton;
 
         private WindowButton _maximizeButton;
+
+        private WindowButton _menuButton;
 
         private WindowButton _minimizeButton;
 
@@ -167,6 +170,12 @@ namespace Hammer.MDI.Control
 
         public override void OnApplyTemplate()
         {
+            _menuButton = GetTemplateChild("PART_ButtonBar_MenuButton") as WindowButton;
+            if (_menuButton != null)
+            {
+                _menuButton.MouseDoubleClick += CloseWindow;
+            }
+
             _closeButton = GetTemplateChild("PART_ButtonBar_CloseButton") as WindowButton;
             if (_closeButton != null)
             {

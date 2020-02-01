@@ -28,6 +28,29 @@
 
     <!--  Shapes, Icons  -->
     <DrawingBrush
+        x:Key="MenuShape"
+        presentationOptions:Freeze="true"
+        Stretch="None">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing>
+                <GeometryDrawing.Geometry>
+                    <GeometryGroup>
+                        <LineGeometry StartPoint="0,0" EndPoint="7,0" />
+                        <LineGeometry StartPoint="0,2" EndPoint="7,2" />
+                        <LineGeometry StartPoint="0,4" EndPoint="7,4" />
+                    </GeometryGroup>
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Pen>
+                    <Pen
+                        Brush="{StaticResource WindowButtonPenColor}"
+                        LineJoin="Miter"
+                        Thickness="1" />
+                </GeometryDrawing.Pen>
+            </GeometryDrawing>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <DrawingBrush
         x:Key="MinimizeShape"
         presentationOptions:Freeze="true"
         Stretch="None">
@@ -76,7 +99,6 @@
                         <LineGeometry StartPoint="1,6" EndPoint="6,6" />
                         <LineGeometry StartPoint="6,6" EndPoint="6,1" />
                         <LineGeometry StartPoint="6,1" EndPoint="1,1" />
-
                         <LineGeometry StartPoint="3,-1" EndPoint="8,-1" />
                         <LineGeometry StartPoint="8,-1" EndPoint="8,5" />
                     </GeometryGroup>
