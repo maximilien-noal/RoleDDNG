@@ -15,7 +15,7 @@ namespace RoleDDNG.DataAccess
             var deserializedMdodel = await Task.Run(() =>
             {
                 var settings = new XmlReaderSettings { XmlResolver = null };
-                var reader = XmlReader.Create(filePath, settings);
+                using var reader = XmlReader.Create(filePath, settings);
                 var serializer = new XmlSerializer(typeof(T));
                 return (T)serializer.Deserialize(reader);
             }).ConfigureAwait(false);
