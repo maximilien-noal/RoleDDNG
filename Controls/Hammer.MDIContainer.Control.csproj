@@ -6,6 +6,9 @@
     <TargetFrameworks>netcoreapp31</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Themes\appicon.png" />
+  </ItemGroup>
+  <ItemGroup>
 
     <PackageReference Include="AdonisUI" Version="1.13.0" />
     <PackageReference Include="AdonisUI.ClassicTheme" Version="1.13.0" />
@@ -14,5 +17,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.43" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\appicon.png" />
   </ItemGroup>
 </Project>

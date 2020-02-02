@@ -183,15 +183,6 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{StaticResource WindowButtonOnMouseOverColor}" />
                             <Setter TargetName="PART_Border" Property="BorderBrush" Value="{StaticResource WindowButtonOnMouseOverColorBorder}" />
-                            <Setter Property="Effect">
-                                <Setter.Value>
-                                    <DropShadowEffect
-                                        BlurRadius="10"
-                                        Opacity="0.5"
-                                        ShadowDepth="0"
-                                        Color="{StaticResource WindowButtonEffect}" />
-                                </Setter.Value>
-                            </Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -275,16 +266,16 @@
                                             Orientation="Horizontal">
                                             <windowControls:WindowButton
                                                 x:Name="PART_ButtonBar_MenuButton"
-                                                Icon="{StaticResource MenuShape}"
+                                                Icon="{StaticResource MDIWindowIcon}"
                                                 Style="{StaticResource MenuButtonStyle}" />
                                             <TextBlock
-                                                Margin="2,2"
+                                                Margin="4,0,0,0"
+                                                VerticalAlignment="Center"
                                                 IsHitTestVisible="False"
                                                 Text="{TemplateBinding Title}" />
                                         </StackPanel>
                                         <StackPanel
                                             x:Name="PART_ButtonBar"
-                                            Margin="2,2,0,2"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
                                             Orientation="Horizontal">
