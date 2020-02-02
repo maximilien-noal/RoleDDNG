@@ -37,6 +37,7 @@ namespace RoleDDNG.Role
             SimpleIoc.Default.Register<ITextPrinter, TextPrinter>();
             InitializeComponent();
             HelpCommand = new RelayCommand(HelpCommandMethod);
+            Loaded += MainWindow_Loaded;
             Closing += MainWindow_Closing;
         }
 
@@ -47,8 +48,12 @@ namespace RoleDDNG.Role
 
 #pragma warning disable VSTHRD100 // Avoid async void methods (this is an event)
 
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            await ((MainViewModel)DataContext).LoadAppSettings.ExecuteAsync().ConfigureAwait(true);
+        }
+
         private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-#pragma warning restore VSTHRD100 // Avoid async void methods (this is an event)
         {
             e.Cancel = true;
             if (_forceClose)
@@ -58,6 +63,8 @@ namespace RoleDDNG.Role
             }
             await SaveAndExitAsync().ConfigureAwait(true);
         }
+
+#pragma warning restore VSTHRD100 // Avoid async void methods (this is an event)
 
         public void CloseForced()
         {

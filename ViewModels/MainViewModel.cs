@@ -20,11 +20,11 @@ using RoleDDNG.ViewModels.ToolsVMs;
 
 namespace RoleDDNG.ViewModels
 {
-    public sealed class MainViewModel : ViewModelBase, IBusyStateNotifier
+    public sealed class MainViewModel : ViewModelBase
     {
         private bool _isBusy = true;
 
-        public bool IsBusy { get => _isBusy; set { Set(nameof(IsBusy), ref _isBusy, value); } }
+        public bool IsBusy { get => _isBusy; private set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
         private IContent _selectedWindow = default;
 
@@ -34,40 +34,28 @@ namespace RoleDDNG.ViewModels
 
         private AppSettings _appSettings = new AppSettings();
 
-        public AppSettings AppSettings { get => _appSettings; set { Set(nameof(AppSettings), ref _appSettings, value); } }
+        public AppSettings AppSettings { get => _appSettings; private set { Set(nameof(AppSettings), ref _appSettings, value); } }
 
         public MainViewModel()
         {
-            IsBusy = true;
-
-            ShowDiceRollWindow = new RelayCommand(ShowDiceRollWindowMethod);
-            ShowTownGeneratorWindow = new RelayCommand(ShowTownGeneratorWindowMethod);
+            ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
+            ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
             ExitApp = new AsyncCommand(ExitAppMethodAsync);
             LoadAppSettings = new AsyncCommand(LoadAppSettingsMethodAsync);
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
-            LoadAppSettings.Execute(this);
-            IsBusy = false;
         }
 
         public IAsyncCommand LoadAppSettings { get; private set; }
 
         private async Task LoadAppSettingsMethodAsync()
         {
+            IsBusy = true;
             if (File.Exists(_appSettingsFilePath))
             {
                 var serializer = SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>();
                 AppSettings = await serializer.DeserializeAsync(_appSettingsFilePath).ConfigureAwait(true);
             }
-        }
-
-        private void ShowTownGeneratorWindowMethod()
-        {
-            AddMdiWindow<TownGeneratorViewModel>();
-        }
-
-        private void ShowDiceRollWindowMethod()
-        {
-            AddMdiWindow<DiceRollViewModel>();
+            IsBusy = false;
         }
 
         private void AddMdiWindow<T>() where T : IContent, new()
