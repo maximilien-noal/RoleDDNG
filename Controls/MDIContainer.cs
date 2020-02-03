@@ -91,7 +91,10 @@ namespace Hammer.MDI.Control
                 if (Items.Count > 0)
                 {
                     SelectedItem = Items[Items.Count - 1];
-                    if (ItemContainerGenerator.ContainerFromItem(SelectedItem) is MdiWindow windowNew) windowNew.IsSelected = true;
+                    if (ItemContainerGenerator.ContainerFromItem(SelectedItem) is MdiWindow windowNew)
+                    {
+                        windowNew.IsSelected = true;
+                    }
                 }
 
                 // clear
