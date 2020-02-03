@@ -38,8 +38,8 @@ namespace RoleDDNG.ViewModels
 
         public MainViewModel()
         {
-            ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
-            ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
+            ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
+            ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
             ExitApp = new AsyncCommand(ExitAppMethodAsync);
             LoadAppSettings = new AsyncCommand(LoadAppSettingsMethodAsync);
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
