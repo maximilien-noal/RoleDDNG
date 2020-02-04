@@ -24,7 +24,10 @@ namespace RoleDDNG.Role.Dialogs
             Close();
         }
 
+#pragma warning disable CC0091 // Use static method (bound from XAML side)
+
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+#pragma warning restore CC0091 // Use static method (bound from XAML side)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;

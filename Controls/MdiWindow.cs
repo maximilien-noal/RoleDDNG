@@ -16,6 +16,7 @@ namespace Hammer.MDI.Control
     [TemplatePart(Name = "PART_BorderGrid", Type = typeof(Grid))]
     [TemplatePart(Name = "PART_Header", Type = typeof(Border))]
     [TemplatePart(Name = "PART_ButtonBar", Type = typeof(StackPanel))]
+    [TemplatePart(Name = "PART_ButtonBar_MenuButton", Type = typeof(WindowButton))]
     [TemplatePart(Name = "PART_ButtonBar_CloseButton", Type = typeof(WindowButton))]
     [TemplatePart(Name = "PART_ButtonBar_MaximizeButton", Type = typeof(WindowButton))]
     [TemplatePart(Name = "PART_ButtonBar_MinimizeButton", Type = typeof(WindowButton))]
@@ -28,32 +29,34 @@ namespace Hammer.MDI.Control
     public sealed class MdiWindow : ContentControl
     {
         public static readonly RoutedEvent ClosingEvent = EventManager.RegisterRoutedEvent(
-            "Closing", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
+            nameof(Closing), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
         public static readonly RoutedEvent FocusChangedEvent = EventManager.RegisterRoutedEvent(
-           "FocusChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
+           nameof(FocusChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
         public static readonly DependencyProperty HasDropShadowProperty =
-            DependencyProperty.Register("HasDropShadow", typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(true));
+            DependencyProperty.Register(nameof(HasDropShadow), typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(true));
 
         public static readonly DependencyProperty IsModalProperty =
-            DependencyProperty.Register("IsModal", typeof(bool?), typeof(MdiWindow), new UIPropertyMetadata(IsModalChangedCallback));
+            DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiWindow), new UIPropertyMetadata(IsModalChangedCallback));
 
         public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register("IsSelected", typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(false));
+            DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(false));
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(MdiWindow), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(Title), typeof(string), typeof(MdiWindow), new PropertyMetadata(string.Empty));
 
         public static readonly RoutedEvent WindowStateChangedEvent = EventManager.RegisterRoutedEvent(
-           "WindowStateChanged", RoutingStrategy.Bubble, typeof(WindowStateChangedRoutedEventHandler), typeof(MdiWindow));
+           nameof(WindowStateChanged), RoutingStrategy.Bubble, typeof(WindowStateChangedRoutedEventHandler), typeof(MdiWindow));
 
         public static readonly DependencyProperty WindowStateProperty =
-            DependencyProperty.Register("WindowState", typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
+            DependencyProperty.Register(nameof(WindowState), typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
 
         private WindowButton _closeButton;
 
         private WindowButton _maximizeButton;
+
+        private WindowButton _menuButton;
 
         private WindowButton _minimizeButton;
 
@@ -167,6 +170,12 @@ namespace Hammer.MDI.Control
 
         public override void OnApplyTemplate()
         {
+            _menuButton = GetTemplateChild("PART_ButtonBar_MenuButton") as WindowButton;
+            if (_menuButton != null)
+            {
+                _menuButton.MouseDoubleClick += CloseWindow;
+            }
+
             _closeButton = GetTemplateChild("PART_ButtonBar_CloseButton") as WindowButton;
             if (_closeButton != null)
             {

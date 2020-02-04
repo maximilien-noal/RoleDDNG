@@ -1,19 +1,19 @@
-﻿namespace Hammer.MdiControls.Panels
+﻿using System.Windows;
+using System.Windows.Controls;
+
+using Hammer.MDI.Control;
+
+namespace Hammer.MdiControls.Panels
 {
-    using System.Windows;
-    using System.Windows.Controls;
-
-    using Hammer.MDI.Control;
-
     /// <summary>
-    /// A <see cref="Canvas" /> where its size is dependant of its children.
+    /// A <see cref="Canvas"/> where its size is dependant of its children
     /// </summary>
     public class AutoResizeCanvas : Canvas
     {
-        private Size lastMeasure = default;
+        private Size _lastMeasure = new Size();
 
         /// <summary>
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// </summary>
         protected override Size ArrangeOverride(Size arrangeSize)
         {
@@ -29,17 +29,13 @@
                     {
                         continue;
                     }
-                    if (children is MdiWindow window && window.WindowState == WindowState.Normal)
-                    {
-                        window.WindowState = WindowState.Maximized;
-                    }
                 }
             }
             return base.ArrangeOverride(arrangeSize);
         }
 
         /// <summary>
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// </summary>
         protected override Size MeasureOverride(Size constraint)
         {
@@ -70,11 +66,11 @@
             }
             if (foundMaximizedOrMinizedWindow)
             {
-                lastMeasure = RenderSize;
+                _lastMeasure = RenderSize;
                 return new Size();
             }
-            lastMeasure = maxRightBottomChildSize;
-            return lastMeasure;
+            _lastMeasure = maxRightBottomChildSize;
+            return _lastMeasure;
         }
 
         private Size GetMaxRightBottomChild()
@@ -114,7 +110,7 @@
 
         private bool IsLastMeasureEqualToArrangeSize(Size arrangeSize)
         {
-            return lastMeasure.Width == arrangeSize.Width && lastMeasure.Height == arrangeSize.Height;
+            return _lastMeasure.Width == arrangeSize.Width && _lastMeasure.Height == arrangeSize.Height;
         }
 
         private bool IsLastMeasureObsolete(Size arrangeSize)
@@ -128,7 +124,7 @@
                 return IsLastMeasureEqualToArrangeSize(arrangeSize) == false;
             }
             var maxChildRightBottom = GetMaxRightBottomChild();
-            return lastMeasure.Width != maxChildRightBottom.Width || lastMeasure.Height != maxChildRightBottom.Height;
+            return _lastMeasure.Width != maxChildRightBottom.Width || _lastMeasure.Height != maxChildRightBottom.Height;
         }
     }
 }

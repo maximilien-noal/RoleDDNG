@@ -12,18 +12,15 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using DataAccess;
-
 using GalaSoft.MvvmLight.Ioc;
 
-using RoleDDNG.Models.Options;
 using RoleDDNG.ViewModels.ToolsVMs;
 
 namespace RoleDDNG.ViewModels
 {
     /// <summary>
-    /// This class contains static references to all the view models in the application and provides
-    /// an entry point for the bindings.
+    /// This class contains static references to all the view models in the
+    /// application and provides an entry point for the bindings.
     /// </summary>
     public class ViewModelLocator
     {
@@ -43,28 +40,28 @@ namespace RoleDDNG.ViewModels
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
 
-            SimpleIoc.Default.Register(() => new MainViewModel(new ModelSerializer<AppSettings>()));
+            SimpleIoc.Default.Register(() => new MainViewModel());
             SimpleIoc.Default.Register<DiceRollViewModel>();
             SimpleIoc.Default.Register<TownGeneratorViewModel>();
         }
 
 #pragma warning disable CA1822
 
-        public DiceRollViewModel DiceRoll
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<DiceRollViewModel>();
-            }
-        }
-
-        // Justification : class must implement a parameterless public constructor for the XAML
-        // side, where it initializes the SimpleIoc used here
+        // Justification : class must implement a parameterless public constructor for the XAML side,
+        // where it initializes the SimpleIoc used here
         public MainViewModel Main
         {
             get
             {
                 return SimpleIoc.Default.GetInstance<MainViewModel>();
+            }
+        }
+
+        public DiceRollViewModel DiceRoll
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<DiceRollViewModel>();
             }
         }
 
@@ -78,7 +75,7 @@ namespace RoleDDNG.ViewModels
 
 #pragma warning restore CA1822
 
-        public static void Cleanup()
+        internal static void Cleanup()
         {
             // TODO Clear the ViewModels
         }

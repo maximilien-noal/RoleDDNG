@@ -1,12 +1,13 @@
-﻿<UserControl x:Class="RoleDDNG.Role.UserControls.TownGeneratorUserControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-             DataContext="{Binding Source={StaticResource Locator}, Path=TownGenerator}"
-             mc:Ignorable="d"
-             Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
+﻿<UserControl
+    x:Class="RoleDDNG.Role.UserControls.TownGeneratorUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+    DataContext="{Binding Source={StaticResource Locator}, Path=TownGenerator}"
+    mc:Ignorable="d">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
         <Grid>
             <Grid.RowDefinitions>
@@ -23,19 +24,83 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Text="Nom de la communauté :" />
-            <TextBox Grid.Row="0" Grid.Column="1" Margin="2" MinWidth="200" Text="{Binding TownName}" />
-            <TextBlock Grid.Row="0" Grid.Column="2" Margin="2" Text="Population de la communauté :" />
-            <TextBox Grid.Row="0" Grid.Column="3" Margin="2" MinWidth="50" Text="{Binding PopCount}" />
-            <TextBlock Grid.Row="1" Grid.Column="0"  Margin="2" Text="Type de communauté :" />
-            <ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding TownTypes}" SelectedItem="{Binding TownType}" />
-            <TextBlock Grid.Row="1" Grid.Column="2"  Margin="2" Text="% d'impôt" />
-            <TextBox Grid.Row="1" Grid.Column="3" Margin="2" Text="{Binding TaxPercentage}" />
-            <TextBlock Grid.Row="1" Grid.Column="4"  Margin="2" Text="% de dîme" />
-            <TextBox Grid.Row="1" Grid.Column="5" Margin="2" MinWidth="50" Text="{Binding DimePercentage}" />
-            <Button Grid.Row="2" Grid.ColumnSpan="6"  Margin="2" Content="Générer" Command="{Binding Generate}" />
-            <ScrollViewer Grid.Row="3" Grid.ColumnSpan="6" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <TextBox AcceptsReturn="True" IsReadOnly="True" Text="{Binding Result}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="2"
+                Text="Nom de la communauté :" />
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                MinWidth="200"
+                Margin="2"
+                Text="{Binding TownName}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Margin="2"
+                Text="Population de la communauté :" />
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="3"
+                MinWidth="50"
+                Margin="2"
+                Text="{Binding PopCount}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="2"
+                Text="Type de communauté :" />
+            <ComboBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="2"
+                ItemsSource="{Binding TownTypes}"
+                SelectedItem="{Binding TownType}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="2"
+                Text="% d'impôt" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="3"
+                Margin="2"
+                Text="{Binding TaxPercentage}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="4"
+                Margin="2"
+                Text="% de dîme" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="5"
+                MinWidth="50"
+                Margin="2"
+                Text="{Binding DimePercentage}" />
+            <Button
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="2"
+                Command="{Binding Generate}"
+                Content="Générer" />
+            <Button
+                Grid.Row="2"
+                Grid.Column="2"
+                Grid.ColumnSpan="4"
+                Margin="2"
+                Command="{Binding Print}"
+                Content="Imprimer" />
+            <ScrollViewer
+                Grid.Row="3"
+                Grid.ColumnSpan="6"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto">
+                <TextBox
+                    AcceptsReturn="True"
+                    IsReadOnly="True"
+                    Text="{Binding Result}" />
             </ScrollViewer>
         </Grid>
     </ScrollViewer>

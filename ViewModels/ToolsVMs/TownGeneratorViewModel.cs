@@ -6,14 +6,19 @@ using System.Threading.Tasks;
 using AsyncAwaitBestPractices.MVVM;
 
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 
+using RoleDDNG.Interfaces.Printing;
+using RoleDDNG.OSServices.CrossPlatform;
 using RoleDDNG.ViewModels.Interfaces;
-using RoleDDNG.ViewModels.RNG;
 
 namespace RoleDDNG.ViewModels.ToolsVMs
 {
     public class TownGeneratorViewModel : ViewModelBase, IContent
     {
+        private readonly ITextPrinter _textPrinterService;
+
         private int _dimePercentage = 10;
 
         private int _popCount = 500;
@@ -28,7 +33,9 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         public TownGeneratorViewModel()
         {
+            _textPrinterService = SimpleIoc.Default.GetInstance<ITextPrinter>();
             Generate = new AsyncCommand(GenerateMethodAsync);
+            Print = new RelayCommand(PrintMethod);
         }
 
         public static List<string> TownTypes => new List<string>(new string[] { "Isolée", "Ouverte", "Intégrée" });
@@ -38,6 +45,8 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         public AsyncCommand Generate { get; private set; }
 
         public int PopCount { get => _popCount; set { Set(nameof(PopCount), ref _popCount, value); } }
+
+        public RelayCommand Print { get; private set; }
 
         public string Result { get => _result; set { Set(nameof(Result), ref _result, value); } }
 
@@ -54,7 +63,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             var dice = 0;
             for (int i = 0; i < nombre; i++)
             {
-                dice += GetZeroIfNegative(Convert.ToInt32(face * StaticRNG.LimitedRNG.Next()) + 1);
+                dice += GetZeroIfNegative(Convert.ToInt32(face * new StaticRNG().GetLimitedRNG().Next()) + 1);
             }
             dice += plus;
             return dice;
@@ -139,7 +148,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
                 generatedTownInfo.Append($"{Environment.NewLine}Mélange de races{Environment.NewLine}");
                 generatedTownInfo.Append($"{GetRaces()}{Environment.NewLine}");
                 return generatedTownInfo.ToString();
-            }).ConfigureAwait(true);
+            }).ConfigureAwait(false);
         }
 
         private double GetGoldRevenu()
@@ -247,7 +256,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         private string GetPNJs()
         {
-            double commandant = Convert.ToInt32(StaticRNG.LimitedRNG.NextDouble() * 100) + 1;
+            double commandant = Convert.ToInt32(new StaticRNG().GetLimitedRNG().NextDouble() * 100) + 1;
             if (commandant < 61)
             {
                 commandant = 8.1;
@@ -312,14 +321,14 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             {
                 modificateur = 12;
             }
-            int nombre = Math.Max(1, Convert.ToInt32(modificateur / 3));
+            var nombre = Math.Max(1, Convert.ToInt32(modificateur / 3));
             var totalPnj = 0;
 
             var niveauCommandant = 0;
             var pnjs = new StringBuilder();
             for (int j = 0; j < tabPnj.Length - 1; j++)
             {
-                int bonusModificateur = 0;
+                var bonusModificateur = 0;
                 if ((j == 3 || j == 14) && modificateur < -1)
                 {
                     if (DiceRoll(1, 20, 0) == 20)
@@ -341,7 +350,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
                     {
                         niveauPnj[niveau] = niveauPnj[niveau] + 1;
                         totalPnj += 1;
-                        int multiplicateur = 1;
+                        var multiplicateur = 1;
                         do
                         {
                             multiplicateur *= 2;
@@ -358,7 +367,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
                             }
                         } while (niveau > 1);
                     }
-                    int k = 0;
+                    var k = 0;
                     if (niveau > 0)
                     {
                         pnjs.Append(tabPnj[j].Classe + " : ");
@@ -652,6 +661,14 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             }
 
             return instances.ToString();
+        }
+
+        private void PrintMethod()
+        {
+            if (string.IsNullOrWhiteSpace(Result) == false)
+            {
+                _textPrinterService.PrintText(Result);
+            }
         }
 
         private struct PNJ

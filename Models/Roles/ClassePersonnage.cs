@@ -4,7 +4,7 @@ using GalaSoft.MvvmLight;
 
 namespace RoleDDNG.Models.Roles
 {
-    [Table("Classe")]
+    [Table(nameof(Classe))]
     public class ClassePersonnage : ObservableObject
     {
         private bool _affichage = false;

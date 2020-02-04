@@ -6,19 +6,19 @@ using System.Xml.Serialization;
 
 using RoleDDNG.Interfaces.Serialization;
 
-namespace DataAccess
+namespace RoleDDNG.DataAccess
 {
     public class ModelSerializer<T> : IAsyncSerializer<T>
     {
         public async Task<T> DeserializeAsync(string filePath)
         {
-            T deserializedMdodel = await Task.Run(() =>
+            var deserializedMdodel = await Task.Run(() =>
             {
-                XmlReaderSettings settings = new XmlReaderSettings() { XmlResolver = null };
-                using XmlReader reader = XmlReader.Create(filePath, settings);
+                var settings = new XmlReaderSettings { XmlResolver = null };
+                using var reader = XmlReader.Create(filePath, settings);
                 var serializer = new XmlSerializer(typeof(T));
                 return (T)serializer.Deserialize(reader);
-            }).ConfigureAwait(true);
+            }).ConfigureAwait(false);
             return deserializedMdodel;
         }
 
@@ -26,11 +26,11 @@ namespace DataAccess
         {
             await Task.Run(() =>
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                var serializer = new XmlSerializer(typeof(T));
                 using var writer = new StreamWriter(filePath, false, Encoding.Unicode);
                 serializer.Serialize(writer, objectToSerialize);
                 writer.Close();
-            }).ConfigureAwait(true);
+            }).ConfigureAwait(false);
         }
     }
 }

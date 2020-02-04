@@ -1,24 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <PropertyGroup>
-    <RootNamespace>Hammer.MDI.Control</RootNamespace>
-    <UseWPF>True</UseWPF>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <TargetFrameworks>netcoreapp31</TargetFrameworks>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Themes\appicon.png" />
-  </ItemGroup>
-  <ItemGroup>
 
-    <PackageReference Include="AdonisUI" Version="1.13.0" />
-    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.13.0" />
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>RoleDDNG.OSServices.Windows</RootNamespace>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.43" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Themes\appicon.png" />
+    <ProjectReference Include="..\..\Interfaces\Interfaces.csproj" />
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ namespace Hammer.MDI.Control
     public sealed class MdiContainer : Selector
     {
         public static readonly DependencyProperty IsModalProperty =
-            DependencyProperty.Register("IsModal", typeof(bool?), typeof(MdiContainer), new UIPropertyMetadata(IsModalChangedCallback));
+            DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiContainer), new UIPropertyMetadata(IsModalChangedCallback));
 
         static MdiContainer()
         {

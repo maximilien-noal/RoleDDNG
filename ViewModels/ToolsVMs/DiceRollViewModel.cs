@@ -5,8 +5,8 @@ using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
+using RoleDDNG.OSServices.CrossPlatform;
 using RoleDDNG.ViewModels.Interfaces;
-using RoleDDNG.ViewModels.RNG;
 
 namespace RoleDDNG.ViewModels.ToolsVMs
 {
@@ -51,7 +51,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             Results.Clear();
             for (int i = 0; i < NumberOfDices; i++)
             {
-                Results.Add(StaticRNG.LimitedRNG.Next(0, NumberofSides + 1));
+                Results.Add(new StaticRNG().GetLimitedRNG().Next(0, NumberofSides + 1));
             }
             RaisePropertyChanged(nameof(Results));
             Sum = Results.Sum(x => x);

@@ -45,14 +45,14 @@ namespace RoleDDNG.Role
 
         private static Uri GetWindowsTheme()
         {
-            using RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
-            object registryValueObject = key?.GetValue(RegistryValueName);
+            var key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
+            var registryValueObject = key?.GetValue(RegistryValueName);
             if (registryValueObject == null)
             {
                 return ResourceLocator.LightColorScheme;
             }
 
-            int registryValue = (int)registryValueObject;
+            var registryValue = (int)registryValueObject;
 
             return registryValue > 0 ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme;
         }
@@ -75,7 +75,7 @@ namespace RoleDDNG.Role
         private void WatchTheme()
         {
             var currentUser = WindowsIdentity.GetCurrent();
-            string query = string.Format(
+            var query = string.Format(
                 CultureInfo.InvariantCulture,
                 @"SELECT * FROM RegistryValueChangeEvent WHERE Hive = 'HKEY_USERS' AND KeyPath = '{0}\\{1}' AND ValueName = '{2}'",
                 currentUser.User.Value,
@@ -84,7 +84,6 @@ namespace RoleDDNG.Role
 
             using var watcher = new ManagementEventWatcher(query);
             watcher.EventArrived += Watcher_EventArrived;
-
             watcher.Start();
         }
 
@@ -99,10 +98,7 @@ namespace RoleDDNG.Role
             /// <summary>
             /// Adds any Adonis theme to the provided resource dictionary.
             /// </summary>
-            /// <param name="rootResourceDictionary">
-            /// The resource dictionary containing AdonisUI's resources. Expected are the resource
-            /// dictionaries of the app or window.
-            /// </param>
+            /// <param name="rootResourceDictionary">The resource dictionary containing AdonisUI's resources. Expected are the resource dictionaries of the app or window.</param>
             public static void AddAdonisResources(ResourceDictionary rootResourceDictionary)
             {
                 rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = ClassicTheme });
@@ -111,15 +107,12 @@ namespace RoleDDNG.Role
             /// <summary>
             /// Removes all resources of AdonisUI from the provided resource dictionary.
             /// </summary>
-            /// <param name="rootResourceDictionary">
-            /// The resource dictionary containing AdonisUI's resources. Expected are the resource
-            /// dictionaries of the app or window.
-            /// </param>
+            /// <param name="rootResourceDictionary">The resource dictionary containing AdonisUI's resources. Expected are the resource dictionaries of the app or window.</param>
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exception")]
             public static void RemoveAdonisResources(ResourceDictionary rootResourceDictionary)
             {
                 Uri[] adonisResources = { ClassicTheme };
-                ResourceDictionary currentTheme = FindFirstContainedResourceDictionaryByUri(rootResourceDictionary, adonisResources);
+                var currentTheme = FindFirstContainedResourceDictionaryByUri(rootResourceDictionary, adonisResources);
 
                 if (currentTheme != null)
                 {
@@ -129,29 +122,18 @@ namespace RoleDDNG.Role
             }
 
             /// <summary>
-            /// Adds a resource dictionary with the specified uri to the MergedDictionaries
-            /// collection of the <see cref="rootResourceDictionary" />. Additionally all child
-            /// ResourceDictionaries are traversed recursively to find the current color scheme
-            /// which is removed if found.
+            /// Adds a resource dictionary with the specified uri to the MergedDictionaries collection of the <see cref="rootResourceDictionary"/>.
+            /// Additionally all child ResourceDictionaries are traversed recursively to find the current color scheme which is removed if found.
             /// </summary>
-            /// <param name="rootResourceDictionary">       
-            /// The resource dictionary containing the currently active color scheme. It will
-            /// receive the new color scheme in its MergedDictionaries. Expected are the resource
-            /// dictionaries of the app or window.
-            /// </param>
-            /// <param name="colorSchemeResourceUri">       
-            /// The Uri of the color scheme to be set. Can be taken from the
-            /// <see cref="ResourceLocator" /> class.
-            /// </param>
-            /// <param name="currentColorSchemeResourceUri">
-            /// Optional uri to an external color scheme that is not provided by AdonisUI.
-            /// </param>
+            /// <param name="rootResourceDictionary">The resource dictionary containing the currently active color scheme. It will receive the new color scheme in its MergedDictionaries. Expected are the resource dictionaries of the app or window.</param>
+            /// <param name="colorSchemeResourceUri">The Uri of the color scheme to be set. Can be taken from the <see cref="ResourceLocator"/> class.</param>
+            /// <param name="currentColorSchemeResourceUri">Optional uri to an external color scheme that is not provided by AdonisUI.</param>
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exception")]
             public static void SetColorScheme(ResourceDictionary rootResourceDictionary, Uri colorSchemeResourceUri, Uri currentColorSchemeResourceUri = null)
             {
-                Uri[] knownColorSchemes = currentColorSchemeResourceUri != null ? new[] { currentColorSchemeResourceUri } : new[] { LightColorScheme, DarkColorScheme };
+                var knownColorSchemes = currentColorSchemeResourceUri != null ? new[] { currentColorSchemeResourceUri } : new[] { LightColorScheme, DarkColorScheme };
 
-                ResourceDictionary currentTheme = FindFirstContainedResourceDictionaryByUri(rootResourceDictionary, knownColorSchemes);
+                var currentTheme = FindFirstContainedResourceDictionaryByUri(rootResourceDictionary, knownColorSchemes);
 
                 if (currentTheme != null)
                 {

@@ -37,11 +37,11 @@ namespace Hammer.MDI.Control.WindowControls
             if ((AdornedElement as MdiWindow)?.Container == null) return;
 
             // Some arbitrary drawing implements.
-            SolidColorBrush renderBrush = new SolidColorBrush(Colors.Transparent)
+            var renderBrush = new SolidColorBrush(Colors.Transparent)
             {
                 Opacity = 0.1
             };
-            Pen renderPen = new Pen(new SolidColorBrush(Colors.Transparent), 0);
+            var renderPen = new Pen(new SolidColorBrush(Colors.Transparent), 0);
 
             var x = Math.Max(0, AutoResizeCanvas.GetLeft(AdornedElement));
             var y = Math.Max(0, AutoResizeCanvas.GetTop(AdornedElement));
