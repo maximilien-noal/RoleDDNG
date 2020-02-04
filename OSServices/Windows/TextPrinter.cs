@@ -16,13 +16,15 @@ namespace RoleDDNG.OSServices.Windows
             }
             using var docToPrint = new PrintDocument();
 
-            using var printDialog = new PrintDialog();
-            printDialog.AllowSomePages = true;
-            printDialog.ShowHelp = true;
-            printDialog.AllowPrintToFile = true;
-            printDialog.ShowNetwork = true;
-            printDialog.AllowCurrentPage = true;
-            printDialog.Document = docToPrint;
+            using var printDialog = new PrintDialog
+            {
+                AllowSomePages = true,
+                ShowHelp = true,
+                AllowPrintToFile = true,
+                ShowNetwork = true,
+                AllowCurrentPage = true,
+                Document = docToPrint
+            };
             docToPrint.PrintPage += (s, e) =>
             {
                 System.Drawing.Font printFont = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Regular);

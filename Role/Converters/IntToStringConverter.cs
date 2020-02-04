@@ -6,8 +6,14 @@ namespace RoleDDNG.Role.Converters
 {
 #pragma warning disable CA1812 // Justification : instantiated from the XAML side
 
-    internal class IntToStringConverter : IValueConverter
+    [ValueConversion(typeof(int), typeof(string))]
+    internal sealed class IntToStringConverter : IValueConverter
     {
+        /// <summary>
+        /// Gets the default instance
+        /// </summary>
+        internal static readonly IntToStringConverter Default = new IntToStringConverter();
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is null)

@@ -6,8 +6,14 @@ using System.Windows.Data;
 
 namespace RoleDDNG.Role.Converters
 {
-    public class EnumerableToVisibilityConverter : IValueConverter
+    [ValueConversion(typeof(IEnumerable), typeof(Visibility))]
+    public sealed class EnumerableToVisibilityConverter : IValueConverter
     {
+        /// <summary>
+        /// Gets the default instance
+        /// </summary>
+        public static readonly EnumerableToVisibilityConverter Default = new EnumerableToVisibilityConverter();
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is null)

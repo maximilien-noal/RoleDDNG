@@ -8,7 +8,7 @@ namespace RoleDDNG.Role.Backgrounds
 {
     public class BackgroundSource : IBackgroundSource
     {
-        private List<string> _backgrounds = new List<string>();
+        private readonly List<string> _backgrounds = new List<string>();
 
         public BackgroundSource()
         {
