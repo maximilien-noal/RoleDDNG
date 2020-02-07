@@ -1,7 +1,7 @@
-﻿using GalaSoft.MvvmLight;
-
-namespace RoleDDNG.Models.Characters
+﻿namespace RoleDDNG.Models.Characters
 {
+    using GalaSoft.MvvmLight;
+
     public class Capacites : ObservableObject
     {
         private short? _modificateur1 = 0;

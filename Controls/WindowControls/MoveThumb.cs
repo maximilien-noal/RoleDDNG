@@ -46,7 +46,9 @@ namespace Hammer.MDI.Control.WindowControls
                         break;
 
                     default:
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
                         throw new InvalidOperationException("Unsupported WindowsState mode");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
                 }
             }
 

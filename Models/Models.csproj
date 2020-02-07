@@ -5,7 +5,6 @@
     <RootNamespace>RoleDDNG.Models</RootNamespace>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
-
   <ItemGroup>
 
     <PackageReference Include="EntityFramework" Version="6.4.0" />
