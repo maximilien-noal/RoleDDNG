@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 using Hammer.MDI.Control;
@@ -20,16 +21,6 @@ namespace Hammer.MdiControls.Panels
             if (IsLastMeasureObsolete(arrangeSize))
             {
                 InvalidateMeasure();
-            }
-            if (IsAnyInternalChildMaximizedOrMinimized())
-            {
-                foreach (UIElement children in InternalChildren)
-                {
-                    if (children == null)
-                    {
-                        continue;
-                    }
-                }
             }
             return base.ArrangeOverride(arrangeSize);
         }
@@ -96,16 +87,9 @@ namespace Hammer.MdiControls.Panels
 
         private bool IsAnyInternalChildMaximizedOrMinimized()
         {
-            var anyMaximized = false;
-            foreach (UIElement internalChild in InternalChildren)
-            {
-                if (internalChild == null) { continue; }
-                if (internalChild is MdiWindow window && (window.WindowState == WindowState.Maximized || window.WindowState == WindowState.Minimized))
-                {
-                    return true;
-                }
-            }
-            return anyMaximized;
+            return InternalChildren.OfType<MdiWindow>().Any(x =>
+                x.WindowState == WindowState.Maximized ||
+                x.WindowState == WindowState.Minimized);
         }
 
         private bool IsLastMeasureEqualToArrangeSize(Size arrangeSize)
