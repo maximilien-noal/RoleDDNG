@@ -17,7 +17,7 @@ namespace Hammer.MDI.Control.Extensions
 
             AnimateResize(window, window.Container.ActualWidth, window.Container.ActualHeight, true);
 
-            window.WindowState = WindowState.Maximized;
+            window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Maximized);
         }
 
         public static void Minimize(this MdiWindow window)
@@ -31,9 +31,9 @@ namespace Hammer.MDI.Control.Extensions
             RemoveWindowLock(window);
             AnimateResize(window, 200, 32, true);
 
-            window.WindowState = WindowState.Minimized;
+            window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Minimized);
 
-            window.Tumblr.Source = window.CreateSnapshot();
+            window.Tumblr.SetCurrentValue(System.Windows.Controls.Image.SourceProperty, window.CreateSnapshot());
         }
 
         public static void Normalize(this MdiWindow window)
@@ -41,9 +41,9 @@ namespace Hammer.MDI.Control.Extensions
             AutoResizeCanvas.SetTop(window, window.LastTop);
             AutoResizeCanvas.SetLeft(window, window.LastLeft);
 
-            AnimateResize(window, window.LastWidth, window.LastHeight, !window.IsLastStateMaximized());
+            AnimateResize(window, window.LastWidth, window.LastHeight, !window.IsPreviousStateMaximized());
 
-            window.WindowState = WindowState.Normal;
+            window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Normal);
         }
 
         public static void RemoveWindowLock(this MdiWindow window)
@@ -66,11 +66,6 @@ namespace Hammer.MDI.Control.Extensions
 
         public static void ToggleMinimize(this MdiWindow window)
         {
-            if (window is null)
-            {
-                return;
-            }
-
             if (window.WindowState != WindowState.Minimized)
             {
                 window.Minimize();
@@ -95,7 +90,7 @@ namespace Hammer.MDI.Control.Extensions
 
         private static void AnimateResize(MdiWindow window, double newWidth, double newHeight, bool lockWindow)
         {
-            window.LayoutTransform = new ScaleTransform();
+            window.SetCurrentValue(FrameworkElement.LayoutTransformProperty, new ScaleTransform());
 
             var widthAnimation = new DoubleAnimation(window.ActualWidth, newWidth, new Duration(TimeSpan.FromMilliseconds(10)));
             var heightAnimation = new DoubleAnimation(window.ActualHeight, newHeight, new Duration(TimeSpan.FromMilliseconds(10)));
@@ -110,15 +105,18 @@ namespace Hammer.MDI.Control.Extensions
             window.BeginAnimation(FrameworkElement.HeightProperty, heightAnimation, HandoffBehavior.Compose);
         }
 
+        private static bool IsPreviousStateMaximized(this MdiWindow window) => window.PreviousWindowState == WindowState.Maximized;
+
         private static void SaveLastSize(MdiWindow window)
         {
-            if (window.WindowState == WindowState.Normal)
+            if (window.WindowState != WindowState.Normal)
             {
-                window.LastLeft = AutoResizeCanvas.GetLeft(window);
-                window.LastTop = AutoResizeCanvas.GetTop(window);
-                window.LastWidth = window.ActualWidth;
-                window.LastHeight = window.ActualHeight;
+                return;
             }
+            window.LastLeft = AutoResizeCanvas.GetLeft(window);
+            window.LastTop = AutoResizeCanvas.GetTop(window);
+            window.LastWidth = window.ActualWidth;
+            window.LastHeight = window.ActualHeight;
         }
     }
 }

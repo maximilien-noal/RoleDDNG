@@ -9,8 +9,9 @@ namespace Hammer.MDI.Control
 {
     public sealed class MdiContainer : Selector
     {
+        /// <summary> Identifies the <see cref="IsModal" /> dependency property. </summary>
         public static readonly DependencyProperty IsModalProperty =
-            DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiContainer), new UIPropertyMetadata(IsModalChangedCallback));
+            DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiContainer), new UIPropertyMetadata(OnIsModalChanged));
 
         static MdiContainer()
         {
@@ -22,9 +23,9 @@ namespace Hammer.MDI.Control
             this.SelectionChanged += MdiContainer_SelectionChanged;
         }
 
-        public bool IsModal
+        public bool? IsModal
         {
-            get { return (bool)GetValue(IsModalProperty); }
+            get { return (bool?)GetValue(IsModalProperty); }
 
             set { SetValue(IsModalProperty, value); }
         }
@@ -65,10 +66,10 @@ namespace Hammer.MDI.Control
             base.PrepareContainerForItemOverride(element, item);
         }
 
-        private static void IsModalChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnIsModalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue == null) return;
-            ((MdiContainer)d).IsModal = (bool)e.NewValue;
+            if (e.NewValue == null || ((bool?)e.NewValue).HasValue == false) return;
+            ((MdiContainer)d).SetCurrentValue(IsModalProperty, ((bool?)e.NewValue).Value);
         }
 
         private void MdiContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -90,7 +91,7 @@ namespace Hammer.MDI.Control
                 InternalItemSource?.Remove(window.DataContext);
                 if (Items.Count > 0)
                 {
-                    SelectedItem = Items[Items.Count - 1];
+                    SetCurrentValue(SelectedItemProperty, Items[^1]);
                     if (ItemContainerGenerator.ContainerFromItem(SelectedItem) is MdiWindow windowNew)
                     {
                         windowNew.IsSelected = true;
@@ -109,9 +110,9 @@ namespace Hammer.MDI.Control
         {
             if (((MdiWindow)sender).IsFocused)
             {
-                SelectedItem = e.OriginalSource;
+                SetCurrentValue(SelectedItemProperty, e.OriginalSource);
 
-                ((MdiWindow)ItemContainerGenerator.ContainerFromItem(SelectedItem)).IsSelected = true;
+                ((MdiWindow)ItemContainerGenerator.ContainerFromItem(SelectedItem)).SetCurrentValue(MdiWindow.IsSelectedProperty, true);
 
                 foreach (var item in Items)
                 {
@@ -124,9 +125,9 @@ namespace Hammer.MDI.Control
                         }
                     }
                 }
-                SelectedItem = e.OriginalSource;
+                SetCurrentValue(SelectedItemProperty, e.OriginalSource);
 
-                ((MdiWindow)ItemContainerGenerator.ContainerFromItem(SelectedItem)).IsSelected = true;
+                ((MdiWindow)ItemContainerGenerator.ContainerFromItem(SelectedItem)).SetCurrentValue(MdiWindow.IsSelectedProperty, true);
             }
         }
 

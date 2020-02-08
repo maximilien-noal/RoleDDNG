@@ -26,35 +26,42 @@ namespace Hammer.MDI.Control
     [TemplatePart(Name = "PART_ResizerThumb", Type = typeof(ResizeThumb))]
     [TemplatePart(Name = "PART_Thumblr", Type = typeof(Image))]
     [DebuggerDisplay("{Title}")]
+    [TemplatePart(Name = "PART_Tumblr", Type = typeof(Image))]
     public sealed class MdiWindow : ContentControl
     {
+        /// <summary> Identifies the <see cref="Closing" /> routed event. </summary>
         public static readonly RoutedEvent ClosingEvent = EventManager.RegisterRoutedEvent(
             nameof(Closing), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
+        /// <summary> Identifies the <see cref="FocusChanged" /> routed event. </summary>
         public static readonly RoutedEvent FocusChangedEvent = EventManager.RegisterRoutedEvent(
            nameof(FocusChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
+        /// <summary> Identifies the <see cref="HasDropShadow" /> dependency property. </summary>
         public static readonly DependencyProperty HasDropShadowProperty =
             DependencyProperty.Register(nameof(HasDropShadow), typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(true));
 
+        /// <summary> Identifies the <see cref="IsModal" /> dependency property. </summary>
         public static readonly DependencyProperty IsModalProperty =
-            DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiWindow), new UIPropertyMetadata(IsModalChangedCallback));
+            DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiWindow), new UIPropertyMetadata(OnIsModalChanged));
 
+        /// <summary> Identifies the <see cref="IsSelected" /> dependency property. </summary>
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(false));
 
+        /// <summary> Identifies the <see cref="Title" /> dependency property. </summary>
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(MdiWindow), new PropertyMetadata(string.Empty));
 
+        /// <summary> Identifies the <see cref="WindowStateChanged" /> routed event. </summary>
         public static readonly RoutedEvent WindowStateChangedEvent = EventManager.RegisterRoutedEvent(
            nameof(WindowStateChanged), RoutingStrategy.Bubble, typeof(WindowStateChangedRoutedEventHandler), typeof(MdiWindow));
 
+        /// <summary> Identifies the <see cref="WindowState" /> dependency property. </summary>
         public static readonly DependencyProperty WindowStateProperty =
             DependencyProperty.Register(nameof(WindowState), typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
 
         private WindowButton _closeButton;
-
-        private WindowState _lastState;
 
         private WindowButton _maximizeButton;
 
@@ -102,16 +109,21 @@ namespace Hammer.MDI.Control
             set { SetValue(HasDropShadowProperty, value); }
         }
 
-        public bool IsModal
+        public bool? IsModal
         {
             get
             {
-                return (bool)GetValue(IsModalProperty);
+                return (bool?)GetValue(IsModalProperty);
             }
 
             set
             {
-                if (value)
+#pragma warning disable WPF0036 // Avoid side effects in CLR accessors.
+                if (!value.HasValue)
+                {
+                    _myAdornerLayer?.Remove(_myAdorner);
+                }
+                else
                 {
                     if (_myAdornerLayer == null)
                         _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
@@ -121,14 +133,15 @@ namespace Hammer.MDI.Control
                     }
                     _myAdornerLayer.Add(_myAdorner);
                 }
-                else
-                {
-                    _myAdornerLayer?.Remove(_myAdorner);
-                }
+#pragma warning restore WPF0036 // Avoid side effects in CLR accessors.
                 if (Container != null)
-                    Container.IsModal = value;
+                {
+                    Container.SetCurrentValue(MdiContainer.IsModalProperty, value);
+                }
 
+#pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
                 SetValue(IsModalProperty, value);
+#pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
             }
         }
 
@@ -156,7 +169,6 @@ namespace Hammer.MDI.Control
 
             set
             {
-                _lastState = (WindowState)GetValue(WindowStateProperty);
                 SetValue(WindowStateProperty, value);
             }
         }
@@ -177,8 +189,6 @@ namespace Hammer.MDI.Control
         {
             OnMouseLeftButtonDown(mouseButtonEventArgs);
         }
-
-        public bool IsLastStateMaximized() => _lastState == WindowState.Maximized;
 
         public override void OnApplyTemplate()
         {
@@ -221,8 +231,8 @@ namespace Hammer.MDI.Control
             var left = Math.Max(0, (actualContainerWidth - actualWidth) / 4);
             var top = Math.Max(0, (actualContainerHeight - actualHeight) / 4);
 
-            SetValue(AutoResizeCanvas.LeftProperty, left);
-            SetValue(AutoResizeCanvas.TopProperty, top);
+            SetCurrentValue(AutoResizeCanvas.LeftProperty, left);
+            SetCurrentValue(AutoResizeCanvas.TopProperty, top);
         }
 
         internal void Initialize(MdiContainer container)
@@ -237,7 +247,7 @@ namespace Hammer.MDI.Control
         {
             base.OnGotKeyboardFocus(e);
 
-            IsSelected = true;
+            SetCurrentValue(IsSelectedProperty, true);
             Panel.SetZIndex(this, 2);
 
             RaiseEvent(new RoutedEventArgs(FocusChangedEvent, DataContext));
@@ -254,10 +264,10 @@ namespace Hammer.MDI.Control
             FrameworkElement parent = VisualTreeExtension.FindMdiWindow(e.NewFocus as FrameworkElement);
             if ((e.NewFocus is MdiWindow && !Equals(e.NewFocus, this)) || (parent != null && !Equals(parent, this)))
             {
-                IsSelected = false;
+                SetCurrentValue(IsSelectedProperty, false);
                 Panel.SetZIndex(this, 0);
                 var newWindow = (e.NewFocus is MdiWindow) ? (e.NewFocus as MdiWindow) : (parent as MdiWindow);
-                Container.SetValue(MdiContainer.SelectedItemProperty, newWindow.DataContext);
+                Container.SetCurrentValue(MdiContainer.SelectedItemProperty, newWindow.DataContext);
                 newWindow.IsSelected = true;
             }
         }
@@ -265,17 +275,17 @@ namespace Hammer.MDI.Control
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-            IsSelected = true;
+            SetCurrentValue(IsSelectedProperty, true);
             Panel.SetZIndex(this, 2);
             RaiseEvent(new RoutedEventArgs(FocusChangedEvent, DataContext));
 
             Focus();
         }
 
-        private static void IsModalChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnIsModalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue == null) return;
-            ((MdiWindow)d).IsModal = (bool)e.NewValue;
+            if (e.NewValue == null || ((bool?)e.NewValue).HasValue == false) return;
+            ((MdiWindow)d).SetCurrentValue(IsModalProperty, ((bool?)e.NewValue).Value);
         }
 
         private static void OnWindowStateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
