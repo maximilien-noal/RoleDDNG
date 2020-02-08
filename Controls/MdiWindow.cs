@@ -54,6 +54,8 @@ namespace Hammer.MDI.Control
 
         private WindowButton _closeButton;
 
+        private WindowState _lastState;
+
         private WindowButton _maximizeButton;
 
         private WindowButton _menuButton;
@@ -147,8 +149,16 @@ namespace Hammer.MDI.Control
 
         public WindowState WindowState
         {
-            get { return (WindowState)GetValue(WindowStateProperty); }
-            set { SetValue(WindowStateProperty, value); }
+            get
+            {
+                return (WindowState)GetValue(WindowStateProperty);
+            }
+
+            set
+            {
+                _lastState = (WindowState)GetValue(WindowStateProperty);
+                SetValue(WindowStateProperty, value);
+            }
         }
 
         internal MdiContainer Container { get; private set; }
@@ -167,6 +177,8 @@ namespace Hammer.MDI.Control
         {
             OnMouseLeftButtonDown(mouseButtonEventArgs);
         }
+
+        public bool IsLastStateMaximized() => _lastState == WindowState.Maximized;
 
         public override void OnApplyTemplate()
         {

@@ -41,7 +41,7 @@ namespace Hammer.MDI.Control.Extensions
             AutoResizeCanvas.SetTop(window, window.LastTop);
             AutoResizeCanvas.SetLeft(window, window.LastLeft);
 
-            AnimateResize(window, window.LastWidth, window.LastHeight, false);
+            AnimateResize(window, window.LastWidth, window.LastHeight, !window.IsLastStateMaximized());
 
             window.WindowState = WindowState.Normal;
         }
