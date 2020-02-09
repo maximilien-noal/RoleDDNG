@@ -12,10 +12,10 @@ namespace Hammer.MDI.Control.Extensions
             AutoResizeCanvas.SetTop(window, 0.0);
             AutoResizeCanvas.SetLeft(window, 0.0);
 
-            window.Height = window.Container.ActualHeight;
-            window.Width = window.Container.ActualWidth;
+            window.SetCurrentValue(FrameworkElement.HeightProperty, window.Container.ActualHeight);
+            window.SetCurrentValue(FrameworkElement.WidthProperty, window.Container.ActualWidth);
 
-            window.WindowState = WindowState.Maximized;
+            window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Maximized);
         }
 
         public static void Minimize(this MdiWindow window)
@@ -23,22 +23,22 @@ namespace Hammer.MDI.Control.Extensions
             var index = window.Container.MinimizedWindowsCount;
 
             SaveLastSize(window);
-            window.Tumblr.Source = window.CreateSnapshot();
-            window.Width = 128;
+            window.Tumblr.SetCurrentValue(System.Windows.Controls.Image.SourceProperty, window.CreateSnapshot());
+            window.SetCurrentValue(FrameworkElement.WidthProperty, (double)128);
             AutoResizeCanvas.SetTop(window, window.Container.ActualHeight - 32);
             AutoResizeCanvas.SetLeft(window, index * 205);
 
-            window.WindowState = WindowState.Minimized;
+            window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Minimized);
         }
 
         public static void Normalize(this MdiWindow window)
         {
-            window.Height = window.LastHeight;
-            window.Width = window.LastWidth;
+            window.SetCurrentValue(FrameworkElement.HeightProperty, window.LastHeight);
+            window.SetCurrentValue(FrameworkElement.WidthProperty, window.LastWidth);
             AutoResizeCanvas.SetTop(window, window.LastTop);
             AutoResizeCanvas.SetLeft(window, window.LastLeft);
 
-            window.WindowState = WindowState.Normal;
+            window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Normal);
         }
 
         public static void ToggleMaximize(this MdiWindow window)
