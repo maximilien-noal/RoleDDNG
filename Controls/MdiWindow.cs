@@ -300,10 +300,7 @@ namespace Hammer.MDI.Control
             {
                 Width += e.NewSize.Width - e.PreviousSize.Width;
                 Height += e.NewSize.Height - e.PreviousSize.Height;
-
-                this.RemoveWindowLock();
             }
-
             if (WindowState == WindowState.Minimized)
             {
                 AutoResizeCanvas.SetTop(this, Container.ActualHeight - 32);
