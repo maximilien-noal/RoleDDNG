@@ -68,7 +68,12 @@ namespace Hammer.MDI.Control.WindowControls
                         break;
                 }
             }
-
+            var topCrop = AutoResizeCanvas.GetTop(window);
+            if (topCrop < 0)
+            {
+                AutoResizeCanvas.SetTop(window, 0d);
+                window.Height += topCrop;
+            }
             e.Handled = true;
         }
     }
