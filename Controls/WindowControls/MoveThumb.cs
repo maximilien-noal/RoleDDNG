@@ -91,8 +91,7 @@ namespace Hammer.MDI.Control.WindowControls
                 var candidateLeft = window.LastLeft + e.HorizontalChange;
                 var candidateTop = window.LastTop + e.VerticalChange;
 
-                Canvas.SetLeft(window, Math.Min(Math.Max(0, candidateLeft), window.Container.ActualWidth - 25));
-                Canvas.SetTop(window, Math.Min(Math.Max(0, candidateTop), window.Container.ActualHeight - 25));
+                window.PositionWithinContainer(candidateLeft, candidateTop);
             }
         }
     }
