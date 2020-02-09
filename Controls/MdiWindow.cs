@@ -8,7 +8,6 @@ using System.Windows.Input;
 using Hammer.MDI.Control.Events;
 using Hammer.MDI.Control.Extensions;
 using Hammer.MDI.Control.WindowControls;
-using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control
 {
@@ -231,8 +230,8 @@ namespace Hammer.MDI.Control
             var left = Math.Max(0, (actualContainerWidth - actualWidth) / 4);
             var top = Math.Max(0, (actualContainerHeight - actualHeight) / 4);
 
-            SetCurrentValue(AutoResizeCanvas.LeftProperty, left);
-            SetCurrentValue(AutoResizeCanvas.TopProperty, top);
+            SetCurrentValue(Canvas.LeftProperty, left);
+            SetCurrentValue(Canvas.TopProperty, top);
         }
 
         internal void Initialize(MdiContainer container)
@@ -313,7 +312,7 @@ namespace Hammer.MDI.Control
             }
             if (WindowState == WindowState.Minimized)
             {
-                AutoResizeCanvas.SetTop(this, Container.ActualHeight - 32);
+                Canvas.SetTop(this, Container.ActualHeight - 32);
             }
         }
 
