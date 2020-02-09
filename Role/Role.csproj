@@ -105,4 +105,8 @@
     <ProjectReference Include="..\OSServices\Windows\OSServices.Windows.csproj" />
     <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="PInvoke\" />
+  </ItemGroup>
 </Project>

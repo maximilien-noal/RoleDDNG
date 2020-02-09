@@ -14,5 +14,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.45" />
     <ProjectReference Include="..\..\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\..\Models\Models.csproj" />
   </ItemGroup>
 </Project>

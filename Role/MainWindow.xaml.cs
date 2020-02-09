@@ -1,19 +1,17 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Interop;
 
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 
-using Microsoft.VisualStudio.Threading;
-
 using RoleDDNG.DataAccess;
 using RoleDDNG.Interfaces.Backgrounds;
 using RoleDDNG.Interfaces.Printing;
 using RoleDDNG.Interfaces.Serialization;
+using RoleDDNG.Interfaces.Window;
 using RoleDDNG.Models.Options;
 using RoleDDNG.Models.Structs;
-using RoleDDNG.OSServices.Windows;
+using RoleDDNG.OSServices.Windows.Printing;
 using RoleDDNG.Role.Backgrounds;
 using RoleDDNG.Role.Dialogs;
 using RoleDDNG.Role.PInvoke;
@@ -32,12 +30,12 @@ namespace RoleDDNG.Role
 
         public MainWindow()
         {
+            SimpleIoc.Default.Register<IWindowPlacer, HwndPlacer>();
             SimpleIoc.Default.Register<IBackgroundSource, BackgroundSource>();
             SimpleIoc.Default.Register<IAsyncSerializer<AppSettings>, ModelSerializer<AppSettings>>();
             SimpleIoc.Default.Register<ITextPrinter, TextPrinter>();
             InitializeComponent();
             HelpCommand = new RelayCommand(HelpCommandMethod);
-            Loaded += MainWindow_Loaded;
             Closing += MainWindow_Closing;
         }
 
@@ -48,11 +46,6 @@ namespace RoleDDNG.Role
 
 #pragma warning disable VSTHRD100 // Avoid async void methods (this is an event)
 
-        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            await ((MainViewModel)DataContext).LoadAppSettings.ExecuteAsync().ConfigureAwait(true);
-        }
-
         private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
@@ -61,7 +54,17 @@ namespace RoleDDNG.Role
                 e.Cancel = false;
                 return;
             }
-            await SaveAndExitAsync().ConfigureAwait(true);
+            SimpleIoc.Default.GetInstance<IWindowPlacer>().GetWindowPlacement(new WindowInteropHelper(this).Handle, out WindowPlacement windowPlacement);
+            SimpleIoc.Default.GetInstance<MainViewModel>().AppSettings.MainWindowPlacement = windowPlacement;
+            await SimpleIoc.Default.GetInstance<MainViewModel>().ExitAppAsync().ConfigureAwait(true);
+            CloseForced();
+        }
+
+        private async void Window_SourceInitialized(object sender, System.EventArgs e)
+        {
+            await SimpleIoc.Default.GetInstance<MainViewModel>().LoadAppSettingsAsync().ConfigureAwait(true);
+            var windowPlacement = SimpleIoc.Default.GetInstance<MainViewModel>().AppSettings.MainWindowPlacement;
+            SimpleIoc.Default.GetInstance<IWindowPlacer>().SetWindowPlacement(new WindowInteropHelper(this).Handle, ref windowPlacement);
         }
 
 #pragma warning restore VSTHRD100 // Avoid async void methods (this is an event)
@@ -80,20 +83,6 @@ namespace RoleDDNG.Role
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.MainWindow.Close();
-        }
-
-        private async Task SaveAndExitAsync()
-        {
-            NativeMethods.GetWindowPlacement(new WindowInteropHelper(this).Handle, out WindowPlacement windowPlacement);
-            ((MainViewModel)DataContext).AppSettings.MainWindowPlacement = windowPlacement;
-            await ((MainViewModel)DataContext).ExitApp.ExecuteAsync().ConfigureAwait(true);
-            CloseForced();
-        }
-
-        private void Window_SourceInitialized(object sender, System.EventArgs e)
-        {
-            var windowPlacement = ((MainViewModel)DataContext).AppSettings.MainWindowPlacement;
-            NativeMethods.SetWindowPlacement(new WindowInteropHelper(this).Handle, ref windowPlacement);
         }
     }
 }

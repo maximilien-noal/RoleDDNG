@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 using RoleDDNG.Models.Structs;
 
-namespace RoleDDNG.Role.PInvoke
+namespace RoleDDNG.OSServices.Windows.PInvoke
 {
     internal static class NativeMethods
     {

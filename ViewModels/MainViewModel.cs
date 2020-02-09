@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using AsyncAwaitBestPractices.MVVM;
-
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
@@ -40,20 +38,16 @@ namespace RoleDDNG.ViewModels
         {
             ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
             ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
-            ExitApp = new AsyncCommand(ExitAppMethodAsync);
-            LoadAppSettings = new AsyncCommand(LoadAppSettingsMethodAsync);
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
         }
 
-        public IAsyncCommand LoadAppSettings { get; private set; }
-
-        private async Task LoadAppSettingsMethodAsync()
+        public async Task LoadAppSettingsAsync()
         {
             IsBusy = true;
             if (File.Exists(_appSettingsFilePath))
             {
                 var serializer = SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>();
-                AppSettings = await serializer.DeserializeAsync(_appSettingsFilePath).ConfigureAwait(true);
+                AppSettings = await serializer.DeserializeAsync(_appSettingsFilePath).ConfigureAwait(false);
             }
             IsBusy = false;
         }
@@ -81,14 +75,13 @@ namespace RoleDDNG.ViewModels
 
 #pragma warning disable CA1822 // Static bindings work, but make the designer view throw an error.
 
-        public IAsyncCommand ExitApp { get; private set; }
-
-        private async Task ExitAppMethodAsync()
+        public async Task ExitAppAsync()
         {
             IsBusy = true;
-            if (Directory.Exists(Path.GetDirectoryName(_appSettingsFilePath)) == false)
+            string configDir = Path.GetDirectoryName(_appSettingsFilePath);
+            if (Directory.Exists(configDir) == false)
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(_appSettingsFilePath));
+                Directory.CreateDirectory(configDir);
             }
 
             await SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>().SerializeAsync(_appSettingsFilePath, AppSettings).ConfigureAwait(false);
