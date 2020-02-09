@@ -7,7 +7,7 @@ using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control.WindowControls
 {
-    public sealed class ResizeThumb : Thumb
+    internal sealed class ResizeThumb : Thumb
     {
         public ResizeThumb()
         {
@@ -18,7 +18,11 @@ namespace Hammer.MDI.Control.WindowControls
         {
             var window = VisualTreeExtension.FindMdiWindow(this);
 
-            if (window != null)
+            if (window == null)
+            {
+                return;
+            }
+            else
             {
                 if (window.IsFocused == false)
                 {

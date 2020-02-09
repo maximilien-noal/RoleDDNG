@@ -5,14 +5,10 @@ using System.Windows.Media.Imaging;
 
 namespace Hammer.MDI.Control.Extensions
 {
-    public static class WindowVisualExtension
+    internal static class WindowVisualExtension
     {
         public static RenderTargetBitmap CreateSnapshot(this MdiWindow window)
         {
-            if (window is null)
-            {
-                return new RenderTargetBitmap(0, 0, 0, 0, PixelFormats.Default);
-            }
             var bitmap = new RenderTargetBitmap((int)Math.Round(window.ActualWidth), (int)Math.Round(window.ActualHeight), 96, 96, PixelFormats.Default);
             var drawingVisual = new DrawingVisual();
             using (var context = drawingVisual.RenderOpen())

@@ -1,6 +1,4 @@
-﻿// Adorners must subclass the abstract base class Adorner.
-
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -9,7 +7,8 @@ using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control.WindowControls
 {
-    public class HollowRectangleAdorner : Adorner
+    // Adorners must subclass the abstract base class Adorner.
+    internal class HollowRectangleAdorner : Adorner
     {
         // Be sure to call the base class constructor.
         public HollowRectangleAdorner(UIElement adornedElement)
@@ -30,10 +29,6 @@ namespace Hammer.MDI.Control.WindowControls
         // method, which is called by the layout system as part of a rendering pass.
         protected override void OnRender(DrawingContext drawingContext)
         {
-            if (drawingContext is null)
-            {
-                return;
-            }
             if ((AdornedElement as MdiWindow)?.Container == null) return;
 
             // Some arbitrary drawing implements.

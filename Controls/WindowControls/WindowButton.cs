@@ -5,8 +5,9 @@ namespace Hammer.MDI.Control.WindowControls
 {
     using System.Windows.Controls.Primitives;
 
-    public class WindowButton : ButtonBase
+    internal class WindowButton : ButtonBase
     {
+        /// <summary>Identifies the <see cref="Icon"/> dependency property.</summary>
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register(nameof(Icon), typeof(Brush), typeof(WindowButton), new UIPropertyMetadata(Brushes.Transparent));
 

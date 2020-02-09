@@ -8,7 +8,7 @@ using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control.WindowControls
 {
-    public sealed class MoveThumb : Thumb
+    internal sealed class MoveThumb : Thumb
     {
         static MoveThumb()
         {
@@ -22,11 +22,6 @@ namespace Hammer.MDI.Control.WindowControls
 
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
         {
-            if (e is null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
-
             var window = VisualTreeExtension.FindMdiWindow(this);
 
             if (window != null && window.Container != null)
