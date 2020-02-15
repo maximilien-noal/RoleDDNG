@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using AsyncAwaitBestPractices.MVVM;
+
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
@@ -24,10 +26,6 @@ namespace RoleDDNG.ViewModels
 
         public bool IsBusy { get => _isBusy; private set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
-        private string _databasePath = string.Empty;
-
-        public string DatabasePath { get => _databasePath; private set { Set(nameof(DatabasePath), ref _databasePath, value); } }
-
         private IContent _selectedWindow = default;
 
         public IContent SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
@@ -43,13 +41,20 @@ namespace RoleDDNG.ViewModels
             SetCharacterDatabasePath = new RelayCommand<string>(SetCharacterDatabasePathMethod);
             ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
             ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
-            OpenCharactersDataBase = new RelayCommand(() => { RemoveMdiWindow<OpenCharacterViewModel>(); AddMdiWindow<OpenCharacterViewModel>(); });
+            OpenCharactersDataBase = new AsyncCommand(OpenCharactersDataBaseAsync);
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
+        }
+
+        private async Task OpenCharactersDataBaseAsync()
+        {
+            AddMdiWindow<OpenCharacterViewModel>();
+            var characterDBViewModel = SimpleIoc.Default.GetInstance<OpenCharacterViewModel>();
+            await characterDBViewModel.AskForDatabaseFileCommand.ExecuteAsync().ConfigureAwait(true);
         }
 
         private void SetCharacterDatabasePathMethod(string path)
         {
-            DatabasePath = path;
+            AppSettings.LastCharacterDBPath = path;
         }
 
         public async Task LoadAppSettingsAsync()
@@ -94,7 +99,7 @@ namespace RoleDDNG.ViewModels
 
         public RelayCommand ShowTownGeneratorWindow { get; private set; }
 
-        public RelayCommand OpenCharactersDataBase { get; private set; }
+        public AsyncCommand OpenCharactersDataBase { get; private set; }
 
 #pragma warning disable CA1822 // Static bindings work, but make the designer view throw an error.
 

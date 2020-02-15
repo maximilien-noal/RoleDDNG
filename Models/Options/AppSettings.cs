@@ -6,11 +6,11 @@ namespace RoleDDNG.Models.Options
 {
     public class AppSettings : ObservableObject
     {
-        private string _bdd = default;
+        private string _lastCharacterDBPath = default;
 
         private WindowPlacement _mainWindowPlacement = default;
 
-        public string Bdd { get => _bdd; set { Set(nameof(_bdd), ref _bdd, value); } }
+        public string LastCharacterDBPath { get => _lastCharacterDBPath; set { Set(nameof(_lastCharacterDBPath), ref _lastCharacterDBPath, value); } }
 
         public WindowPlacement MainWindowPlacement { get => _mainWindowPlacement; set { Set(nameof(MainWindowPlacement), ref _mainWindowPlacement, value); } }
     }

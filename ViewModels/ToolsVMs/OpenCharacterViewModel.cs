@@ -13,8 +13,6 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 {
     public class OpenCharacterViewModel : ViewModelBase, IContent
     {
-        private string _databasePath;
-
         public OpenCharacterViewModel()
         {
             AskForDatabaseFileCommand = new AsyncCommand(AskForDatabaseFileAsync);
@@ -30,13 +28,12 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             var dbFile = await fileDialog.TryOpenUserChosenFileAsync("Ouvrir une base de données de personnages...", "mdb").ConfigureAwait(true);
             if (string.IsNullOrWhiteSpace(dbFile) == false && File.Exists(dbFile))
             {
-                _databasePath = dbFile;
+                SimpleIoc.Default.GetInstance<MainViewModel>().SetCharacterDatabasePath.Execute(dbFile);
             }
             else
             {
                 SimpleIoc.Default.GetInstance<MainViewModel>().RemoveMdiWindow<OpenCharacterViewModel>();
             }
-            SimpleIoc.Default.GetInstance<MainViewModel>().SetCharacterDatabasePath.Execute(_databasePath);
         }
     }
 }

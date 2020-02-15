@@ -1,9 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Controls;
-
-using AsyncAwaitBestPractices;
-
-using RoleDDNG.ViewModels.ToolsVMs;
+﻿using System.Windows.Controls;
 
 namespace RoleDDNG.Role.UserControls
 {
@@ -15,19 +10,6 @@ namespace RoleDDNG.Role.UserControls
         public OpenCharacterUserControl()
         {
             InitializeComponent();
-        }
-
-        private async Task AskForDBFilePathAsync()
-        {
-            if (DataContext is OpenCharacterViewModel viewModel)
-            {
-                await viewModel.AskForDatabaseFileCommand.ExecuteAsync().ConfigureAwait(true);
-            }
-        }
-
-        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            AskForDBFilePathAsync().SafeFireAndForget();
         }
     }
 }

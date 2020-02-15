@@ -9,7 +9,6 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     DataContext="{Binding Source={StaticResource Locator}, Path=OpenCharacter}"
-    Loaded="UserControl_Loaded"
     mc:Ignorable="d">
     <UniformGrid>
         <ListView />
