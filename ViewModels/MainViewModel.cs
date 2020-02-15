@@ -24,6 +24,10 @@ namespace RoleDDNG.ViewModels
 
         public bool IsBusy { get => _isBusy; private set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
+        private string _databasePath = string.Empty;
+
+        public string DatabasePath { get => _databasePath; private set { Set(nameof(DatabasePath), ref _databasePath, value); } }
+
         private IContent _selectedWindow = default;
 
         public IContent SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
@@ -36,9 +40,16 @@ namespace RoleDDNG.ViewModels
 
         public MainViewModel()
         {
+            SetCharacterDatabasePath = new RelayCommand<string>(SetCharacterDatabasePathMethod);
             ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
             ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
+            OpenCharactersDataBase = new RelayCommand(() => { RemoveMdiWindow<OpenCharacterViewModel>(); AddMdiWindow<OpenCharacterViewModel>(); });
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
+        }
+
+        private void SetCharacterDatabasePathMethod(string path)
+        {
+            DatabasePath = path;
         }
 
         public async Task LoadAppSettingsAsync()
@@ -50,6 +61,14 @@ namespace RoleDDNG.ViewModels
                 AppSettings = await serializer.DeserializeAsync(_appSettingsFilePath).ConfigureAwait(false);
             }
             IsBusy = false;
+        }
+
+        public void RemoveMdiWindow<T>() where T : IContent
+        {
+            if (Items.OfType<T>().Any())
+            {
+                Items.Remove(Items.OfType<T>().First());
+            }
         }
 
         private void AddMdiWindow<T>() where T : IContent, new()
@@ -69,9 +88,13 @@ namespace RoleDDNG.ViewModels
 
         public ObservableCollection<IContent> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
 
+        public RelayCommand<string> SetCharacterDatabasePath { get; private set; }
+
         public RelayCommand ShowDiceRollWindow { get; private set; }
 
         public RelayCommand ShowTownGeneratorWindow { get; private set; }
+
+        public RelayCommand OpenCharactersDataBase { get; private set; }
 
 #pragma warning disable CA1822 // Static bindings work, but make the designer view throw an error.
 

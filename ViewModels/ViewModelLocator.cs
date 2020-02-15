@@ -43,6 +43,7 @@ namespace RoleDDNG.ViewModels
             SimpleIoc.Default.Register(() => new MainViewModel());
             SimpleIoc.Default.Register<DiceRollViewModel>();
             SimpleIoc.Default.Register<TownGeneratorViewModel>();
+            SimpleIoc.Default.Register<OpenCharacterViewModel>();
         }
 
 #pragma warning disable CA1822
@@ -70,6 +71,14 @@ namespace RoleDDNG.ViewModels
             get
             {
                 return SimpleIoc.Default.GetInstance<TownGeneratorViewModel>();
+            }
+        }
+
+        public OpenCharacterViewModel OpenCharacter
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<OpenCharacterViewModel>();
             }
         }
 

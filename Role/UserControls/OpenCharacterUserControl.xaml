@@ -1,0 +1,17 @@
+﻿<UserControl
+    x:Class="RoleDDNG.Role.UserControls.OpenCharacterUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{Binding Source={StaticResource Locator}, Path=OpenCharacter}"
+    Loaded="UserControl_Loaded"
+    mc:Ignorable="d">
+    <UniformGrid>
+        <ListView />
+    </UniformGrid>
+</UserControl>

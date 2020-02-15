@@ -6,11 +6,13 @@ using GalaSoft.MvvmLight.Ioc;
 
 using RoleDDNG.DataAccess;
 using RoleDDNG.Interfaces.Backgrounds;
+using RoleDDNG.Interfaces.Dialogs;
 using RoleDDNG.Interfaces.Printing;
 using RoleDDNG.Interfaces.Serialization;
 using RoleDDNG.Interfaces.Window;
 using RoleDDNG.Models.Options;
 using RoleDDNG.Models.Structs;
+using RoleDDNG.OSServices.Windows.Dialogs;
 using RoleDDNG.OSServices.Windows.Printing;
 using RoleDDNG.Role.Backgrounds;
 using RoleDDNG.Role.Dialogs;
@@ -34,6 +36,7 @@ namespace RoleDDNG.Role
             SimpleIoc.Default.Register<IBackgroundSource, BackgroundSource>();
             SimpleIoc.Default.Register<IAsyncSerializer<AppSettings>, ModelSerializer<AppSettings>>();
             SimpleIoc.Default.Register<ITextPrinter, TextPrinter>();
+            SimpleIoc.Default.Register<IFileDialog, Win32FileDialog>();
             InitializeComponent();
             HelpCommand = new RelayCommand(HelpCommandMethod);
             Closing += MainWindow_Closing;
