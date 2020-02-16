@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 
 using AsyncAwaitBestPractices.MVVM;
@@ -19,6 +20,8 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         }
 
         public AsyncCommand AskForDatabaseFileCommand { get; }
+
+        public ObservableCollection<dynamic> Characters { get; private set; } = new ObservableCollection<dynamic>();
 
         public string Title => "Accéder à un personnage";
 

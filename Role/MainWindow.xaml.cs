@@ -4,7 +4,7 @@ using System.Windows.Interop;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 
-using RoleDDNG.DataAccess;
+using RoleDDNG.Serialization;
 using RoleDDNG.Interfaces.Backgrounds;
 using RoleDDNG.Interfaces.Dialogs;
 using RoleDDNG.Interfaces.Printing;

@@ -4,6 +4,6 @@ namespace RoleDDNG.Interfaces.Dialogs
 {
     public interface IFileDialog
     {
-        public Task<string> TryOpenUserChosenFileAsync(string dialogTitle, string defaultExtension);
+        Task<string> TryOpenUserChosenFileAsync(string dialogTitle, string defaultExtension);
     }
 }
