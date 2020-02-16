@@ -10,6 +10,8 @@
     Title="{Binding Path=AppSettings.LastCharacterDBPath, StringFormat='RoleDD Gestion des personnages pour Donjons &amp; Dragons 3.5 [{0}]'}"
     Width="1218"
     Height="754"
+    MinWidth="640"
+    MinHeight="480"
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
     DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
     Icon="Assets/appicon.png"

@@ -24,7 +24,7 @@ namespace Hammer.MDI.Control.Extensions
             SaveLastSize(window);
             window.Tumblr.SetCurrentValue(System.Windows.Controls.Image.SourceProperty, window.CreateSnapshot());
             window.SetCurrentValue(FrameworkElement.WidthProperty, (double)128);
-            Canvas.SetTop(window, window.Container.ActualHeight - 32);
+            Canvas.SetTop(window, window.Container.ActualHeight - 24);
             Canvas.SetLeft(window, index * 205);
 
             window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Minimized);
@@ -52,14 +52,25 @@ namespace Hammer.MDI.Control.Extensions
                 candidateTop = 0;
             }
 
-            if (candidateLeft + window.ActualWidth > window.Container.ActualWidth)
+            var width = window.Width;
+            var height = window.Height;
+            if (double.IsNaN(window.Height))
             {
-                candidateLeft = window.Container.ActualWidth - window.ActualWidth;
+                height = window.ActualHeight;
+            }
+            if (double.IsNaN(window.Width))
+            {
+                width = window.ActualWidth;
             }
 
-            if (candidateTop + window.ActualHeight > window.Container.ActualHeight)
+            if (candidateLeft + width > window.Container.ActualWidth)
             {
-                candidateTop = window.Container.ActualHeight - window.ActualHeight;
+                candidateLeft = window.Container.ActualWidth - width;
+            }
+
+            if (candidateTop + height > window.Container.ActualHeight)
+            {
+                candidateTop = window.Container.ActualHeight - height;
             }
             Canvas.SetLeft(window, candidateLeft);
             Canvas.SetTop(window, candidateTop);

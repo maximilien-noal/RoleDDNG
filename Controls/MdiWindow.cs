@@ -312,7 +312,11 @@ namespace Hammer.MDI.Control
             }
             if (WindowState == WindowState.Minimized)
             {
-                Canvas.SetTop(this, Container.ActualHeight - 32);
+                Canvas.SetTop(this, Container.ActualHeight - 24);
+            }
+            if (WindowState == WindowState.Normal)
+            {
+                WindowBehaviorExtension.PositionWithinContainer(this, Canvas.GetLeft(this), Canvas.GetTop(this));
             }
         }
 
