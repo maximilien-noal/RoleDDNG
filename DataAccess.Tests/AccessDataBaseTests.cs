@@ -9,7 +9,7 @@ namespace RoleDDNG.DataAccess.Tests
         [Fact]
         public void CanBeInstantiated()
         {
-            using var adb = new AccessDataBase(@"..\..\..\MDBs\perso.mdb");
+            using var adb = new AccessDataBase<dynamic>(); //@"..\..\..\MDBs\perso.mdb"
             adb.Should().NotBeNull();
         }
 

@@ -1,47 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Odbc;
 using System.IO;
+using System.Threading.Tasks;
+
+using RoleDDNG.Interfaces.Repository;
 
 namespace RoleDDNG.DataAccess
 {
-    public class AccessDataBase : IDisposable
+    public class AccessDataBase<T> : IAsyncRepository<T> where T : new()
     {
-        private readonly OdbcConnection _dbConnection;
-
-        private bool _disposed = false;
-
-        public AccessDataBase(string mdbFileName)
+        public async Task<IEnumerable<T>> GetAllAsync(string mdbFilePath, string tableName)
         {
-            if (string.IsNullOrWhiteSpace(mdbFileName))
+            if (string.IsNullOrWhiteSpace(mdbFilePath))
             {
-                throw new ArgumentNullException(nameof(mdbFileName));
+                throw new ArgumentNullException(nameof(mdbFilePath));
             }
-            if (File.Exists(mdbFileName) == false)
+            if (File.Exists(mdbFilePath) == false)
             {
-                throw new FileNotFoundException(mdbFileName);
+                throw new FileNotFoundException(mdbFilePath);
             }
+            using var db = new OdbcConnection("Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=" + mdbFilePath);
+            await db.OpenAsync().ConfigureAwait(false);
 
-            _dbConnection = new OdbcConnection("Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=" + mdbFileName);
-            _dbConnection.Open();
-        }
+            var query = $"SELECT * FROM {tableName}";
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-            {
-                return;
-            }
-            if (disposing)
-            {
-                _dbConnection.Dispose();
-            }
-            _disposed = true;
+            return new List<T>();
         }
     }
 }
