@@ -19,9 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSServices.Windows", "OSSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSServices.CrossPlatform", "OSServices\OSServices.CrossPlatform\OSServices.CrossPlatform.csproj", "{63924A1A-0D00-4F7A-A932-140F9C0530E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serialization", "Serialization\Serialization.csproj", "{CD5C8EEB-83BD-43B9-921D-10CA9A234C67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serialization", "Serialization\Serialization.csproj", "{CD5C8EEB-83BD-43B9-921D-10CA9A234C67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseLayer", "DatabaseLayer\DatabaseLayer.csproj", "{E56A7174-AF46-44B5-B52E-25945DEC52E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseLayer", "DatabaseLayer\DatabaseLayer.csproj", "{E56A7174-AF46-44B5-B52E-25945DEC52E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{92C40D6C-BFC3-43F0-9DE6-FFC940AA11F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -21,6 +21,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         public AsyncCommand AskForDatabaseFileCommand { get; }
 
+        //private CharacterDbContext _dbContext;
         public ObservableCollection<dynamic> Characters { get; private set; } = new ObservableCollection<dynamic>();
 
         public string Title => "Accéder à un personnage";
@@ -37,6 +38,8 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             {
                 SimpleIoc.Default.GetInstance<MainViewModel>().RemoveMdiWindow<OpenCharacterViewModel>();
             }
+
+            //_dbContext = new CharacterDbContext(dbFile);
         }
     }
 }
