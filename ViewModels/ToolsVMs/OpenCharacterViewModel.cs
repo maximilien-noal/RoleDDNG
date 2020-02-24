@@ -30,6 +30,16 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         public string Title => "Accéder à un personnage";
 
+        public async Task GetCharactersFromDbAsync(string dbFile)
+        {
+            var db = new DbAccessor(dbFile);
+            var charactersFromDb = await db.GetQueryDataAsync<Personnage>(QUERY).ConfigureAwait(true);
+
+            Characters.Clear();
+
+            charactersFromDb.ToList().ForEach(x => Characters.Add(x));
+        }
+
         private async Task AskForDatabaseFileAsync()
         {
             var fileDialog = SimpleIoc.Default.GetInstance<IFileDialog>();
@@ -42,12 +52,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             {
                 SimpleIoc.Default.GetInstance<MainViewModel>().RemoveMdiWindow<OpenCharacterViewModel>();
             }
-            var db = new DbAccessor(dbFile);
-            var charactersFromDb = await db.GetQueryDataAsync<Personnage>(QUERY).ConfigureAwait(true);
-
-            Characters.Clear();
-
-            charactersFromDb.ToList().ForEach(x => Characters.Add(x));
+            await GetCharactersFromDbAsync(dbFile).ConfigureAwait(true);
         }
     }
 }
