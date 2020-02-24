@@ -10,7 +10,11 @@
     d:DesignWidth="800"
     DataContext="{Binding Source={StaticResource Locator}, Path=OpenCharacter}"
     mc:Ignorable="d">
-    <UniformGrid>
-        <ListView />
-    </UniformGrid>
+    <ListBox ItemsSource="{Binding Characters}" Background="DarkGray">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Nom}" />
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
 </UserControl>
