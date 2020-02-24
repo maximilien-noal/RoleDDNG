@@ -9,11 +9,15 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     DataContext="{Binding Source={StaticResource Locator}, Path=OpenCharacter}"
-    mc:Ignorable="d">
-    <ListBox ItemsSource="{Binding Characters}" Background="DarkGray">
+    mc:Ignorable="d"
+    Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
+    <ListBox ItemsSource="{Binding Characters}">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <TextBlock Text="{Binding Nom}" />
+                <UniformGrid>
+                    <TextBlock Text="{Binding Nom}" />
+                    <TextBlock Text="{Binding Race}" />
+                </UniformGrid>
             </DataTemplate>
         </ListBox.ItemTemplate>
     </ListBox>

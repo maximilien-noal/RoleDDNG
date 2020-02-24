@@ -45,6 +45,8 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             var db = new DbAccessor(dbFile);
             var charactersFromDb = await db.GetQueryDataAsync<Personnage>(QUERY).ConfigureAwait(true);
 
+            Characters.Clear();
+
             charactersFromDb.ToList().ForEach(x => Characters.Add(x));
         }
     }
