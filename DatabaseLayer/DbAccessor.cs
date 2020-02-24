@@ -27,6 +27,7 @@ namespace RoleDDNG.DatabaseLayer
             using var connection = new OdbcConnection($"{CONNECTION_STRING_DEBUT}{_dbFileName}");
             await connection.OpenAsync().ConfigureAwait(false);
             var result = connection.Query<T>(sqlQuery);
+            await connection.CloseAsync().ConfigureAwait(false);
             return result;
         }
     }
