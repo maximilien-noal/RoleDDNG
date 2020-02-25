@@ -6,14 +6,10 @@ using System.Windows.Data;
 
 namespace RoleDDNG.Role.Converters
 {
-#pragma warning disable CA1812 // Justification : instantiated from the XAML side
-
     [ValueConversion(typeof(IList<int>), typeof(string))]
-    internal sealed class ListOfIntsToStringConverter : IValueConverter
+    public sealed class ListOfIntsToStringConverter : IValueConverter
     {
-        /// <summary>
-        /// Gets the default instance
-        /// </summary>
+        /// <summary> Gets the default instance </summary>
         internal static readonly ListOfIntsToStringConverter Default = new ListOfIntsToStringConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -47,6 +43,4 @@ namespace RoleDDNG.Role.Converters
             return Double.NaN;
         }
     }
-
-#pragma warning restore CA1812
 }

@@ -25,7 +25,6 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         public AsyncCommand AskForDatabaseFileCommand { get; }
 
-        //private CharacterDbContext _dbContext;
         public ObservableCollection<Personnage> Characters { get; private set; } = new ObservableCollection<Personnage>();
 
         public string Title => "Accéder à un personnage";
@@ -35,7 +34,10 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             var db = new DbAccessor(dbFile);
             var charactersFromDb = await db.GetQueryDataAsync<Personnage>(QUERY).ConfigureAwait(true);
 
-            Characters.Clear();
+            if (Characters.Any())
+            {
+                Characters.Clear();
+            }
 
             charactersFromDb.ToList().ForEach(x => Characters.Add(x));
         }
