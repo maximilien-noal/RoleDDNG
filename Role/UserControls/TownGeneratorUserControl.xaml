@@ -8,6 +8,9 @@
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
     DataContext="{Binding Source={StaticResource Locator}, Path=TownGenerator}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
         <Grid>
             <Grid.RowDefinitions>
@@ -102,6 +105,20 @@
                     IsReadOnly="True"
                     Text="{Binding Result}" />
             </ScrollViewer>
+            <Grid
+            Grid.RowSpan="4"
+            Grid.ColumnSpan="6"
+            Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
+            Opacity="0.5"
+            Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="17"
+                Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}">
+                Chargement en cours...
+                </TextBlock>
+            </Grid>
         </Grid>
     </ScrollViewer>
 </UserControl>
