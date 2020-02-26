@@ -8,8 +8,11 @@ using System.Windows.Data;
 namespace RoleDDNG.Role.Converters
 {
     [ValueConversion(typeof(Personnage), typeof(short))]
-    public class CharacterToLevelConverter : IValueConverter
+    public sealed class CharacterToLevelConverter : IValueConverter
     {
+        /// <summary> Gets the default instance </summary>
+        public static readonly CharacterToLevelConverter Default = new CharacterToLevelConverter();
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is null)

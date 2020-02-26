@@ -24,8 +24,8 @@
                     <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
                         <TextBlock Text="{Binding Nom}" />
                         <TextBlock Text="{Binding Race}" />
-                        <TextBlock Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" />
                         <TextBlock Text="{Binding Converter={StaticResource CharacterToLevelConverter}}" />
+                        <TextBlock Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" />
                     </StackPanel>
                 </DockPanel>
             </DataTemplate>

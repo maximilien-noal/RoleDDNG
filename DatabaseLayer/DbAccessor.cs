@@ -24,6 +24,7 @@ namespace RoleDDNG.DatabaseLayer
             {
                 throw new ArgumentNullException(nameof(sqlQuery));
             }
+            DefaultTypeMap.MatchNamesWithUnderscores = true;
             using var connection = new OdbcConnection($"{CONNECTION_STRING_DEBUT}{_dbFileName}");
             await connection.OpenAsync().ConfigureAwait(false);
             var result = connection.Query<T>(sqlQuery);
