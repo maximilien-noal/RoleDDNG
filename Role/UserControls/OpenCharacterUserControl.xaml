@@ -9,8 +9,43 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     DataContext="{Binding Source={StaticResource Locator}, Path=OpenCharacter}"
-    mc:Ignorable="d">
-    <UniformGrid>
-        <ListView />
-    </UniformGrid>
+    mc:Ignorable="d"
+    Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:FilePathToBitmapConverter x:Key="FilePathToBitmapConverter" />
+        <converters:CharacterToClasseConverter x:Key="CharacterToClasseConverter" />
+        <converters:CharacterToLevelConverter x:Key="CharacterToLevelConverter" />
+    </UserControl.Resources>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <ListBox ItemsSource="{Binding Characters}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel>
+                            <Image Source="{Binding Image, Converter={StaticResource FilePathToBitmapConverter}}" MaxWidth="128" MaxHeight="128" DockPanel.Dock="Left" />
+                            <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+                                <TextBlock Text="{Binding Nom}" />
+                                <TextBlock Text="{Binding Race}" />
+                                <TextBlock Text="{Binding Converter={StaticResource CharacterToLevelConverter}}" />
+                                <TextBlock Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" />
+                            </StackPanel>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Grid
+            Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
+            Opacity="0.5"
+            Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="17"
+                Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}">
+                Chargement en cours...
+                </TextBlock>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 using RoleDDNG.Interfaces.Serialization;
 
-namespace RoleDDNG.DataAccess
+namespace RoleDDNG.Serialization
 {
     public class ModelSerializer<T> : IAsyncSerializer<T>
     {

@@ -3,7 +3,7 @@
     <RootNamespace>Hammer.MDI.Control</RootNamespace>
     <UseWPF>True</UseWPF>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <TargetFrameworks>netcoreapp31</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Themes\appicon.png" />
@@ -16,7 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.45" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.5.132" />
     <PackageReference Include="WpfAnalyzers" Version="2.4.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

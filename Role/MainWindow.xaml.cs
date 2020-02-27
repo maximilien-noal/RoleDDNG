@@ -4,7 +4,7 @@ using System.Windows.Interop;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 
-using RoleDDNG.DataAccess;
+using RoleDDNG.Serialization;
 using RoleDDNG.Interfaces.Backgrounds;
 using RoleDDNG.Interfaces.Dialogs;
 using RoleDDNG.Interfaces.Printing;
@@ -21,14 +21,10 @@ using RoleDDNG.ViewModels;
 
 namespace RoleDDNG.Role
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /// <summary> Interaction logic for MainWindow.xaml </summary>
     public partial class MainWindow : Window
     {
         private bool _forceClose = false;
-
-        public RelayCommand HelpCommand { get; private set; }
 
         public MainWindow()
         {
@@ -40,6 +36,24 @@ namespace RoleDDNG.Role
             InitializeComponent();
             HelpCommand = new RelayCommand(HelpCommandMethod);
             Closing += MainWindow_Closing;
+        }
+
+        public RelayCommand HelpCommand { get; private set; }
+
+        public void CloseForced()
+        {
+            _forceClose = true;
+            Close();
+        }
+
+        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            new AboutBox(this).ShowDialog();
+        }
+
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Close();
         }
 
         private void HelpCommandMethod()
@@ -68,24 +82,9 @@ namespace RoleDDNG.Role
             await SimpleIoc.Default.GetInstance<MainViewModel>().LoadAppSettingsAsync().ConfigureAwait(true);
             var windowPlacement = SimpleIoc.Default.GetInstance<MainViewModel>().AppSettings.MainWindowPlacement;
             SimpleIoc.Default.GetInstance<IWindowPlacer>().SetWindowPlacement(new WindowInteropHelper(this).Handle, ref windowPlacement);
+            await SimpleIoc.Default.GetInstance<MainViewModel>().ShowCharacterChoiceAsync().ConfigureAwait(true);
         }
 
 #pragma warning restore VSTHRD100 // Avoid async void methods (this is an event)
-
-        public void CloseForced()
-        {
-            _forceClose = true;
-            Close();
-        }
-
-        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            new AboutBox(this).ShowDialog();
-        }
-
-        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.MainWindow.Close();
-        }
     }
 }

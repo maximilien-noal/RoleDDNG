@@ -103,10 +103,7 @@
     <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\OSServices\OSServices.CrossPlatform\OSServices.CrossPlatform.csproj" />
     <ProjectReference Include="..\OSServices\Windows\OSServices.Windows.csproj" />
+    <ProjectReference Include="..\Serialization\Serialization.csproj" />
     <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="PInvoke\" />
   </ItemGroup>
 </Project>

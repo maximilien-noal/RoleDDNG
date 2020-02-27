@@ -4,14 +4,10 @@ using System.Windows.Data;
 
 namespace RoleDDNG.Role.Converters
 {
-#pragma warning disable CA1812 // Justification : instantiated from the XAML side
-
     [ValueConversion(typeof(int), typeof(string))]
-    internal sealed class IntToStringConverter : IValueConverter
+    public sealed class IntToStringConverter : IValueConverter
     {
-        /// <summary>
-        /// Gets the default instance
-        /// </summary>
+        /// <summary> Gets the default instance </summary>
         internal static readonly IntToStringConverter Default = new IntToStringConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -43,6 +39,4 @@ namespace RoleDDNG.Role.Converters
             return Double.NaN;
         }
     }
-
-#pragma warning restore CA1812
 }

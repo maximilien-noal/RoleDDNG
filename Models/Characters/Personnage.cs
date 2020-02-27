@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 
 using GalaSoft.MvvmLight;
@@ -172,10 +173,13 @@ namespace RoleDDNG.Models.Characters
 
         public string Archetype { get => _archetype; set { Set(nameof(Archetype), ref _archetype, value); } }
 
+        [Column("Artisanat_1")]
         public string Artisanat1 { get => _artisanat1; set { Set(nameof(Artisanat1), ref _artisanat1, value); } }
 
+        [Column("Artisanat_2")]
         public string Artisanat2 { get => _artisanat2; set { Set(nameof(Artisanat2), ref _artisanat2, value); } }
 
+        [Column("Artisanat_3")]
         public string Artisanat3 { get => _artisanat3; set { Set(nameof(Artisanat3), ref _artisanat3, value); } }
 
         public string BackGround { get => _backGround; set { Set(nameof(BackGround), ref _backGround, value); } }
@@ -186,44 +190,61 @@ namespace RoleDDNG.Models.Characters
 
         public string Cheveux { get => _cheveux; set { Set(nameof(Cheveux), ref _cheveux, value); } }
 
+        [Column("Classe_1")]
         public string Classe1 { get => _classe1; set { Set(nameof(Classe1), ref _classe1, value); } }
 
+        [Column("Classe_2")]
         public string Classe2 { get => _classe2; set { Set(nameof(Classe2), ref _classe2, value); } }
 
+        [Column("Classe_3")]
         public string Classe3 { get => _classe3; set { Set(nameof(Classe3), ref _classe3, value); } }
 
+        [Column("Classe_4")]
         public string Classe4 { get => _classe4; set { Set(nameof(Classe4), ref _classe4, value); } }
 
+        [Column("Classe_5")]
         public string Classe5 { get => _classe5; set { Set(nameof(Classe5), ref _classe5, value); } }
 
+        [Column("Classe_6")]
         public string Classe6 { get => _classe6; set { Set(nameof(Classe6), ref _classe6, value); } }
 
+        [Column("Classe_7")]
         public string Classe7 { get => _classe7; set { Set(nameof(Classe7), ref _classe7, value); } }
 
+        [Column("Classe_8")]
         public string Classe8 { get => _classe8; set { Set(nameof(Classe8), ref _classe8, value); } }
 
         public string Date { get => _date; set { Set(nameof(Date), ref _date, value); } }
 
         public virtual ObservableCollection<DiceRollEntry> DiceRollEntries { get; private set; } = new ObservableCollection<DiceRollEntry>();
 
+        [Column("dieu")]
         public string Dieu { get => _dieu; set { Set(nameof(Dieu), ref _dieu, value); } }
 
+        [Column("Domaine_1")]
         public string Domaine1 { get => _domaine1; set { Set(nameof(Domaine1), ref _domaine1, value); } }
 
+        [Column("Domaine_2")]
         public string Domaine2 { get => _domaine2; set { Set(nameof(Domaine2), ref _domaine2, value); } }
 
+        [Column("Domaine_3")]
         public string Domaine3 { get => _domaine3; set { Set(nameof(Domaine3), ref _domaine3, value); } }
 
+        [Column("Domaine_4")]
         public string Domaine4 { get => _domaine4; set { Set(nameof(Domaine4), ref _domaine4, value); } }
 
         public string DragonTotem { get => _dragonTotem; set { Set(nameof(DragonTotem), ref _dragonTotem, value); } }
 
+        [Column("Ecole_interdite_1")]
         public string EcoleInterdite1 { get => _ecoleInterdite1; set { Set(nameof(EcoleInterdite1), ref _ecoleInterdite1, value); } }
 
+        [Column("Ecole_interdite_2")]
         public string EcoleInterdite2 { get => _ecoleInterdite2; set { Set(nameof(EcoleInterdite2), ref _ecoleInterdite2, value); } }
 
+        [Column("Ecole_interdite_3")]
         public string EcoleInterdite3 { get => _ecoleInterdite3; set { Set(nameof(EcoleInterdite3), ref _ecoleInterdite3, value); } }
 
+        [Column("Ecole_interdite_4")]
         public string EcoleInterdite4 { get => _ecoleInterdite4; set { Set(nameof(EcoleInterdite4), ref _ecoleInterdite4, value); } }
 
         public string EcoleSpecialisation { get => _ecoleSpecialisation; set { Set(nameof(EcoleSpecialisation), ref _ecoleSpecialisation, value); } }
@@ -234,14 +255,19 @@ namespace RoleDDNG.Models.Characters
 
         public short? Endurance { get => _endurance; set { Set(nameof(Endurance), ref _endurance, value); } }
 
+        [Column("Energie_Elu_1")]
         public string EnergieElu1 { get => _energieElu1; set { Set(nameof(EnergieElu1), ref _energieElu1, value); } }
 
+        [Column("Energie_Elu_2")]
         public string EnergieElu2 { get => _energieElu2; set { Set(nameof(EnergieElu2), ref _energieElu2, value); } }
 
+        [Column("Energie_Elu_3")]
         public string EnergieElu3 { get => _energieElu3; set { Set(nameof(EnergieElu3), ref _energieElu3, value); } }
 
+        [Column("Energie_Sorcier_1")]
         public string EnergieSorcier1 { get => _energieSorcier1; set { Set(nameof(EnergieSorcier1), ref _energieSorcier1, value); } }
 
+        [Column("Energie_Sorcier_2")]
         public string EnergieSorcier2 { get => _energieSorcier2; set { Set(nameof(EnergieSorcier2), ref _energieSorcier2, value); } }
 
         public string EnnemisJures { get => _ennemisJures; set { Set(nameof(EnnemisJures), ref _ennemisJures, value); } }
@@ -252,6 +278,7 @@ namespace RoleDDNG.Models.Characters
 
         public short? Érudition { get => _érudition; set { Set(nameof(Érudition), ref _érudition, value); } }
 
+        [Column("exclu")]
         public bool Exclu { get => _exclu; set { Set(nameof(Exclu), ref _exclu, value); } }
 
         public string Histoire { get => _histoire; set { Set(nameof(Histoire), ref _histoire, value); } }
@@ -266,22 +293,31 @@ namespace RoleDDNG.Models.Characters
 
         public short? Magnétisme { get => _magnétisme; set { Set(nameof(Magnétisme), ref _magnétisme, value); } }
 
+        [Column("MalusXP")]
         public short? MalusXp { get => _maluxXp; set { Set(nameof(MalusXp), ref _maluxXp, value); } }
 
+        [Column("Niv_1")]
         public short? Niv1 { get => _niv1; set { Set(nameof(Niv1), ref _niv1, value); } }
 
+        [Column("Niv_2")]
         public short? Niv2 { get => _niv2; set { Set(nameof(Niv2), ref _niv2, value); } }
 
+        [Column("Niv_3")]
         public short? Niv3 { get => _niv3; set { Set(nameof(Niv3), ref _niv3, value); } }
 
+        [Column("Niv_4")]
         public short? Niv4 { get => _niv4; set { Set(nameof(Niv4), ref _niv4, value); } }
 
+        [Column("Niv_5")]
         public short? Niv5 { get => _niv5; set { Set(nameof(Niv5), ref _niv5, value); } }
 
+        [Column("Niv_6")]
         public short? Niv6 { get => _niv6; set { Set(nameof(Niv6), ref _niv6, value); } }
 
+        [Column("Niv_7")]
         public short? Niv7 { get => _niv7; set { Set(nameof(Niv7), ref _niv7, value); } }
 
+        [Column("Niv_8")]
         public short? Niv8 { get => _niv8; set { Set(nameof(Niv8), ref _niv8, value); } }
 
         public string Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
@@ -294,14 +330,19 @@ namespace RoleDDNG.Models.Characters
 
         public short? Précision { get => _précision; set { Set(nameof(Précision), ref _précision, value); } }
 
+        [Column("Profession_1")]
         public string Profession1 { get => _profession1; set { Set(nameof(Profession1), ref _profession1, value); } }
 
+        [Column("Profession_2")]
         public string Profession2 { get => _profession2; set { Set(nameof(Profession2), ref _profession2, value); } }
 
+        [Column("Profession_3")]
         public string Profession3 { get => _profession3; set { Set(nameof(Profession3), ref _profession3, value); } }
 
+        [Column("Profession_4")]
         public string Profession4 { get => _profession4; set { Set(nameof(Profession4), ref _profession4, value); } }
 
+        [Column("profil")]
         public string Profil { get => _profil; set { Set(nameof(Profil), ref _profil, value); } }
 
         public short? Puissance { get => _puissance; set { Set(nameof(Puissance), ref _puissance, value); } }
@@ -316,10 +357,12 @@ namespace RoleDDNG.Models.Characters
 
         public short? Taille { get => _taille; set { Set(nameof(Taille), ref _taille, value); } }
 
+        [Column("titre")]
         public string Titre { get => _titre; set { Set(nameof(Titre), ref _titre, value); } }
 
         public double? TotalPo { get => _totalPo; set { Set(nameof(TotalPo), ref _totalPo, value); } }
 
+        [Column("TotalXP")]
         public int? TotalXp { get => _totalXp; set { Set(nameof(TotalXp), ref _totalXp, value); } }
 
         public short? Vitalité { get => _vitalité; set { Set(nameof(Vitalité), ref _vitalité, value); } }

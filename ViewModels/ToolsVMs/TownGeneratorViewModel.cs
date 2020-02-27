@@ -21,6 +21,8 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         private int _dimePercentage = 10;
 
+        private bool _isBusy = false;
+
         private int _popCount = 500;
 
         private string _result = "";
@@ -43,6 +45,8 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         public int DimePercentage { get => _dimePercentage; set { Set(nameof(DimePercentage), ref _dimePercentage, value); } }
 
         public AsyncCommand Generate { get; private set; }
+
+        public bool IsBusy { get => _isBusy; set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
         public int PopCount { get => _popCount; set { Set(nameof(PopCount), ref _popCount, value); } }
 
@@ -123,6 +127,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         private async Task GenerateMethodAsync()
         {
+            IsBusy = true;
             Result = await Task.Run(() =>
             {
                 var generatedTownInfo = new StringBuilder();
@@ -149,6 +154,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
                 generatedTownInfo.Append($"{GetRaces()}{Environment.NewLine}");
                 return generatedTownInfo.ToString();
             }).ConfigureAwait(false);
+            IsBusy = false;
         }
 
         private double GetGoldRevenu()

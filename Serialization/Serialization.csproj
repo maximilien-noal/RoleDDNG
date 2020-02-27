@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>RoleDDNG.Interfaces</RootNamespace>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <RootNamespace>RoleDDNG.Serialization</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +13,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.5.132" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
   </ItemGroup>
 </Project>
