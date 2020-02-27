@@ -71,27 +71,27 @@ namespace Hammer.MDI.Control.WindowControls
         {
             var window = VisualTreeExtension.FindMdiWindow(this);
 
-            if (window != null)
+            if (window == null)
             {
-                if (window.WindowState == WindowState.Maximized)
-                {
-                    window.Normalize();
-                }
+                return;
+            }
+            if (window.WindowState == WindowState.Maximized)
+            {
+                window.Normalize();
+            }
 
-                if (window.WindowState == WindowState.Normal)
-                {
-                    window.LastLeft = AutoResizeCanvas.GetLeft(window);
-                    window.LastTop = AutoResizeCanvas.GetTop(window);
-                }
+            if (window.WindowState == WindowState.Normal)
+            {
+                window.LastLeft = AutoResizeCanvas.GetLeft(window);
+                window.LastTop = AutoResizeCanvas.GetTop(window);
+            }
 
-                if (window.WindowState != WindowState.Minimized)
-                {
-                    var candidateLeft = window.LastLeft + e.HorizontalChange;
-                    var candidateTop = window.LastTop + e.VerticalChange;
+            if (window.WindowState != WindowState.Minimized)
+            {
+                var candidateLeft = window.LastLeft + e.HorizontalChange;
+                var candidateTop = window.LastTop + e.VerticalChange;
 
-                    AutoResizeCanvas.SetLeft(window, Math.Min(Math.Max(0, candidateLeft), window.Container.ActualWidth - 25));
-                    AutoResizeCanvas.SetTop(window, Math.Min(Math.Max(0, candidateTop), window.Container.ActualHeight - 25));
-                }
+                window.PositionWithinContainer(candidateLeft, candidateTop);
             }
         }
     }

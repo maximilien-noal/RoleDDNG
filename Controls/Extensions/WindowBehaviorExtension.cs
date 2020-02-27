@@ -1,6 +1,6 @@
-﻿using System.Windows;
-
-using Hammer.MdiControls.Panels;
+﻿using Hammer.MdiControls.Panels;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Hammer.MDI.Control.Extensions
 {
@@ -23,9 +23,9 @@ namespace Hammer.MDI.Control.Extensions
             var index = window.Container.MinimizedWindowsCount;
 
             SaveLastSize(window);
-            window.Tumblr.SetCurrentValue(System.Windows.Controls.Image.SourceProperty, window.CreateSnapshot());
+            window.Tumblr.SetCurrentValue(Image.SourceProperty, window.CreateSnapshot());
             window.SetCurrentValue(FrameworkElement.WidthProperty, (double)128);
-            AutoResizeCanvas.SetTop(window, window.Container.ActualHeight - 32);
+            AutoResizeCanvas.SetTop(window, window.Container.ActualHeight - 24);
             AutoResizeCanvas.SetLeft(window, index * 205);
 
             window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Minimized);
@@ -39,6 +39,42 @@ namespace Hammer.MDI.Control.Extensions
             AutoResizeCanvas.SetLeft(window, window.LastLeft);
 
             window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Normal);
+            window.PositionWithinContainer(window.LastLeft, window.LastTop);
+        }
+
+        public static void PositionWithinContainer(this MdiWindow window, double candidateLeft, double candidateTop)
+        {
+            if (candidateLeft < 0)
+            {
+                candidateLeft = 0;
+            }
+            if (candidateTop < 0)
+            {
+                candidateTop = 0;
+            }
+
+            var width = window.Width;
+            var height = window.Height;
+            if (double.IsNaN(window.Height))
+            {
+                height = window.ActualHeight;
+            }
+            if (double.IsNaN(window.Width))
+            {
+                width = window.ActualWidth;
+            }
+
+            if (candidateLeft + width > window.Container.ActualWidth)
+            {
+                candidateLeft = window.Container.ActualWidth - width;
+            }
+
+            if (candidateTop + height > window.Container.ActualHeight)
+            {
+                candidateTop = window.Container.ActualHeight - height;
+            }
+            AutoResizeCanvas.SetLeft(window, candidateLeft);
+            AutoResizeCanvas.SetTop(window, candidateTop);
         }
 
         public static void ToggleMaximize(this MdiWindow window)
