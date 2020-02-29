@@ -10,9 +10,7 @@ using Microsoft.Win32;
 
 namespace RoleDDNG.Role
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
+    /// <summary> Interaction logic for App.xaml </summary>
     public partial class App : Application
     {
         private const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
@@ -87,7 +85,7 @@ namespace RoleDDNG.Role
             watcher.Start();
         }
 
-        private class ResourceLocator
+        private static class ResourceLocator
         {
             public static Uri DarkColorScheme => new Uri("pack://application:,,,/AdonisUI;component/ColorSchemes/Dark.xaml", UriKind.Absolute);
 
@@ -95,19 +93,21 @@ namespace RoleDDNG.Role
 
             public static Uri ClassicTheme => new Uri("pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml", UriKind.Absolute);
 
-            /// <summary>
-            /// Adds any Adonis theme to the provided resource dictionary.
-            /// </summary>
-            /// <param name="rootResourceDictionary">The resource dictionary containing AdonisUI's resources. Expected are the resource dictionaries of the app or window.</param>
+            /// <summary> Adds any Adonis theme to the provided resource dictionary. </summary>
+            /// <param name="rootResourceDictionary">
+            /// The resource dictionary containing AdonisUI's resources. Expected are the resource
+            /// dictionaries of the app or window.
+            /// </param>
             public static void AddAdonisResources(ResourceDictionary rootResourceDictionary)
             {
                 rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = ClassicTheme });
             }
 
-            /// <summary>
-            /// Removes all resources of AdonisUI from the provided resource dictionary.
-            /// </summary>
-            /// <param name="rootResourceDictionary">The resource dictionary containing AdonisUI's resources. Expected are the resource dictionaries of the app or window.</param>
+            /// <summary> Removes all resources of AdonisUI from the provided resource dictionary. </summary>
+            /// <param name="rootResourceDictionary">
+            /// The resource dictionary containing AdonisUI's resources. Expected are the resource
+            /// dictionaries of the app or window.
+            /// </param>
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exception")]
             public static void RemoveAdonisResources(ResourceDictionary rootResourceDictionary)
             {
@@ -122,12 +122,23 @@ namespace RoleDDNG.Role
             }
 
             /// <summary>
-            /// Adds a resource dictionary with the specified uri to the MergedDictionaries collection of the <see cref="rootResourceDictionary"/>.
-            /// Additionally all child ResourceDictionaries are traversed recursively to find the current color scheme which is removed if found.
+            /// Adds a resource dictionary with the specified uri to the MergedDictionaries
+            /// collection of the <see cref="rootResourceDictionary" />. Additionally all child
+            /// ResourceDictionaries are traversed recursively to find the current color scheme
+            /// which is removed if found.
             /// </summary>
-            /// <param name="rootResourceDictionary">The resource dictionary containing the currently active color scheme. It will receive the new color scheme in its MergedDictionaries. Expected are the resource dictionaries of the app or window.</param>
-            /// <param name="colorSchemeResourceUri">The Uri of the color scheme to be set. Can be taken from the <see cref="ResourceLocator"/> class.</param>
-            /// <param name="currentColorSchemeResourceUri">Optional uri to an external color scheme that is not provided by AdonisUI.</param>
+            /// <param name="rootResourceDictionary">       
+            /// The resource dictionary containing the currently active color scheme. It will
+            /// receive the new color scheme in its MergedDictionaries. Expected are the resource
+            /// dictionaries of the app or window.
+            /// </param>
+            /// <param name="colorSchemeResourceUri">       
+            /// The Uri of the color scheme to be set. Can be taken from the
+            /// <see cref="ResourceLocator" /> class.
+            /// </param>
+            /// <param name="currentColorSchemeResourceUri">
+            /// Optional uri to an external color scheme that is not provided by AdonisUI.
+            /// </param>
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exception")]
             public static void SetColorScheme(ResourceDictionary rootResourceDictionary, Uri colorSchemeResourceUri, Uri currentColorSchemeResourceUri = null)
             {
