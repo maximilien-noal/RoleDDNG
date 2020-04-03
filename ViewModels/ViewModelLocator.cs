@@ -19,8 +19,8 @@ using RoleDDNG.ViewModels.ToolsVMs;
 namespace RoleDDNG.ViewModels
 {
     /// <summary>
-    /// This class contains static references to all the view models in the
-    /// application and provides an entry point for the bindings.
+    /// This class contains static references to all the view models in the application and provides
+    /// an entry point for the bindings.
     /// </summary>
     public class ViewModelLocator
     {
@@ -48,8 +48,8 @@ namespace RoleDDNG.ViewModels
 
 #pragma warning disable CA1822
 
-        // Justification : class must implement a parameterless public constructor for the XAML side,
-        // where it initializes the SimpleIoc used here
+        // Justification : class must implement a parameterless public constructor for the XAML
+        // side, where it initializes the SimpleIoc used here
         public MainViewModel Main
         {
             get
@@ -86,7 +86,7 @@ namespace RoleDDNG.ViewModels
 
         internal static void Cleanup()
         {
-            // TODO Clear the ViewModels
+            //Nothing to do here.
         }
     }
 }

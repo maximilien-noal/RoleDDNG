@@ -20,13 +20,13 @@ namespace RoleDDNG.Models.Structs
         public override bool Equals(object obj)
         {
             if (obj is null) { return false; }
-            if (obj is Point == false) { return false; }
+            if (!(obj is Point)) { return false; }
             return Equals((Point)obj);
         }
 
-        public bool Equals(Point point)
+        public bool Equals(Point other)
         {
-            return point.X == X && point.Y == Y;
+            return other.X == X && other.Y == Y;
         }
 
         public override int GetHashCode()

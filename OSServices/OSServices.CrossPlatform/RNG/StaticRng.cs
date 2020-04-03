@@ -4,7 +4,7 @@ using RoleDDNG.Interfaces.RNG;
 
 namespace RoleDDNG.OSServices.CrossPlatform
 {
-    public class StaticRNG : IRandomNumberGenerator
+    public class StaticRng : IRandomNumberGenerator
     {
         private static readonly Random _limitedRNG = new Random(1000);
 

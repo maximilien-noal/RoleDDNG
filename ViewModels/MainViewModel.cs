@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using AsyncAwaitBestPractices;
-using AsyncAwaitBestPractices.MVVM;
+﻿using AsyncAwaitBestPractices.MVVM;
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
-
-using Microsoft.VisualStudio.Threading;
 
 using RoleDDNG.Interfaces.Backgrounds;
 using RoleDDNG.Interfaces.Serialization;
 using RoleDDNG.Models.Options;
 using RoleDDNG.ViewModels.Interfaces;
 using RoleDDNG.ViewModels.ToolsVMs;
+
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels
 {
@@ -65,7 +63,7 @@ namespace RoleDDNG.ViewModels
         {
             IsBusy = true;
             string configDir = Path.GetDirectoryName(_appSettingsFilePath);
-            if (Directory.Exists(configDir) == false)
+            if (!Directory.Exists(configDir))
             {
                 Directory.CreateDirectory(configDir);
             }
@@ -95,7 +93,7 @@ namespace RoleDDNG.ViewModels
 
         public async Task ShowCharacterChoiceAsync()
         {
-            if (string.IsNullOrWhiteSpace(AppSettings.LastCharacterDBPath) == false && File.Exists(AppSettings.LastCharacterDBPath))
+            if (!string.IsNullOrWhiteSpace(AppSettings.LastCharacterDBPath) && File.Exists(AppSettings.LastCharacterDBPath))
             {
                 AddMdiWindow<OpenCharacterViewModel>();
                 var characterDBViewModel = SimpleIoc.Default.GetInstance<OpenCharacterViewModel>();
@@ -105,7 +103,7 @@ namespace RoleDDNG.ViewModels
 
         private void AddMdiWindow<T>() where T : IContent, new()
         {
-            if (Items.OfType<T>().Any() == false)
+            if (!Items.OfType<T>().Any())
             {
                 var viewModel = new T();
                 Items.Add(viewModel);

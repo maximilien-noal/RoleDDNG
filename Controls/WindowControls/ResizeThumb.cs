@@ -24,7 +24,7 @@ namespace Hammer.MDI.Control.WindowControls
             }
             else
             {
-                if (window.IsFocused == false)
+                if (!window.IsFocused)
                 {
                     window.Focus();
                 }

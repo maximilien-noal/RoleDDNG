@@ -9,7 +9,9 @@ namespace Hammer.MDI.Control
 {
     public sealed class MdiContainer : Selector
     {
-        /// <summary> Identifies the <see cref="IsModal" /> dependency property. </summary>
+        /// <summary>
+        /// Identifies the <see cref="IsModal" /> dependency property.
+        /// </summary>
         public static readonly DependencyProperty IsModalProperty =
             DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiContainer), new UIPropertyMetadata(OnIsModalChanged));
 
@@ -43,7 +45,7 @@ namespace Hammer.MDI.Control
         {
             base.OnItemsSourceChanged(oldValue, newValue);
 
-            if (newValue != null && newValue is IList)
+            if (newValue is IList)
             {
                 InternalItemSource = newValue as IList;
             }
@@ -68,18 +70,15 @@ namespace Hammer.MDI.Control
 
         private static void OnIsModalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue == null || ((bool?)e.NewValue).HasValue == false) return;
+            if (e.NewValue == null || !((bool?)e.NewValue).HasValue) return;
             ((MdiContainer)d).SetCurrentValue(IsModalProperty, ((bool?)e.NewValue).Value);
         }
 
         private void MdiContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count > 0)
+            if (e.AddedItems.Count > 0 && ItemContainerGenerator.ContainerFromItem(e.AddedItems[0]) is MdiWindow windowNew)
             {
-                if (ItemContainerGenerator.ContainerFromItem(e.AddedItems[0]) is MdiWindow windowNew)
-                {
-                    windowNew.SetValue(MdiWindow.IsSelectedProperty, true);
-                }
+                windowNew.SetValue(MdiWindow.IsSelectedProperty, true);
             }
         }
 
@@ -116,13 +115,10 @@ namespace Hammer.MDI.Control
 
                 foreach (var item in Items)
                 {
-                    if (item != e.OriginalSource)
+                    if (item != e.OriginalSource && ItemContainerGenerator.ContainerFromItem(item) is MdiWindow window)
                     {
-                        if (ItemContainerGenerator.ContainerFromItem(item) is MdiWindow window)
-                        {
-                            window.IsSelected = false;
-                            Panel.SetZIndex(window, 0);
-                        }
+                        window.IsSelected = false;
+                        Panel.SetZIndex(window, 0);
                     }
                 }
                 SetCurrentValue(SelectedItemProperty, e.OriginalSource);

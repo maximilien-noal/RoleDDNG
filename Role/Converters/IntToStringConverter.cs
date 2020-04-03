@@ -7,7 +7,9 @@ namespace RoleDDNG.Role.Converters
     [ValueConversion(typeof(int), typeof(string))]
     public sealed class IntToStringConverter : IValueConverter
     {
-        /// <summary> Gets the default instance </summary>
+        /// <summary>
+        /// Gets the default instance
+        /// </summary>
         internal static readonly IntToStringConverter Default = new IntToStringConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -29,12 +31,9 @@ namespace RoleDDNG.Role.Converters
             {
                 return Double.NaN;
             }
-            if (value is string str)
+            if (value is string str && int.TryParse(str, out int result))
             {
-                if (int.TryParse(str, out int result))
-                {
-                    return result;
-                }
+                return result;
             }
             return Double.NaN;
         }

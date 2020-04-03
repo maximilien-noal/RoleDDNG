@@ -3,6 +3,7 @@ using System.Collections;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using System.Linq;
 
 namespace RoleDDNG.Role.Converters
 {
@@ -24,12 +25,7 @@ namespace RoleDDNG.Role.Converters
             {
                 return Visibility.Visible;
             }
-            var count = 0;
-            foreach (var item in (IEnumerable)value)
-            {
-                count = 1;
-                break;
-            }
+            var count = ((IEnumerable)value).OfType<object>().Count();
             if (count > 0)
             {
                 return Visibility.Visible;

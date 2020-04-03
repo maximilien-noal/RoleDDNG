@@ -67,7 +67,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             var dice = 0;
             for (int i = 0; i < nombre; i++)
             {
-                dice += GetZeroIfNegative(Convert.ToInt32(face * new StaticRNG().GetLimitedRNG().Next()) + 1);
+                dice += GetZeroIfNegative(Convert.ToInt32(face * new StaticRng().GetLimitedRNG().Next()) + 1);
             }
             dice += plus;
             return dice;
@@ -262,7 +262,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         private string GetPNJs()
         {
-            double commandant = Convert.ToInt32(new StaticRNG().GetLimitedRNG().NextDouble() * 100) + 1;
+            double commandant = Convert.ToInt32(new StaticRng().GetLimitedRNG().NextDouble() * 100) + 1;
             if (commandant < 61)
             {
                 commandant = 8.1;
@@ -276,7 +276,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
                 commandant = 7.1;
             }
 
-            var tabPnj = new PNJ[16];
+            var tabPnj = new Pnj[16];
             tabPnj[0].Classe = "Adepte"; tabPnj[0].Nombre = 1; tabPnj[0].Face = 6;
             tabPnj[1].Classe = "Barbare"; tabPnj[1].Nombre = 1; tabPnj[1].Face = 4;
             tabPnj[2].Classe = "Barde"; tabPnj[2].Nombre = 1; tabPnj[2].Face = 6;
@@ -335,12 +335,9 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             for (int j = 0; j < tabPnj.Length - 1; j++)
             {
                 var bonusModificateur = 0;
-                if ((j == 3 || j == 14) && modificateur < -1)
+                if ((j == 3 || j == 14) && modificateur < -1 && DiceRoll(1, 20, 0) == 20)
                 {
-                    if (DiceRoll(1, 20, 0) == 20)
-                    {
-                        bonusModificateur = 10;
-                    }
+                    bonusModificateur = 10;
                 }
                 var niveauPnj = new int[20];
                 var niveau = 0;
@@ -400,12 +397,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
                         {
                             if (niveauPnj[l] != 0)
                             {
-                                if ((commandant - Convert.ToInt32(commandant)) * 10 < 1)
-                                {
-                                    niveauCommandant = l;
-                                    break;
-                                }
-                                else if (k != -1)
+                                if (k != -1 || (commandant - Convert.ToInt32(commandant)) * 10 < 1)
                                 {
                                     niveauCommandant = l;
                                     break;
@@ -671,13 +663,13 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         private void PrintMethod()
         {
-            if (string.IsNullOrWhiteSpace(Result) == false)
+            if (!string.IsNullOrWhiteSpace(Result))
             {
                 _textPrinterService.PrintText(Result);
             }
         }
 
-        private struct PNJ
+        private struct Pnj
         {
             public string Classe { get; set; }
 

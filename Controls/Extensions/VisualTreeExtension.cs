@@ -23,12 +23,9 @@ namespace Hammer.MDI.Control.Extensions
                 parent = FindSpecificParent<TParent>(parent);
             }
 
-            if (parent == null && current.Parent is Popup)
+            if (parent == null && current.Parent is Popup && ((Popup)current.Parent).Parent is FrameworkElement grandpa)
             {
-                if (((Popup)current.Parent).Parent is FrameworkElement grandpa)
-                {
-                    parent = FindSpecificParent<TParent>(grandpa);
-                }
+                parent = FindSpecificParent<TParent>(grandpa);
             }
 
             return parent as TParent;

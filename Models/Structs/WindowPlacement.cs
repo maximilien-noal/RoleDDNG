@@ -23,12 +23,22 @@ namespace RoleDDNG.Models.Structs
         public Rect NormalPosition { get; set; }
 
         /// <inheritdoc />
-        public bool Equals(WindowPlacement wp)
+        public bool Equals(WindowPlacement other)
         {
-            return wp.Flags == Flags && wp.Length == Length && wp.ShowCmd == ShowCmd &&
-                    wp.MinPosition == MinPosition && wp.MaxPosition == MaxPosition &&
-                    wp.NormalPosition.Left == NormalPosition.Left && wp.NormalPosition.Right == NormalPosition.Right &&
-                    wp.NormalPosition.Top == NormalPosition.Top && wp.NormalPosition.Bottom == NormalPosition.Bottom;
+            return other.Flags == Flags && other.Length == Length && other.ShowCmd == ShowCmd &&
+                    other.MinPosition == MinPosition && other.MaxPosition == MaxPosition &&
+                    other.NormalPosition.Left == NormalPosition.Left && other.NormalPosition.Right == NormalPosition.Right &&
+                    other.NormalPosition.Top == NormalPosition.Top && other.NormalPosition.Bottom == NormalPosition.Bottom;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is WindowPlacement))
+            {
+                return false;
+            }
+
+            return Equals((WindowPlacement)obj);
         }
 
         public override int GetHashCode()
@@ -44,16 +54,6 @@ namespace RoleDDNG.Models.Structs
         public static bool operator !=(WindowPlacement left, WindowPlacement right)
         {
             return !(left == right);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is WindowPlacement == false)
-            {
-                return false;
-            }
-
-            return Equals((WindowPlacement)obj);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Dapper;
 
-using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ namespace RoleDDNG.DatabaseLayer
     {
         private const string CONNECTION_STRING_DEBUT = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=";
 
-        private readonly string _dbFileName = "";
+        private readonly string _dbFileName;
 
         public DbAccessor(string filename)
         {
@@ -20,10 +19,6 @@ namespace RoleDDNG.DatabaseLayer
 
         public async Task<IEnumerable<T>> GetQueryDataAsync<T>(string sqlQuery)
         {
-            if (string.IsNullOrWhiteSpace(sqlQuery))
-            {
-                throw new ArgumentNullException(nameof(sqlQuery));
-            }
             DefaultTypeMap.MatchNamesWithUnderscores = true;
             using var connection = new OdbcConnection($"{CONNECTION_STRING_DEBUT}{_dbFileName}");
             await connection.OpenAsync().ConfigureAwait(false);

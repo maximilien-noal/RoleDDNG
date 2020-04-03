@@ -53,7 +53,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             IsBusy = true;
             var fileDialog = SimpleIoc.Default.GetInstance<IFileDialog>();
             var dbFile = await fileDialog.TryOpenUserChosenFileAsync("Ouvrir une base de données de personnages...", "mdb").ConfigureAwait(true);
-            if (string.IsNullOrWhiteSpace(dbFile) == false && File.Exists(dbFile))
+            if (!string.IsNullOrWhiteSpace(dbFile) && File.Exists(dbFile))
             {
                 SimpleIoc.Default.GetInstance<MainViewModel>().SetCharacterDatabasePath.Execute(dbFile);
             }

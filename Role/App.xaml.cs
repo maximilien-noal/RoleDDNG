@@ -10,7 +10,9 @@ using Microsoft.Win32;
 
 namespace RoleDDNG.Role
 {
-    /// <summary> Interaction logic for App.xaml </summary>
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
     public partial class App : Application
     {
         private const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
@@ -25,8 +27,17 @@ namespace RoleDDNG.Role
             splash.Show(true, true);
 
             base.OnStartup(e);
-            WatchTheme();
-            CHangeThemeIfWindowsChangedIt();
+            try
+            {
+                WatchTheme();
+                CHangeThemeIfWindowsChangedIt();
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch
+            {
+                //No OS support for themes. Not worth crashing for.
+            }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private static void ChangeTheme(Uri theme)
@@ -93,7 +104,9 @@ namespace RoleDDNG.Role
 
             public static Uri ClassicTheme => new Uri("pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml", UriKind.Absolute);
 
-            /// <summary> Adds any Adonis theme to the provided resource dictionary. </summary>
+            /// <summary>
+            /// Adds any Adonis theme to the provided resource dictionary.
+            /// </summary>
             /// <param name="rootResourceDictionary">
             /// The resource dictionary containing AdonisUI's resources. Expected are the resource
             /// dictionaries of the app or window.
@@ -103,7 +116,9 @@ namespace RoleDDNG.Role
                 rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = ClassicTheme });
             }
 
-            /// <summary> Removes all resources of AdonisUI from the provided resource dictionary. </summary>
+            /// <summary>
+            /// Removes all resources of AdonisUI from the provided resource dictionary.
+            /// </summary>
             /// <param name="rootResourceDictionary">
             /// The resource dictionary containing AdonisUI's resources. Expected are the resource
             /// dictionaries of the app or window.
@@ -116,8 +131,7 @@ namespace RoleDDNG.Role
 
                 if (currentTheme != null)
                 {
-                    if (!RemoveResourceDictionaryFromResourcesDeep(currentTheme, rootResourceDictionary))
-                        throw new Exception("The currently active color scheme was found but could not be removed.");
+                    RemoveResourceDictionaryFromResourcesDeep(currentTheme, rootResourceDictionary);
                 }
             }
 
@@ -127,12 +141,12 @@ namespace RoleDDNG.Role
             /// ResourceDictionaries are traversed recursively to find the current color scheme
             /// which is removed if found.
             /// </summary>
-            /// <param name="rootResourceDictionary">       
+            /// <param name="rootResourceDictionary">
             /// The resource dictionary containing the currently active color scheme. It will
             /// receive the new color scheme in its MergedDictionaries. Expected are the resource
             /// dictionaries of the app or window.
             /// </param>
-            /// <param name="colorSchemeResourceUri">       
+            /// <param name="colorSchemeResourceUri">
             /// The Uri of the color scheme to be set. Can be taken from the
             /// <see cref="ResourceLocator" /> class.
             /// </param>
@@ -148,8 +162,7 @@ namespace RoleDDNG.Role
 
                 if (currentTheme != null)
                 {
-                    if (!RemoveResourceDictionaryFromResourcesDeep(currentTheme, rootResourceDictionary))
-                        throw new Exception("The currently active color scheme was found but could not be removed.");
+                    RemoveResourceDictionaryFromResourcesDeep(currentTheme, rootResourceDictionary);
                 }
 
                 rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = colorSchemeResourceUri });
@@ -158,10 +171,16 @@ namespace RoleDDNG.Role
             private static ResourceDictionary FindFirstContainedResourceDictionaryByUri(ResourceDictionary resourceDictionary, Uri[] knownColorSchemes)
             {
                 if (knownColorSchemes.Any(scheme => resourceDictionary.Source != null && resourceDictionary.Source.IsAbsoluteUri && resourceDictionary.Source.AbsoluteUri.Equals(scheme.AbsoluteUri, StringComparison.InvariantCulture)))
+                {
                     return resourceDictionary;
+                }
 
                 if (!resourceDictionary.MergedDictionaries.Any())
+                {
+#pragma warning disable S1168 // Empty arrays and collections should be returned instead of null (not returning null breaks AdonisUI)
                     return null;
+#pragma warning restore S1168 // Empty arrays and collections should be returned instead of null (not returning null breaks AdonisUI)
+                }
 
                 return resourceDictionary.MergedDictionaries.FirstOrDefault(d => FindFirstContainedResourceDictionaryByUri(d, knownColorSchemes) != null);
             }
@@ -169,7 +188,9 @@ namespace RoleDDNG.Role
             private static bool RemoveResourceDictionaryFromResourcesDeep(ResourceDictionary resourceDictionaryToRemove, ResourceDictionary rootResourceDictionary)
             {
                 if (!rootResourceDictionary.MergedDictionaries.Any())
+                {
                     return false;
+                }
 
                 if (rootResourceDictionary.MergedDictionaries.Contains(resourceDictionaryToRemove))
                 {
