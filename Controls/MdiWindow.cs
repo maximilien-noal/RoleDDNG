@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Hammer.MDI.Control.Events;
+using Hammer.MDI.Control.Extensions;
+using Hammer.MDI.Control.WindowControls;
+
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
-
-using Hammer.MDI.Control.Events;
-using Hammer.MDI.Control.Extensions;
-using Hammer.MDI.Control.WindowControls;
-using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control
 {
@@ -134,7 +133,10 @@ namespace Hammer.MDI.Control
                 else
                 {
                     if (_myAdornerLayer == null)
+                    {
                         _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
+                    }
+
                     if (_myAdorner == null)
                     {
                         _myAdorner = new HollowRectangleAdorner(this);
@@ -200,26 +202,22 @@ namespace Hammer.MDI.Control
 
         public override void OnApplyTemplate()
         {
-            var menuButton = GetTemplateChild("PART_ButtonBar_MenuButton") as WindowButton;
-            if (menuButton != null)
+            if (GetTemplateChild("PART_ButtonBar_MenuButton") is WindowButton menuButton)
             {
                 menuButton.MouseDoubleClick += CloseWindow;
             }
 
-            var closeButton = GetTemplateChild("PART_ButtonBar_CloseButton") as WindowButton;
-            if (closeButton != null)
+            if (GetTemplateChild("PART_ButtonBar_CloseButton") is WindowButton closeButton)
             {
                 closeButton.Click += CloseWindow;
             }
 
-            var maximizeButton = GetTemplateChild("PART_ButtonBar_MaximizeButton") as WindowButton;
-            if (maximizeButton != null)
+            if (GetTemplateChild("PART_ButtonBar_MaximizeButton") is WindowButton maximizeButton)
             {
                 maximizeButton.Click += ToggleMaximizeWindow;
             }
 
-            var minimizeButton = GetTemplateChild("PART_ButtonBar_MinimizeButton") as WindowButton;
-            if (minimizeButton != null)
+            if (GetTemplateChild("PART_ButtonBar_MinimizeButton") is WindowButton minimizeButton)
             {
                 minimizeButton.Click += ToggleMinimizeWindow;
             }
@@ -239,8 +237,8 @@ namespace Hammer.MDI.Control
             var left = Math.Max(0, (actualContainerWidth - actualWidth) / 4);
             var top = Math.Max(0, (actualContainerHeight - actualHeight) / 4);
 
-            SetCurrentValue(AutoResizeCanvas.LeftProperty, left);
-            SetCurrentValue(AutoResizeCanvas.TopProperty, top);
+            SetCurrentValue(Canvas.LeftProperty, left);
+            SetCurrentValue(Canvas.TopProperty, top);
         }
 
         internal void Initialize(MdiContainer container)
@@ -275,7 +273,7 @@ namespace Hammer.MDI.Control
                 SetCurrentValue(IsSelectedProperty, false);
                 Panel.SetZIndex(this, 0);
                 var newWindow = (e.NewFocus is MdiWindow) ? (e.NewFocus as MdiWindow) : (parent as MdiWindow);
-                Container.SetCurrentValue(MdiContainer.SelectedItemProperty, newWindow.DataContext);
+                Container.SetCurrentValue(System.Windows.Controls.Primitives.Selector.SelectedItemProperty, newWindow.DataContext);
                 newWindow.IsSelected = true;
             }
         }
@@ -319,9 +317,52 @@ namespace Hammer.MDI.Control
                 Width += e.NewSize.Width - e.PreviousSize.Width;
                 Height += e.NewSize.Height - e.PreviousSize.Height;
             }
-            if (WindowState == WindowState.Minimized)
+            else if (WindowState == WindowState.Minimized)
             {
-                AutoResizeCanvas.SetTop(this, Container.ActualHeight - 32);
+                Canvas.SetTop(this, Container.ActualHeight - 32);
+            }
+            else
+            {
+                double widthDiff = (e.NewSize.Width - e.PreviousSize.Width);
+                double heightDiff = (e.NewSize.Height - e.PreviousSize.Height);
+                if (Canvas.GetRight(this) > e.NewSize.Width)
+                {
+                    if (e.NewSize.Width < e.PreviousSize.Width)
+                    {
+                        Canvas.SetLeft(this, Canvas.GetLeft(this) + widthDiff);
+                    }
+                    else
+                    {
+                        Canvas.SetLeft(this, Canvas.GetLeft(this) - widthDiff);
+                    }
+                }
+                if (Canvas.GetBottom(this) > e.NewSize.Height)
+                {
+                    if (e.NewSize.Height < e.PreviousSize.Height)
+                    {
+                        Canvas.SetTop(this, Canvas.GetTop(this) + heightDiff);
+                    }
+                    else
+                    {
+                        Canvas.SetTop(this, Canvas.GetTop(this) - heightDiff);
+                    }
+                }
+                if (Canvas.GetBottom(this) > e.NewSize.Height)
+                {
+                    Canvas.SetBottom(this, e.NewSize.Height);
+                }
+                if (Canvas.GetRight(this) > e.NewSize.Width)
+                {
+                    Canvas.SetRight(this, e.NewSize.Width);
+                }
+                if (Canvas.GetLeft(this) < 0)
+                {
+                    Canvas.SetLeft(this, 0);
+                }
+                if (Canvas.GetTop(this) < 0)
+                {
+                    Canvas.SetTop(this, 0);
+                }
             }
         }
 

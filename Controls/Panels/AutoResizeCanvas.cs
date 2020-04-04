@@ -21,7 +21,7 @@ namespace Hammer.MdiControls.Panels
         /// </summary>
         protected override Size MeasureOverride(Size constraint)
         {
-            Size availableSize = new Size(ActualWidth, ActualHeight);
+            Size availableSize = new Size(SystemParameters.VirtualScreenHeight, SystemParameters.VirtualScreenWidth);
             foreach (UIElement internalChild in base.InternalChildren)
             {
                 internalChild?.Measure(availableSize);
