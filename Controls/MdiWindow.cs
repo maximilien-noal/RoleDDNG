@@ -227,18 +227,24 @@ namespace Hammer.MDI.Control
 
         public void Position()
         {
-            var actualContainerHeight = Container.ActualHeight;
-            var actualContainerWidth = Container.ActualWidth;
             UpdateLayout();
             InvalidateMeasure();
-            var actualWidth = ActualWidth;
-            var actualHeight = ActualHeight;
 
-            var left = Math.Max(0, (actualContainerWidth - actualWidth) / 4);
-            var top = Math.Max(0, (actualContainerHeight - actualHeight) / 4);
-
-            SetCurrentValue(Canvas.LeftProperty, left);
-            SetCurrentValue(Canvas.TopProperty, top);
+            double left = Mouse.GetPosition(this).X;
+            double top = Mouse.GetPosition(this).Y;
+            if (left < 0 || top < 0)
+            {
+                left = (Container.ActualWidth - ActualWidth) / 2;
+                top = (Container.ActualHeight - ActualHeight) / 2;
+                SetCurrentValue(Canvas.LeftProperty, left);
+                SetCurrentValue(Canvas.TopProperty, top);
+            }
+            else
+            {
+                SetCurrentValue(Canvas.LeftProperty, left - ActualWidth / 2);
+                SetCurrentValue(Canvas.TopProperty, top - ActualHeight / 2);
+                KeepWithinContainer(new Size(Container.ActualWidth, Container.ActualHeight));
+            }
         }
 
         internal void Initialize(MdiContainer container)
@@ -347,22 +353,27 @@ namespace Hammer.MDI.Control
                         Canvas.SetTop(this, Canvas.GetTop(this) - heightDiff);
                     }
                 }
-                if (Canvas.GetBottom(this) > e.NewSize.Height)
-                {
-                    Canvas.SetBottom(this, e.NewSize.Height);
-                }
-                if (Canvas.GetRight(this) > e.NewSize.Width)
-                {
-                    Canvas.SetRight(this, e.NewSize.Width);
-                }
-                if (Canvas.GetLeft(this) < 0)
-                {
-                    Canvas.SetLeft(this, 0);
-                }
-                if (Canvas.GetTop(this) < 0)
-                {
-                    Canvas.SetTop(this, 0);
-                }
+                KeepWithinContainer(e.NewSize);
+            }
+        }
+
+        private void KeepWithinContainer(Size size)
+        {
+            if (Canvas.GetBottom(this) > size.Height)
+            {
+                Canvas.SetBottom(this, size.Height);
+            }
+            if (Canvas.GetRight(this) > size.Width)
+            {
+                Canvas.SetRight(this, size.Width);
+            }
+            if (Canvas.GetLeft(this) < 0)
+            {
+                Canvas.SetLeft(this, 0);
+            }
+            if (Canvas.GetTop(this) < 0)
+            {
+                Canvas.SetTop(this, 0);
             }
         }
 
