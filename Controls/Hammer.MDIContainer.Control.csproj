@@ -10,14 +10,14 @@
   </ItemGroup>
   <ItemGroup>
 
-    <PackageReference Include="AdonisUI" Version="1.14.0" />
-    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.14.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+    <PackageReference Include="AdonisUI" Version="1.15.0" />
+    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.15.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.6.13" />
-    <PackageReference Include="WpfAnalyzers" Version="2.4.5">
+    <PackageReference Include="WpfAnalyzers" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
