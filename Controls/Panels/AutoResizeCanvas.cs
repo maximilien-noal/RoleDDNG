@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Hammer.MdiControls.Panels
 {
@@ -22,11 +23,32 @@ namespace Hammer.MdiControls.Panels
         protected override Size MeasureOverride(Size constraint)
         {
             Size availableSize = new Size(ActualWidth, ActualHeight);
+            var parent = FindParent<ScrollViewer>(this);
+            if (parent != null)
+            {
+                availableSize = new Size(parent.ActualWidth, parent.ActualHeight);
+            }
             foreach (UIElement internalChild in base.InternalChildren)
             {
                 internalChild?.Measure(availableSize);
             }
             return availableSize;
+        }
+
+        private static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            //get parent item
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            //we've reached the end of the tree
+            if (parentObject == null) return null;
+
+            //check if the parent matches the type we're looking for
+            T parent = parentObject as T;
+            if (parent != null)
+                return parent;
+            else
+                return FindParent<T>(parentObject);
         }
     }
 }
