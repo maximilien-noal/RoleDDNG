@@ -44,8 +44,7 @@ namespace Hammer.MdiControls.Panels
             if (parentObject == null) return null;
 
             //check if the parent matches the type we're looking for
-            T parent = parentObject as T;
-            if (parent != null)
+            if (parentObject is T parent)
                 return parent;
             else
                 return FindParent<T>(parentObject);
