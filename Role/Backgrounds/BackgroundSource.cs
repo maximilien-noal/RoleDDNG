@@ -55,7 +55,7 @@ namespace RoleDDNG.Role.Backgrounds
 
         public string GetBackgroundSource()
         {
-            return _backgrounds[new StaticRng().GetStandardRNG().Next(0, _backgrounds.Count)];
+            return _backgrounds[new StaticRng().GetRng().Next(0, _backgrounds.Count)];
         }
     }
 }

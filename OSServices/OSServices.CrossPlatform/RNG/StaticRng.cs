@@ -6,16 +6,9 @@ namespace RoleDDNG.OSServices.CrossPlatform
 {
     public class StaticRng : IRandomNumberGenerator
     {
-        private static readonly Random _limitedRNG = new Random(1000);
-
         private static readonly Random _standardRNG = new Random();
 
-        public Random GetLimitedRNG()
-        {
-            return _limitedRNG;
-        }
-
-        public Random GetStandardRNG()
+        public Random GetRng()
         {
             return _standardRNG;
         }

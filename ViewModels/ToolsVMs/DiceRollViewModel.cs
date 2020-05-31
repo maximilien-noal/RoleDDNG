@@ -51,7 +51,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             Results.Clear();
             for (int i = 0; i < NumberOfDices; i++)
             {
-                Results.Add(new StaticRng().GetLimitedRNG().Next(0, NumberofSides + 1));
+                Results.Add(new StaticRng().GetRng().Next(0, NumberofSides + 1));
             }
             RaisePropertyChanged(nameof(Results));
             Sum = Results.Sum(x => x);
