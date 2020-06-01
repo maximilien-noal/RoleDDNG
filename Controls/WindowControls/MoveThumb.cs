@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 using Hammer.MDI.Control.Extensions;
-using Hammer.MdiControls.Panels;
 
 namespace Hammer.MDI.Control.WindowControls
 {
@@ -82,8 +82,8 @@ namespace Hammer.MDI.Control.WindowControls
 
             if (window.WindowState == WindowState.Normal)
             {
-                window.LastLeft = AutoResizeCanvas.GetLeft(window);
-                window.LastTop = AutoResizeCanvas.GetTop(window);
+                window.LastLeft = Canvas.GetLeft(window);
+                window.LastTop = Canvas.GetTop(window);
             }
 
             if (window.WindowState != WindowState.Minimized)

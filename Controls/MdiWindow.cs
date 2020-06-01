@@ -329,51 +329,31 @@ namespace Hammer.MDI.Control
             }
             else
             {
-                double widthDiff = (e.NewSize.Width - e.PreviousSize.Width);
-                double heightDiff = (e.NewSize.Height - e.PreviousSize.Height);
-                if (Canvas.GetRight(this) > e.NewSize.Width)
-                {
-                    if (e.NewSize.Width < e.PreviousSize.Width)
-                    {
-                        Canvas.SetLeft(this, Canvas.GetLeft(this) + widthDiff);
-                    }
-                    else
-                    {
-                        Canvas.SetLeft(this, Canvas.GetLeft(this) - widthDiff);
-                    }
-                }
-                if (Canvas.GetBottom(this) > e.NewSize.Height)
-                {
-                    if (e.NewSize.Height < e.PreviousSize.Height)
-                    {
-                        Canvas.SetTop(this, Canvas.GetTop(this) + heightDiff);
-                    }
-                    else
-                    {
-                        Canvas.SetTop(this, Canvas.GetTop(this) - heightDiff);
-                    }
-                }
                 KeepWithinContainer(e.NewSize);
             }
         }
 
         private void KeepWithinContainer(Size size)
         {
-            if (Canvas.GetBottom(this) > size.Height)
+            Rect containerRect = new Rect(size);
+            var myDimensions = TransformToAncestor(Container).TransformBounds(new Rect(0.0, 0.0, this.ActualWidth, this.ActualHeight));
+
+            if (containerRect.Contains(myDimensions))
             {
-                Canvas.SetBottom(this, size.Height);
+                return;
             }
-            if (Canvas.GetRight(this) > size.Width)
+
+            if (myDimensions.Bottom > containerRect.Bottom)
             {
-                Canvas.SetRight(this, size.Width);
+                Canvas.SetTop(this, containerRect.Bottom - myDimensions.Height);
             }
-            if (Canvas.GetLeft(this) < 0)
+            if (myDimensions.Right > containerRect.Right)
+            {
+                Canvas.SetLeft(this, containerRect.Right - myDimensions.Width);
+            }
+            if (myDimensions.Left < containerRect.Left)
             {
                 Canvas.SetLeft(this, 0);
-            }
-            if (Canvas.GetTop(this) < 0)
-            {
-                Canvas.SetTop(this, 0);
             }
         }
 
