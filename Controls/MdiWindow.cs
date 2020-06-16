@@ -1,8 +1,6 @@
 ﻿using Hammer.MDI.Control.Events;
 using Hammer.MDI.Control.Extensions;
 using Hammer.MDI.Control.WindowControls;
-
-using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -321,6 +319,10 @@ namespace Hammer.MDI.Control
 
         private void CloseWindow(object sender, RoutedEventArgs e)
         {
+            if (Container != null)
+            {
+                Container.SizeChanged -= this.OnContainerSizeChanged;
+            }
             RaiseEvent(new RoutedEventArgs(ClosingEvent));
         }
 
@@ -343,6 +345,10 @@ namespace Hammer.MDI.Control
 
         private void KeepWithinContainer(Size size)
         {
+            if (Container is null)
+            {
+                return;
+            }
             Rect containerRect = new Rect(size);
             var myDimensions = TransformToAncestor(Container).TransformBounds(new Rect(0.0, 0.0, this.ActualWidth, this.ActualHeight));
 
