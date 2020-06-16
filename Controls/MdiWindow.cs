@@ -350,13 +350,17 @@ namespace Hammer.MDI.Control
                 return;
             }
             Rect containerRect = new Rect(size);
-            var myDimensions = TransformToAncestor(Container).TransformBounds(new Rect(0.0, 0.0, this.ActualWidth, this.ActualHeight));
+            var myDimensions = TransformToAncestor(Container).TransformBounds(new Rect(Canvas.GetLeft(this), Canvas.GetTop(this), this.ActualWidth, this.ActualHeight));
 
             if (containerRect.Contains(myDimensions))
             {
                 return;
             }
 
+            if (myDimensions.Top < containerRect.Top)
+            {
+                Canvas.SetTop(this, 0);
+            }
             if (myDimensions.Bottom > containerRect.Bottom)
             {
                 Canvas.SetTop(this, containerRect.Bottom - myDimensions.Height);
