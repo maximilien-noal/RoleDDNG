@@ -62,7 +62,7 @@ namespace RoleDDNG.ViewModels
         public async Task ExitAppAsync()
         {
             IsBusy = true;
-            string configDir = Path.GetDirectoryName(_appSettingsFilePath);
+            var configDir = Path.GetDirectoryName(_appSettingsFilePath);
             if (!Directory.Exists(configDir))
             {
                 Directory.CreateDirectory(configDir);
