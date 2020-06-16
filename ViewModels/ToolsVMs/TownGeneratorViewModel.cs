@@ -15,7 +15,7 @@ using RoleDDNG.ViewModels.Interfaces;
 
 namespace RoleDDNG.ViewModels.ToolsVMs
 {
-    public class TownGeneratorViewModel : ViewModelBase, IContent
+    public class TownGeneratorViewModel : ViewModelBase, IDocumentViewModel
     {
         private readonly ITextPrinter _textPrinterService;
 

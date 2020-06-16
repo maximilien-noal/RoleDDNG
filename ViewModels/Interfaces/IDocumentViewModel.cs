@@ -1,6 +1,6 @@
 ﻿namespace RoleDDNG.ViewModels.Interfaces
 {
-    public interface IContent
+    public interface IDocumentViewModel
     {
         string Title { get; }
     }

@@ -28,9 +28,9 @@ namespace RoleDDNG.ViewModels
 
         private bool _isBusy = true;
 
-        private ObservableCollection<IContent> _items = new ObservableCollection<IContent>();
+        private ObservableCollection<IDocumentViewModel> _items = new ObservableCollection<IDocumentViewModel>();
 
-        private IContent? _selectedWindow;
+        private IDocumentViewModel? _selectedWindow;
 
         public MainViewModel()
         {
@@ -47,11 +47,11 @@ namespace RoleDDNG.ViewModels
 
         public bool IsBusy { get => _isBusy; private set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
-        public ObservableCollection<IContent> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
+        public ObservableCollection<IDocumentViewModel> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
 
         public AsyncCommand OpenCharactersDataBase { get; private set; }
 
-        public IContent? SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
+        public IDocumentViewModel? SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
 
         public RelayCommand<string> SetCharacterDatabasePath { get; private set; }
 
@@ -83,7 +83,7 @@ namespace RoleDDNG.ViewModels
             IsBusy = false;
         }
 
-        public void RemoveMdiWindow<T>() where T : IContent
+        public void RemoveMdiWindow<T>() where T : IDocumentViewModel
         {
             if (Items.OfType<T>().Any())
             {
@@ -101,12 +101,21 @@ namespace RoleDDNG.ViewModels
             }
         }
 
-        private void AddMdiWindow<T>() where T : IContent, new()
+        private void AddMdiWindow<T>() where T : IDocumentViewModel, new()
         {
             if (!Items.OfType<T>().Any())
             {
                 var viewModel = new T();
                 Items.Add(viewModel);
+            }
+            else
+            {
+                var existingViewModel = Items.OfType<T>().FirstOrDefault();
+                if (existingViewModel != null)
+                {
+                    Items.Remove(existingViewModel);
+                    Items.Add(existingViewModel);
+                }
             }
         }
 

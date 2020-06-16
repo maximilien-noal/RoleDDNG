@@ -10,7 +10,7 @@ using RoleDDNG.ViewModels.Interfaces;
 
 namespace RoleDDNG.ViewModels.ToolsVMs
 {
-    public class DiceRollViewModel : ViewModelBase, IContent
+    public class DiceRollViewModel : ViewModelBase, IDocumentViewModel
     {
         private int _numberOfDices = 1;
 
