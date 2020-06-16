@@ -8,7 +8,7 @@ namespace RoleDDNG.DatabaseLayer
 {
     public sealed class DbAccessor : IDbAccessor
     {
-        private const string CONNECTION_STRING_DEBUT = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=";
+        private const string ConnectionStringBeginning = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=";
 
         private readonly string _dbFileName;
 
@@ -20,7 +20,7 @@ namespace RoleDDNG.DatabaseLayer
         public async Task<IEnumerable<T>> GetQueryDataAsync<T>(string sqlQuery)
         {
             DefaultTypeMap.MatchNamesWithUnderscores = true;
-            using var connection = new OdbcConnection($"{CONNECTION_STRING_DEBUT}{_dbFileName}");
+            using var connection = new OdbcConnection($"{ConnectionStringBeginning}{_dbFileName}");
             await connection.OpenAsync().ConfigureAwait(false);
             var result = connection.Query<T>(sqlQuery);
             await connection.CloseAsync().ConfigureAwait(false);
