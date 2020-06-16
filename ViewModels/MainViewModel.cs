@@ -30,7 +30,7 @@ namespace RoleDDNG.ViewModels
 
         private ObservableCollection<IContent> _items = new ObservableCollection<IContent>();
 
-        private IContent _selectedWindow = default;
+        private IContent? _selectedWindow;
 
         public MainViewModel()
         {
@@ -51,7 +51,7 @@ namespace RoleDDNG.ViewModels
 
         public AsyncCommand OpenCharactersDataBase { get; private set; }
 
-        public IContent SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
+        public IContent? SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
 
         public RelayCommand<string> SetCharacterDatabasePath { get; private set; }
 

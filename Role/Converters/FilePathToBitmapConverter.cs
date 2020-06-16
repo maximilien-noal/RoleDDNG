@@ -16,7 +16,7 @@ namespace RoleDDNG.Role.Converters
         {
             if (value is null)
             {
-                return null;
+                return new object();
             }
             if (value is string filePath && string.IsNullOrWhiteSpace(filePath) == false && File.Exists(filePath))
             {
@@ -26,7 +26,7 @@ namespace RoleDDNG.Role.Converters
                 bitmapRender.EndInit();
                 return bitmapRender;
             }
-            return null;
+            return new object();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

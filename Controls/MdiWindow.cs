@@ -76,9 +76,9 @@ namespace Hammer.MDI.Control
         public static readonly DependencyProperty WindowStateProperty =
             DependencyProperty.Register(nameof(WindowState), typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
 
-        private Adorner _myAdorner;
+        private Adorner? _myAdorner;
 
-        private AdornerLayer _myAdornerLayer;
+        private AdornerLayer? _myAdornerLayer;
 
         static MdiWindow()
         {
@@ -168,7 +168,7 @@ namespace Hammer.MDI.Control
             set { SetValue(TitleProperty, value); }
         }
 
-        public Image Tumblr { get; private set; }
+        public Image Tumblr { get; private set; } = new Image();
 
         public WindowState WindowState
         {
@@ -183,7 +183,7 @@ namespace Hammer.MDI.Control
             }
         }
 
-        internal MdiContainer Container { get; private set; }
+        internal MdiContainer? Container { get; private set; }
 
         internal double LastHeight { get; set; }
 
@@ -221,8 +221,10 @@ namespace Hammer.MDI.Control
             {
                 minimizeButton.Click += ToggleMinimizeWindow;
             }
-
-            Tumblr = GetTemplateChild("PART_Tumblr") as Image;
+            if (GetTemplateChild("PART_Tumblr") is Image image)
+            {
+                Tumblr = image;
+            }
         }
 
         public void Position()
@@ -232,14 +234,14 @@ namespace Hammer.MDI.Control
 
             double left = Mouse.GetPosition(this).X;
             double top = Mouse.GetPosition(this).Y;
-            if (left < 0 || top < 0)
+            if ((left < 0 || top < 0) && Container != null)
             {
                 left = (Container.ActualWidth - ActualWidth) / 2;
                 top = (Container.ActualHeight - ActualHeight) / 2;
                 SetCurrentValue(Canvas.LeftProperty, left);
                 SetCurrentValue(Canvas.TopProperty, top);
             }
-            else
+            else if (Container != null)
             {
                 SetCurrentValue(Canvas.LeftProperty, left - ActualWidth / 2);
                 SetCurrentValue(Canvas.TopProperty, top - ActualHeight / 2);
@@ -273,14 +275,20 @@ namespace Hammer.MDI.Control
             }
 
             base.OnLostKeyboardFocus(e);
-            FrameworkElement parent = VisualTreeExtension.FindMdiWindow(e.NewFocus as FrameworkElement);
-            if ((e.NewFocus is MdiWindow && !Equals(e.NewFocus, this)) || (parent != null && !Equals(parent, this)))
+            if (e.NewFocus is FrameworkElement element)
             {
-                SetCurrentValue(IsSelectedProperty, false);
-                Panel.SetZIndex(this, 0);
-                var newWindow = (e.NewFocus is MdiWindow) ? (e.NewFocus as MdiWindow) : (parent as MdiWindow);
-                Container.SetCurrentValue(System.Windows.Controls.Primitives.Selector.SelectedItemProperty, newWindow.DataContext);
-                newWindow.IsSelected = true;
+                FrameworkElement? parent = VisualTreeExtension.FindMdiWindow(element);
+                if ((e.NewFocus is MdiWindow && !Equals(e.NewFocus, this)) || (parent != null && !Equals(parent, this)))
+                {
+                    SetCurrentValue(IsSelectedProperty, false);
+                    Panel.SetZIndex(this, 0);
+                    var newWindow = (e.NewFocus is MdiWindow) ? (e.NewFocus as MdiWindow) : (parent as MdiWindow);
+                    if (newWindow != null && Container != null)
+                    {
+                        Container.SetCurrentValue(System.Windows.Controls.Primitives.Selector.SelectedItemProperty, newWindow.DataContext);
+                        newWindow.IsSelected = true;
+                    }
+                }
             }
         }
 
@@ -323,7 +331,7 @@ namespace Hammer.MDI.Control
                 Width += e.NewSize.Width - e.PreviousSize.Width;
                 Height += e.NewSize.Height - e.PreviousSize.Height;
             }
-            else if (WindowState == WindowState.Minimized)
+            else if (WindowState == WindowState.Minimized && Container != null)
             {
                 Canvas.SetTop(this, Container.ActualHeight - 32);
             }

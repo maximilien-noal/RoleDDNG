@@ -41,8 +41,13 @@ namespace Hammer.MDI.Control.WindowControls
             var y = Math.Max(0, Canvas.GetTop(AdornedElement));
             var w = AdornedElement.DesiredSize.Width;
             var h = AdornedElement.DesiredSize.Height;
-            var ww = (AdornedElement as MdiWindow).Container.ActualWidth;
-            var hh = (AdornedElement as MdiWindow).Container.ActualHeight;
+            double ww = 0;
+            double hh = 0;
+            if (AdornedElement != null && AdornedElement is MdiWindow adornerWindow && adornerWindow.Container != null)
+            {
+                ww = adornerWindow.Container.ActualWidth;
+                hh = adornerWindow.Container.ActualHeight;
+            }
             var xPlusw = Math.Min(ww, x + w);
             var yPlush = Math.Min(hh, y + h);
 

@@ -34,7 +34,7 @@ namespace RoleDDNG.Role.Converters
         {
             if (value is null)
             {
-                return null;
+                return new object();
             }
             return new Personnage();
         }

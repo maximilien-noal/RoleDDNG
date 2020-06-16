@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -34,7 +35,7 @@ namespace Hammer.MDI.Control
 
         internal int MinimizedWindowsCount { get; private set; }
 
-        private IList InternalItemSource { get; set; }
+        private IList InternalItemSource { get; set; } = new List<object>();
 
         protected override DependencyObject GetContainerForItemOverride()
         {
@@ -45,9 +46,9 @@ namespace Hammer.MDI.Control
         {
             base.OnItemsSourceChanged(oldValue, newValue);
 
-            if (newValue is IList)
+            if (newValue is IList newValueList)
             {
-                InternalItemSource = newValue as IList;
+                InternalItemSource = newValueList;
             }
         }
 

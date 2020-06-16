@@ -6,7 +6,7 @@ namespace RoleDDNG.Models.Options
 {
     public class AppSettings : ObservableObject
     {
-        private string _lastCharacterDBPath = default;
+        private string _lastCharacterDBPath = "";
 
         private WindowPlacement _mainWindowPlacement = default;
 

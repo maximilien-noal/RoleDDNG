@@ -1,2 +1,1 @@
 ﻿[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated from the XAML side", Scope = "namespaceanddescendants", Target = "Hammer.MDI.Control.WindowControls")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("WpfAnalyzers.Documentation", "WPF0108:Backing member for RoutedEvent should have standard documentation text.", Justification = "The documentation is already there !", Scope = "assembly")]

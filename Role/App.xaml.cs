@@ -19,7 +19,7 @@ namespace RoleDDNG.Role
 
         private const string RegistryValueName = "AppsUseLightTheme";
 
-        private Uri _currentTheme = default;
+        private Uri? _currentTheme;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -154,7 +154,7 @@ namespace RoleDDNG.Role
             /// Optional uri to an external color scheme that is not provided by AdonisUI.
             /// </param>
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exception")]
-            public static void SetColorScheme(ResourceDictionary rootResourceDictionary, Uri colorSchemeResourceUri, Uri currentColorSchemeResourceUri = null)
+            public static void SetColorScheme(ResourceDictionary rootResourceDictionary, Uri colorSchemeResourceUri, Uri? currentColorSchemeResourceUri = null)
             {
                 var knownColorSchemes = currentColorSchemeResourceUri != null ? new[] { currentColorSchemeResourceUri } : new[] { LightColorScheme, DarkColorScheme };
 
@@ -168,7 +168,7 @@ namespace RoleDDNG.Role
                 rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = colorSchemeResourceUri });
             }
 
-            private static ResourceDictionary FindFirstContainedResourceDictionaryByUri(ResourceDictionary resourceDictionary, Uri[] knownColorSchemes)
+            private static ResourceDictionary? FindFirstContainedResourceDictionaryByUri(ResourceDictionary resourceDictionary, Uri[] knownColorSchemes)
             {
                 if (knownColorSchemes.Any(scheme => resourceDictionary.Source != null && resourceDictionary.Source.IsAbsoluteUri && resourceDictionary.Source.AbsoluteUri.Equals(scheme.AbsoluteUri, StringComparison.InvariantCulture)))
                 {

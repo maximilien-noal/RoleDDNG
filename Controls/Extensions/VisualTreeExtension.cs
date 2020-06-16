@@ -6,16 +6,16 @@ namespace Hammer.MDI.Control.Extensions
 {
     internal static class VisualTreeExtension
     {
-        public static MdiWindow FindMdiWindow(FrameworkElement sender)
+        public static MdiWindow? FindMdiWindow(FrameworkElement sender)
         {
             return FindSpecificParent<MdiWindow>(sender);
         }
 
-        public static TParent FindSpecificParent<TParent>(FrameworkElement sender)
+        public static TParent? FindSpecificParent<TParent>(FrameworkElement sender)
                    where TParent : FrameworkElement
         {
             var current = sender;
-            if (current == null) return null;
+            if (current is null) return null;
             var parent = VisualTreeHelper.GetParent(current) as FrameworkElement;
 
             if (parent != null && parent.GetType() != typeof(TParent))
@@ -28,7 +28,14 @@ namespace Hammer.MDI.Control.Extensions
                 parent = FindSpecificParent<TParent>(grandpa);
             }
 
-            return parent as TParent;
+            if(parent is null)
+            {
+                return null;
+            }
+            else
+            {
+                return parent as TParent;
+            }
         }
     }
 }

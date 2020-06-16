@@ -1,28 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <PropertyGroup>
-    <RootNamespace>Hammer.MDI.Control</RootNamespace>
-    <UseWPF>True</UseWPF>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Themes\appicon.png" />
-  </ItemGroup>
-  <ItemGroup>
+	<PropertyGroup>
+		<RootNamespace>Hammer.MDI.Control</RootNamespace>
+		<UseWPF>True</UseWPF>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+		<LangVersion>8.0</LangVersion>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Remove="Themes\appicon.png" />
+	</ItemGroup>
+	<ItemGroup>
 
-    <PackageReference Include="AdonisUI" Version="1.15.0" />
-    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.15.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.6.13" />
-    <PackageReference Include="WpfAnalyzers" Version="3.1.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Themes\appicon.png" />
-  </ItemGroup>
+		<PackageReference Include="AdonisUI" Version="1.15.0" />
+		<PackageReference Include="AdonisUI.ClassicTheme" Version="1.15.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.6.13" />
+		<PackageReference Include="WpfAnalyzers" Version="3.1.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Themes\appicon.png" />
+	</ItemGroup>
 </Project>

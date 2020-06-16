@@ -17,13 +17,20 @@ namespace RoleDDNG.Role.Converters
         {
             if (value is null)
             {
-                return null;
+                return 0;
             }
             if (value is Personnage character)
             {
                 var col = new short?[] { character.Niv1, character.Niv2, character.Niv3, character.Niv4, character.Niv5, character.Niv6, character.Niv7, character.Niv8 };
                 var maxLevel = col.Max();
-                return maxLevel;
+                if(maxLevel is null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return maxLevel;
+                }
             }
             return 0;
         }
@@ -32,7 +39,7 @@ namespace RoleDDNG.Role.Converters
         {
             if (value is null)
             {
-                return null;
+                return new object();
             }
             return new Personnage();
         }
