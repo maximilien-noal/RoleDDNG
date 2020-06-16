@@ -28,7 +28,7 @@ namespace Hammer.MDI.Control.Extensions
                 parent = FindSpecificParent<TParent>(grandpa);
             }
 
-            if(parent is null)
+            if (parent is null)
             {
                 return null;
             }
