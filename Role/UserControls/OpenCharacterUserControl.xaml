@@ -12,6 +12,7 @@
     mc:Ignorable="d"
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
     <UserControl.Resources>
+        <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/OpenCharacterIcon.png" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:FilePathToBitmapConverter x:Key="FilePathToBitmapConverter" />
         <converters:CharacterToClasseConverter x:Key="CharacterToClasseConverter" />

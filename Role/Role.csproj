@@ -43,7 +43,10 @@
 		<None Remove="Assets\backgrounds\unicorn.png" />
 		<None Remove="Assets\backgrounds\warrior.jpg" />
 		<None Remove="Assets\splashscreen.png" />
-		<None Remove="UserControls\Assets\diceButton.png" />
+		<None Remove="UserControls\Assets\DiceRollButon.png" />
+		<None Remove="UserControls\Assets\DiceRollIcon.png" />
+		<None Remove="UserControls\Assets\OpenCharacterIcon.png" />
+		<None Remove="UserControls\diceButton.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -81,7 +84,9 @@
 		<Resource Include="Assets\backgrounds\unicorn.png" />
 		<Resource Include="Assets\backgrounds\warrior.jpg" />
 		<Resource Include="Assets\splashscreen.png" />
-		<Resource Include="UserControls\Assets\diceButton.png" />
+		<Resource Include="UserControls\Assets\DiceRollButon.png" />
+		<Resource Include="UserControls\Assets\DiceRollIcon.png" />
+		<Resource Include="UserControls\Assets\OpenCharacterIcon.png" />
 	</ItemGroup>
 
 	<ItemGroup>

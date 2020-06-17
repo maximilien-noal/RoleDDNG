@@ -9,6 +9,7 @@
              mc:Ignorable="d"
              Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
     <UserControl.Resources>
+        <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/DiceRollIcon.png" />
         <converters:ListOfIntsToStringConverter x:Key="ListOfIntsToStringConverter" />
         <converters:IntToStringConverter x:Key="IntToStringConverter" />
     </UserControl.Resources>
@@ -26,13 +27,12 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
             <Label Margin="5" Grid.Row="0" Grid.Column="0">Nombre de dés</Label>
             <TextBox Margin="5" Grid.Row="0" Grid.Column="1" Text="{Binding NumberOfDices, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
             <Label Margin="5" Grid.Row="1" Grid.Column="0">Type de dés</Label>
             <ComboBox Margin="5" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding DiceTypes}" SelectedValue="{Binding NumberofSides, Mode=TwoWay}"></ComboBox>
             <Button Margin="5"  IsDefault="True" MinWidth="147" MinHeight="54" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Command="{Binding Roll}">
-                <Image Stretch="Fill" Source="Assets/diceButton.png" />
+                <Image Stretch="Fill" Source="/UserControls/Assets/DiceRollButon.png" />
             </Button>
             <TextBox Margin="5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="{Binding Results, Mode=OneWay, Converter={StaticResource ListOfIntsToStringConverter}}">
             </TextBox>

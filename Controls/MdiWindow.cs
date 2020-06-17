@@ -1,11 +1,13 @@
 ﻿using Hammer.MDI.Control.Events;
 using Hammer.MDI.Control.Extensions;
 using Hammer.MDI.Control.WindowControls;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Hammer.MDI.Control
 {
@@ -81,6 +83,15 @@ namespace Hammer.MDI.Control
         static MdiWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MdiWindow), new FrameworkPropertyMetadata(typeof(MdiWindow)));
+        }
+
+        public void ChangeMenuButtonIcon(ImageBrush brush)
+        {
+            var menuButton = GetTemplateChild("PART_ButtonBar_MenuButton");
+            if (menuButton is WindowButton button)
+            {
+                button.Icon = brush;
+            }
         }
 
         public MdiWindow()
