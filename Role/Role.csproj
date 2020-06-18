@@ -46,6 +46,7 @@
 		<None Remove="UserControls\Assets\DiceRollButon.png" />
 		<None Remove="UserControls\Assets\DiceRollIcon.png" />
 		<None Remove="UserControls\Assets\OpenCharacterIcon.png" />
+		<None Remove="UserControls\Assets\TownGeneratorIcon.png" />
 		<None Remove="UserControls\diceButton.png" />
 	</ItemGroup>
 
@@ -87,6 +88,7 @@
 		<Resource Include="UserControls\Assets\DiceRollButon.png" />
 		<Resource Include="UserControls\Assets\DiceRollIcon.png" />
 		<Resource Include="UserControls\Assets\OpenCharacterIcon.png" />
+		<Resource Include="UserControls\Assets\TownGeneratorIcon.png" />
 	</ItemGroup>
 
 	<ItemGroup>
