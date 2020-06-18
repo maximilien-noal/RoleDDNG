@@ -98,7 +98,6 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Threading" Version="16.6.13" />
 		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.6.13" />
 		<PackageReference Include="System.Management" Version="4.7.0" />
 		<PackageReference Include="WpfAnalyzers" Version="3.1.0">
@@ -110,7 +109,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Controls\Hammer.MDIContainer.Control.csproj" />
 		<ProjectReference Include="..\Models\Models.csproj" />
-		<ProjectReference Include="..\OSServices\OSServices.CrossPlatform\OSServices.CrossPlatform.csproj" />
 		<ProjectReference Include="..\OSServices\Windows\OSServices.Windows.csproj" />
 		<ProjectReference Include="..\Serialization\Serialization.csproj" />
 		<ProjectReference Include="..\ViewModels\ViewModels.csproj" />

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-using AsyncAwaitBestPractices.MVVM;
-
+﻿using AsyncAwaitBestPractices.MVVM;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
-
 using RoleDDNG.Interfaces.Printing;
-using RoleDDNG.OSServices.CrossPlatform;
 using RoleDDNG.ViewModels.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.ToolsVMs
 {
@@ -67,7 +63,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             var dice = 0;
             for (int i = 0; i < nombre; i++)
             {
-                dice += GetZeroIfNegative(Convert.ToInt32(face * new StaticRng().GetRng().Next()) + 1);
+                dice += GetZeroIfNegative(Convert.ToInt32(face * new Random().Next()) + 1);
             }
             dice += plus;
             return dice;
@@ -262,7 +258,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         private string GetPNJs()
         {
-            double commandant = Convert.ToInt32(new StaticRng().GetRng().NextDouble() * 100) + 1;
+            double commandant = Convert.ToInt32(new Random().NextDouble() * 100) + 1;
             if (commandant < 61)
             {
                 commandant = 8.1;

@@ -1,8 +1,6 @@
-﻿using System;
+﻿using RoleDDNG.Interfaces.Backgrounds;
+using System;
 using System.Collections.Generic;
-
-using RoleDDNG.Interfaces.Backgrounds;
-using RoleDDNG.OSServices.CrossPlatform;
 
 namespace RoleDDNG.Role.Backgrounds
 {
@@ -55,7 +53,7 @@ namespace RoleDDNG.Role.Backgrounds
 
         public string GetBackgroundSource()
         {
-            return _backgrounds[new StaticRng().GetRng().Next(0, _backgrounds.Count)];
+            return _backgrounds[new Random().Next(0, _backgrounds.Count)];
         }
     }
 }
