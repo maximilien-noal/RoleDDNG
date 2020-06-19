@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
+using Serilog;
 using System;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Security.Principal;
@@ -13,6 +15,36 @@ namespace RoleDDNG.Role
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            Current.DispatcherUnhandledException += OnWpfUnhandledException;
+
+            var logFilePath = Path.Combine(
+                                Environment.GetFolderPath(
+                                    Environment.SpecialFolder.ApplicationData),
+                                    "RoleDDNG\\ROLE.LOG");
+
+            var rollConfiguration = new LoggerConfiguration()
+                .WriteTo.File(logFilePath);
+
+            Log.Logger = rollConfiguration
+                .WriteTo.Async(config => config.File(logFilePath))
+                .CreateLogger();
+
+            Log.Logger.Information("Program {ProgramName} Start at {StartTime}", nameof(RoleDDNG), DateTime.Now);
+
+            Exit += (s, e) =>
+            {
+                Log.Logger.Information("Program {ProgramName} End at {StartTime}", nameof(RoleDDNG), DateTime.Now);
+                Log.CloseAndFlush();
+            };
+        }
+
+        private void OnWpfUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+        }
+
         private const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
 
         private const string RegistryValueName = "AppsUseLightTheme";

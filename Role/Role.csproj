@@ -9,6 +9,7 @@
 		<ApplicationIcon>Assets\appicon.ico</ApplicationIcon>
 		<LangVersion>8.0</LangVersion>
 		<Nullable>enable</Nullable>
+		<StartupObject></StartupObject>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -99,6 +100,10 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.6.13" />
+		<PackageReference Include="Serilog" Version="2.9.0" />
+		<PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+		<PackageReference Include="SerilogAnalyzer" Version="0.15.0" />
 		<PackageReference Include="System.Management" Version="4.7.0" />
 		<PackageReference Include="WpfAnalyzers" Version="3.1.0">
 			<PrivateAssets>all</PrivateAssets>
