@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Management;
-using System.Reflection;
 using System.Security.Principal;
 using System.Windows;
-
-using Microsoft.Win32;
 
 namespace RoleDDNG.Role
 {
@@ -23,8 +21,10 @@ namespace RoleDDNG.Role
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            var splash = new SplashScreen(Assembly.GetExecutingAssembly(), "Assets/splashscreen.png");
+#if RELEASE
+            var splash = new SplashScreen(System.Reflection.Assembly.GetExecutingAssembly(), "Assets/splashscreen.png");
             splash.Show(true, true);
+#endif
 
             base.OnStartup(e);
             try
