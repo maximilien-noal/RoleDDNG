@@ -9,7 +9,7 @@ namespace RoleDDNG.OSServices.Windows.Dialogs
 {
     public class Win32FileDialog : IFileDialog
     {
-        public async Task<string> TryOpenUserChosenFileAsync(string dialogTitle, string defaultExtension)
+        public async Task<string> OpenFileDialogAsync(string dialogTitle, string defaultExtension)
         {
             var filename = "";
             await Dispatcher.CurrentDispatcher.InvokeAsync(() =>
