@@ -4,7 +4,8 @@ namespace RoleDDNG.Interfaces.Serialization
 {
     public interface IAsyncSerializer<T>
     {
-        Task<T> DeserializeAsync(string filePath);
+        Task<T> DeserializeAsync<TModel>(string filePath)
+            where TModel : T, new();
 
         Task SerializeAsync(string filePath, T objectToSerialize);
     }

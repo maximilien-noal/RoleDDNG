@@ -78,7 +78,7 @@ namespace RoleDDNG.ViewModels
             if (File.Exists(_appSettingsFilePath))
             {
                 var serializer = SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>();
-                AppSettings = await serializer.DeserializeAsync(_appSettingsFilePath).ConfigureAwait(false);
+                AppSettings = await serializer.DeserializeAsync<AppSettings>(_appSettingsFilePath).ConfigureAwait(false);
             }
             IsBusy = false;
         }
