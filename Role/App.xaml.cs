@@ -10,9 +10,6 @@ using System.Windows;
 
 namespace RoleDDNG.Role
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         public App()
@@ -25,11 +22,7 @@ namespace RoleDDNG.Role
                                     "RoleDDNG\\ROLE.LOG");
 
             var rollConfiguration = new LoggerConfiguration()
-                .WriteTo.File(logFilePath);
-
-            Log.Logger = rollConfiguration
-                .WriteTo.Async(config => config.File(logFilePath))
-                .CreateLogger();
+                .WriteTo.Async(config => config.File(logFilePath)).CreateLogger();
 
             Log.Logger.Information("Program {ProgramName} Start at {StartTime}", nameof(RoleDDNG), DateTime.Now);
 
