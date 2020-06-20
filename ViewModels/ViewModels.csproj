@@ -13,7 +13,10 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.6.13" />
+		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.6.13">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="4.1.1" />
 		<PackageReference Include="MvvmLightStd10" Version="5.4.1.2" />
 		<PackageReference Include="WpfAnalyzers" Version="3.1.0">
