@@ -2,7 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Hammer.MDI.Control"
-    xmlns:windowControls="clr-namespace:Hammer.MDI.Control.WindowControls">
+    xmlns:windowControls="clr-namespace:Hammer.MDI.Control.WindowControls"
+    xmlns:panels="clr-namespace:Hammer.MDI.Control.Panels">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Hammer.MDIContainer.Control;component/Themes/DefaultTheme.xaml" />
@@ -22,7 +23,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <Canvas
+                    <panels:ScrollableCanvas
                         Background="{StaticResource ContainerBackground}"
                         ClipToBounds="True"
                         IsItemsHost="True" />

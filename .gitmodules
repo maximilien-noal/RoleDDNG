@@ -1,0 +1,3 @@
+[submodule "wpftoolkit"]
+	path = wpftoolkit
+	url = https://github.com/maximilien-noal/wpftoolkit
