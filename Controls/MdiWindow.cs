@@ -28,51 +28,35 @@ namespace Hammer.MDI.Control
     [TemplatePart(Name = "PART_Tumblr", Type = typeof(Image))]
     public sealed class MdiWindow : ContentControl
     {
-        /// <summary>
-        /// Identifies the <see cref="Closing" /> routed event.
-        /// </summary>
+        /// <summary> Identifies the <see cref="Closing" /> routed event. </summary>
         public static readonly RoutedEvent ClosingEvent = EventManager.RegisterRoutedEvent(
             nameof(Closing), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
-        /// <summary>
-        /// Identifies the <see cref="FocusChanged" /> routed event.
-        /// </summary>
+        /// <summary> Identifies the <see cref="FocusChanged" /> routed event. </summary>
         public static readonly RoutedEvent FocusChangedEvent = EventManager.RegisterRoutedEvent(
            nameof(FocusChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
-        /// <summary>
-        /// Identifies the <see cref="HasDropShadow" /> dependency property.
-        /// </summary>
+        /// <summary> Identifies the <see cref="HasDropShadow" /> dependency property. </summary>
         public static readonly DependencyProperty HasDropShadowProperty =
             DependencyProperty.Register(nameof(HasDropShadow), typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(true));
 
-        /// <summary>
-        /// Identifies the <see cref="IsModal" /> dependency property.
-        /// </summary>
+        /// <summary> Identifies the <see cref="IsModal" /> dependency property. </summary>
         public static readonly DependencyProperty IsModalProperty =
             DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiWindow), new UIPropertyMetadata(OnIsModalChanged));
 
-        /// <summary>
-        /// Identifies the <see cref="IsSelected" /> dependency property.
-        /// </summary>
+        /// <summary> Identifies the <see cref="IsSelected" /> dependency property. </summary>
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(false));
 
-        /// <summary>
-        /// Identifies the <see cref="Title" /> dependency property.
-        /// </summary>
+        /// <summary> Identifies the <see cref="Title" /> dependency property. </summary>
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(MdiWindow), new PropertyMetadata(string.Empty));
 
-        /// <summary>
-        /// Identifies the <see cref="WindowStateChanged" /> routed event.
-        /// </summary>
+        /// <summary> Identifies the <see cref="WindowStateChanged" /> routed event. </summary>
         public static readonly RoutedEvent WindowStateChangedEvent = EventManager.RegisterRoutedEvent(
            nameof(WindowStateChanged), RoutingStrategy.Bubble, typeof(WindowStateChangedRoutedEventHandler), typeof(MdiWindow));
 
-        /// <summary>
-        /// Identifies the <see cref="WindowState" /> dependency property.
-        /// </summary>
+        /// <summary> Identifies the <see cref="WindowState" /> dependency property. </summary>
         public static readonly DependencyProperty WindowStateProperty =
             DependencyProperty.Register(nameof(WindowState), typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
 
@@ -83,15 +67,6 @@ namespace Hammer.MDI.Control
         static MdiWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MdiWindow), new FrameworkPropertyMetadata(typeof(MdiWindow)));
-        }
-
-        public void ChangeMenuButtonIcon(ImageBrush brush)
-        {
-            var menuButton = GetTemplateChild("PART_ButtonBar_MenuButton");
-            if (menuButton is WindowButton button)
-            {
-                button.Icon = brush;
-            }
         }
 
         public MdiWindow()
@@ -204,6 +179,15 @@ namespace Hammer.MDI.Control
 
         internal WindowState PreviousWindowState { get; set; }
 
+        public void ChangeMenuButtonIcon(ImageBrush brush)
+        {
+            var menuButton = GetTemplateChild("PART_ButtonBar_MenuButton");
+            if (menuButton is WindowButton button)
+            {
+                button.Icon = brush;
+            }
+        }
+
         public void DoFocus(MouseButtonEventArgs mouseButtonEventArgs)
         {
             OnMouseLeftButtonDown(mouseButtonEventArgs);
@@ -254,7 +238,6 @@ namespace Hammer.MDI.Control
             {
                 SetCurrentValue(Canvas.LeftProperty, left - ActualWidth / 2);
                 SetCurrentValue(Canvas.TopProperty, top - ActualHeight / 2);
-                KeepWithinContainer(new Size(Container.ActualWidth, Container.ActualHeight));
             }
         }
 
@@ -264,6 +247,11 @@ namespace Hammer.MDI.Control
             Container.SizeChanged += OnContainerSizeChanged;
             LastHeight = ActualHeight;
             LastWidth = ActualWidth;
+        }
+
+        protected override Size ArrangeOverride(Size arrangeBounds)
+        {
+            return base.ArrangeOverride(arrangeBounds);
         }
 
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
@@ -347,42 +335,6 @@ namespace Hammer.MDI.Control
             else if (WindowState == WindowState.Minimized && Container != null)
             {
                 Canvas.SetTop(this, Container.ActualHeight - 32);
-            }
-            else
-            {
-                KeepWithinContainer(e.NewSize);
-            }
-        }
-
-        private void KeepWithinContainer(Size size)
-        {
-            if (Container is null)
-            {
-                return;
-            }
-            Rect containerRect = new Rect(size);
-            var myDimensions = TransformToAncestor(Container).TransformBounds(new Rect(Canvas.GetLeft(this), Canvas.GetTop(this), this.ActualWidth, this.ActualHeight));
-
-            if (containerRect.Contains(myDimensions))
-            {
-                return;
-            }
-
-            if (myDimensions.Top < containerRect.Top)
-            {
-                Canvas.SetTop(this, 0);
-            }
-            if (myDimensions.Bottom > containerRect.Bottom)
-            {
-                Canvas.SetTop(this, containerRect.Bottom - myDimensions.Height);
-            }
-            if (myDimensions.Right > containerRect.Right)
-            {
-                Canvas.SetLeft(this, containerRect.Right - myDimensions.Width);
-            }
-            if (myDimensions.Left < containerRect.Left)
-            {
-                Canvas.SetLeft(this, 0);
             }
         }
 

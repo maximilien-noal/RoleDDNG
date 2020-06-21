@@ -41,9 +41,7 @@ namespace Hammer.MDI.Control.WindowControls
                         break;
 
                     default:
-#pragma warning disable CA1303 // Do not pass literals as localized parameters
-                        throw new InvalidOperationException("Unsupported WindowsState mode");
-#pragma warning restore CA1303 // Do not pass literals as localized parameters
+                        break;
                 }
             }
 
@@ -90,8 +88,8 @@ namespace Hammer.MDI.Control.WindowControls
             {
                 var candidateLeft = window.LastLeft + e.HorizontalChange;
                 var candidateTop = window.LastTop + e.VerticalChange;
-
-                window.PositionWithinContainer(candidateLeft, candidateTop);
+                Canvas.SetLeft(window, candidateLeft);
+                Canvas.SetTop(window, candidateTop);
             }
         }
     }

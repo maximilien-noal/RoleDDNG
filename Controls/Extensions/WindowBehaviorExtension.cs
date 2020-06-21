@@ -46,42 +46,6 @@ namespace Hammer.MDI.Control.Extensions
             Canvas.SetLeft(window, window.LastLeft);
 
             window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Normal);
-            window.PositionWithinContainer(window.LastLeft, window.LastTop);
-        }
-
-        public static void PositionWithinContainer(this MdiWindow window, double candidateLeft, double candidateTop)
-        {
-            if (candidateLeft < 0)
-            {
-                candidateLeft = 0;
-            }
-            if (candidateTop < 0)
-            {
-                candidateTop = 0;
-            }
-
-            var width = window.Width;
-            var height = window.Height;
-            if (double.IsNaN(window.Height))
-            {
-                height = window.ActualHeight;
-            }
-            if (double.IsNaN(window.Width))
-            {
-                width = window.ActualWidth;
-            }
-
-            if (window.Container != null && candidateLeft + width > window.Container.ActualWidth)
-            {
-                candidateLeft = window.Container.ActualWidth - width;
-            }
-
-            if (window.Container != null && candidateTop + height > window.Container.ActualHeight)
-            {
-                candidateTop = window.Container.ActualHeight - height;
-            }
-            Canvas.SetLeft(window, candidateLeft);
-            Canvas.SetTop(window, candidateTop);
         }
 
         public static void ToggleMaximize(this MdiWindow window)

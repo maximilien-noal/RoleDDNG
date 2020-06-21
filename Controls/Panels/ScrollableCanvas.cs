@@ -9,6 +9,11 @@ namespace Hammer.MDI.Control.Panels
 {
     public class ScrollableCanvas : Canvas
     {
+        protected override Size ArrangeOverride(Size arrangeSize)
+        {
+            return base.ArrangeOverride(arrangeSize);
+        }
+
         protected override Size MeasureOverride(Size constraint)
         {
             var defaultValue = base.MeasureOverride(constraint);
