@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Hammer.MDI.Control.Panels
@@ -41,7 +42,11 @@ namespace Hammer.MDI.Control.Panels
                             y = arrangeSize.Height - internalChild.DesiredSize.Height - bottom;
                         }
                     }
-                    internalChild.Arrange(new Rect(new Point(x, y), internalChild.DesiredSize));
+                    var sizeForYou = new Size(
+                        Math.Min(internalChild.DesiredSize.Width, arrangeSize.Width - x),
+                        Math.Min(internalChild.DesiredSize.Height, arrangeSize.Height - y));
+
+                    internalChild.Arrange(new Rect(new Point(x, y), sizeForYou));
                 }
             }
             return arrangeSize;
@@ -57,7 +62,37 @@ namespace Hammer.MDI.Control.Panels
             {
                 if (list[i] is UIElement internalChild)
                 {
-                    internalChild.Measure(availableSize);
+                    double x = 0.0;
+                    double y = 0.0;
+                    double left = GetLeft(internalChild);
+                    if (!double.IsNaN(left))
+                    {
+                        x = left;
+                    }
+                    else
+                    {
+                        double right = GetRight(internalChild);
+                        if (!double.IsNaN(right))
+                        {
+                            x = availableSize.Width - internalChild.DesiredSize.Width - right;
+                        }
+                    }
+
+                    double top = GetTop(internalChild);
+                    if (!double.IsNaN(top))
+                    {
+                        y = top;
+                    }
+                    else
+                    {
+                        double bottom = GetBottom(internalChild);
+                        if (!double.IsNaN(bottom))
+                        {
+                            y = availableSize.Height - internalChild.DesiredSize.Height - bottom;
+                        }
+                    }
+                    var sizeForYou = new Size(constraint.Width - x, constraint.Height - y);
+                    internalChild.Measure(sizeForYou);
                 }
             }
             return availableSize;
