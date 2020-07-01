@@ -1,13 +1,14 @@
-﻿using Hammer.MDI.Control.Events;
-using Hammer.MDI.Control.Extensions;
-using Hammer.MDI.Control.WindowControls;
-using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+
+using Hammer.MDI.Control.Events;
+using Hammer.MDI.Control.Extensions;
+using Hammer.MDI.Control.Panels;
+using Hammer.MDI.Control.WindowControls;
 
 namespace Hammer.MDI.Control
 {
@@ -28,35 +29,51 @@ namespace Hammer.MDI.Control
     [TemplatePart(Name = "PART_Tumblr", Type = typeof(Image))]
     public sealed class MdiWindow : ContentControl
     {
-        /// <summary> Identifies the <see cref="Closing" /> routed event. </summary>
+        /// <summary>
+        /// Identifies the <see cref="Closing" /> routed event.
+        /// </summary>
         public static readonly RoutedEvent ClosingEvent = EventManager.RegisterRoutedEvent(
             nameof(Closing), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
-        /// <summary> Identifies the <see cref="FocusChanged" /> routed event. </summary>
+        /// <summary>
+        /// Identifies the <see cref="FocusChanged" /> routed event.
+        /// </summary>
         public static readonly RoutedEvent FocusChangedEvent = EventManager.RegisterRoutedEvent(
            nameof(FocusChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
-        /// <summary> Identifies the <see cref="HasDropShadow" /> dependency property. </summary>
+        /// <summary>
+        /// Identifies the <see cref="HasDropShadow" /> dependency property.
+        /// </summary>
         public static readonly DependencyProperty HasDropShadowProperty =
             DependencyProperty.Register(nameof(HasDropShadow), typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(true));
 
-        /// <summary> Identifies the <see cref="IsModal" /> dependency property. </summary>
+        /// <summary>
+        /// Identifies the <see cref="IsModal" /> dependency property.
+        /// </summary>
         public static readonly DependencyProperty IsModalProperty =
             DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiWindow), new UIPropertyMetadata(OnIsModalChanged));
 
-        /// <summary> Identifies the <see cref="IsSelected" /> dependency property. </summary>
+        /// <summary>
+        /// Identifies the <see cref="IsSelected" /> dependency property.
+        /// </summary>
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(false));
 
-        /// <summary> Identifies the <see cref="Title" /> dependency property. </summary>
+        /// <summary>
+        /// Identifies the <see cref="Title" /> dependency property.
+        /// </summary>
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(MdiWindow), new PropertyMetadata(string.Empty));
 
-        /// <summary> Identifies the <see cref="WindowStateChanged" /> routed event. </summary>
+        /// <summary>
+        /// Identifies the <see cref="WindowStateChanged" /> routed event.
+        /// </summary>
         public static readonly RoutedEvent WindowStateChangedEvent = EventManager.RegisterRoutedEvent(
            nameof(WindowStateChanged), RoutingStrategy.Bubble, typeof(WindowStateChangedRoutedEventHandler), typeof(MdiWindow));
 
-        /// <summary> Identifies the <see cref="WindowState" /> dependency property. </summary>
+        /// <summary>
+        /// Identifies the <see cref="WindowState" /> dependency property.
+        /// </summary>
         public static readonly DependencyProperty WindowStateProperty =
             DependencyProperty.Register(nameof(WindowState), typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
 
@@ -67,6 +84,15 @@ namespace Hammer.MDI.Control
         static MdiWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MdiWindow), new FrameworkPropertyMetadata(typeof(MdiWindow)));
+        }
+
+        public void ChangeMenuButtonIcon(ImageBrush brush)
+        {
+            var menuButton = GetTemplateChild("PART_ButtonBar_MenuButton");
+            if (menuButton is WindowButton button)
+            {
+                button.Icon = brush;
+            }
         }
 
         public MdiWindow()
@@ -179,15 +205,6 @@ namespace Hammer.MDI.Control
 
         internal WindowState PreviousWindowState { get; set; }
 
-        public void ChangeMenuButtonIcon(ImageBrush brush)
-        {
-            var menuButton = GetTemplateChild("PART_ButtonBar_MenuButton");
-            if (menuButton is WindowButton button)
-            {
-                button.Icon = brush;
-            }
-        }
-
         public void DoFocus(MouseButtonEventArgs mouseButtonEventArgs)
         {
             OnMouseLeftButtonDown(mouseButtonEventArgs);
@@ -224,20 +241,13 @@ namespace Hammer.MDI.Control
         {
             UpdateLayout();
             InvalidateMeasure();
-
             double left = Mouse.GetPosition(this).X;
             double top = Mouse.GetPosition(this).Y;
-            if ((left < 0 || top < 0) && Container != null)
+            if (Container != null)
             {
-                left = (Container.ActualWidth - ActualWidth) / 2;
-                top = (Container.ActualHeight - ActualHeight) / 2;
-                SetCurrentValue(Canvas.LeftProperty, left);
-                SetCurrentValue(Canvas.TopProperty, top);
-            }
-            else if (Container != null)
-            {
-                SetCurrentValue(Canvas.LeftProperty, left - ActualWidth / 2);
-                SetCurrentValue(Canvas.TopProperty, top - ActualHeight / 2);
+                SetCurrentValue(ConstrainedCanvas.LeftProperty, left > 0 ? left : 0);
+                SetCurrentValue(ConstrainedCanvas.TopProperty, top > 0 ? top : 0);
+                KeepWithinContainer();
             }
         }
 
@@ -247,11 +257,6 @@ namespace Hammer.MDI.Control
             Container.SizeChanged += OnContainerSizeChanged;
             LastHeight = ActualHeight;
             LastWidth = ActualWidth;
-        }
-
-        protected override Size ArrangeOverride(Size arrangeBounds)
-        {
-            return base.ArrangeOverride(arrangeBounds);
         }
 
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
@@ -286,6 +291,15 @@ namespace Hammer.MDI.Control
                         newWindow.IsSelected = true;
                     }
                 }
+            }
+        }
+
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseLeftButtonUp(e);
+            if (Container != null)
+            {
+                KeepWithinContainer();
             }
         }
 
@@ -334,7 +348,37 @@ namespace Hammer.MDI.Control
             }
             else if (WindowState == WindowState.Minimized && Container != null)
             {
-                Canvas.SetTop(this, Container.ActualHeight - 32);
+                ConstrainedCanvas.SetTop(this, Container.ActualHeight - 32);
+            }
+            else
+            {
+                KeepWithinContainer(e.NewSize);
+            }
+        }
+
+        internal void KeepWithinContainer(Size? size = null)
+        {
+            if (Container is null)
+            {
+                return;
+            }
+            Rect containerRect = new Rect(size ?? Container.RenderSize);
+
+            if (double.IsNaN(ConstrainedCanvas.GetTop(this)))
+            {
+                ConstrainedCanvas.SetTop(this, 0);
+            }
+            if (double.IsNaN(ConstrainedCanvas.GetBottom(this)))
+            {
+                ConstrainedCanvas.SetTop(this, containerRect.Bottom - this.ActualWidth);
+            }
+            if (double.IsNaN(ConstrainedCanvas.GetRight(this)))
+            {
+                ConstrainedCanvas.SetRight(this, containerRect.Right - this.ActualHeight);
+            }
+            if (double.IsNaN(ConstrainedCanvas.GetLeft(this)))
+            {
+                ConstrainedCanvas.SetLeft(this, 0);
             }
         }
 

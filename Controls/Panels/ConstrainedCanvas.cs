@@ -60,7 +60,7 @@ namespace Hammer.MDI.Control.Panels
                     internalChild.Measure(availableSize);
                 }
             }
-            return default;
+            return availableSize;
         }
     }
 }

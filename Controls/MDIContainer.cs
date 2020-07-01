@@ -60,9 +60,7 @@ namespace Hammer.MDI.Control
                 window.Closing += OnWindowClosing;
                 window.WindowStateChanged += OnWindowStateChanged;
                 window.Initialize(this);
-
                 window.Position();
-
                 window.Focus();
             }
 

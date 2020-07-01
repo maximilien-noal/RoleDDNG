@@ -23,7 +23,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <panels:ScrollableCanvas
+                    <panels:ConstrainedCanvas
                         Background="{StaticResource ContainerBackground}"
                         ClipToBounds="True"
                         IsItemsHost="True" />
