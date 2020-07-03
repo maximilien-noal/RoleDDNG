@@ -244,12 +244,22 @@ namespace Hammer.MDI.Control
 
             double centerX = Mouse.GetPosition(this).X - this.ActualWidth / 2;
             double centerY = Mouse.GetPosition(this).Y - this.ActualHeight / 2;
+
             if (Container != null)
             {
-                SetCurrentValue(ConstrainedCanvas.LeftProperty, centerX > 0 ? centerX : 0);
-                SetCurrentValue(ConstrainedCanvas.TopProperty, centerY > 0 ? centerY : 0);
-
-                KeepWithinContainer();
+                if ((centerX < 0 || centerX + this.ActualWidth > Container.ActualWidth) ||
+                    (centerY < 0 || centerY + this.ActualHeight > Container.ActualHeight))
+                {
+                    centerX = 0;
+                    centerY = 0;
+                }
+                SetCurrentValue(ConstrainedCanvas.LeftProperty, centerX);
+                SetCurrentValue(ConstrainedCanvas.TopProperty, centerY);
+                if (this.ActualHeight > Container.ActualHeight ||
+                    this.ActualWidth > Container.ActualWidth)
+                {
+                    this.Maximize();
+                }
             }
         }
 
