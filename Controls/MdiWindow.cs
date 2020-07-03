@@ -8,7 +8,6 @@ using System.Windows.Media;
 
 using Hammer.MDI.Control.Events;
 using Hammer.MDI.Control.Extensions;
-using Hammer.MDI.Control.Panels;
 using Hammer.MDI.Control.WindowControls;
 
 namespace Hammer.MDI.Control
@@ -366,7 +365,7 @@ namespace Hammer.MDI.Control
             }
             else if (WindowState == WindowState.Minimized && Container != null)
             {
-                ConstrainedCanvas.SetTop(this, Container.ActualHeight - 24);
+                Canvas.SetTop(this, Container.ActualHeight - 24);
                 LastLeft += e.NewSize.Width - e.PreviousSize.Width;
                 LastLeft = Math.Max(0, LastLeft);
                 LastTop += e.NewSize.Height - e.PreviousSize.Height;
@@ -386,21 +385,21 @@ namespace Hammer.MDI.Control
             {
                 return;
             }
-            if (ConstrainedCanvas.GetTop(this) < 0)
+            if (Canvas.GetTop(this) < 0)
             {
-                ConstrainedCanvas.SetTop(this, 0);
+                Canvas.SetTop(this, 0);
             }
-            if (ConstrainedCanvas.GetLeft(this) < 0)
+            if (Canvas.GetLeft(this) < 0)
             {
-                ConstrainedCanvas.SetLeft(this, 0);
+                Canvas.SetLeft(this, 0);
             }
-            if (ConstrainedCanvas.GetLeft(this) + this.ActualWidth > Container.ActualWidth)
+            if (Canvas.GetLeft(this) + this.ActualWidth > Container.ActualWidth)
             {
-                ConstrainedCanvas.SetLeft(this, Container.ActualWidth - (this.ActualWidth));
+                Canvas.SetLeft(this, Container.ActualWidth - (this.ActualWidth));
             }
-            if (ConstrainedCanvas.GetTop(this) + this.ActualHeight > Container.ActualHeight)
+            if (Canvas.GetTop(this) + this.ActualHeight > Container.ActualHeight)
             {
-                ConstrainedCanvas.SetTop(this, Container.ActualHeight - (this.ActualHeight));
+                Canvas.SetTop(this, Container.ActualHeight - (this.ActualHeight));
             }
         }
 

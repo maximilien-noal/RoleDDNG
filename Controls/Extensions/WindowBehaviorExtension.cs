@@ -1,8 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-using Hammer.MDI.Control.Panels;
-
 namespace Hammer.MDI.Control.Extensions
 {
     internal static class WindowBehaviorExtension
@@ -10,8 +8,8 @@ namespace Hammer.MDI.Control.Extensions
         public static void Maximize(this MdiWindow window)
         {
             SaveLastSize(window);
-            ConstrainedCanvas.SetTop(window, 0.0);
-            ConstrainedCanvas.SetLeft(window, 0.0);
+            Canvas.SetTop(window, 0.0);
+            Canvas.SetLeft(window, 0.0);
             if (window.Container != null)
             {
                 window.SetCurrentValue(FrameworkElement.HeightProperty, window.Container.ActualHeight);
@@ -33,9 +31,9 @@ namespace Hammer.MDI.Control.Extensions
             window.SetCurrentValue(FrameworkElement.WidthProperty, (double)128);
             if (window.Container != null)
             {
-                ConstrainedCanvas.SetTop(window, window.Container.ActualHeight - 24);
+                Canvas.SetTop(window, window.Container.ActualHeight - 24);
             }
-            ConstrainedCanvas.SetLeft(window, index * 205);
+            Canvas.SetLeft(window, index * 205);
 
             window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Minimized);
         }
@@ -44,8 +42,8 @@ namespace Hammer.MDI.Control.Extensions
         {
             window.SetCurrentValue(FrameworkElement.HeightProperty, window.LastHeight);
             window.SetCurrentValue(FrameworkElement.WidthProperty, window.LastWidth);
-            ConstrainedCanvas.SetTop(window, window.LastTop);
-            ConstrainedCanvas.SetLeft(window, window.LastLeft);
+            Canvas.SetTop(window, window.LastTop);
+            Canvas.SetLeft(window, window.LastLeft);
 
             window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Normal);
 
@@ -94,8 +92,8 @@ namespace Hammer.MDI.Control.Extensions
             {
                 return;
             }
-            window.LastLeft = ConstrainedCanvas.GetLeft(window);
-            window.LastTop = ConstrainedCanvas.GetTop(window);
+            window.LastLeft = Canvas.GetLeft(window);
+            window.LastTop = Canvas.GetTop(window);
             window.LastWidth = window.ActualWidth;
             window.LastHeight = window.ActualHeight;
         }
