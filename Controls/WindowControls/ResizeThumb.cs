@@ -37,12 +37,28 @@ namespace Hammer.MDI.Control.WindowControls
                 {
                     case VerticalAlignment.Bottom:
                         var deltaVertical = Math.Min(-e.VerticalChange, window.ActualHeight - window.MinHeight);
+                        if (window.Container != null &&
+                            Canvas.GetTop(window) + Math.Abs(window.Height - deltaVertical) >= window.Container.ActualHeight)
+                        {
+                            deltaVertical = 0;
+                        }
                         window.Height = Math.Abs(window.Height - deltaVertical);
                         break;
 
                     case VerticalAlignment.Top:
                         deltaVertical = Math.Min(e.VerticalChange, window.ActualHeight - window.MinHeight);
                         Canvas.SetTop(window, Canvas.GetTop(window) + deltaVertical);
+                        if (Canvas.GetTop(window) < 0)
+                        {
+                            Canvas.SetTop(window, 0);
+                            e.Handled = true;
+                            return;
+                        }
+                        if (window.Container != null &&
+                            Canvas.GetTop(window) + Math.Abs(window.Height - deltaVertical) >= window.Container.ActualHeight)
+                        {
+                            deltaVertical = 0;
+                        }
                         window.Height = Math.Abs(window.Height - deltaVertical);
                         break;
 
@@ -55,11 +71,27 @@ namespace Hammer.MDI.Control.WindowControls
                     case HorizontalAlignment.Left:
                         var deltaHorizontal = Math.Min(e.HorizontalChange, window.ActualWidth - window.MinWidth);
                         Canvas.SetLeft(window, Canvas.GetLeft(window) + deltaHorizontal);
+                        if (Canvas.GetLeft(window) < 0)
+                        {
+                            Canvas.SetLeft(window, 0);
+                            e.Handled = true;
+                            return;
+                        }
+                        if (window.Container != null &&
+                            Canvas.GetLeft(window) + Math.Abs(window.Width - deltaHorizontal) >= window.Container.ActualWidth)
+                        {
+                            deltaHorizontal = 0;
+                        }
                         window.Width = Math.Abs(window.Width - deltaHorizontal);
                         break;
 
                     case HorizontalAlignment.Right:
                         deltaHorizontal = Math.Min(-e.HorizontalChange, window.ActualWidth - window.MinWidth);
+                        if (window.Container != null &&
+                            Canvas.GetLeft(window) + Math.Abs(window.Width - deltaHorizontal) >= window.Container.ActualWidth)
+                        {
+                            deltaHorizontal = 0;
+                        }
                         window.Width = Math.Abs(window.Width - deltaHorizontal);
                         break;
 
