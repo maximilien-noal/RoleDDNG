@@ -73,38 +73,6 @@ namespace Hammer.MDI.Control.WindowControls
                         break;
                 }
             }
-            var topCrop = ConstrainedCanvas.GetTop(window);
-            if (topCrop < 0)
-            {
-                ConstrainedCanvas.SetTop(window, 0d);
-                window.Height += topCrop;
-            }
-
-            //var leftCrop = ConstrainedCanvas.GetLeft(window);
-            //if (leftCrop < 0)
-            //{
-            //    ConstrainedCanvas.SetLeft(window, 0d);
-            //    window.Width += leftCrop;
-            //}
-            //var rightCrop = ConstrainedCanvas.GetRight(window);
-            //if (double.IsNaN(rightCrop))
-            //{
-            //    var containerWidth = window.Container?.ActualWidth;
-            //    if (containerWidth != null)
-            //    {
-            //        ConstrainedCanvas.SetRight(window, containerWidth.Value - ConstrainedCanvas.GetLeft(window));
-            //    }
-            //}
-            //var bottomCrop = ConstrainedCanvas.GetBottom(window);
-
-            //if (double.IsNaN(bottomCrop))
-            //{
-            //    var containerWidth = window.Container?.ActualWidth;
-            //    if (containerWidth != null)
-            //    {
-            //        ConstrainedCanvas.SetBottom(window, containerWidth.Value - ConstrainedCanvas.GetTop(window));
-            //    }
-            //}
             e.Handled = true;
         }
     }

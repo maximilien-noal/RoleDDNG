@@ -82,14 +82,11 @@ namespace Hammer.MDI.Control.WindowControls
             {
                 window.LastLeft = Canvas.GetLeft(window);
                 window.LastTop = Canvas.GetTop(window);
-            }
-
-            if (window.WindowState != WindowState.Minimized)
-            {
                 var candidateLeft = window.LastLeft + e.HorizontalChange;
                 var candidateTop = window.LastTop + e.VerticalChange;
                 Canvas.SetLeft(window, candidateLeft);
                 Canvas.SetTop(window, candidateTop);
+                window.KeepWithinContainer();
             }
         }
     }

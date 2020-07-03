@@ -241,12 +241,14 @@ namespace Hammer.MDI.Control
         {
             UpdateLayout();
             InvalidateMeasure();
-            double left = Mouse.GetPosition(this).X;
-            double top = Mouse.GetPosition(this).Y;
+
+            double centerX = Mouse.GetPosition(this).X - this.ActualWidth / 2;
+            double centerY = Mouse.GetPosition(this).Y - this.ActualHeight / 2;
             if (Container != null)
             {
-                SetCurrentValue(ConstrainedCanvas.LeftProperty, left > 0 ? left : 0);
-                SetCurrentValue(ConstrainedCanvas.TopProperty, top > 0 ? top : 0);
+                SetCurrentValue(ConstrainedCanvas.LeftProperty, centerX > 0 ? centerX : 0);
+                SetCurrentValue(ConstrainedCanvas.TopProperty, centerY > 0 ? centerY : 0);
+
                 KeepWithinContainer();
             }
         }
@@ -291,15 +293,6 @@ namespace Hammer.MDI.Control
                         newWindow.IsSelected = true;
                     }
                 }
-            }
-        }
-
-        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            base.OnPreviewMouseLeftButtonUp(e);
-            if (Container != null)
-            {
-                KeepWithinContainer();
             }
         }
 
@@ -352,33 +345,31 @@ namespace Hammer.MDI.Control
             }
             else
             {
-                KeepWithinContainer(e.NewSize);
+                KeepWithinContainer();
             }
         }
 
-        internal void KeepWithinContainer(Size? size = null)
+        internal void KeepWithinContainer()
         {
             if (Container is null)
             {
                 return;
             }
-            Rect containerRect = new Rect(size ?? Container.RenderSize);
-
-            if (double.IsNaN(ConstrainedCanvas.GetTop(this)))
+            if (ConstrainedCanvas.GetTop(this) < 0)
             {
                 ConstrainedCanvas.SetTop(this, 0);
             }
-            if (double.IsNaN(ConstrainedCanvas.GetBottom(this)))
-            {
-                ConstrainedCanvas.SetTop(this, containerRect.Bottom - this.ActualWidth);
-            }
-            if (double.IsNaN(ConstrainedCanvas.GetRight(this)))
-            {
-                ConstrainedCanvas.SetRight(this, containerRect.Right - this.ActualHeight);
-            }
-            if (double.IsNaN(ConstrainedCanvas.GetLeft(this)))
+            if (ConstrainedCanvas.GetLeft(this) < 0)
             {
                 ConstrainedCanvas.SetLeft(this, 0);
+            }
+            if (ConstrainedCanvas.GetLeft(this) + this.ActualWidth + 10 > Container.ActualWidth)
+            {
+                ConstrainedCanvas.SetLeft(this, Container.ActualWidth - (this.ActualWidth + 10));
+            }
+            if (ConstrainedCanvas.GetTop(this) + this.ActualHeight + 10 > Container.ActualHeight)
+            {
+                ConstrainedCanvas.SetTop(this, Container.ActualHeight - (this.ActualHeight + 10));
             }
         }
 

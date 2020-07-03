@@ -60,6 +60,7 @@ namespace Hammer.MDI.Control
                 window.Closing += OnWindowClosing;
                 window.WindowStateChanged += OnWindowStateChanged;
                 window.Initialize(this);
+
                 window.Position();
                 window.Focus();
             }
@@ -95,8 +96,6 @@ namespace Hammer.MDI.Control
                         windowNew.IsSelected = true;
                     }
                 }
-
-                // clear
                 window.FocusChanged -= OnWindowFocusChanged;
                 window.Closing -= OnWindowClosing;
                 window.WindowStateChanged -= OnWindowStateChanged;
