@@ -238,28 +238,42 @@ namespace Hammer.MDI.Control
             }
         }
 
-        public void Position()
+        public void Position(bool firstAppearance = true)
         {
-            UpdateLayout();
-            InvalidateMeasure();
-
-            double centerX = Mouse.GetPosition(this).X - this.ActualWidth / 2;
-            double centerY = Mouse.GetPosition(this).Y - this.ActualHeight / 2;
-
             if (Container != null)
             {
-                if ((centerX < 0 || centerX + this.ActualWidth > Container.ActualWidth) ||
-                    (centerY < 0 || centerY + this.ActualHeight > Container.ActualHeight))
-                {
-                    centerX = 0;
-                    centerY = 0;
-                }
-                SetCurrentValue(ConstrainedCanvas.LeftProperty, centerX);
-                SetCurrentValue(ConstrainedCanvas.TopProperty, centerY);
-                if (this.ActualHeight > Container.ActualHeight ||
-                    this.ActualWidth > Container.ActualWidth)
+                if (this.DesiredSize.Height > Container.ActualHeight ||
+                    this.DesiredSize.Width > Container.ActualWidth)
                 {
                     this.Maximize();
+                }
+                else
+                {
+                    double left = Canvas.GetLeft(this);
+                    double top = Canvas.GetTop(this);
+                    if (firstAppearance)
+                    {
+                        left = Mouse.GetPosition(this).X - this.DesiredSize.Width / 2;
+                        top = Mouse.GetPosition(this).Y - this.DesiredSize.Height / 2;
+                    }
+                    if (top < 0)
+                    {
+                        top = 0;
+                    }
+                    if (top + this.DesiredSize.Height > Container.ActualHeight)
+                    {
+                        top = Container.ActualHeight - this.DesiredSize.Height;
+                    }
+                    if (left < 0)
+                    {
+                        left = 0;
+                    }
+                    if (left + this.DesiredSize.Width > Container.ActualWidth)
+                    {
+                        left = Container.ActualWidth - this.DesiredSize.Width;
+                    }
+                    Canvas.SetLeft(this, left);
+                    Canvas.SetTop(this, top);
                 }
             }
         }

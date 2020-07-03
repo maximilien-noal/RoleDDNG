@@ -59,8 +59,12 @@ namespace Hammer.MDI.Control
                 window.FocusChanged += OnWindowFocusChanged;
                 window.Closing += OnWindowClosing;
                 window.WindowStateChanged += OnWindowStateChanged;
+                window.SizeChanged += OnWindowSizeChanged;
                 window.Initialize(this);
-
+                if (window.Container != null)
+                {
+                    window.Measure(window.Container.RenderSize);
+                }
                 window.Position();
                 window.Focus();
             }
@@ -122,6 +126,14 @@ namespace Hammer.MDI.Control
                 SetCurrentValue(SelectedItemProperty, e.OriginalSource);
 
                 ((MdiWindow)ItemContainerGenerator.ContainerFromItem(SelectedItem)).SetCurrentValue(MdiWindow.IsSelectedProperty, true);
+            }
+        }
+
+        private void OnWindowSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (sender is MdiWindow window)
+            {
+                window.Position(firstAppearance: false);
             }
         }
 
