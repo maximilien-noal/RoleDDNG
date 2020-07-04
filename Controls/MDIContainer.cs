@@ -80,9 +80,9 @@ namespace Hammer.MDI.Control
 
         private void MdiContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count > 0 && ItemContainerGenerator.ContainerFromItem(e.AddedItems[0]) is MdiWindow windowNew)
+            if (e.AddedItems.Count > 0 && ItemContainerGenerator.ContainerFromItem(e.AddedItems[0]) is MdiWindow newWindow)
             {
-                windowNew.SetValue(MdiWindow.IsSelectedProperty, true);
+                newWindow.SetValue(MdiWindow.IsSelectedProperty, true);
             }
         }
 
@@ -92,17 +92,21 @@ namespace Hammer.MDI.Control
             if (window?.DataContext != null)
             {
                 InternalItemSource?.Remove(window.DataContext);
-                if (Items.Count > 0)
+            }
+            if (Items.Count > 0)
+            {
+                SetCurrentValue(SelectedItemProperty, Items[^1]);
+                if (ItemContainerGenerator.ContainerFromItem(SelectedItem) is MdiWindow newWindow)
                 {
-                    SetCurrentValue(SelectedItemProperty, Items[^1]);
-                    if (ItemContainerGenerator.ContainerFromItem(SelectedItem) is MdiWindow windowNew)
-                    {
-                        windowNew.IsSelected = true;
-                    }
+                    newWindow.IsSelected = true;
                 }
+            }
+            if (window != null)
+            {
                 window.FocusChanged -= OnWindowFocusChanged;
                 window.Closing -= OnWindowClosing;
                 window.WindowStateChanged -= OnWindowStateChanged;
+                window.SizeChanged -= OnWindowSizeChanged;
                 window.DataContext = null;
             }
         }
