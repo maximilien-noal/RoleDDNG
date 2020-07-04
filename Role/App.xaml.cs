@@ -1,5 +1,7 @@
 ﻿using Microsoft.Win32;
+
 using Serilog;
+
 using System;
 using System.Globalization;
 using System.IO;
@@ -54,8 +56,8 @@ namespace RoleDDNG.Role
             base.OnStartup(e);
             try
             {
-                WatchTheme();
-                CHangeThemeIfWindowsChangedIt();
+                //WatchTheme();
+                //CHangeThemeIfWindowsChangedIt();
             }
 #pragma warning disable CA1031 // Do not catch general exception types
             catch
