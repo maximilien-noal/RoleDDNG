@@ -46,8 +46,6 @@ namespace Hammer.MDI.Control.Extensions
             Canvas.SetLeft(window, window.LastLeft);
 
             window.SetCurrentValue(MdiWindow.WindowStateProperty, WindowState.Normal);
-
-            //window.KeepWithinContainer();
         }
 
         public static void ToggleMaximize(this MdiWindow window)
