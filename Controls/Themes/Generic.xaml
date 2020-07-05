@@ -311,7 +311,7 @@
                                     BorderThickness="1">
                                     <ContentPresenter
                                         x:Name="PART_Content"
-                                        Margin="2"
+                                        Margin="0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch" />
                                 </Border>
@@ -342,7 +342,7 @@
                                         <DropShadowEffect
                                             BlurRadius="20"
                                             Opacity="1"
-                                            ShadowDepth="0"
+                                            ShadowDepth="4"
                                             Color="Black" />
                                     </Setter.Value>
                                 </Setter>
