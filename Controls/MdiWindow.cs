@@ -385,15 +385,17 @@ namespace Hammer.MDI.Control
                 LastLeft = Math.Max(0, LastLeft);
                 LastTop += e.NewSize.Height - e.PreviousSize.Height;
                 LastTop = Math.Max(0, LastTop);
-                LastWidth = Math.Min(LastWidth, LastWidth + e.NewSize.Width - e.PreviousSize.Width);
+                if (LastLeft + LastWidth > e.NewSize.Width)
+                {
+                    LastWidth = Math.Min(LastWidth, LastWidth + e.NewSize.Width - e.PreviousSize.Width);
+                }
                 if (LastWidth < 0)
                 {
                     LastWidth = Math.Min(this.DesiredSize.Width, Container.Width);
                 }
-                LastHeight = Math.Min(LastHeight, LastHeight + e.NewSize.Height - e.PreviousSize.Height);
-                if (LastHeight < 0)
+                if (LastTop + LastHeight > e.NewSize.Height)
                 {
-                    LastHeight = Math.Min(this.DesiredSize.Height, Container.Height);
+                    LastHeight = Math.Min(LastHeight, LastHeight + e.NewSize.Height - e.PreviousSize.Height);
                 }
             }
             else
