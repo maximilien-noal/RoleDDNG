@@ -373,10 +373,10 @@ namespace Hammer.MDI.Control
 
         private void OnContainerSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (WindowState == WindowState.Maximized)
+            if (WindowState == WindowState.Maximized && Container != null)
             {
-                Width += e.NewSize.Width - e.PreviousSize.Width;
-                Height += e.NewSize.Height - e.PreviousSize.Height;
+                SetCurrentValue(WidthProperty, e.NewSize.Width);
+                SetCurrentValue(HeightProperty, e.NewSize.Height);
             }
             else if (WindowState == WindowState.Minimized && Container != null)
             {
