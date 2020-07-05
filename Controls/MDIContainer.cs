@@ -132,9 +132,9 @@ namespace Hammer.MDI.Control
 
         private void OnWindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (sender is MdiWindow window && window.WindowState != WindowState.Minimized)
+            if (sender is MdiWindow window && window.WindowState == WindowState.Normal)
             {
-                window.Position(firstAppearance: false);
+                window.SizeToAvailableSize();
             }
         }
 

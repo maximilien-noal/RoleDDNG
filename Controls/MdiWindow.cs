@@ -252,43 +252,54 @@ namespace Hammer.MDI.Control
             }
         }
 
-        public void Position(bool firstAppearance = true)
+        protected override Size MeasureOverride(Size constraint)
+        {
+            return base.MeasureOverride(constraint);
+        }
+
+        public void Position()
         {
             if (Container != null)
             {
-                if (this.DesiredSize.Height > Container.ActualHeight ||
-                    this.DesiredSize.Width > Container.ActualWidth)
+                SizeToAvailableSize();
+                double left = Mouse.GetPosition(this).X - this.DesiredSize.Width / 2;
+                double top = Mouse.GetPosition(this).Y - this.DesiredSize.Height / 2;
+                if (top < 0)
                 {
-                    this.Maximize();
+                    top = 0;
                 }
-                else
+                if (top + this.DesiredSize.Height > Container.ActualHeight)
                 {
-                    double left = Canvas.GetLeft(this);
-                    double top = Canvas.GetTop(this);
-                    if (firstAppearance)
-                    {
-                        left = Mouse.GetPosition(this).X - this.DesiredSize.Width / 2;
-                        top = Mouse.GetPosition(this).Y - this.DesiredSize.Height / 2;
-                    }
-                    if (top < 0)
-                    {
-                        top = 0;
-                    }
-                    if (top + this.DesiredSize.Height > Container.ActualHeight)
-                    {
-                        top = Container.ActualHeight - this.DesiredSize.Height;
-                    }
-                    if (left < 0)
-                    {
-                        left = 0;
-                    }
-                    if (left + this.DesiredSize.Width > Container.ActualWidth)
-                    {
-                        left = Container.ActualWidth - this.DesiredSize.Width;
-                    }
-                    Canvas.SetLeft(this, left);
-                    Canvas.SetTop(this, top);
+                    top = Container.ActualHeight - this.DesiredSize.Height;
                 }
+                if (left < 0)
+                {
+                    left = 0;
+                }
+                if (left + this.DesiredSize.Width > Container.ActualWidth)
+                {
+                    left = Container.ActualWidth - this.DesiredSize.Width;
+                }
+                Canvas.SetLeft(this, left);
+                Canvas.SetTop(this, top);
+            }
+        }
+
+        public void SizeToAvailableSize()
+        {
+            if (Container == null)
+            {
+                return;
+            }
+            if (Canvas.GetTop(this) + DesiredSize.Height > Container.ActualHeight ||
+                Canvas.GetLeft(this) + DesiredSize.Width > Container.ActualWidth)
+            {
+                Rect availableRect = new Rect(
+                                    Canvas.GetLeft(this), Canvas.GetTop(this),
+                                    Math.Min(DesiredSize.Width, Container.ActualWidth - Canvas.GetLeft(this)),
+                                    Math.Min(DesiredSize.Height + ChromeHeight, Container.ActualHeight - Canvas.GetTop(this)));
+                SetCurrentValue(WidthProperty, availableRect.Width);
+                SetCurrentValue(HeightProperty, availableRect.Height);
             }
         }
 
