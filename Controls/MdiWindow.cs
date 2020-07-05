@@ -210,8 +210,23 @@ namespace Hammer.MDI.Control
             OnMouseLeftButtonDown(mouseButtonEventArgs);
         }
 
+        private FrameworkElement? _windowChrome;
+
+        public double ChromeHeight
+        {
+            get
+            {
+                return _windowChrome is null ? 24 : _windowChrome.ActualHeight;
+            }
+        }
+
         public override void OnApplyTemplate()
         {
+            if (GetTemplateChild("PART_ButtonBar") is FrameworkElement windowChrome)
+            {
+                _windowChrome = windowChrome;
+            }
+
             if (GetTemplateChild("PART_ButtonBar_MenuButton") is WindowButton menuButton)
             {
                 menuButton.MouseDoubleClick += CloseWindow;
@@ -365,7 +380,7 @@ namespace Hammer.MDI.Control
             }
             else if (WindowState == WindowState.Minimized && Container != null)
             {
-                Canvas.SetTop(this, Container.ActualHeight - 24);
+                Canvas.SetTop(this, Container.ActualHeight - ChromeHeight);
                 LastLeft += e.NewSize.Width - e.PreviousSize.Width;
                 LastLeft = Math.Max(0, LastLeft);
                 LastTop += e.NewSize.Height - e.PreviousSize.Height;
