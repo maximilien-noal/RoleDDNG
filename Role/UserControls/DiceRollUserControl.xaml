@@ -33,6 +33,13 @@
             <ComboBox Margin="5" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding DiceTypes}" SelectedValue="{Binding NumberofSides, Mode=TwoWay}"></ComboBox>
             <Button Margin="5"  IsDefault="True" MinWidth="147" MinHeight="54" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Command="{Binding Roll}">
                 <Image Stretch="Fill" Source="/UserControls/Assets/DiceRollButon.png" />
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <EventTrigger.Actions>
+                            <SoundPlayerAction Source="/Assets/diceroll.wav" />
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Button.Triggers>
             </Button>
             <TextBox Margin="5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="{Binding Results, Mode=OneWay, Converter={StaticResource ListOfIntsToStringConverter}}">
             </TextBox>
