@@ -13,9 +13,9 @@
     <SolidColorBrush x:Key="ToolTipBackgroundColor" Color="{DynamicResource {x:Static adonisUi:Colors.Layer1HighlightColor}}" />
     <SolidColorBrush x:Key="ToolTipBackgroundBorderColor" Color="{DynamicResource {x:Static adonisUi:Colors.Layer1HighlightBorderColor}}" />
 
-    <SolidColorBrush x:Key="WindowButtonOnMouseOverColor" Color="{DynamicResource {x:Static adonisUi:Colors.AccentHighlightColor}}" />
+    <SolidColorBrush x:Key="WindowButtonOnMouseOverColor" Color="White" Opacity="0.25" />
 
-    <SolidColorBrush x:Key="WindowButtonOnMouseOverColorBorder" Color="{DynamicResource {x:Static adonisUi:Colors.AccentInteractionBorderColor}}" />
+    <SolidColorBrush x:Key="WindowButtonOnMouseOverColorBorder" Color="White" Opacity="0.25" />
 
     <ImageBrush x:Key="MDIWindowIcon" ImageSource="appicon.png" />
 
