@@ -141,11 +141,55 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type windowControls:WindowButton}" x:Key="CloseButton">
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type windowControls:WindowButton}">
+                    <Border
+                        x:Name="PART_Border"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="Transparent"
+                        BorderThickness="1"
+                        CornerRadius="4">
+                        <Rectangle
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Fill="{TemplateBinding Icon}"
+                            SnapsToDevicePixels="True" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Red" />
+                            <Setter TargetName="PART_Border" Property="BorderBrush" Value="Red" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type windowControls:WindowButton}">
-        <Setter Property="Width" Value="16" />
-        <Setter Property="Height" Value="16" />
-        <Setter Property="Margin" Value="1,0,0,0" />
-        <Setter Property="Padding" Value="0" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="10" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -282,9 +326,16 @@
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
                                             Orientation="Horizontal">
-                                            <windowControls:WindowButton x:Name="PART_ButtonBar_MinimizeButton" Icon="{StaticResource MinimizeShape}" />
-                                            <windowControls:WindowButton x:Name="PART_ButtonBar_MaximizeButton" Icon="{StaticResource MaximizeShape}" />
-                                            <windowControls:WindowButton x:Name="PART_ButtonBar_CloseButton" Icon="{StaticResource CloseShape}" />
+                                            <windowControls:WindowButton
+                                                x:Name="PART_ButtonBar_MinimizeButton"
+                                                Icon="{StaticResource MinimizeShape}" />
+                                            <windowControls:WindowButton
+                                                x:Name="PART_ButtonBar_MaximizeButton"
+                                                Icon="{StaticResource MaximizeShape}" />
+                                            <windowControls:WindowButton
+                                                x:Name="PART_ButtonBar_CloseButton"
+                                                Style="{StaticResource CloseButton}"
+                                                Icon="{StaticResource CloseShape}" />
                                         </StackPanel>
                                     </Grid>
                                     <Border.ToolTip>
