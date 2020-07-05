@@ -11,7 +11,7 @@
 		<None Remove="Themes\appicon.png" />
 	</ItemGroup>
 	<ItemGroup>
-
+		<PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
 		<PackageReference Include="AdonisUI" Version="1.16.0" />
 		<PackageReference Include="AdonisUI.ClassicTheme" Version="1.16.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
@@ -28,7 +28,7 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\wpftoolkit\ExtendedWPFToolkitSolution\Src\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj" />
+		<ProjectReference Include="..\wpftoolkit\ExtendedWPFToolkitSolution\Src\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<Resource Include="Themes\appicon.png" />
