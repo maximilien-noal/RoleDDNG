@@ -56,14 +56,14 @@ namespace Hammer.MDI.Control
         {
             if (element is MdiWindow window)
             {
+                window.SizeChanged += OnWindowSizeChanged;
                 window.FocusChanged += OnWindowFocusChanged;
                 window.Closing += OnWindowClosing;
                 window.WindowStateChanged += OnWindowStateChanged;
-                window.SizeChanged += OnWindowSizeChanged;
                 window.Initialize(this);
                 if (window.Container != null)
                 {
-                    window.Measure(window.Container.RenderSize);
+                    window.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 }
                 window.Position();
                 window.Focus();
@@ -80,9 +80,9 @@ namespace Hammer.MDI.Control
 
         private void MdiContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count > 0 && ItemContainerGenerator.ContainerFromItem(e.AddedItems[0]) is MdiWindow windowNew)
+            if (e.AddedItems.Count > 0 && ItemContainerGenerator.ContainerFromItem(e.AddedItems[0]) is MdiWindow newWindow)
             {
-                windowNew.SetValue(MdiWindow.IsSelectedProperty, true);
+                newWindow.SetValue(MdiWindow.IsSelectedProperty, true);
             }
         }
 
@@ -134,7 +134,7 @@ namespace Hammer.MDI.Control
         {
             if (sender is MdiWindow window && window.WindowState == WindowState.Normal)
             {
-                window.SizeToAvailableSize();
+                window.ResizeToAvailableSpace();
             }
         }
 

@@ -15,4 +15,8 @@
     <DataTemplate DataType="{x:Type vm:OpenCharacterViewModel}">
         <uc:OpenCharacterUserControl />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:CharactersXpViewModel}">
+        <uc:CharactersXpUserControl />
+    </DataTemplate>
 </ResourceDictionary>

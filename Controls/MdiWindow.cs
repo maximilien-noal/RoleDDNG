@@ -252,21 +252,20 @@ namespace Hammer.MDI.Control
             }
         }
 
-        protected override Size MeasureOverride(Size constraint)
-        {
-            return base.MeasureOverride(constraint);
-        }
-
         public void Position()
         {
             if (Container != null)
             {
-                SizeToAvailableSize();
-                double left = Mouse.GetPosition(this).X - this.DesiredSize.Width / 2;
-                double top = Mouse.GetPosition(this).Y - this.DesiredSize.Height / 2;
+                ResizeToAvailableSpace();
+                double left = Container.ActualWidth / 4 - (this.DesiredSize.Width / 2);
+                double top = Container.ActualHeight / 4 - (this.DesiredSize.Height / 2);
                 if (top < 0)
                 {
                     top = 0;
+                }
+                if (left < 0)
+                {
+                    left = 0;
                 }
                 if (top + this.DesiredSize.Height > Container.ActualHeight)
                 {
@@ -285,19 +284,19 @@ namespace Hammer.MDI.Control
             }
         }
 
-        public void SizeToAvailableSize()
+        public void ResizeToAvailableSpace()
         {
             if (Container == null)
             {
                 return;
             }
-            if (Canvas.GetTop(this) + DesiredSize.Height > Container.ActualHeight ||
-                Canvas.GetLeft(this) + DesiredSize.Width > Container.ActualWidth)
+            if (Math.Max(0, Canvas.GetTop(this)) + DesiredSize.Height > Container.ActualHeight ||
+                Math.Max(0, Canvas.GetLeft(this)) + DesiredSize.Width > Container.ActualWidth)
             {
                 Rect availableRect = new Rect(
                                     Canvas.GetLeft(this), Canvas.GetTop(this),
-                                    Math.Min(DesiredSize.Width, Container.ActualWidth - Canvas.GetLeft(this)),
-                                    Math.Min(DesiredSize.Height + ChromeHeight, Container.ActualHeight - Canvas.GetTop(this)));
+                                    Math.Min(DesiredSize.Width, Container.ActualWidth - Math.Max(0, Canvas.GetLeft(this))),
+                                    Math.Min(DesiredSize.Height + ChromeHeight, Container.ActualHeight - Math.Max(0, Canvas.GetTop(this))));
                 SetCurrentValue(WidthProperty, availableRect.Width);
                 SetCurrentValue(HeightProperty, availableRect.Height);
             }
@@ -319,6 +318,18 @@ namespace Hammer.MDI.Control
             Panel.SetZIndex(this, 2);
 
             RaiseEvent(new RoutedEventArgs(FocusChangedEvent, DataContext));
+        }
+
+        private bool _firstArrange = true;
+
+        protected override Size ArrangeOverride(Size arrangeBounds)
+        {
+            if (_firstArrange)
+            {
+                this.ResizeToAvailableSpace();
+                _firstArrange = false;
+            }
+            return base.ArrangeOverride(arrangeBounds);
         }
 
         protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
@@ -412,15 +423,13 @@ namespace Hammer.MDI.Control
             else
             {
                 KeepWithinContainer();
+                ResizeToAvailableSpace();
+                GetTopAndLeftWithinInContainer();
             }
         }
 
-        internal void KeepWithinContainer()
+        private void GetTopAndLeftWithinInContainer()
         {
-            if (Container is null)
-            {
-                return;
-            }
             if (Canvas.GetTop(this) < 0)
             {
                 Canvas.SetTop(this, 0);
@@ -429,13 +438,22 @@ namespace Hammer.MDI.Control
             {
                 Canvas.SetLeft(this, 0);
             }
+        }
+
+        internal void KeepWithinContainer()
+        {
+            GetTopAndLeftWithinInContainer();
+            if (Container is null)
+            {
+                return;
+            }
             if (Canvas.GetLeft(this) + this.ActualWidth > Container.ActualWidth)
             {
-                Canvas.SetLeft(this, Container.ActualWidth - (this.ActualWidth));
+                Canvas.SetLeft(this, Container.ActualWidth - this.ActualWidth);
             }
             if (Canvas.GetTop(this) + this.ActualHeight > Container.ActualHeight)
             {
-                Canvas.SetTop(this, Container.ActualHeight - (this.ActualHeight));
+                Canvas.SetTop(this, Container.ActualHeight - this.ActualHeight);
             }
         }
 

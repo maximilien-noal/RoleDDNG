@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="RoleDDNG.Role.UserControls.CharactersXpUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+             xmlns:local="clr-namespace:RoleDDNG.Role.UserControls"
+             DataContext="{Binding Source={StaticResource Locator}, Path=CharactersXo}"
+             mc:Ignorable="d"
+             Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/CharactersXPToolIcon.png" />
+    </UserControl.Resources>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
