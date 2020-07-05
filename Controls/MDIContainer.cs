@@ -103,6 +103,7 @@ namespace Hammer.MDI.Control
                 window.FocusChanged -= OnWindowFocusChanged;
                 window.Closing -= OnWindowClosing;
                 window.WindowStateChanged -= OnWindowStateChanged;
+                window.SizeChanged -= OnWindowSizeChanged;
                 window.DataContext = null;
             }
         }
