@@ -77,9 +77,9 @@ namespace Hammer.MDI.Control
         public static readonly DependencyProperty WindowStateProperty =
             DependencyProperty.Register(nameof(WindowState), typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
 
-        private Adorner? _adorner;
+        private Adorner? _myAdorner;
 
-        private AdornerLayer? _ardonerLayer;
+        private AdornerLayer? _myAdornerLayer;
 
         static MdiWindow()
         {
@@ -97,7 +97,7 @@ namespace Hammer.MDI.Control
 
         public MdiWindow()
         {
-            _ardonerLayer = AdornerLayer.GetAdornerLayer(this);
+            _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
         }
 
         public delegate void WindowStateChangedRoutedEventHandler(object sender, WindowStateChangedEventArgs e);
@@ -138,20 +138,20 @@ namespace Hammer.MDI.Control
 #pragma warning disable WPF0036 // Avoid side effects in CLR accessors.
                 if (!value.HasValue)
                 {
-                    _ardonerLayer?.Remove(_adorner);
+                    _myAdornerLayer?.Remove(_myAdorner);
                 }
                 else
                 {
-                    if (_ardonerLayer == null)
+                    if (_myAdornerLayer == null)
                     {
-                        _ardonerLayer = AdornerLayer.GetAdornerLayer(this);
+                        _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
                     }
 
-                    if (_adorner == null)
+                    if (_myAdorner == null)
                     {
-                        _adorner = new HollowRectangleAdorner(this);
+                        _myAdorner = new HollowRectangleAdorner(this);
                     }
-                    _ardonerLayer.Add(_adorner);
+                    _myAdornerLayer.Add(_myAdorner);
                 }
 #pragma warning restore WPF0036 // Avoid side effects in CLR accessors.
                 if (Container != null)
@@ -281,18 +281,8 @@ namespace Hammer.MDI.Control
         {
             Container = container;
             Container.SizeChanged += OnContainerSizeChanged;
-            Container.SelectionChanged += OnContainerSelectionChanged;
             LastHeight = ActualHeight;
             LastWidth = ActualWidth;
-        }
-
-        private void OnContainerSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.RemovedItems.Count > 0 && double.IsNaN(this.Width))
-            {
-                RemoveReferences();
-                RaiseEvent(new RoutedEventArgs(ClosingEvent));
-            }
         }
 
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
@@ -359,20 +349,11 @@ namespace Hammer.MDI.Control
 
         private void CloseWindow(object sender, RoutedEventArgs e)
         {
-            RemoveReferences();
-            RaiseEvent(new RoutedEventArgs(ClosingEvent));
-        }
-
-        private void RemoveReferences()
-        {
             if (Container != null)
             {
                 Container.SizeChanged -= this.OnContainerSizeChanged;
-                Container.SelectionChanged -= OnContainerSelectionChanged;
             }
-            Container = null;
-            _adorner = null;
-            _ardonerLayer = null;
+            RaiseEvent(new RoutedEventArgs(ClosingEvent));
         }
 
         private void OnContainerSizeChanged(object sender, SizeChangedEventArgs e)
