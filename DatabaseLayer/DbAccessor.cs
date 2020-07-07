@@ -1,5 +1,7 @@
 ﻿using Dapper;
 
+using RoleDDNG.DatabaseLayer.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
@@ -7,50 +9,25 @@ using System.Threading.Tasks;
 
 namespace RoleDDNG.DatabaseLayer
 {
-    public sealed class DbAccessor : IDbAccessor, IDisposable
+    public sealed class DbAccessor
     {
         private const string ConnectionStringBeginning = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=";
 
-        private readonly string _dbFileName;
+        private readonly Database _database;
 
-        private OdbcConnection? _connection;
-
-        private bool isDisposed;
-
-        public DbAccessor(string filename)
+        public DbAccessor(Database db)
         {
-            _dbFileName = filename;
-        }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            _database = db;
         }
 
         public async Task<IEnumerable<T>> GetQueryDataAsync<T>(string sqlQuery)
         {
             DefaultTypeMap.MatchNamesWithUnderscores = true;
-            if(_connection is null)
-            {
-                _connection = new OdbcConnection($"{ConnectionStringBeginning}{_dbFileName}");
-            }
-            await _connection.OpenAsync().ConfigureAwait(false);
-            var result = _connection.Query<T>(sqlQuery);
-            await _connection.CloseAsync().ConfigureAwait(false);
+            using var connection = new OdbcConnection($"{ConnectionStringBeginning}{_database.FilePath}");
+            await connection.OpenAsync().ConfigureAwait(false);
+            var result = connection.Query<T>(sqlQuery);
+            await connection.CloseAsync().ConfigureAwait(false);
             return result;
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (!isDisposed)
-            {
-                if (disposing && _connection != null)
-                {
-                    _connection.Dispose();
-                }
-                isDisposed = true;
-            }
         }
     }
 }
