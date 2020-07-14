@@ -2,18 +2,23 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace RoleDDNG.Role.UserControls.Traits
+namespace RoleDDNG.Role.UserControls
 {
-    internal interface IUpdateMdiWindowIconTrait
+    public class WindowContent : UserControl
     {
-        public void ChangeMdiWindowIcon(UserControl userControl)
+        public WindowContent()
         {
-            var imageBrush = (ImageBrush)userControl.FindResource("WindowIcon");
+            this.Loaded += WindowContent_Loaded;
+        }
+
+        private void WindowContent_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var imageBrush = (ImageBrush)this.FindResource("WindowIcon");
             if (imageBrush is null)
             {
                 return;
             }
-            var parent = VisualTreeHelper.GetParent(userControl);
+            var parent = VisualTreeHelper.GetParent(this);
             while (!(parent is MdiWindow))
             {
                 parent = VisualTreeHelper.GetParent(parent);
