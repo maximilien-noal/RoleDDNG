@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight.Ioc;
 
 using RoleDDNG.DatabaseLayer;
 using RoleDDNG.Interfaces.Backgrounds;
+using RoleDDNG.Interfaces.Dialogs;
 using RoleDDNG.Interfaces.Serialization;
 using RoleDDNG.Models.Options;
 using RoleDDNG.ViewModels.Interfaces;
@@ -21,12 +22,6 @@ namespace RoleDDNG.ViewModels
 {
     public sealed class MainViewModel : ViewModelBase
     {
-        /// <summary>
-        /// TODO : Use high level db connection instead
-        /// </summary>
-        //private DbAccessor? _openedDatabase;
-        private bool _openedCharacterDatabase = false;
-
         private readonly string _appSettingsFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RoleDDNG\\ROLE.CFG");
 
         private AppSettings _appSettings = new AppSettings();
@@ -41,22 +36,12 @@ namespace RoleDDNG.ViewModels
 
         public MainViewModel()
         {
-            SetCharacterDatabasePath = new RelayCommand<string>(SetCharacterDatabasePathMethod);
             ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
-            ShowCharactersXpWindow = new AsyncCommand(ShowCharactersXpWindowMethodAsync);
+            ShowCharactersXpWindow = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<CharactersXpViewModel>().ConfigureAwait(true));
             ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
-            OpenCharactersDataBase = new AsyncCommand(OpenCharactersDataBaseAsync);
+            OpenCharactersDataBase = new AsyncCommand(AskForCharacterDatabaseAndShowThemAsync);
             OpenCharacterSheet = new AsyncCommand(OpenCharacterSheetAsync);
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
-        }
-
-        private async Task ShowCharactersXpWindowMethodAsync()
-        {
-            if (_openedCharacterDatabase == false)
-            {
-                await OpenCharactersDataBase.ExecuteAsync().ConfigureAwait(true);
-            }
-            AddMdiWindow<CharactersXpViewModel>();
         }
 
         public AppSettings AppSettings { get => _appSettings; private set { Set(nameof(AppSettings), ref _appSettings, value); } }
@@ -67,17 +52,15 @@ namespace RoleDDNG.ViewModels
 
         public ObservableCollection<IDocumentViewModel> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
 
-        public AsyncCommand OpenCharacterSheet { get; private set; }
-
         public AsyncCommand OpenCharactersDataBase { get; private set; }
+
+        public AsyncCommand OpenCharacterSheet { get; private set; }
 
         public IDocumentViewModel? SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
 
-        public RelayCommand<string> SetCharacterDatabasePath { get; private set; }
+        public AsyncCommand ShowCharactersXpWindow { get; private set; }
 
         public RelayCommand ShowDiceRollWindow { get; private set; }
-
-        public AsyncCommand ShowCharactersXpWindow { get; private set; }
 
         public RelayCommand ShowTownGeneratorWindow { get; private set; }
 
@@ -105,22 +88,18 @@ namespace RoleDDNG.ViewModels
             IsBusy = false;
         }
 
+        public async Task OpenCharacterSheetAsync()
+        {
+            AddMdiWindow<OpenCharacterViewModel>();
+            var characterDBViewModel = SimpleIoc.Default.GetInstance<OpenCharacterViewModel>();
+            await characterDBViewModel.GetCharactersFromDbAsync(AppSettings.LastCharacterDBPath).ConfigureAwait(true);
+        }
+
         public void RemoveMdiWindow<T>() where T : IDocumentViewModel
         {
             if (Items.OfType<T>().Any())
             {
                 Items.Remove(Items.OfType<T>().First());
-            }
-        }
-
-        public async Task OpenCharacterSheetAsync()
-        {
-            if (!string.IsNullOrWhiteSpace(AppSettings.LastCharacterDBPath) && File.Exists(AppSettings.LastCharacterDBPath))
-            {
-                AddMdiWindow<OpenCharacterViewModel>();
-                var characterDBViewModel = SimpleIoc.Default.GetInstance<OpenCharacterViewModel>();
-                await characterDBViewModel.GetCharactersFromDbAsync(AppSettings.LastCharacterDBPath).ConfigureAwait(true);
-                _openedCharacterDatabase = true;
             }
         }
 
@@ -142,16 +121,42 @@ namespace RoleDDNG.ViewModels
             }
         }
 
-        private async Task OpenCharactersDataBaseAsync()
+        private async Task AskForCharacterDatabaseAndShowThemAsync()
         {
-            AddMdiWindow<OpenCharacterViewModel>();
-            var characterDBViewModel = SimpleIoc.Default.GetInstance<OpenCharacterViewModel>();
-            await characterDBViewModel.AskForDatabaseFileCommand.ExecuteAsync().ConfigureAwait(true);
+            await AskForCharactersDatabaseFileAsync().ConfigureAwait(true);
+            await OpenCharacterSheetAsync().ConfigureAwait(false);
         }
 
-        private void SetCharacterDatabasePathMethod(string path)
+        private async Task<bool> AskForCharactersDatabaseFileAsync()
         {
-            AppSettings.LastCharacterDBPath = path;
+            var fileDialog = SimpleIoc.Default.GetInstance<IFileDialog>();
+            var dbFile = await fileDialog.OpenFileDialogAsync("Ouvrir une base de données de personnages...", "mdb").ConfigureAwait(true);
+            if (!string.IsNullOrWhiteSpace(dbFile) && File.Exists(dbFile) && new DbAccessor(new DatabaseLayer.Models.Database(dbFile, DatabaseLayer.Enums.DbType.UserCharactersDb)) != null)
+            {
+                AppSettings.LastCharacterDBPath = dbFile;
+                return true;
+            }
+            return false;
+        }
+
+        private async Task OpenCharacterDbDependantViewAsync<T>() where T : IDocumentViewModel, new()
+        {
+            if (await OpenCharacterDbIfNoneOpenAsync().ConfigureAwait(true))
+            {
+                AddMdiWindow<T>();
+            }
+        }
+
+        private async Task<bool> OpenCharacterDbIfNoneOpenAsync()
+        {
+            if (!string.IsNullOrWhiteSpace(AppSettings.LastCharacterDBPath) && File.Exists(AppSettings.LastCharacterDBPath))
+            {
+                return true;
+            }
+            else
+            {
+                return await AskForCharactersDatabaseFileAsync().ConfigureAwait(true);
+            }
         }
 
 #pragma warning disable CA1822 // Static bindings work, but make the designer view throw an error.
