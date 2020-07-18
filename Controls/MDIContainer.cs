@@ -56,14 +56,14 @@ namespace Hammer.MDI.Control
         {
             if (element is MdiWindow window)
             {
+                window.SizeChanged += OnWindowSizeChanged;
                 window.FocusChanged += OnWindowFocusChanged;
                 window.Closing += OnWindowClosing;
                 window.WindowStateChanged += OnWindowStateChanged;
-                window.SizeChanged += OnWindowSizeChanged;
                 window.Initialize(this);
                 if (window.Container != null)
                 {
-                    window.Measure(window.Container.RenderSize);
+                    window.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 }
                 window.Position();
                 window.Focus();
@@ -92,17 +92,14 @@ namespace Hammer.MDI.Control
             if (window?.DataContext != null)
             {
                 InternalItemSource?.Remove(window.DataContext);
-            }
-            if (Items.Count > 0)
-            {
-                SetCurrentValue(SelectedItemProperty, Items[^1]);
-                if (ItemContainerGenerator.ContainerFromItem(SelectedItem) is MdiWindow newWindow)
+                if (Items.Count > 0)
                 {
-                    newWindow.IsSelected = true;
+                    SetCurrentValue(SelectedItemProperty, Items[^1]);
+                    if (ItemContainerGenerator.ContainerFromItem(SelectedItem) is MdiWindow windowNew)
+                    {
+                        windowNew.IsSelected = true;
+                    }
                 }
-            }
-            if (window != null)
-            {
                 window.FocusChanged -= OnWindowFocusChanged;
                 window.Closing -= OnWindowClosing;
                 window.WindowStateChanged -= OnWindowStateChanged;
@@ -135,9 +132,9 @@ namespace Hammer.MDI.Control
 
         private void OnWindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (sender is MdiWindow window && window.WindowState != WindowState.Minimized)
+            if (sender is MdiWindow window && window.WindowState == WindowState.Normal)
             {
-                window.Position(firstAppearance: false);
+                window.ResizeToAvailableSpace();
             }
         }
 

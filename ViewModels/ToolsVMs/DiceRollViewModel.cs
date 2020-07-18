@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using RandN.Compat;
+using RandN;
 
 namespace RoleDDNG.ViewModels.ToolsVMs
 {
@@ -49,7 +51,9 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             Results.Clear();
             for (int i = 0; i < NumberOfDices; i++)
             {
-                Results.Add(new Random().Next(0, NumberofSides + 1));
+                var rng = StandardRng.Create();
+                Random random = RandomShim.Create(rng);
+                Results.Add(random.Next(0, NumberofSides + 1));
             }
             RaisePropertyChanged(nameof(Results));
             Sum = Results.Sum(x => x);

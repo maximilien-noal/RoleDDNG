@@ -31,7 +31,7 @@ namespace Hammer.MDI.Control.Extensions
             window.SetCurrentValue(FrameworkElement.WidthProperty, (double)128);
             if (window.Container != null)
             {
-                Canvas.SetTop(window, window.Container.ActualHeight - 24);
+                Canvas.SetTop(window, window.Container.ActualHeight - window.ChromeHeight);
             }
             Canvas.SetLeft(window, index * 205);
 

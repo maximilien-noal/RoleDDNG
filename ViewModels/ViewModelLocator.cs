@@ -58,6 +58,14 @@ namespace RoleDDNG.ViewModels
             }
         }
 
+        public CharactersXpViewModel CharactersXp
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<CharactersXpViewModel>();
+            }
+        }
+
         public DiceRollViewModel DiceRoll
         {
             get

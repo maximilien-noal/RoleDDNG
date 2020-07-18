@@ -77,9 +77,9 @@ namespace Hammer.MDI.Control
         public static readonly DependencyProperty WindowStateProperty =
             DependencyProperty.Register(nameof(WindowState), typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
 
-        private Adorner? _adorner;
+        private Adorner? _myAdorner;
 
-        private AdornerLayer? _ardonerLayer;
+        private AdornerLayer? _myAdornerLayer;
 
         static MdiWindow()
         {
@@ -97,7 +97,7 @@ namespace Hammer.MDI.Control
 
         public MdiWindow()
         {
-            _ardonerLayer = AdornerLayer.GetAdornerLayer(this);
+            _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
         }
 
         public delegate void WindowStateChangedRoutedEventHandler(object sender, WindowStateChangedEventArgs e);
@@ -138,20 +138,20 @@ namespace Hammer.MDI.Control
 #pragma warning disable WPF0036 // Avoid side effects in CLR accessors.
                 if (!value.HasValue)
                 {
-                    _ardonerLayer?.Remove(_adorner);
+                    _myAdornerLayer?.Remove(_myAdorner);
                 }
                 else
                 {
-                    if (_ardonerLayer == null)
+                    if (_myAdornerLayer == null)
                     {
-                        _ardonerLayer = AdornerLayer.GetAdornerLayer(this);
+                        _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
                     }
 
-                    if (_adorner == null)
+                    if (_myAdorner == null)
                     {
-                        _adorner = new HollowRectangleAdorner(this);
+                        _myAdorner = new HollowRectangleAdorner(this);
                     }
-                    _ardonerLayer.Add(_adorner);
+                    _myAdornerLayer.Add(_myAdorner);
                 }
 #pragma warning restore WPF0036 // Avoid side effects in CLR accessors.
                 if (Container != null)
@@ -210,8 +210,23 @@ namespace Hammer.MDI.Control
             OnMouseLeftButtonDown(mouseButtonEventArgs);
         }
 
+        private FrameworkElement? _windowChrome;
+
+        public double ChromeHeight
+        {
+            get
+            {
+                return _windowChrome is null ? 24 : _windowChrome.ActualHeight;
+            }
+        }
+
         public override void OnApplyTemplate()
         {
+            if (GetTemplateChild("PART_ButtonBar") is FrameworkElement windowChrome)
+            {
+                _windowChrome = windowChrome;
+            }
+
             if (GetTemplateChild("PART_ButtonBar_MenuButton") is WindowButton menuButton)
             {
                 menuButton.MouseDoubleClick += CloseWindow;
@@ -237,43 +252,53 @@ namespace Hammer.MDI.Control
             }
         }
 
-        public void Position(bool firstAppearance = true)
+        public void Position()
         {
             if (Container != null)
             {
-                if (this.DesiredSize.Height > Container.ActualHeight ||
-                    this.DesiredSize.Width > Container.ActualWidth)
+                ResizeToAvailableSpace();
+                double left = Container.ActualWidth / 4 - (this.DesiredSize.Width / 2);
+                double top = Container.ActualHeight / 4 - (this.DesiredSize.Height / 2);
+                if (top < 0)
                 {
-                    this.Maximize();
+                    top = 0;
                 }
-                else
+                if (left < 0)
                 {
-                    double left = Canvas.GetLeft(this);
-                    double top = Canvas.GetTop(this);
-                    if (firstAppearance)
-                    {
-                        left = Mouse.GetPosition(this).X - this.DesiredSize.Width / 2;
-                        top = Mouse.GetPosition(this).Y - this.DesiredSize.Height / 2;
-                    }
-                    if (top < 0)
-                    {
-                        top = 0;
-                    }
-                    if (top + this.DesiredSize.Height > Container.ActualHeight)
-                    {
-                        top = Container.ActualHeight - this.DesiredSize.Height;
-                    }
-                    if (left < 0)
-                    {
-                        left = 0;
-                    }
-                    if (left + this.DesiredSize.Width > Container.ActualWidth)
-                    {
-                        left = Container.ActualWidth - this.DesiredSize.Width;
-                    }
-                    Canvas.SetLeft(this, left);
-                    Canvas.SetTop(this, top);
+                    left = 0;
                 }
+                if (top + this.DesiredSize.Height > Container.ActualHeight)
+                {
+                    top = Container.ActualHeight - this.DesiredSize.Height;
+                }
+                if (left < 0)
+                {
+                    left = 0;
+                }
+                if (left + this.DesiredSize.Width > Container.ActualWidth)
+                {
+                    left = Container.ActualWidth - this.DesiredSize.Width;
+                }
+                Canvas.SetLeft(this, left);
+                Canvas.SetTop(this, top);
+            }
+        }
+
+        public void ResizeToAvailableSpace()
+        {
+            if (Container == null)
+            {
+                return;
+            }
+            if (Math.Max(0, Canvas.GetTop(this)) + DesiredSize.Height > Container.ActualHeight ||
+                Math.Max(0, Canvas.GetLeft(this)) + DesiredSize.Width > Container.ActualWidth)
+            {
+                Rect availableRect = new Rect(
+                                    Canvas.GetLeft(this), Canvas.GetTop(this),
+                                    Math.Min(DesiredSize.Width, Container.ActualWidth - Math.Max(0, Canvas.GetLeft(this))),
+                                    Math.Min(DesiredSize.Height + ChromeHeight, Container.ActualHeight - Math.Max(0, Canvas.GetTop(this))));
+                SetCurrentValue(WidthProperty, availableRect.Width);
+                SetCurrentValue(HeightProperty, availableRect.Height);
             }
         }
 
@@ -281,18 +306,8 @@ namespace Hammer.MDI.Control
         {
             Container = container;
             Container.SizeChanged += OnContainerSizeChanged;
-            Container.SelectionChanged += OnContainerSelectionChanged;
             LastHeight = ActualHeight;
             LastWidth = ActualWidth;
-        }
-
-        private void OnContainerSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.RemovedItems.Count > 0 && double.IsNaN(this.Width))
-            {
-                RemoveReferences();
-                RaiseEvent(new RoutedEventArgs(ClosingEvent));
-            }
         }
 
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
@@ -303,6 +318,18 @@ namespace Hammer.MDI.Control
             Panel.SetZIndex(this, 2);
 
             RaiseEvent(new RoutedEventArgs(FocusChangedEvent, DataContext));
+        }
+
+        private bool _firstArrange = true;
+
+        protected override Size ArrangeOverride(Size arrangeBounds)
+        {
+            if (_firstArrange)
+            {
+                this.ResizeToAvailableSpace();
+                _firstArrange = false;
+            }
+            return base.ArrangeOverride(arrangeBounds);
         }
 
         protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
@@ -359,59 +386,50 @@ namespace Hammer.MDI.Control
 
         private void CloseWindow(object sender, RoutedEventArgs e)
         {
-            RemoveReferences();
-            RaiseEvent(new RoutedEventArgs(ClosingEvent));
-        }
-
-        private void RemoveReferences()
-        {
             if (Container != null)
             {
                 Container.SizeChanged -= this.OnContainerSizeChanged;
-                Container.SelectionChanged -= OnContainerSelectionChanged;
             }
-            Container = null;
-            _adorner = null;
-            _ardonerLayer = null;
+            RaiseEvent(new RoutedEventArgs(ClosingEvent));
         }
 
         private void OnContainerSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (WindowState == WindowState.Maximized)
+            if (WindowState == WindowState.Maximized && Container != null)
             {
-                Width += e.NewSize.Width - e.PreviousSize.Width;
-                Height += e.NewSize.Height - e.PreviousSize.Height;
+                SetCurrentValue(WidthProperty, e.NewSize.Width);
+                SetCurrentValue(HeightProperty, e.NewSize.Height);
             }
             else if (WindowState == WindowState.Minimized && Container != null)
             {
-                Canvas.SetTop(this, Container.ActualHeight - 24);
+                Canvas.SetTop(this, Container.ActualHeight - ChromeHeight);
                 LastLeft += e.NewSize.Width - e.PreviousSize.Width;
                 LastLeft = Math.Max(0, LastLeft);
                 LastTop += e.NewSize.Height - e.PreviousSize.Height;
                 LastTop = Math.Max(0, LastTop);
-                LastWidth = Math.Min(LastWidth, LastWidth + e.NewSize.Width - e.PreviousSize.Width);
+                if (LastLeft + LastWidth > e.NewSize.Width)
+                {
+                    LastWidth = Math.Min(LastWidth, LastWidth + e.NewSize.Width - e.PreviousSize.Width);
+                }
                 if (LastWidth < 0)
                 {
                     LastWidth = Math.Min(this.DesiredSize.Width, Container.Width);
                 }
-                LastHeight = Math.Min(LastHeight, LastHeight + e.NewSize.Height - e.PreviousSize.Height);
-                if (LastHeight < 0)
+                if (LastTop + LastHeight > e.NewSize.Height)
                 {
-                    LastHeight = Math.Min(this.DesiredSize.Height, Container.Height);
+                    LastHeight = Math.Min(LastHeight, LastHeight + e.NewSize.Height - e.PreviousSize.Height);
                 }
             }
             else
             {
                 KeepWithinContainer();
+                ResizeToAvailableSpace();
+                GetTopAndLeftWithinInContainer();
             }
         }
 
-        internal void KeepWithinContainer()
+        private void GetTopAndLeftWithinInContainer()
         {
-            if (Container is null)
-            {
-                return;
-            }
             if (Canvas.GetTop(this) < 0)
             {
                 Canvas.SetTop(this, 0);
@@ -420,13 +438,22 @@ namespace Hammer.MDI.Control
             {
                 Canvas.SetLeft(this, 0);
             }
+        }
+
+        internal void KeepWithinContainer()
+        {
+            GetTopAndLeftWithinInContainer();
+            if (Container is null)
+            {
+                return;
+            }
             if (Canvas.GetLeft(this) + this.ActualWidth > Container.ActualWidth)
             {
-                Canvas.SetLeft(this, Container.ActualWidth - (this.ActualWidth));
+                Canvas.SetLeft(this, Container.ActualWidth - this.ActualWidth);
             }
             if (Canvas.GetTop(this) + this.ActualHeight > Container.ActualHeight)
             {
-                Canvas.SetTop(this, Container.ActualHeight - (this.ActualHeight));
+                Canvas.SetTop(this, Container.ActualHeight - this.ActualHeight);
             }
         }
 

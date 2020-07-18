@@ -7,7 +7,10 @@ using AsyncAwaitBestPractices.MVVM;
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+
 using RoleDDNG.DatabaseLayer;
+using RoleDDNG.DatabaseLayer.Enums;
+using RoleDDNG.DatabaseLayer.Models;
 using RoleDDNG.Interfaces.Dialogs;
 using RoleDDNG.Models.Characters;
 using RoleDDNG.ViewModels.Interfaces;
@@ -36,7 +39,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         public async Task GetCharactersFromDbAsync(string dbFile)
         {
             IsBusy = true;
-            var db = new DbAccessor(dbFile);
+            var db = new DbAccessor(new Database(dbFile, DbType.UserCharactersDb));
             var charactersFromDb = await db.GetQueryDataAsync<Personnage>(DbCharactersQuery).ConfigureAwait(true);
 
             if (Characters.Any())

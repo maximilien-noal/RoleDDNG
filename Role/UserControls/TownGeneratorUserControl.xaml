@@ -1,4 +1,5 @@
-﻿<UserControl
+﻿<usercontrols:WindowContent
+    xmlns:usercontrols="clr-namespace:RoleDDNG.Role.UserControls"
     x:Class="RoleDDNG.Role.UserControls.TownGeneratorUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -119,4 +120,4 @@
             </Grid>
         </Grid>
     </ScrollViewer>
-</UserControl>
+</usercontrols:WindowContent>

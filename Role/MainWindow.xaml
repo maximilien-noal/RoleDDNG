@@ -36,6 +36,10 @@
             Key="G"
             Command="{Binding ShowTownGeneratorWindow}"
             Modifiers="Control" />
+        <KeyBinding
+            Key="X"
+            Command="{Binding ShowCharactersXpWindow}"
+            Modifiers="Control" />
         <KeyBinding Key="F1" Command="{Binding HelpCommand, ElementName=MainWindowInstance}" />
     </Window.InputBindings>
     <Grid>
@@ -64,7 +68,10 @@
                         InputGestureText="Alt + F4" />
                 </MenuItem>
                 <MenuItem Header="_Outils">
-                    <MenuItem Header="_Expérience des personnages" InputGestureText="Ctrl + X" />
+                    <MenuItem
+                        Command="{Binding ShowCharactersXpWindow}"
+                        Header="_Expérience des personnages"
+                        InputGestureText="Ctrl + X" />
                     <MenuItem
                         Command="{Binding ShowTownGeneratorWindow}"
                         Header="_Générateur de villes"
@@ -91,21 +98,16 @@
             </Menu>
         </StackPanel>
         <Image Grid.Row="1" Source="{Binding BackgroundSource}" />
-        <ScrollViewer
-            Grid.Row="1"
-            HorizontalScrollBarVisibility="Auto"
-            VerticalScrollBarVisibility="Auto">
-            <MDI:MdiContainer
+        <MDI:MdiContainer
                 Grid.Row="1"
                 ItemsSource="{Binding Items}"
                 SelectedItem="{Binding SelectedWindow, Mode=TwoWay}">
-                <MDI:MdiContainer.Resources>
-                    <Style TargetType="{x:Type MDI:MdiWindow}">
-                        <Setter Property="Title" Value="{Binding Title}" />
-                    </Style>
-                </MDI:MdiContainer.Resources>
-            </MDI:MdiContainer>
-        </ScrollViewer>
+            <MDI:MdiContainer.Resources>
+                <Style TargetType="{x:Type MDI:MdiWindow}">
+                    <Setter Property="Title" Value="{Binding Title}" />
+                </Style>
+            </MDI:MdiContainer.Resources>
+        </MDI:MdiContainer>
         <Grid
             Grid.RowSpan="2"
             Opacity="0.5"

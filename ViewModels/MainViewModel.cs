@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 
+using RoleDDNG.DatabaseLayer;
 using RoleDDNG.Interfaces.Backgrounds;
 using RoleDDNG.Interfaces.Serialization;
 using RoleDDNG.Models.Options;
@@ -20,6 +21,12 @@ namespace RoleDDNG.ViewModels
 {
     public sealed class MainViewModel : ViewModelBase
     {
+        /// <summary>
+        /// TODO : Use high level db connection instead
+        /// </summary>
+        //private DbAccessor? _openedDatabase;
+        private bool _openedCharacterDatabase = false;
+
         private readonly string _appSettingsFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RoleDDNG\\ROLE.CFG");
 
         private AppSettings _appSettings = new AppSettings();
@@ -36,10 +43,20 @@ namespace RoleDDNG.ViewModels
         {
             SetCharacterDatabasePath = new RelayCommand<string>(SetCharacterDatabasePathMethod);
             ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
+            ShowCharactersXpWindow = new AsyncCommand(ShowCharactersXpWindowMethodAsync);
             ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
             OpenCharactersDataBase = new AsyncCommand(OpenCharactersDataBaseAsync);
             OpenCharacterSheet = new AsyncCommand(OpenCharacterSheetAsync);
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
+        }
+
+        private async Task ShowCharactersXpWindowMethodAsync()
+        {
+            if (_openedCharacterDatabase == false)
+            {
+                await OpenCharactersDataBase.ExecuteAsync().ConfigureAwait(true);
+            }
+            AddMdiWindow<CharactersXpViewModel>();
         }
 
         public AppSettings AppSettings { get => _appSettings; private set { Set(nameof(AppSettings), ref _appSettings, value); } }
@@ -59,6 +76,8 @@ namespace RoleDDNG.ViewModels
         public RelayCommand<string> SetCharacterDatabasePath { get; private set; }
 
         public RelayCommand ShowDiceRollWindow { get; private set; }
+
+        public AsyncCommand ShowCharactersXpWindow { get; private set; }
 
         public RelayCommand ShowTownGeneratorWindow { get; private set; }
 
@@ -101,6 +120,7 @@ namespace RoleDDNG.ViewModels
                 AddMdiWindow<OpenCharacterViewModel>();
                 var characterDBViewModel = SimpleIoc.Default.GetInstance<OpenCharacterViewModel>();
                 await characterDBViewModel.GetCharactersFromDbAsync(AppSettings.LastCharacterDBPath).ConfigureAwait(true);
+                _openedCharacterDatabase = true;
             }
         }
 

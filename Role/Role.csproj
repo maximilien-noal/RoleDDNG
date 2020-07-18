@@ -43,7 +43,9 @@
 		<None Remove="Assets\backgrounds\sword.png" />
 		<None Remove="Assets\backgrounds\unicorn.png" />
 		<None Remove="Assets\backgrounds\warrior.jpg" />
+		<None Remove="Assets\diceroll.wav" />
 		<None Remove="Assets\splashscreen.png" />
+		<None Remove="UserControls\Assets\CharactersXPToolIcon.png" />
 		<None Remove="UserControls\Assets\DiceRollButon.png" />
 		<None Remove="UserControls\Assets\DiceRollIcon.png" />
 		<None Remove="UserControls\Assets\OpenCharacterIcon.png" />
@@ -52,11 +54,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Resource Include="Assets\backgrounds\halloween4.jpg" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Resource Include="Assets\appicon.png" />
+		<Resource Include="Assets\backgrounds\halloween4.jpg" />
 		<Resource Include="Assets\backgrounds\christmas.jpg" />
 		<Resource Include="Assets\backgrounds\christmas2.png" />
 		<Resource Include="Assets\backgrounds\christmas3.jpg" />
@@ -85,7 +84,9 @@
 		<Resource Include="Assets\backgrounds\sword.png" />
 		<Resource Include="Assets\backgrounds\unicorn.png" />
 		<Resource Include="Assets\backgrounds\warrior.jpg" />
+		<Resource Include="Assets\diceroll.wav" />
 		<Resource Include="Assets\splashscreen.png" />
+		<Resource Include="UserControls\Assets\CharactersXPToolIcon.png" />
 		<Resource Include="UserControls\Assets\DiceRollButon.png" />
 		<Resource Include="UserControls\Assets\DiceRollIcon.png" />
 		<Resource Include="UserControls\Assets\OpenCharacterIcon.png" />
