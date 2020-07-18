@@ -21,8 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serialization", "Serializat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseLayer", "DatabaseLayer\DatabaseLayer.csproj", "{E56A7174-AF46-44B5-B52E-25945DEC52E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xceed.Wpf.Toolkit", "wpftoolkit\ExtendedWPFToolkitSolution\Src\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj", "{950E877B-A9AE-4C83-964E-9D58DF035FD6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,25 +127,12 @@ Global
 		{E56A7174-AF46-44B5-B52E-25945DEC52E6}.Release|x64.Build.0 = Release|Any CPU
 		{E56A7174-AF46-44B5-B52E-25945DEC52E6}.Release|x86.ActiveCfg = Release|Any CPU
 		{E56A7174-AF46-44B5-B52E-25945DEC52E6}.Release|x86.Build.0 = Release|Any CPU
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6}.Debug|x64.Build.0 = Debug|Any CPU
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6}.Debug|x86.Build.0 = Debug|Any CPU
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6}.Release|x64.ActiveCfg = Release|Any CPU
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6}.Release|x64.Build.0 = Release|Any CPU
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6}.Release|x86.ActiveCfg = Release|Any CPU
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B68F597B-B085-4B0E-8DB9-2DE0420306FC} = {B8F95A01-D3D8-481F-BEF8-93F4C6324F5E}
-		{950E877B-A9AE-4C83-964E-9D58DF035FD6} = {B8F95A01-D3D8-481F-BEF8-93F4C6324F5E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {680D808B-469F-421F-B413-1BEAA8FF6E07}
