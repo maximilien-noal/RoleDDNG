@@ -38,6 +38,7 @@ namespace RoleDDNG.ViewModels
             ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
             ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
             OpenCharactersDataBase = new AsyncCommand(OpenCharactersDataBaseAsync);
+            OpenCharacterSheet = new AsyncCommand(OpenCharacterSheetAsync);
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
         }
 
@@ -48,6 +49,8 @@ namespace RoleDDNG.ViewModels
         public bool IsBusy { get => _isBusy; private set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
         public ObservableCollection<IDocumentViewModel> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
+
+        public AsyncCommand OpenCharacterSheet { get; private set; }
 
         public AsyncCommand OpenCharactersDataBase { get; private set; }
 
@@ -91,7 +94,7 @@ namespace RoleDDNG.ViewModels
             }
         }
 
-        public async Task ShowCharacterChoiceAsync()
+        public async Task OpenCharacterSheetAsync()
         {
             if (!string.IsNullOrWhiteSpace(AppSettings.LastCharacterDBPath) && File.Exists(AppSettings.LastCharacterDBPath))
             {

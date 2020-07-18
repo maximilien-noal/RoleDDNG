@@ -21,6 +21,10 @@
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding
+            Key="F"
+            Command="{Binding OpenCharacterSheet}"
+            Modifiers="Control" />
+        <KeyBinding
             Key="O"
             Command="{Binding OpenCharactersDataBase}"
             Modifiers="Control" />
@@ -44,7 +48,7 @@
                 <MenuItem Header="_Fichier">
                     <MenuItem Header="_Assistant création personnage" InputGestureText="Ctrl + N" />
                     <MenuItem Header="_Gestion des personnages" InputGestureText="Ctrl + P" />
-                    <MenuItem Header="_Accéder aux fiches des personnages" InputGestureText="Ctrl + F" />
+                    <MenuItem Header="_Accéder aux fiches des personnages" Command="{Binding OpenCharacterSheet}" InputGestureText="Ctrl + F" />
                     <MenuItem Header="_Gestion des objets" InputGestureText="Ctrl + I" />
                     <Separator />
                     <MenuItem Header="_Importation des personnages" InputGestureText="Ctrl + M" />

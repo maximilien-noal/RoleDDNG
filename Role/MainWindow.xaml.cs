@@ -84,7 +84,7 @@ namespace RoleDDNG.Role
             await SimpleIoc.Default.GetInstance<MainViewModel>().LoadAppSettingsAsync().ConfigureAwait(true);
             var windowPlacement = SimpleIoc.Default.GetInstance<MainViewModel>().AppSettings.MainWindowPlacement;
             SimpleIoc.Default.GetInstance<IWindowPlacer>().SetWindowPlacement(new WindowInteropHelper(this).Handle, ref windowPlacement);
-            await SimpleIoc.Default.GetInstance<MainViewModel>().ShowCharacterChoiceAsync().ConfigureAwait(true);
+            await SimpleIoc.Default.GetInstance<MainViewModel>().OpenCharacterSheetAsync().ConfigureAwait(true);
         }
 
 #pragma warning restore VSTHRD100 // Avoid async void methods (this is an event)
