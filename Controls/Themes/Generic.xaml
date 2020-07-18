@@ -309,16 +309,17 @@
                                             VerticalAlignment="Center"
                                             Orientation="Horizontal">
                                                 <windowControls:WindowButton
-                                                x:Name="PART_ButtonBar_MenuButton"
-                                                Icon="{StaticResource MDIWindowIcon}"
-                                                Style="{StaticResource MenuButtonStyle}" />
+                                                    x:Name="PART_ButtonBar_MenuButton"
+                                                    Icon="{StaticResource MDIWindowIcon}"
+                                                    Style="{StaticResource MenuButtonStyle}" />
                                                 <TextBlock
-                                                Margin="4,0,0,0"
-                                                VerticalAlignment="Center"
-                                                IsHitTestVisible="False"
-                                                TextTrimming="CharacterEllipsis"
-                                                ToolTip="{TemplateBinding Title}"
-                                                Text="{TemplateBinding Title}" />
+                                                    Foreground="White"
+                                                    Margin="4,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    IsHitTestVisible="False"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    ToolTip="{TemplateBinding Title}"
+                                                    Text="{TemplateBinding Title}" />
                                             </StackPanel>
                                         </Grid>
                                         <StackPanel Grid.Column="1"

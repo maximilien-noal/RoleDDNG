@@ -9,7 +9,7 @@
     <SolidColorBrush x:Key="WindowContentBorder" Color="{DynamicResource {x:Static adonisUi:Colors.Layer1BorderColor}}" />
     <SolidColorBrush x:Key="ContainerBackground" Color="Transparent" />
     <SolidColorBrush x:Key="ContainerBorder" Color="Transparent" />
-    <SolidColorBrush x:Key="WindowButtonPenColor" Color="{DynamicResource {x:Static adonisUi:Colors.AccentForegroundColor}}" />
+    <SolidColorBrush x:Key="WindowButtonPenColor" Color="White" />
     <SolidColorBrush x:Key="ToolTipBackgroundColor" Color="{DynamicResource {x:Static adonisUi:Colors.Layer1HighlightColor}}" />
     <SolidColorBrush x:Key="ToolTipBackgroundBorderColor" Color="{DynamicResource {x:Static adonisUi:Colors.Layer1HighlightBorderColor}}" />
 
