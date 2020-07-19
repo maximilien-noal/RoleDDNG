@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 
 using RoleDDNG.DatabaseLayer;
+using RoleDDNG.DatabaseLayer.Models;
 using RoleDDNG.Interfaces.Backgrounds;
 using RoleDDNG.Interfaces.Dialogs;
 using RoleDDNG.Interfaces.Serialization;
@@ -131,7 +132,8 @@ namespace RoleDDNG.ViewModels
         {
             var fileDialog = SimpleIoc.Default.GetInstance<IFileDialog>();
             var dbFile = await fileDialog.OpenFileDialogAsync("Ouvrir une base de données de personnages...", "mdb").ConfigureAwait(true);
-            if (!string.IsNullOrWhiteSpace(dbFile) && File.Exists(dbFile) && new DbAccessor(new DatabaseLayer.Models.Database(dbFile, DatabaseLayer.Enums.DbType.UserCharactersDb)) != null)
+            if (!string.IsNullOrWhiteSpace(dbFile) && File.Exists(dbFile) &&
+                await new DbAccessor(new Database(dbFile, DatabaseLayer.Enums.DbType.UserCharactersDb)).CanConnectAsync().ConfigureAwait(true))
             {
                 AppSettings.LastCharacterDBPath = dbFile;
                 return true;
