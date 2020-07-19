@@ -12,6 +12,12 @@ namespace RoleDDNG.Role
 {
     public partial class App : Application
     {
+        private const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+
+        private const string RegistryValueName = "AppsUseLightTheme";
+
+        private Uri? _currentTheme;
+
         public App()
         {
             Current.DispatcherUnhandledException += OnWpfUnhandledException;
@@ -32,17 +38,6 @@ namespace RoleDDNG.Role
                 Log.CloseAndFlush();
             };
         }
-
-        private void OnWpfUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
-        {
-            e.Handled = true;
-        }
-
-        private const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
-
-        private const string RegistryValueName = "AppsUseLightTheme";
-
-        private Uri? _currentTheme;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -101,6 +96,12 @@ namespace RoleDDNG.Role
             }
         }
 
+        private void OnWpfUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            Log.Logger.Error(e.Exception.GetBaseException(), "An unhandled exception occured");
+            e.Handled = true;
+        }
+
         private void Watcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
             CHangeThemeIfWindowsChangedIt();
@@ -129,9 +130,7 @@ namespace RoleDDNG.Role
 
             public static Uri ClassicTheme => new Uri("pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml", UriKind.Absolute);
 
-            /// <summary>
-            /// Adds any Adonis theme to the provided resource dictionary.
-            /// </summary>
+            /// <summary> Adds any Adonis theme to the provided resource dictionary. </summary>
             /// <param name="rootResourceDictionary">
             /// The resource dictionary containing AdonisUI's resources. Expected are the resource
             /// dictionaries of the app or window.
@@ -141,9 +140,7 @@ namespace RoleDDNG.Role
                 rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = ClassicTheme });
             }
 
-            /// <summary>
-            /// Removes all resources of AdonisUI from the provided resource dictionary.
-            /// </summary>
+            /// <summary> Removes all resources of AdonisUI from the provided resource dictionary. </summary>
             /// <param name="rootResourceDictionary">
             /// The resource dictionary containing AdonisUI's resources. Expected are the resource
             /// dictionaries of the app or window.
