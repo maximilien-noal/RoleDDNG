@@ -10,7 +10,9 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 {
     public class CharactersXpViewModel : ViewModelBase, IDocumentViewModel, ICharactersDbDependentViewModel
     {
-        public string Title => "Expérience des personnages";
+        private bool _isBusy = false;
+
+        public bool IsBusy { get => _isBusy; set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
         public async Task LoadCharactersDbDataAsync()
         {

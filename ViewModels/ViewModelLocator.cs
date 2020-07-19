@@ -24,9 +24,7 @@ namespace RoleDDNG.ViewModels
     /// </summary>
     public class ViewModelLocator
     {
-        /// <summary>
-        /// Initializes a new instance of the ViewModelLocator class.
-        /// </summary>
+        /// <summary> Initializes a new instance of the ViewModelLocator class. </summary>
         public ViewModelLocator()
         {
             ////if (ViewModelBase.IsInDesignModeStatic)
@@ -44,19 +42,12 @@ namespace RoleDDNG.ViewModels
             SimpleIoc.Default.Register<DiceRollViewModel>();
             SimpleIoc.Default.Register<TownGeneratorViewModel>();
             SimpleIoc.Default.Register<OpenCharacterViewModel>();
+            SimpleIoc.Default.Register<CharactersXpViewModel>();
         }
-
-#pragma warning disable CA1822
 
         // Justification : class must implement a parameterless public constructor for the XAML
         // side, where it initializes the SimpleIoc used here
-        public MainViewModel Main
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<MainViewModel>();
-            }
-        }
+#pragma warning disable CA1822
 
         public CharactersXpViewModel CharactersXp
         {
@@ -74,11 +65,11 @@ namespace RoleDDNG.ViewModels
             }
         }
 
-        public TownGeneratorViewModel TownGenerator
+        public MainViewModel Main
         {
             get
             {
-                return SimpleIoc.Default.GetInstance<TownGeneratorViewModel>();
+                return SimpleIoc.Default.GetInstance<MainViewModel>();
             }
         }
 
@@ -87,6 +78,14 @@ namespace RoleDDNG.ViewModels
             get
             {
                 return SimpleIoc.Default.GetInstance<OpenCharacterViewModel>();
+            }
+        }
+
+        public TownGeneratorViewModel TownGenerator
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<TownGeneratorViewModel>();
             }
         }
 

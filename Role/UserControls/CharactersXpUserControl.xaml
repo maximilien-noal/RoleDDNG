@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
              xmlns:local="clr-namespace:RoleDDNG.Role.UserControls"
-             DataContext="{Binding Source={StaticResource Locator}, Path=CharactersXo}"
+             Title="Expérience des personnages"
+             DataContext="{Binding Source={StaticResource Locator}, Path=CharactersXp}"
              mc:Ignorable="d"
              Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
              d:DesignHeight="450" d:DesignWidth="800">

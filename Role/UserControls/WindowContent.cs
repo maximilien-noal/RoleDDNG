@@ -1,7 +1,7 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using Hammer.MDI.Control;
-using RoleDDNG.ViewModels;
+﻿using Hammer.MDI.Control;
 using RoleDDNG.ViewModels.Interfaces;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -9,15 +9,29 @@ namespace RoleDDNG.Role.UserControls
 {
     public class WindowContent : UserControl
     {
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register(nameof(Title), typeof(string), typeof(WindowContent), new PropertyMetadata(""));
+
         public WindowContent()
         {
             this.Loaded += WindowContent_Loaded;
+        }
+
+        public string Title
+        {
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
         }
 
 #pragma warning disable VSTHRD100 // Avoid async void methods (this is an event)
 
         private async void WindowContent_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            if (DesignerProperties.GetIsInDesignMode(this))
+            {
+                return;
+            }
+
             if (DataContext is ICharactersDbDependentViewModel viewModel)
             {
                 await viewModel.LoadCharactersDbDataAsync().ConfigureAwait(true);
@@ -35,6 +49,7 @@ namespace RoleDDNG.Role.UserControls
             }
             if (parent is MdiWindow window)
             {
+                window.SetCurrentValue(MdiWindow.TitleProperty, GetValue(TitleProperty));
                 window.ChangeMenuButtonIcon(imageBrush);
             }
         }

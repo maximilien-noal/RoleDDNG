@@ -34,6 +34,8 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         public List<int> DiceTypes { get; private set; } = new List<int>();
 
+        public bool IsBusy => false;
+
         public int NumberOfDices { get => _numberOfDices; set { Set(nameof(NumberOfDices), ref _numberOfDices, value); } }
 
         public int NumberofSides { get => _numberOfSides; set { Set(nameof(NumberofSides), ref _numberOfSides, value); } }
@@ -43,8 +45,6 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         public RelayCommand Roll { get; private set; }
 
         public int Sum { get => _sum; set { Set(nameof(Sum), ref _sum, value); } }
-
-        public string Title => "Lanceur de dés";
 
         private void Roll_Execute()
         {

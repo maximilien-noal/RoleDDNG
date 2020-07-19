@@ -2,6 +2,6 @@
 {
     public interface IDocumentViewModel
     {
-        string Title { get; }
+        public bool IsBusy { get; }
     }
 }

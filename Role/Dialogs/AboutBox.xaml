@@ -6,7 +6,8 @@
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
         xmlns:local="clr-namespace:RoleDDNG.Role.Dialogs" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         mc:Ignorable="d"
-        Title="À propos de RoleDD" SizeToContent="WidthAndHeight"
+        Title="À propos de RoleDD"
+        SizeToContent="WidthAndHeight"
         Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
     <Grid Margin="5">
         <Grid.RowDefinitions>

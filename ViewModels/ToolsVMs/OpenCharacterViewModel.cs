@@ -23,8 +23,6 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         public bool IsBusy { get => _isBusy; set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
-        public string Title => "Accéder à un personnage";
-
         public async Task LoadCharactersDbDataAsync()
         {
             IsBusy = true;

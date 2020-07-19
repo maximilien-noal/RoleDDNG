@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+    Title="Générateur de ville"
     DataContext="{Binding Source={StaticResource Locator}, Path=TownGenerator}"
     mc:Ignorable="d">
     <UserControl.Resources>

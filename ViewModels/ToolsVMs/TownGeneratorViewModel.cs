@@ -52,8 +52,6 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         public int TaxPercentage { get => _taxPercentage; set { Set(nameof(TaxPercentage), ref _taxPercentage, value); } }
 
-        public string Title => "Générateur de ville";
-
         public string TownName { get => _townName; set { Set(nameof(TownName), ref _townName, value); } }
 
         public string TownType { get => _townType; set { Set(nameof(TownType), ref _townType, value); } }
