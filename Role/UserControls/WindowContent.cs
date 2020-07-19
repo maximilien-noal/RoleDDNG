@@ -1,4 +1,7 @@
-﻿using Hammer.MDI.Control;
+﻿using GalaSoft.MvvmLight.Ioc;
+using Hammer.MDI.Control;
+using RoleDDNG.ViewModels;
+using RoleDDNG.ViewModels.Interfaces;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -11,8 +14,15 @@ namespace RoleDDNG.Role.UserControls
             this.Loaded += WindowContent_Loaded;
         }
 
-        private void WindowContent_Loaded(object sender, System.Windows.RoutedEventArgs e)
+#pragma warning disable VSTHRD100 // Avoid async void methods (this is an event)
+
+        private async void WindowContent_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            if (DataContext is ICharactersDbDependentViewModel viewModel)
+            {
+                await viewModel.LoadCharactersDbDataAsync().ConfigureAwait(true);
+            }
+
             var imageBrush = (ImageBrush)this.FindResource("WindowIcon");
             if (imageBrush is null)
             {
@@ -28,5 +38,7 @@ namespace RoleDDNG.Role.UserControls
                 window.ChangeMenuButtonIcon(imageBrush);
             }
         }
+
+#pragma warning restore VSTHRD100 // Avoid async void methods (this is an event)
     }
 }
