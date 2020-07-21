@@ -12,6 +12,8 @@ namespace RoleDDNG.Role.UserControls
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(WindowContent), new PropertyMetadata(""));
 
+        private MdiWindow? _window;
+
         public WindowContent()
         {
             this.Loaded += WindowContent_Loaded;
@@ -49,6 +51,7 @@ namespace RoleDDNG.Role.UserControls
             }
             if (parent is MdiWindow window)
             {
+                _window = window;
                 window.SetCurrentValue(MdiWindow.TitleProperty, GetValue(TitleProperty));
                 window.ChangeMenuButtonIcon(imageBrush);
             }
