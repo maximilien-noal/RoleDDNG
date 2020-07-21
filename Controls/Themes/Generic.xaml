@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Hammer.MDI.Control"
-    xmlns:uwpColors="clr-namespace:Hammer.MDI.Control.Win10Colors"
+    xmlns:uwpColors="clr-namespace:Hammer.MDI.Control.UWP"
     xmlns:windowControls="clr-namespace:Hammer.MDI.Control.WindowControls">
 
     <ResourceDictionary.MergedDictionaries>
@@ -314,7 +314,7 @@
                                                     Icon="{StaticResource MDIWindowIcon}"
                                                     Style="{StaticResource MenuButtonStyle}" />
                                                 <TextBlock
-                                                    Foreground="White"
+                                                    Foreground="{StaticResource WindowButtonPenColor}"
                                                     Margin="4,0,0,0"
                                                     VerticalAlignment="Center"
                                                     IsHitTestVisible="False"
@@ -374,8 +374,8 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="PART_Header" Property="Background" Value="{x:Static uwpColors:UWPColors.AccentColor}" />
-                            <Setter TargetName="PART_Border" Property="BorderBrush" Value="{x:Static uwpColors:UWPColors.AccentColor}" />
+                            <Setter TargetName="PART_Header" Property="Background" Value="{Binding Source={x:Static uwpColors:UWPColors.Instance}, Path=AccentColor}" />
+                            <Setter TargetName="PART_Border" Property="BorderBrush" Value="{Binding Source={x:Static uwpColors:UWPColors.Instance}, Path=AccentColor}" />
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="PART_ButtonBar_MaximizeButton" Property="Icon" Value="{StaticResource NormalizeShape}" />
