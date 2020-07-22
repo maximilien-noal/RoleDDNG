@@ -53,8 +53,8 @@
     </Style>
 
     <Style x:Key="TumblrStyle" TargetType="{x:Type ToolTip}">
-        <Setter Property="Background" Value="{StaticResource ToolTipBackgroundColor}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ToolTipBackgroundBorderColor}" />
+        <Setter Property="Background" Value="{StaticResource Layer1HighlightColor}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Layer1HighlightBorderColor}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="RenderTransform">
             <Setter.Value>
@@ -282,7 +282,7 @@
                     <Border>
                         <Border
                             x:Name="PART_Border"
-                            BorderBrush="{StaticResource InactiveWindowColor}"
+                            BorderBrush="{StaticResource InactiveWindowChromeColor}"
                             BorderThickness="4"
                             CornerRadius="4">
                             <Grid x:Name="PART_BorderGrid" Background="{TemplateBinding Background}">
@@ -294,7 +294,7 @@
                                     x:Name="PART_Header"
                                     Height="24"
                                     VerticalAlignment="Top"
-                                    Background="{StaticResource InactiveWindowColor}"
+                                    Background="{StaticResource InactiveWindowChromeColor}"
                                     ToolTipService.HasDropShadow="False"
                                     ToolTipService.IsEnabled="False"
                                     ToolTipService.Placement="Top">
@@ -314,7 +314,8 @@
                                                     Icon="{StaticResource MDIWindowIcon}"
                                                     Style="{StaticResource MenuButtonStyle}" />
                                                 <TextBlock
-                                                    Foreground="{StaticResource WindowButtonPenColor}"
+                                                    Name="WindowChromeText"
+                                                    Foreground="{StaticResource InactiveWindowChromeTextColor}"
                                                     Margin="4,0,0,0"
                                                     VerticalAlignment="Center"
                                                     IsHitTestVisible="False"
@@ -360,7 +361,7 @@
                                 <Border
                                     x:Name="PART_BorderContent"
                                     Grid.Row="1"
-                                    BorderBrush="{StaticResource WindowContentBorder}"
+                                    BorderBrush="{StaticResource Layer1BorderColor}"
                                     BorderThickness="1">
                                     <ContentPresenter
                                         x:Name="PART_Content"
@@ -376,6 +377,7 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="PART_Header" Property="Background" Value="{Binding Source={x:Static uwpColors:UWPColors.Instance}, Path=AccentColor}" />
                             <Setter TargetName="PART_Border" Property="BorderBrush" Value="{Binding Source={x:Static uwpColors:UWPColors.Instance}, Path=AccentColor}" />
+                            <Setter TargetName="WindowChromeText" Property="Foreground" Value="{StaticResource ActiveWindowChromeTextColor}" />
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="PART_ButtonBar_MaximizeButton" Property="Icon" Value="{StaticResource NormalizeShape}" />
