@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Media;
 
 using Windows.UI.ViewManagement;
@@ -16,7 +17,9 @@ namespace Hammer.MDI.Control.UWP
 
         private UWPColors()
         {
-            _uiSettings.ColorValuesChanged += (s, e) => CopyCurrentAccentColorFromWindows();
+#pragma warning disable VSTHRD001 // Avoid legacy thread switching APIs (we must use the Dispatcher to be on the UI thread, or else a thread access exception occurs when a change of color is made and the new color is not picked up)
+            _uiSettings.ColorValuesChanged += (s, e) => Application.Current.Dispatcher.Invoke(() => CopyCurrentAccentColorFromWindows(), System.Windows.Threading.DispatcherPriority.Background);
+#pragma warning restore VSTHRD001 // Avoid legacy thread switching APIs (we must use the Dispatcher to be on the UI thread, or else a thread access exception occurs when a change of color is made and the new color is not picked up)
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
