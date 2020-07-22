@@ -41,7 +41,7 @@ namespace RoleDDNG.ViewModels
             ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
             ShowCharactersXpWindow = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<CharactersXpViewModel>().ConfigureAwait(true));
             ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
-            OpenCharactersDataBase = new AsyncCommand(OpenCharactersDatabaseAsync);
+            OpenCharactersDataBase = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<OpenCharacterViewModel>().ConfigureAwait(true));
             OpenCharacterSheet = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<OpenCharacterViewModel>().ConfigureAwait(true));
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
         }
@@ -66,47 +66,22 @@ namespace RoleDDNG.ViewModels
 
         public RelayCommand ShowTownGeneratorWindow { get; private set; }
 
-        public static async Task<bool> CheckIfCharactersDbFileIsValidAsync(string dbFile)
-        {
-            return !string.IsNullOrWhiteSpace(dbFile) &&
-                            File.Exists(dbFile) &&
-                            await new DbAccessor(new Database(dbFile, DbType.UserCharactersDb)).CanConnectAsync().ConfigureAwait(true);
-        }
-
         public async Task ExitAppAsync()
         {
-            IsBusy = true;
-            var configDir = Path.GetDirectoryName(_appSettingsFilePath);
-            if (!Directory.Exists(configDir))
-            {
-                Directory.CreateDirectory(configDir);
-            }
-
-            await SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>().SerializeAsync(_appSettingsFilePath, AppSettings).ConfigureAwait(false);
-            IsBusy = false;
+            await SaveAppSettingsAsync().ConfigureAwait(true);
         }
 
-        public async Task LoadAppSettingsAsync()
+        public async Task<bool> LoadAppSettingsAsync()
         {
             IsBusy = true;
             if (File.Exists(_appSettingsFilePath))
             {
                 var serializer = SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>();
-                AppSettings = await serializer.DeserializeAsync<AppSettings>(_appSettingsFilePath).ConfigureAwait(false);
+                AppSettings = await serializer.DeserializeAsync<AppSettings>(_appSettingsFilePath).ConfigureAwait(true);
+                return await OpenCharactersDatabaseAsync(AppSettings.LastCharacterDBPath).ConfigureAwait(false);
             }
             IsBusy = false;
-        }
-
-        public async Task OpenCharactersDatabaseAsync()
-        {
-            string dbFile = await OpenCharactersDbFileDialogAsync().ConfigureAwait(true);
-            if (!string.IsNullOrWhiteSpace(dbFile) &&
-                File.Exists(dbFile) &&
-                await new DbAccessor(new Database(dbFile, DbType.UserCharactersDb)).CanConnectAsync().ConfigureAwait(true))
-            {
-                AppSettings.LastCharacterDBPath = dbFile;
-                await OpenCharacterSheet.ExecuteAsync().ConfigureAwait(true);
-            }
+            return false;
         }
 
         public void RemoveMdiWindow<T>() where T : IDocumentViewModel
@@ -115,13 +90,6 @@ namespace RoleDDNG.ViewModels
             {
                 Items.Remove(Items.OfType<T>().First());
             }
-        }
-
-        private static async Task<string> OpenCharactersDbFileDialogAsync()
-        {
-            var fileDialog = SimpleIoc.Default.GetInstance<IFileDialog>();
-            var dbFile = await fileDialog.OpenFileDialogAsync("Ouvrir une base de données de personnages...", "mdb").ConfigureAwait(true);
-            return dbFile;
         }
 
         private void AddMdiWindow<T>() where T : IDocumentViewModel, new()
@@ -155,17 +123,38 @@ namespace RoleDDNG.ViewModels
             {
                 return true;
             }
-            string dbFile = await OpenCharactersDbFileDialogAsync().ConfigureAwait(true);
-            if (await CheckIfCharactersDbFileIsValidAsync(dbFile).ConfigureAwait(true))
+            return await OpenCharactersDatabaseAsync().ConfigureAwait(true);
+        }
+
+        private async Task<bool> OpenCharactersDatabaseAsync(string dbFile = "")
+        {
+            if (string.IsNullOrWhiteSpace(dbFile))
+            {
+                var fileDialog = SimpleIoc.Default.GetInstance<IFileDialog>();
+                dbFile = await fileDialog.OpenFileDialogAsync("Ouvrir une base de données de personnages...", "mdb").ConfigureAwait(true);
+            }
+            if (!string.IsNullOrWhiteSpace(dbFile) &&
+                File.Exists(dbFile) &&
+                await new DbAccessor(new Database(dbFile, DbType.UserCharactersDb)).CanConnectAsync().ConfigureAwait(true))
             {
                 AppSettings.LastCharacterDBPath = dbFile;
+                await SaveAppSettingsAsync().ConfigureAwait(true);
                 return true;
             }
             return false;
         }
 
-#pragma warning disable CA1822 // Static bindings work, but make the designer view throw an error.
-    }
+        private async Task SaveAppSettingsAsync()
+        {
+            IsBusy = true;
+            var configDir = Path.GetDirectoryName(_appSettingsFilePath);
+            if (!Directory.Exists(configDir))
+            {
+                Directory.CreateDirectory(configDir);
+            }
 
-#pragma warning restore CA1822
+            await SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>().SerializeAsync(_appSettingsFilePath, AppSettings).ConfigureAwait(false);
+            IsBusy = false;
+        }
+    }
 }

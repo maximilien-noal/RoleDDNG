@@ -79,10 +79,10 @@ namespace RoleDDNG.Role
 
         private async void Window_SourceInitialized(object sender, System.EventArgs e)
         {
-            await SimpleIoc.Default.GetInstance<MainViewModel>().LoadAppSettingsAsync().ConfigureAwait(true);
+            var foundCharacterDb = await SimpleIoc.Default.GetInstance<MainViewModel>().LoadAppSettingsAsync().ConfigureAwait(true);
             var windowPlacement = SimpleIoc.Default.GetInstance<MainViewModel>().AppSettings.MainWindowPlacement;
             SimpleIoc.Default.GetInstance<IWindowPlacer>().SetWindowPlacement(new WindowInteropHelper(this).Handle, ref windowPlacement);
-            if (await MainViewModel.CheckIfCharactersDbFileIsValidAsync(SimpleIoc.Default.GetInstance<MainViewModel>().AppSettings.LastCharacterDBPath).ConfigureAwait(true))
+            if (foundCharacterDb)
             {
                 await SimpleIoc.Default.GetInstance<MainViewModel>().OpenCharacterSheet.ExecuteAsync().ConfigureAwait(true);
             }
