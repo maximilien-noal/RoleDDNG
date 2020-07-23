@@ -27,7 +27,7 @@ namespace RoleDDNG.Role.UserControls
 
 #pragma warning disable VSTHRD100 // Avoid async void methods (this is an event)
 
-        private async void WindowContent_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private async void WindowContent_Loaded(object sender, RoutedEventArgs e)
         {
             if (DesignerProperties.GetIsInDesignMode(this))
             {
