@@ -18,7 +18,7 @@ namespace Hammer.MDI.Control.UWP
         private UWPColors()
         {
 #pragma warning disable VSTHRD001 // Avoid legacy thread switching APIs (we must use the Dispatcher to be on the UI thread, or else a thread access exception occurs when a change of color is made and the new color is not picked up)
-            _uiSettings.ColorValuesChanged += (s, e) => Application.Current.Dispatcher.Invoke(() => CopyCurrentAccentColorFromWindows(), System.Windows.Threading.DispatcherPriority.Background);
+            _uiSettings.ColorValuesChanged += (s, e) => Application.Current.Dispatcher.Invoke(() => AccentColor = GetAccentColor(), System.Windows.Threading.DispatcherPriority.Background);
 #pragma warning restore VSTHRD001 // Avoid legacy thread switching APIs (we must use the Dispatcher to be on the UI thread, or else a thread access exception occurs when a change of color is made and the new color is not picked up)
         }
 
@@ -56,7 +56,5 @@ namespace Hammer.MDI.Control.UWP
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         private static SolidColorBrush GetAccentColor() => new SolidColorBrush(Color.FromArgb(_uiSettings.GetColorValue(UIColorType.Accent).A, _uiSettings.GetColorValue(UIColorType.Accent).R, _uiSettings.GetColorValue(UIColorType.Accent).G, _uiSettings.GetColorValue(UIColorType.Accent).B));
-
-        private void CopyCurrentAccentColorFromWindows() => AccentColor = GetAccentColor();
     }
 }
