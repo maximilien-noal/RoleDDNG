@@ -95,6 +95,8 @@ namespace RoleDDNG.Models.Characters
 
         private bool _exclu = false;
 
+        private long _gainXp = 0;
+
         private string _histoire = "";
 
         private string _image = "";
@@ -102,6 +104,8 @@ namespace RoleDDNG.Models.Characters
         private short? _intellect = 0;
 
         private short? _intuition = 0;
+
+        private bool _isBelowNormalXpLevel = false;
 
         private string _langueConnue = "";
 
@@ -125,9 +129,17 @@ namespace RoleDDNG.Models.Characters
 
         private short? _niv8 = 0;
 
+        private int _niveau = 0;
+
+        private long _niveauGE = 0;
+
+        private long _nivSuivant = 0;
+
         private string _nom = "";
 
         private string _ordreShugenja = "";
+
+        private int _part = 1;
 
         private double? _poids = 0;
 
@@ -157,11 +169,13 @@ namespace RoleDDNG.Models.Characters
 
         private double? _totalPo = 0d;
 
-        private int? _totalXp = 0;
+        private long? _totalXp = 0;
 
         private short? _vitalité = 0;
 
         private short? _volonté = 0;
+
+        private long _xp = 0;
 
         private string _yeux = "";
 
@@ -281,6 +295,8 @@ namespace RoleDDNG.Models.Characters
         [Column("exclu")]
         public bool Exclu { get => _exclu; set { Set(nameof(Exclu), ref _exclu, value); } }
 
+        public long GainXp { get => _gainXp; set { Set(nameof(GainXp), ref _gainXp, value); } }
+
         public string Histoire { get => _histoire; set { Set(nameof(Histoire), ref _histoire, value); } }
 
         public string Image { get => _image; set { Set(nameof(Image), ref _image, value); } }
@@ -288,6 +304,8 @@ namespace RoleDDNG.Models.Characters
         public short? Intellect { get => _intellect; set { Set(nameof(Intellect), ref _intellect, value); } }
 
         public short? Intuition { get => _intuition; set { Set(nameof(Intuition), ref _intuition, value); } }
+
+        public bool IsBelowNormalXpLevel { get => _isBelowNormalXpLevel; set { Set(nameof(IsBelowNormalXpLevel), ref _isBelowNormalXpLevel, value); } }
 
         public string LangueConnue { get => _langueConnue; set { Set(nameof(LangueConnue), ref _langueConnue, value); } }
 
@@ -320,9 +338,17 @@ namespace RoleDDNG.Models.Characters
         [Column("Niv_8")]
         public short? Niv8 { get => _niv8; set { Set(nameof(Niv8), ref _niv8, value); } }
 
+        public int Niveau { get => _niveau; set { Set(nameof(Niveau), ref _niveau, value); } }
+
+        public long NiveauGE { get => _niveauGE; set { Set(nameof(NiveauGE), ref _niveauGE, value); } }
+
+        public long NiveauSuivant { get => _nivSuivant; set { Set(nameof(NiveauSuivant), ref _nivSuivant, value); } }
+
         public string Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
 
         public string OrdreShugenja { get => _ordreShugenja; set { Set(nameof(OrdreShugenja), ref _ordreShugenja, value); } }
+
+        public int Part { get => _part; set { Set(nameof(Part), ref _part, value); } }
 
         public virtual ObservableCollection<PersonnageProgression> PersonnageProgression { get; private set; } = new ObservableCollection<PersonnageProgression>();
 
@@ -363,11 +389,13 @@ namespace RoleDDNG.Models.Characters
         public double? TotalPo { get => _totalPo; set { Set(nameof(TotalPo), ref _totalPo, value); } }
 
         [Column("TotalXP")]
-        public int? TotalXp { get => _totalXp; set { Set(nameof(TotalXp), ref _totalXp, value); } }
+        public long? TotalXp { get => _totalXp; set { Set(nameof(TotalXp), ref _totalXp, value); } }
 
         public short? Vitalité { get => _vitalité; set { Set(nameof(Vitalité), ref _vitalité, value); } }
 
         public short? Volonté { get => _volonté; set { Set(nameof(Volonté), ref _volonté, value); } }
+
+        public long Xp { get => _xp; set { Set(nameof(Xp), ref _xp, value); } }
 
         public string Yeux { get => _yeux; set { Set(nameof(Yeux), ref _yeux, value); } }
     }

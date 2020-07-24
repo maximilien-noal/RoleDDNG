@@ -4,9 +4,9 @@ using GalaSoft.MvvmLight;
 
 namespace RoleDDNG.Models.Roles
 {
-    public class Archétype : ObservableObject
+    public class Archetype : ObservableObject
     {
-        private int _adjNiv = 0;
+        private short? _adjNiv = 0;
 
         private string _archetype = "";
 
@@ -98,12 +98,7 @@ namespace RoleDDNG.Models.Roles
 
         private int _volonte = 0;
 
-        public int AdjNiv { get => _adjNiv; set { Set(nameof(AdjNiv), ref _adjNiv, value); } }
-
-        /// <summary>
-        /// Key
-        /// </summary>
-        public string Archetype { get => _archetype; set { Set(nameof(Archetype), ref _archetype, value); } }
+        public short? AdjNiv { get => _adjNiv; set { Set(nameof(AdjNiv), ref _adjNiv, value); } }
 
         public int Ca { get => _ca; set { Set(nameof(Ca), ref _ca, value); } }
 
@@ -173,6 +168,10 @@ namespace RoleDDNG.Models.Roles
         public string Langue { get => _langue; set { Set(nameof(Langue), ref _langue, value); } }
 
         public string Manoeuvrabilite { get => _manoeuvrabilite; set { Set(nameof(Manoeuvrabilite), ref _manoeuvrabilite, value); } }
+
+        /// <summary> Key </summary>
+        [Column("Archetype")]
+        public string NomArchetype { get => _archetype; set { Set(nameof(NomArchetype), ref _archetype, value); } }
 
         public int Number { get => _number; set { Set(nameof(Number), ref _number, value); } }
 

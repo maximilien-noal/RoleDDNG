@@ -18,7 +18,7 @@ namespace RoleDDNG.DatabaseLayer
             {
                 throw new FileNotFoundException(dbFilePath);
             }
-            _dbFilePath = dbFilePath;
+            _dbFilePath = Path.GetFullPath(dbFilePath);
         }
 
         public async Task<bool> CanConnectAsync()

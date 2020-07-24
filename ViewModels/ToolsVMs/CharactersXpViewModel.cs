@@ -4,8 +4,13 @@ using GalaSoft.MvvmLight.Ioc;
 using RoleDDNG.DatabaseLayer;
 using RoleDDNG.Models.Characters;
 using RoleDDNG.Models.Options;
+using RoleDDNG.Models.Roles;
+using RoleDDNG.ViewModels.Constants;
+using RoleDDNG.ViewModels.Extensions;
 using RoleDDNG.ViewModels.Interfaces;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.ToolsVMs
@@ -51,6 +56,45 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             var db = new Database(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath);
             var charactersFromDb = await db.GetQueryDataAsync<Personnage>(DbCharactersQuery).ConfigureAwait(true);
             Characters = new ObservableCollection<Personnage>(charactersFromDb);
+
+            foreach (var character in Characters)
+            {
+                var races = await new Database(Consts.ProgramDatabaseFileName).GetQueryDataAsync<Races>($"select AdjNiv from Race where race='{character.Race}'").ConfigureAwait(true);
+                var archetypes = await new Database(Consts.ProgramDatabaseFileName).GetQueryDataAsync<Archetype>($"select AdjNiv from Archetype where archetype='{character.Archetype}'").ConfigureAwait(true);
+                var dons = await new Database(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath).GetQueryDataAsync<PersonnageDons>($"select dons from PersonnageDons where nom='{character.Nom}'").ConfigureAwait(true);
+                foreach (var level in new short?[] { character.Niv1, character.Niv2, character.Niv3, character.Niv4, character.Niv5, character.Niv6, character.Niv7, character.Niv8 })
+                {
+                    if (level.HasValue)
+                    {
+                        character.Niveau += level.Value;
+                    }
+                }
+                foreach (var level in new short?[] { character.Niv1, character.Niv2, character.Niv3, character.Niv4, character.Niv5, character.Niv6, character.Niv7, character.Niv8, races.Select(x => x.AdjNiv).FirstOrDefault(), archetypes.Select(x => x.AdjNiv).FirstOrDefault() })
+                {
+                    if (level.HasValue)
+                    {
+                        character.NiveauGE += level.Value;
+                    }
+                }
+                if (dons.Select(x => x.Dons).Any(x => x == Consts.LevelOneAdjustmentReduction))
+                {
+                    character.NiveauGE -= 1;
+                }
+                if (character.TotalXp.HasValue && character.TotalXp > character.GetXpLevel())
+                {
+                    character.Xp = character.TotalXp.Value;
+                }
+                else
+                {
+                    character.Xp = character.GetXpLevel();
+                }
+                character.NiveauSuivant = character.GetNextLevelXp();
+                if (character.Xp >= character.NiveauSuivant)
+                {
+                    character.IsBelowNormalXpLevel = true;
+                }
+            }
+
             IsBusy = false;
         }
     }

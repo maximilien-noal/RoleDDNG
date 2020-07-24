@@ -5,17 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
              xmlns:local="clr-namespace:RoleDDNG.Role.UserControls"
-             xmlns:conveters="clr-namespace:RoleDDNG.Role.Converters"
+                     xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
              Title="Expérience des personnages"
              DataContext="{Binding Source={StaticResource Locator}, Path=CharactersXp}"
              mc:Ignorable="d"
              Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <conveters:CharacterToLevelConverter x:Key="CharacterToLevelConverter" />
-        <conveters:CharacterToClasseConverter x:Key="CharacterToClasseConverter" />
-        <conveters:FilePathToBitmapConverter x:Key="FilePathToBitmapConverter" />
-        <conveters:NotNullToBooleanConverter x:Key="NotNullToBooleanConverter" />
+        <converters:IntToNextIntConverter x:Key="IntToNextIntConverter" />
+        <converters:CharacterToLevelConverter x:Key="CharacterToLevelConverter" />
+        <converters:CharacterToClasseConverter x:Key="CharacterToClasseConverter" />
+        <converters:FilePathToBitmapConverter x:Key="FilePathToBitmapConverter" />
+        <converters:NotNullToBooleanConverter x:Key="NotNullToBooleanConverter" />
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/CharactersXPToolIcon.png" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
@@ -30,11 +31,11 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <ScrollViewer Grid.Column="0" Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <DataGrid Name="CharactersTable" IsReadOnly="True" AutoGenerateColumns="False"
+                <DataGrid Name="CharactersTable" AutoGenerateColumns="False"
                     ItemsSource="{Binding Characters}"
                     SelectedItem="{Binding SelectedCharacter, Mode=TwoWay}">
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn>
+                        <DataGridTemplateColumn IsReadOnly="True">
                             <DataGridTemplateColumn.Header>
                                 Personnage
                             </DataGridTemplateColumn.Header>
@@ -48,12 +49,12 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Niveau" Binding="{Binding Converter={StaticResource CharacterToLevelConverter}}" />
-                        <DataGridTextColumn Header="NGE" Binding="{Binding Nge}" />
-                        <DataGridTextColumn Header="Expérience" Binding="{Binding TotalXp}" />
-                        <DataGridTextColumn Header="Niveau suivant" Binding="{Binding NivSuivant}" />
+                        <DataGridTextColumn Header="Niveau" IsReadOnly="True" Binding="{Binding Converter={StaticResource CharacterToLevelConverter}}" />
+                        <DataGridTextColumn Header="NGE" IsReadOnly="True" Binding="{Binding NiveauGE}" />
+                        <DataGridTextColumn Header="Expérience" IsReadOnly="True" Binding="{Binding Xp}" />
+                        <DataGridTextColumn Header="Niveau suivant" IsReadOnly="True" Binding="{Binding NivSuivant}" />
                         <DataGridTextColumn Header="Gain d'XP" Binding="{Binding GainXp}" />
-                        <DataGridTextColumn Header="Part" Binding="{Binding Part}" />
+                        <DataGridTextColumn Header="Part" IsReadOnly="True" Binding="{Binding Part}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </ScrollViewer>
@@ -61,21 +62,30 @@
                 MinHeight="50">
                 <TextBox Text="{Binding Log}" />
             </ScrollViewer>
-            <TextBlock Grid.Column="1" Grid.Row="0">
-                <Run>Sélectionner les personnages,</Run>
-                <LineBreak></LineBreak>
-                <Run>puis saisir le FP de la rencontre,</Run>
-                <LineBreak></LineBreak>
-                <Run>et enfin cliquer sur ajouter.</Run>
-                <LineBreak></LineBreak>
-                <LineBreak></LineBreak>
-                <Run>Enregistrer pour valider.</Run>
-                <LineBreak></LineBreak>
-                <Run>Part vaut 1 pour un PJ,</Run>
-                <LineBreak></LineBreak>
-                <Run>et 0.5 pour un PNJ.</Run>
-                <LineBreak></LineBreak>
-            </TextBlock>
+            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0">
+                <TextBlock>
+                    <Run>Sélectionner les personnages,</Run>
+                    <LineBreak></LineBreak>
+                    <Run>puis saisir le FP de la rencontre,</Run>
+                    <LineBreak></LineBreak>
+                    <Run>et enfin cliquer sur ajouter.</Run>
+                    <LineBreak></LineBreak>
+                    <LineBreak></LineBreak>
+                    <Run>Enregistrer pour valider.</Run>
+                    <LineBreak></LineBreak>
+                    <Run>Part vaut 1 pour un PJ,</Run>
+                    <LineBreak></LineBreak>
+                    <Run>et 0.5 pour un PNJ.</Run>
+                    <LineBreak></LineBreak>
+                </TextBlock>
+                <TextBlock Visibility="{Binding SelectedCharacter.IsBelowNormalXpLevel, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                    <Run Text="{Binding SelectedCharacter.Nom}" />
+                    <LineBreak></LineBreak>
+                    <Run Text="{Binding SelectedCharacter.Niveau, StringFormat='devrait être au niveau {0},', Converter={StaticResource IntToNextIntConverter}}" />
+                    <LineBreak></LineBreak>
+                    <Run Text="les calculs d'XP avec le FP des monstres seront faux." />
+                </TextBlock>
+            </StackPanel>
             <Grid Grid.Row="1" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -92,7 +102,7 @@
                 <Label Grid.ColumnSpan="2" Grid.Row="1" Name="Multiplier">Points d'expérience</Label>
                 <TextBox Grid.Column="0" Grid.Row="2" IsEnabled="{Binding SelectedCharacter, Converter={StaticResource NotNullToBooleanConverter}}"
                          ToolTip="Saisir un nombre de points d'expérience à ajouter"
-                         Text="{Binding XpMultiplier}" />
+                         Text="{Binding XpPercentage}" />
                 <Button Grid.Column="1" Grid.Row="2" Margin="2,0,0,0" Command="{Binding Add}" IsEnabled="{Binding SelectedCharacter, Converter={StaticResource NotNullToBooleanConverter}}">Ajouter</Button>
                 <Label Grid.Column="0" Grid.Row="3">% XP d'idée</Label>
                 <Label Grid.Column="1" Grid.Row="3">Total XP d'idée</Label>
