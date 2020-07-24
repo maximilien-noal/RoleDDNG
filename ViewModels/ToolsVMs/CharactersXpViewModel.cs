@@ -2,9 +2,8 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using RoleDDNG.DatabaseLayer;
-using RoleDDNG.DatabaseLayer.Enums;
-using RoleDDNG.DatabaseLayer.Models;
 using RoleDDNG.Models.Characters;
+using RoleDDNG.Models.Options;
 using RoleDDNG.ViewModels.Interfaces;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -49,7 +48,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         public async Task LoadCharactersDbDataAsync()
         {
             IsBusy = true;
-            var db = new DbAccessor(new Database(SimpleIoc.Default.GetInstance<MainViewModel>().AppSettings.LastCharacterDBPath, DbType.UserCharactersDb));
+            var db = new Database(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath);
             var charactersFromDb = await db.GetQueryDataAsync<Personnage>(DbCharactersQuery).ConfigureAwait(true);
             Characters = new ObservableCollection<Personnage>(charactersFromDb);
             IsBusy = false;

@@ -72,7 +72,7 @@ namespace RoleDDNG.Role
                 return;
             }
             SimpleIoc.Default.GetInstance<IWindowPlacer>().GetWindowPlacement(new WindowInteropHelper(this).Handle, out WindowPlacement windowPlacement);
-            SimpleIoc.Default.GetInstance<MainViewModel>().AppSettings.MainWindowPlacement = windowPlacement;
+            SimpleIoc.Default.GetInstance<AppSettings>().MainWindowPlacement = windowPlacement;
             await SimpleIoc.Default.GetInstance<MainViewModel>().ExitAppAsync().ConfigureAwait(true);
             CloseForced();
         }
@@ -80,7 +80,7 @@ namespace RoleDDNG.Role
         private async void Window_SourceInitialized(object sender, System.EventArgs e)
         {
             var foundCharacterDb = await SimpleIoc.Default.GetInstance<MainViewModel>().LoadAppSettingsAsync().ConfigureAwait(true);
-            var windowPlacement = SimpleIoc.Default.GetInstance<MainViewModel>().AppSettings.MainWindowPlacement;
+            var windowPlacement = SimpleIoc.Default.GetInstance<AppSettings>().MainWindowPlacement;
             SimpleIoc.Default.GetInstance<IWindowPlacer>().SetWindowPlacement(new WindowInteropHelper(this).Handle, ref windowPlacement);
             if (foundCharacterDb)
             {

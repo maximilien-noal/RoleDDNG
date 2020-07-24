@@ -5,8 +5,6 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 
 using RoleDDNG.DatabaseLayer;
-using RoleDDNG.DatabaseLayer.Models;
-using RoleDDNG.DatabaseLayer.Enums;
 using RoleDDNG.Interfaces.Backgrounds;
 using RoleDDNG.Interfaces.Dialogs;
 using RoleDDNG.Interfaces.Serialization;
@@ -26,9 +24,9 @@ namespace RoleDDNG.ViewModels
     {
         private readonly string _appSettingsFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RoleDDNG\\ROLE.CFG");
 
-        private AppSettings _appSettings = new AppSettings();
-
         private string _backgroundSource = string.Empty;
+
+        private string _currentCharacterDb = "";
 
         private bool _isBusy = true;
 
@@ -46,9 +44,9 @@ namespace RoleDDNG.ViewModels
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
         }
 
-        public AppSettings AppSettings { get => _appSettings; private set { Set(nameof(AppSettings), ref _appSettings, value); } }
-
         public string BackgroundSource { get => _backgroundSource; private set { Set(nameof(BackgroundSource), ref _backgroundSource, value); } }
+
+        public string CurrentCharacterDb { get => _currentCharacterDb; private set { Set(nameof(CurrentCharacterDb), ref _currentCharacterDb, value); } }
 
         public bool IsBusy { get => _isBusy; private set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
@@ -77,8 +75,9 @@ namespace RoleDDNG.ViewModels
             if (File.Exists(_appSettingsFilePath))
             {
                 var serializer = SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>();
-                AppSettings = await serializer.DeserializeAsync<AppSettings>(_appSettingsFilePath).ConfigureAwait(true);
-                return await OpenCharactersDatabaseAsync(AppSettings.LastCharacterDBPath).ConfigureAwait(false);
+                var appSettings = await serializer.DeserializeAsync<AppSettings>(_appSettingsFilePath).ConfigureAwait(true);
+                SimpleIoc.Default.Register<AppSettings>(() => appSettings);
+                return await OpenCharactersDatabaseAsync().ConfigureAwait(false);
             }
             IsBusy = false;
             return false;
@@ -118,16 +117,17 @@ namespace RoleDDNG.ViewModels
 
         private async Task<bool> OpenCharacterDbIfNoneOpenAsync()
         {
-            if (!string.IsNullOrWhiteSpace(AppSettings.LastCharacterDBPath) &&
-                File.Exists(AppSettings.LastCharacterDBPath))
+            if (!string.IsNullOrWhiteSpace(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath) &&
+                File.Exists(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath))
             {
                 return true;
             }
             return await OpenCharactersDatabaseAsync().ConfigureAwait(true);
         }
 
-        private async Task<bool> OpenCharactersDatabaseAsync(string dbFile = "")
+        private async Task<bool> OpenCharactersDatabaseAsync()
         {
+            var dbFile = SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath;
             if (string.IsNullOrWhiteSpace(dbFile))
             {
                 var fileDialog = SimpleIoc.Default.GetInstance<IFileDialog>();
@@ -135,9 +135,10 @@ namespace RoleDDNG.ViewModels
             }
             if (!string.IsNullOrWhiteSpace(dbFile) &&
                 File.Exists(dbFile) &&
-                await new DbAccessor(new Database(dbFile, DbType.UserCharactersDb)).CanConnectAsync().ConfigureAwait(true))
+                await new Database(dbFile).CanConnectAsync().ConfigureAwait(true))
             {
-                AppSettings.LastCharacterDBPath = dbFile;
+                SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath = dbFile;
+                CurrentCharacterDb = dbFile;
                 await SaveAppSettingsAsync().ConfigureAwait(true);
                 return true;
             }
@@ -153,7 +154,7 @@ namespace RoleDDNG.ViewModels
                 Directory.CreateDirectory(configDir);
             }
 
-            await SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>().SerializeAsync(_appSettingsFilePath, AppSettings).ConfigureAwait(false);
+            await SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>().SerializeAsync(_appSettingsFilePath, SimpleIoc.Default.GetInstance<AppSettings>()).ConfigureAwait(false);
             IsBusy = false;
         }
     }
