@@ -39,7 +39,7 @@ namespace RoleDDNG.Role.UserControls
                 await viewModel.LoadCharactersDbDataAsync().ConfigureAwait(true);
             }
 
-            var imageBrush = (ImageBrush)this.FindResource("WindowIcon");
+            var imageBrush = this.FindResource("WindowIcon");
             if (imageBrush is null)
             {
                 return;
@@ -49,11 +49,11 @@ namespace RoleDDNG.Role.UserControls
             {
                 parent = VisualTreeHelper.GetParent(parent);
             }
-            if (parent is MdiWindow window)
+            if (parent is MdiWindow window && imageBrush is ImageBrush brush)
             {
                 _window = window;
                 window.SetCurrentValue(MdiWindow.TitleProperty, GetValue(TitleProperty));
-                window.ChangeMenuButtonIcon(imageBrush);
+                window.ChangeMenuButtonIcon(brush);
             }
         }
 
