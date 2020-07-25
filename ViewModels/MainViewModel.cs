@@ -134,13 +134,16 @@ namespace RoleDDNG.ViewModels
                 dbFile = await fileDialog.OpenFileDialogAsync("Ouvrir une base de données de personnages...", "mdb").ConfigureAwait(true);
             }
             if (!string.IsNullOrWhiteSpace(dbFile) &&
-                File.Exists(dbFile) &&
-                await new Database(dbFile).CanConnectAsync().ConfigureAwait(true))
+                File.Exists(dbFile))
             {
-                SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath = dbFile;
-                CurrentCharacterDb = dbFile;
-                await SaveAppSettingsAsync().ConfigureAwait(true);
-                return true;
+                using var database = new Database(dbFile);
+                if (await database.CanConnectAsync().ConfigureAwait(true))
+                {
+                    SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath = dbFile;
+                    CurrentCharacterDb = dbFile;
+                    await SaveAppSettingsAsync().ConfigureAwait(true);
+                    return true;
+                }
             }
             return false;
         }
