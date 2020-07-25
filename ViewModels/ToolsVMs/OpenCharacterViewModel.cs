@@ -24,8 +24,8 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         public async Task LoadCharactersDbDataAsync()
         {
             IsBusy = true;
-            using var db = new Database(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath);
-            var charactersFromDb = await db.GetQueryDataAsync<Personnage>(DbCharactersQuery).ConfigureAwait(true);
+            var db = new Database(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath);
+            var charactersFromDb = await db.QuerySingleAsync<Personnage>(DbCharactersQuery).ConfigureAwait(true);
             Characters = new ObservableCollection<Personnage>(charactersFromDb);
             IsBusy = false;
         }

@@ -53,16 +53,16 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         public async Task LoadCharactersDbDataAsync()
         {
             IsBusy = true;
-            using var charactersDb = new Database(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath);
-            using var progDb = new Database(Consts.ProgramDatabaseFileName);
-            var charactersFromDb = await charactersDb.GetQueryDataAsync<Personnage>(DbCharactersQuery).ConfigureAwait(true);
+            var charactersDb = new Database(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath);
+            var progDb = new Database(Consts.ProgramDatabaseFileName);
+            var charactersFromDb = await charactersDb.QuerySingleAsync<Personnage>(DbCharactersQuery).ConfigureAwait(true);
             Characters = new ObservableCollection<Personnage>(charactersFromDb);
 
             foreach (var character in Characters)
             {
-                var races = await progDb.GetQueryDataAsync<Races>($"select AdjNiv from Race where race='{character.Race}'").ConfigureAwait(true);
-                var archetypes = await progDb.GetQueryDataAsync<Archetype>($"select AdjNiv from Archetype where archetype='{character.Archetype}'").ConfigureAwait(true);
-                var dons = await charactersDb.GetQueryDataAsync<PersonnageDons>($"select dons from PersonnageDons where nom='{character.Nom}'").ConfigureAwait(true);
+                var races = await progDb.QuerySingleAsync<Races>($"select AdjNiv from Race where race='{character.Race}'").ConfigureAwait(true);
+                var archetypes = await progDb.QuerySingleAsync<Archetype>($"select AdjNiv from Archetype where archetype='{character.Archetype}'").ConfigureAwait(true);
+                var dons = await charactersDb.QuerySingleAsync<PersonnageDons>($"select dons from PersonnageDons where nom='{character.Nom}'").ConfigureAwait(true);
                 foreach (var level in new short?[] { character.Niv1, character.Niv2, character.Niv3, character.Niv4, character.Niv5, character.Niv6, character.Niv7, character.Niv8 })
                 {
                     if (level.HasValue)

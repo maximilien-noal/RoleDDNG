@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
 using System.IO;
@@ -7,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace RoleDDNG.DatabaseLayer
 {
-    public sealed class Database : IDisposable, IAsyncDisposable
+    public sealed class Database
     {
         private const string ConnectionStringBeginning = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=";
 
         private readonly string _dbFilePath = "";
-
-        private OdbcConnection? _connection = null;
-
-        private bool _wasDisposedAlready;
 
         public Database(string dbFilePath)
         {
@@ -29,26 +24,11 @@ namespace RoleDDNG.DatabaseLayer
 
         public async Task<bool> CanConnectAsync()
         {
-            if (_connection is null)
-            {
-                _connection = await ConnectAsync().ConfigureAwait(false);
-            }
-            return _connection is null == false;
+            using var connection = await ConnectAsync().ConfigureAwait(false);
+            return connection is null == false;
         }
 
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-
-        public ValueTask DisposeAsync()
-        {
-            Dispose();
-            return default;
-        }
-
-        public async Task<IEnumerable<T>> GetQueryDataAsync<T>(string sqlQuery)
+        public async Task<IEnumerable<T>> QuerySingleAsync<T>(string sqlQuery)
         {
             using OdbcConnection connection = await ConnectAsync().ConfigureAwait(false);
             var result = await connection.QueryAsync<T>(sqlQuery).ConfigureAwait(false);
@@ -61,18 +41,6 @@ namespace RoleDDNG.DatabaseLayer
             var connection = new OdbcConnection($"{ConnectionStringBeginning}{_dbFilePath}");
             await connection.OpenAsync().ConfigureAwait(false);
             return connection;
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (!_wasDisposedAlready)
-            {
-                if (disposing)
-                {
-                    _connection?.Dispose();
-                }
-                _wasDisposedAlready = true;
-            }
         }
     }
 }
