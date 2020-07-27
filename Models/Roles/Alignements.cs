@@ -10,11 +10,13 @@ namespace RoleDDNG.Models.Roles
 
         private int _ordre = 0;
 
+        public Alignements()
+        {
+        }
+
         public string Description { get => _description; set { Set(nameof(Description), ref _description, value); } }
 
-        /// <summary>
-        /// Key
-        /// </summary>
+        /// <summary> Key </summary>
         public string Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
 
         public int Ordre { get => _ordre; set { Set(nameof(Ordre), ref _ordre, value); } }

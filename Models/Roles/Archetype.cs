@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using PetaPoco;
 
 using GalaSoft.MvvmLight;
 
@@ -97,6 +97,10 @@ namespace RoleDDNG.Models.Roles
         private string _vision_texte = "";
 
         private int _volonte = 0;
+
+        public Archetype()
+        {
+        }
 
         public short? AdjNiv { get => _adjNiv; set { Set(nameof(AdjNiv), ref _adjNiv, value); } }
 

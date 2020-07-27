@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using PetaPoco;
 
 using GalaSoft.MvvmLight;
 
@@ -13,6 +13,10 @@ namespace RoleDDNG.Models.Roles
         private int _modif = 0;
 
         private string _texte = "";
+
+        public ArchetypeCompetence()
+        {
+        }
 
         public string Archetype { get => _archetype; set { Set(nameof(Archetype), ref _archetype, value); } }
 

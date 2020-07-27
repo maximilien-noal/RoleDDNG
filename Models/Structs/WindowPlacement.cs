@@ -3,9 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace RoleDDNG.Models.Structs
 {
-    /// <summary>
-    /// Stores the position, size, and state of a window
-    /// </summary>
+    /// <summary> Stores the position, size, and state of a window </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct WindowPlacement : IEquatable<WindowPlacement>
@@ -31,7 +29,10 @@ namespace RoleDDNG.Models.Structs
                     other.NormalPosition.Top == NormalPosition.Top && other.NormalPosition.Bottom == NormalPosition.Bottom;
         }
 
+#pragma warning disable CS8765 // Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes).
+
         public override bool Equals(object obj)
+#pragma warning restore CS8765 // Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes).
         {
             if (!(obj is WindowPlacement))
             {

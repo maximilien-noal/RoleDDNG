@@ -5,6 +5,7 @@ using RoleDDNG.Models.Characters;
 using RoleDDNG.Models.Options;
 using RoleDDNG.ViewModels.Interfaces;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.ToolsVMs
@@ -24,9 +25,12 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         public async Task LoadCharactersDbDataAsync()
         {
             IsBusy = true;
-            var db = new Database(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath);
-            var charactersFromDb = await db.QuerySingleAsync<Personnage>(DbCharactersQuery).ConfigureAwait(true);
-            Characters = new ObservableCollection<Personnage>(charactersFromDb);
+            if (Characters.Any())
+            {
+                Characters.Clear();
+            }
+            using var charactersDb = new AccessDb(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath).GetDatabase();
+            await charactersDb.QueryAsync<Personnage>(p => Characters.Add(p), DbCharactersQuery).ConfigureAwait(true);
             IsBusy = false;
         }
     }

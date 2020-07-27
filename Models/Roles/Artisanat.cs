@@ -6,6 +6,10 @@ namespace RoleDDNG.Models.Roles
     {
         private string _nom = "";
 
+        public Artisanat()
+        {
+        }
+
         public string Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
     }
 }

@@ -9,8 +9,8 @@
 		<ApplicationIcon>Assets\appicon.ico</ApplicationIcon>
 		<LangVersion>8.0</LangVersion>
 		<Nullable>enable</Nullable>
-		<StartupObject></StartupObject>
-	</PropertyGroup>
+		<TargetPlatformIdentifier>win-x64</TargetPlatformIdentifier>
+		<PublishReadyToRun>True</PublishReadyToRun>	</PropertyGroup>
 
 	<ItemGroup>
 		<None Remove="Assets\appicon.png" />
@@ -100,6 +100,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.NETCore.Targets" Version="3.1.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.6.13">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

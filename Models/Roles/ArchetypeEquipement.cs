@@ -12,6 +12,10 @@ namespace RoleDDNG.Models.Roles
 
         private string _objet = "";
 
+        public ArchetypeEquipement()
+        {
+        }
+
         public string Archetype { get => _archetype; set { Set(nameof(Archetype), ref _archetype, value); } }
 
         public int Emplacement { get => _emplacement; set { Set(nameof(Emplacement), ref _emplacement, value); } }

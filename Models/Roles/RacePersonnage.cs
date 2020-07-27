@@ -1,16 +1,20 @@
 ﻿using GalaSoft.MvvmLight;
-using System.ComponentModel.DataAnnotations.Schema;
+using PetaPoco;
 
 namespace RoleDDNG.Models.Roles
 {
-    [Table("Race")]
-    public class Races : ObservableObject
+    [TableName(nameof(Race))]
+    public class RacePersonnage : ObservableObject
     {
         private short? _adjNiv = 0;
 
         private string _race = "";
 
         private string _source = "";
+
+        public RacePersonnage()
+        {
+        }
 
         public short? AdjNiv { get => _adjNiv; set { Set(nameof(AdjNiv), ref _adjNiv, value); } }
 

@@ -1,3 +1,9 @@
 [submodule "wpftoolkit"]
 	path = wpftoolkit
 	url = https://github.com/maximilien-noal/wpftoolkit
+[submodule "DatabaseLayer/PetaPoco"]
+	path = DatabaseLayer/PetaPoco
+	url = https://github.com/CollaboratingPlatypus/PetaPoco
+[submodule "PetaPoco"]
+	path = PetaPoco
+	url = https://github.com/CollaboratingPlatypus/PetaPoco

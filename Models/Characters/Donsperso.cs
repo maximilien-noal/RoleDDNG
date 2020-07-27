@@ -32,6 +32,10 @@ namespace RoleDDNG.Models.Characters
 
         private double? _version = 0d;
 
+        public Donsperso()
+        {
+        }
+
         public string Caracteristique { get => _caracteristique; set { Set(nameof(Caracteristique), ref _caracteristique, value); } }
 
         public bool Epique { get => _epique; set { Set(nameof(Epique), ref _epique, value); } }

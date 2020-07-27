@@ -1,11 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<RootNamespace>Hammer.MDI.Control</RootNamespace>
 		<UseWPF>True</UseWPF>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<TargetFrameworks>netcoreapp3.1</TargetFrameworks>
 		<LangVersion>8.0</LangVersion>
 		<Nullable>enable</Nullable>
+		<TargetPlatformIdentifier>win-x64</TargetPlatformIdentifier>
+		<PublishReadyToRun>True</PublishReadyToRun>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Themes\appicon.png" />

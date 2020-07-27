@@ -1,17 +1,18 @@
-﻿using System;
+﻿using RoleDDNG.Models.Characters;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 
 namespace RoleDDNG.Role.Converters
 {
-    [ValueConversion(typeof(int), typeof(int))]
-    public class IntToNextIntConverter : IValueConverter
+    [ValueConversion(typeof(Personnage), typeof(int))]
+    public class CharacterToRealLevelConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is int intVal)
+            if (value is Personnage character)
             {
-                return intVal + 1;
+                return character.NiveauGE;
             }
             return 0;
         }
@@ -20,9 +21,9 @@ namespace RoleDDNG.Role.Converters
         {
             if (value is int intVal)
             {
-                return intVal - 1;
+                return new Personnage() { NiveauGE = intVal };
             }
-            return 0;
+            return new Personnage();
         }
     }
 }

@@ -24,6 +24,10 @@ namespace RoleDDNG.Models.Characters
 
         private string _type = "";
 
+        public Equipement()
+        {
+        }
+
         public short? Charge { get => _charge; set { Set(nameof(Charge), ref _charge, value); } }
 
         public int Id { get => _id; set { Set(nameof(Id), ref _id, value); } }

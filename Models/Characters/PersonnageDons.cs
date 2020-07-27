@@ -18,6 +18,10 @@ namespace RoleDDNG.Models.Characters
 
         private string _nom = "";
 
+        public PersonnageDons()
+        {
+        }
+
         public string Classe { get => _classe; set { Set(nameof(Classe), ref _classe, value); } }
 
         public string Dons { get => _dons; set { Set(nameof(Dons), ref _dons, value); } }

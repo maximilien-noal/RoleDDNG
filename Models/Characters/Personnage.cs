@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
+using PetaPoco;
 
 using GalaSoft.MvvmLight;
 
@@ -178,6 +178,10 @@ namespace RoleDDNG.Models.Characters
         private long _xp = 0;
 
         private string _yeux = "";
+
+        public Personnage()
+        {
+        }
 
         public short? Age { get => _age; set { Set(nameof(Age), ref _age, value); } }
 

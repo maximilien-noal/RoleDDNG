@@ -16,6 +16,10 @@ namespace RoleDDNG.Models.Characters
 
         private string _valeur = "";
 
+        public ObjetsPropriete()
+        {
+        }
+
         public int Id { get => _id; set { Set(nameof(Id), ref _id, value); } }
 
         public string NomObjet { get => _nomObjet; set { Set(nameof(NomObjet), ref _nomObjet, value); } }

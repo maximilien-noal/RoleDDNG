@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using PetaPoco;
 
 using GalaSoft.MvvmLight;
 
@@ -35,6 +35,10 @@ namespace RoleDDNG.Models.Characters
         private short? _pv = 0;
 
         private short? _sag = 0;
+
+        public PersonnageProgression()
+        {
+        }
 
         public short? Cha { get => _cha; set { Set(nameof(Cha), ref _cha, value); } }
 

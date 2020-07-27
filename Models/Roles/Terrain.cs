@@ -2,19 +2,22 @@
 
 namespace RoleDDNG.Models.Roles
 {
-    public class Caracteristiques : ObservableObject
+    public class Terrain : ObservableObject
     {
         private string _description = "";
 
         private string _nom = "";
 
-        public Caracteristiques()
+        private string _type = "";
+
+        public Terrain()
         {
         }
 
         public string Description { get => _description; set { Set(nameof(Description), ref _description, value); } }
 
-        /// <summary> Key </summary>
         public string Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
+
+        public string Type { get => _type; set { Set(nameof(Type), ref _type, value); } }
     }
 }

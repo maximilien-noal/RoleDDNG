@@ -16,6 +16,10 @@
 
         private string _type = "";
 
+        public Capacites()
+        {
+        }
+
         public short? Modificateur1 { get => _modificateur1; set { Set(nameof(Modificateur1), ref _modificateur1, value); } }
 
         public short? Modificateur2 { get => _modificateur2; set { Set(nameof(Modificateur2), ref _modificateur2, value); } }

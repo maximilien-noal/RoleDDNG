@@ -39,7 +39,7 @@ namespace RoleDDNG.ViewModels
             ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
             ShowCharactersXpWindow = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<CharactersXpViewModel>().ConfigureAwait(true));
             ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
-            OpenCharactersDataBase = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<OpenCharacterViewModel>().ConfigureAwait(true));
+            OpenCharactersDataBase = new AsyncCommand(async () => await AskAndOpenCharacterDbFileAsync().ConfigureAwait(true));
             OpenCharacterSheet = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<OpenCharacterViewModel>().ConfigureAwait(true));
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
         }
@@ -72,12 +72,13 @@ namespace RoleDDNG.ViewModels
         public async Task<bool> LoadAppSettingsAsync()
         {
             IsBusy = true;
+            IsBusy = true;
             if (File.Exists(_appSettingsFilePath))
             {
                 var serializer = SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>();
                 var appSettings = await serializer.DeserializeAsync<AppSettings>(_appSettingsFilePath).ConfigureAwait(true);
                 SimpleIoc.Default.Register<AppSettings>(() => appSettings);
-                return await OpenCharactersDatabaseAsync().ConfigureAwait(false);
+                return await OpenCharactersDatabaseAsync().ConfigureAwait(true);
             }
             IsBusy = false;
             return false;
@@ -89,6 +90,13 @@ namespace RoleDDNG.ViewModels
             {
                 Items.Remove(Items.OfType<T>().First());
             }
+        }
+
+        private static async Task<string> AskForCharactersDbFileAsync()
+        {
+            var fileDialog = SimpleIoc.Default.GetInstance<IFileDialog>();
+            var dbFile = await fileDialog.OpenFileDialogAsync("Ouvrir une base de données de personnages...", "mdb").ConfigureAwait(true);
+            return dbFile;
         }
 
         private void AddMdiWindow<T>() where T : IDocumentViewModel, new()
@@ -105,6 +113,26 @@ namespace RoleDDNG.ViewModels
                 Items.Remove(existingViewModel);
                 Items.Add(existingViewModel);
             }
+        }
+
+        private async Task<bool> AskAndOpenCharacterDbFileAsync()
+        {
+            var dbFile = await AskForCharactersDbFileAsync().ConfigureAwait(true);
+            return await OpenCharacterDbAsync(dbFile).ConfigureAwait(true);
+        }
+
+        private async Task<bool> OpenCharacterDbAsync(string dbFile)
+        {
+            if (!string.IsNullOrWhiteSpace(dbFile) &&
+                            File.Exists(dbFile) &&
+                            await new AccessDb(dbFile).CanConnectAsync().ConfigureAwait(true))
+            {
+                SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath = dbFile;
+                CurrentCharacterDb = dbFile;
+                await SaveAppSettingsAsync().ConfigureAwait(true);
+                return true;
+            }
+            return false;
         }
 
         private async Task OpenCharacterDbDependantViewAsync<T>() where T : IDocumentViewModel, new()
@@ -130,19 +158,9 @@ namespace RoleDDNG.ViewModels
             var dbFile = SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath;
             if (string.IsNullOrWhiteSpace(dbFile))
             {
-                var fileDialog = SimpleIoc.Default.GetInstance<IFileDialog>();
-                dbFile = await fileDialog.OpenFileDialogAsync("Ouvrir une base de données de personnages...", "mdb").ConfigureAwait(true);
+                dbFile = await AskForCharactersDbFileAsync().ConfigureAwait(true);
             }
-            if (!string.IsNullOrWhiteSpace(dbFile) &&
-                File.Exists(dbFile) &&
-                await new Database(dbFile).CanConnectAsync().ConfigureAwait(true))
-            {
-                SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath = dbFile;
-                CurrentCharacterDb = dbFile;
-                await SaveAppSettingsAsync().ConfigureAwait(true);
-                return true;
-            }
-            return false;
+            return await OpenCharacterDbAsync(dbFile).ConfigureAwait(true);
         }
 
         private async Task SaveAppSettingsAsync()

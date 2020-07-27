@@ -42,6 +42,10 @@ namespace RoleDDNG.Models.Characters
 
         private short? _zoneCritique = 0;
 
+        public Objets()
+        {
+        }
+
         public short? BonusDexMax { get => _bonusDexMax; set { Set(nameof(BonusDexMax), ref _bonusDexMax, value); } }
 
         public short? Charge { get => _charge; set { Set(nameof(Charge), ref _charge, value); } }

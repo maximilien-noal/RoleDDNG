@@ -16,6 +16,10 @@ namespace RoleDDNG.Models.Roles
 
         private int _sortAutreEnPlus = 0;
 
+        public ClasseCorrespondanceMagie()
+        {
+        }
+
         public int BonusDeSort { get => _bonusDeSort; set { Set(nameof(BonusDeSort), ref _bonusDeSort, value); } }
 
         public string ClasseEsclave { get => _classeEsclave; set { Set(nameof(ClasseEsclave), ref _classeEsclave, value); } }

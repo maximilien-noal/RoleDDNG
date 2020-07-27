@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using PetaPoco;
 
 using GalaSoft.MvvmLight;
 
 namespace RoleDDNG.Models.Roles
 {
-    [Table(nameof(Classe))]
+    [TableName(nameof(Classe))]
     public class ClassePersonnage : ObservableObject
     {
         private bool _affichage = false;
@@ -49,6 +49,10 @@ namespace RoleDDNG.Models.Roles
 
         private string _type = "";
 
+        public ClassePersonnage()
+        {
+        }
+
         public bool Affichage { get => _affichage; set { Set(nameof(Affichage), ref _affichage, value); } }
 
         public string Alignements { get => _alignements; set { Set(nameof(Alignements), ref _alignements, value); } }
@@ -66,9 +70,7 @@ namespace RoleDDNG.Models.Roles
         [Column("CaracSort_Niv")]
         public string CaracSortNiv { get => _caracSortNiv; set { Set(nameof(CaracSortNiv), ref _caracSortNiv, value); } }
 
-        /// <summary>
-        /// Key
-        /// </summary>
+        /// <summary> Key </summary>
         public string Classe { get => _classe; set { Set(nameof(Classe), ref _classe, value); } }
 
         public int CompetenceNiveauSupp { get => _competenceNiveauSupp; set { Set(nameof(CompetenceNiveauSupp), ref _competenceNiveauSupp, value); } }

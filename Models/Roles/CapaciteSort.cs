@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using PetaPoco;
 
 using GalaSoft.MvvmLight;
 
@@ -39,6 +39,10 @@ namespace RoleDDNG.Models.Roles
         private string _type = "";
 
         private int _version = 0;
+
+        public CapaciteSort()
+        {
+        }
 
         public string Augmentation { get => _augmentation; set { Set(nameof(Augmentation), ref _augmentation, value); } }
 

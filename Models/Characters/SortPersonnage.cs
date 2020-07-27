@@ -16,6 +16,10 @@ namespace RoleDDNG.Models.Characters
 
         private string _nomSort = "";
 
+        public SortPersonnage()
+        {
+        }
+
         public string ClassePerso { get => _classePerso; set { Set(nameof(ClassePerso), ref _classePerso, value); } }
 
         public int Id { get => _id; set { Set(nameof(Id), ref _id, value); } }

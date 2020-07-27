@@ -2,15 +2,14 @@
 
 namespace RoleDDNG.Models.Roles
 {
-    public class Cheveux : ObservableObject
+    public class Taille : ObservableObject
     {
         private string _nom = "";
 
-        public Cheveux()
+        public Taille()
         {
         }
 
-        /// <summary> Key </summary>
         public string Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
     }
 }
