@@ -19,6 +19,8 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="PetaPoco.Compiled" Version="6.0.459" />
+		<PackageReference Include="System.Data.OleDb" Version="4.7.1" />
 		<PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="4.2.0" />
 		<PackageReference Include="MvvmLightStd10" Version="5.4.1.2" />
 		<PackageReference Include="RandN" Version="0.1.0" />

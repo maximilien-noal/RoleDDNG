@@ -72,7 +72,6 @@ namespace RoleDDNG.ViewModels
         public async Task<bool> LoadAppSettingsAsync()
         {
             IsBusy = true;
-            IsBusy = true;
             if (File.Exists(_appSettingsFilePath))
             {
                 var serializer = SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>();
@@ -124,8 +123,8 @@ namespace RoleDDNG.ViewModels
         private async Task<bool> OpenCharacterDbAsync(string dbFile)
         {
             if (!string.IsNullOrWhiteSpace(dbFile) &&
-                            File.Exists(dbFile) &&
-                            await new AccessDb(dbFile).CanConnectAsync().ConfigureAwait(true))
+                File.Exists(dbFile) &&
+                await new AccessDb(dbFile).CanConnectAsync().ConfigureAwait(true))
             {
                 SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath = dbFile;
                 CurrentCharacterDb = dbFile;

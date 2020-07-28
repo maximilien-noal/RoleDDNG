@@ -2,9 +2,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
-using RoleDDNG.DatabaseLayer;
 using RoleDDNG.Models.Characters;
-using RoleDDNG.Models.Options;
 using RoleDDNG.Models.Roles;
 using RoleDDNG.ViewModels.Constants;
 using RoleDDNG.ViewModels.Extensions;
@@ -12,7 +10,6 @@ using RoleDDNG.ViewModels.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -67,8 +64,8 @@ namespace RoleDDNG.ViewModels.ToolsVMs
         {
             IsBusy = true;
 
-            using var charactersDb = new AccessDb(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath).GetDatabase();
-            using var progDb = new AccessDb(Consts.ProgramDatabaseFileName).GetDatabase();
+            using var charactersDb = DB.CharacterDbInstanceCreator.Create();
+            using var progDb = DB.ProgDbInstanceCreator.Create();
 
             var charactersRaces = new List<RacePersonnage>();
 
@@ -130,16 +127,16 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             {
                 return;
             }
-            using var progDb = new AccessDb(Consts.ProgramDatabaseFileName).GetDatabase();
+            using var progDb = DB.ProgDbInstanceCreator.Create();
             var experience = new List<Experience>();
-            var fp = Math.Max(Math.Min(FP, 125), 0);
-            await progDb.QueryAsync<Experience>((x) => experience.Add(x), $"select fp{fp} from experience where niveau={SelectedCharacter.NiveauGE}").ConfigureAwait(true);
+            FP = Math.Max(Math.Min(FP, 125), 0);
+            await progDb.QueryAsync<Experience>((x) => experience.Add(x), $"select fp{FP} from experience where niveau=@0", SelectedCharacter.NiveauGE).ConfigureAwait(true);
             if (experience.Any() == false)
             {
                 return;
             }
             var percentage = Math.Max(Math.Min(XpPercentage, 100), 0);
-            var fpValue = (int?)experience.FirstOrDefault()?.GetType().GetProperty($"FP{fp}")?.GetValue(experience.FirstOrDefault(), null);
+            var fpValue = (double?)experience.FirstOrDefault()?.GetType().GetProperty($"FP{FP}")?.GetValue(experience.FirstOrDefault(), null);
             if (fpValue is null || fpValue.HasValue == false)
             {
                 return;
@@ -153,14 +150,13 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             {
                 return;
             }
-            using var charactersDb = new AccessDb(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath).GetDatabase();
+            using var charactersDb = DB.CharacterDbInstanceCreator.Create();
             SelectedCharacter.Xp += SelectedCharacter.GainXp;
             XpCalculated += XpCalculated + SelectedCharacter.GainXp * XpPercentage / 100 - XpPercentage;
             SelectedCharacter.GainXp = 0;
             SelectedCharacter.TotalXp = SelectedCharacter.Xp;
             CharactersLog.Add(SelectedCharacter);
             int affectedRows = await charactersDb.UpdateAsync(SelectedCharacter, SelectedCharacter.Nom, columns: new string[] { "TotalXP" }).ConfigureAwait(true);
-            Debug.WriteLine(affectedRows);
         }
     }
 }

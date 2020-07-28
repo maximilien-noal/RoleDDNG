@@ -1,8 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
-using RoleDDNG.DatabaseLayer;
 using RoleDDNG.Models.Characters;
-using RoleDDNG.Models.Options;
 using RoleDDNG.ViewModels.Interfaces;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -29,7 +26,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             {
                 Characters.Clear();
             }
-            using var charactersDb = new AccessDb(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath).GetDatabase();
+            using var charactersDb = DB.CharacterDbInstanceCreator.Create();
             await charactersDb.QueryAsync<Personnage>(p => Characters.Add(p), DbCharactersQuery).ConfigureAwait(true);
             IsBusy = false;
         }
