@@ -34,9 +34,9 @@ namespace RoleDDNG.Role.UserControls
                 return;
             }
 
-            if (DataContext is ICharactersDbDependentViewModel viewModel)
+            if (DataContext is IDbDependantViewModel viewModel)
             {
-                await viewModel.LoadCharactersDbDataAsync().ConfigureAwait(true);
+                await viewModel.LoadDbDataAsync().ConfigureAwait(true);
             }
 
             var imageBrush = this.FindResource("WindowIcon");

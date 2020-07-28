@@ -11,11 +11,11 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=DiceRoll}"
              mc:Ignorable="d"
              Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
-    <UserControl.Resources>
+    <usercontrols:WindowContent.Resources>
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/DiceRollIcon.png" />
         <converters:ListOfIntsToStringConverter x:Key="ListOfIntsToStringConverter" />
         <converters:IntToStringConverter x:Key="IntToStringConverter" />
-    </UserControl.Resources>
+    </usercontrols:WindowContent.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.RowDefinitions>

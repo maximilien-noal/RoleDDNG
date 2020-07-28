@@ -13,7 +13,7 @@
 */
 
 using GalaSoft.MvvmLight.Ioc;
-
+using RoleDDNG.ViewModels.DescriptionsVMs;
 using RoleDDNG.ViewModels.ToolsVMs;
 
 namespace RoleDDNG.ViewModels
@@ -43,6 +43,7 @@ namespace RoleDDNG.ViewModels
             SimpleIoc.Default.Register<TownGeneratorViewModel>();
             SimpleIoc.Default.Register<OpenCharacterViewModel>();
             SimpleIoc.Default.Register<CharactersXpViewModel>();
+            SimpleIoc.Default.Register<RacesDescriptionsViewModel>();
         }
 
         // Justification : class must implement a parameterless public constructor for the XAML
@@ -78,6 +79,14 @@ namespace RoleDDNG.ViewModels
             get
             {
                 return SimpleIoc.Default.GetInstance<OpenCharacterViewModel>();
+            }
+        }
+
+        public RacesDescriptionsViewModel RacesDescriptions
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<RacesDescriptionsViewModel>();
             }
         }
 

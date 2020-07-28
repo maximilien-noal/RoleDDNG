@@ -26,6 +26,10 @@
     </Window.Style>
     <Window.InputBindings>
         <KeyBinding
+            Key="R"
+            Command="{Binding OpenRacesDescriptions}"
+            Modifiers="Control" />
+        <KeyBinding
             Key="F"
             Command="{Binding OpenCharacterSheet}"
             Modifiers="Control" />
@@ -88,7 +92,7 @@
                 </MenuItem>
                 <MenuItem Header="_Règles" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <MenuItem Header="_Description des sorts" InputGestureText="Ctrl + S" />
-                    <MenuItem Header="_Description des races" InputGestureText="Ctrl + R" />
+                    <MenuItem Header="_Description des races" InputGestureText="Ctrl + R" Command="{Binding OpenRacesDescriptions}" />
                     <MenuItem Header="_Description des dons" InputGestureText="Ctrl + T" />
                 </MenuItem>
                 <MenuItem Header="_Aide">

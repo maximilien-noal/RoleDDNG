@@ -2,21 +2,26 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:uc="clr-namespace:RoleDDNG.Role.UserControls"
-    xmlns:vm="clr-namespace:RoleDDNG.ViewModels.ToolsVMs;assembly=ViewModels">
+    xmlns:descsVms="clr-namespace:RoleDDNG.ViewModels.DescriptionsVMs;assembly=ViewModels"
+    xmlns:toolsVms="clr-namespace:RoleDDNG.ViewModels.ToolsVMs;assembly=ViewModels">
 
-    <DataTemplate DataType="{x:Type vm:DiceRollViewModel}">
+    <DataTemplate DataType="{x:Type toolsVms:DiceRollViewModel}">
         <uc:DiceRollUserControl />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type vm:TownGeneratorViewModel}">
+    <DataTemplate DataType="{x:Type toolsVms:TownGeneratorViewModel}">
         <uc:TownGeneratorUserControl />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type vm:OpenCharacterViewModel}">
+    <DataTemplate DataType="{x:Type toolsVms:OpenCharacterViewModel}">
         <uc:OpenCharacterUserControl />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type vm:CharactersXpViewModel}">
+    <DataTemplate DataType="{x:Type toolsVms:CharactersXpViewModel}">
         <uc:CharactersXpUserControl />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type descsVms:RacesDescriptionsViewModel}">
+        <uc:RacesDescriptionsControl />
     </DataTemplate>
 </ResourceDictionary>

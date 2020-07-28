@@ -13,13 +13,13 @@
     DataContext="{Binding Source={StaticResource Locator}, Path=OpenCharacter}"
     mc:Ignorable="d"
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
-    <UserControl.Resources>
+    <usercontrols:WindowContent.Resources>
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/OpenCharacterIcon.png" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:FilePathToBitmapConverter x:Key="FilePathToBitmapConverter" />
         <converters:CharacterToClasseConverter x:Key="CharacterToClasseConverter" />
         <converters:CharacterToLevelConverter x:Key="CharacterToLevelConverter" />
-    </UserControl.Resources>
+    </usercontrols:WindowContent.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Grid>
             <ListBox ItemsSource="{Binding Characters}">

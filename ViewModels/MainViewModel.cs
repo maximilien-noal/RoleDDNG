@@ -9,6 +9,7 @@ using RoleDDNG.Interfaces.Backgrounds;
 using RoleDDNG.Interfaces.Dialogs;
 using RoleDDNG.Interfaces.Serialization;
 using RoleDDNG.Models.Options;
+using RoleDDNG.ViewModels.DescriptionsVMs;
 using RoleDDNG.ViewModels.Interfaces;
 using RoleDDNG.ViewModels.ToolsVMs;
 
@@ -41,6 +42,7 @@ namespace RoleDDNG.ViewModels
             ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
             OpenCharactersDataBase = new AsyncCommand(async () => await AskAndOpenCharacterDbFileAsync().ConfigureAwait(true));
             OpenCharacterSheet = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<OpenCharacterViewModel>().ConfigureAwait(true));
+            OpenRacesDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<RacesDescriptionsViewModel>().ConfigureAwait(true));
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
         }
 
@@ -55,6 +57,8 @@ namespace RoleDDNG.ViewModels
         public AsyncCommand OpenCharactersDataBase { get; private set; }
 
         public AsyncCommand OpenCharacterSheet { get; private set; }
+
+        public AsyncCommand OpenRacesDescriptions { get; private set; }
 
         public IDocumentViewModel? SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
 

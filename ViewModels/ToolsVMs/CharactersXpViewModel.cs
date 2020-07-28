@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.ToolsVMs
 {
-    public class CharactersXpViewModel : ViewModelBase, IDocumentViewModel, ICharactersDbDependentViewModel
+    public class CharactersXpViewModel : ViewModelBase, IDocumentViewModel, IDbDependantViewModel
     {
         private const string DbCharactersQuery = "select nom,image,race,niv_1,niv_2,niv_3,niv_4,niv_5,niv_6,niv_7,niv_8,malusxp,archetype,totalxp,classe_1,classe_2,classe_3,classe_4,classe_5,classe_6,classe_7,classe_8 from personnage where exclu=false order by nom";
 
@@ -60,7 +60,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         public double XpPercentage { get => _xpPercentage; set { Set(nameof(XpPercentage), ref _xpPercentage, value); } }
 
-        public async Task LoadCharactersDbDataAsync()
+        public async Task LoadDbDataAsync()
         {
             IsBusy = true;
 

@@ -49,6 +49,7 @@
 		<None Remove="UserControls\Assets\DiceRollButon.png" />
 		<None Remove="UserControls\Assets\DiceRollIcon.png" />
 		<None Remove="UserControls\Assets\OpenCharacterIcon.png" />
+		<None Remove="UserControls\Assets\RacesDescriptionsIcon.png" />
 		<None Remove="UserControls\Assets\TownGeneratorIcon.png" />
 		<None Remove="UserControls\diceButton.png" />
 	</ItemGroup>
@@ -90,12 +91,14 @@
 		<Resource Include="UserControls\Assets\DiceRollButon.png" />
 		<Resource Include="UserControls\Assets\DiceRollIcon.png" />
 		<Resource Include="UserControls\Assets\OpenCharacterIcon.png" />
+		<Resource Include="UserControls\Assets\RacesDescriptionsIcon.png" />
 		<Resource Include="UserControls\Assets\TownGeneratorIcon.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AdonisUI" Version="1.16.0" />
 		<PackageReference Include="AdonisUI.ClassicTheme" Version="1.16.0" />
+		<PackageReference Include="DotNetKit.Wpf.AutoCompleteComboBox" Version="1.3.3" />
 		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
