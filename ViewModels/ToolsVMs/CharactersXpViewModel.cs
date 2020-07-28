@@ -31,7 +31,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         private Personnage? _selectedCharacter;
 
-        private int _xpCalculated = 0;
+        private double _xpCalculated = 0;
 
         private double _xpPercentage = 0;
 
@@ -58,7 +58,7 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
         public Personnage? SelectedCharacter { get => _selectedCharacter; set { Set(nameof(SelectedCharacter), ref _selectedCharacter, value); } }
 
-        public int XpCalculated { get => _xpCalculated; set { Set(nameof(XpCalculated), ref _xpCalculated, value); } }
+        public double XpCalculated { get => _xpCalculated; set { Set(nameof(XpCalculated), ref _xpCalculated, value); } }
 
         public double XpPercentage { get => _xpPercentage; set { Set(nameof(XpPercentage), ref _xpPercentage, value); } }
 
@@ -153,7 +153,12 @@ namespace RoleDDNG.ViewModels.ToolsVMs
                 return;
             }
             using var charactersDb = new AccessDb(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath).GetDatabase();
-            await charactersDb.UpdateAsync(SelectedCharacter).ConfigureAwait(true);
+            SelectedCharacter.Xp += SelectedCharacter.GainXp;
+            XpCalculated += XpCalculated + SelectedCharacter.GainXp * XpPercentage / 100 - XpPercentage;
+            SelectedCharacter.GainXp = 0;
+            SelectedCharacter.TotalXp = SelectedCharacter.Xp;
+            CharactersLog.Add(SelectedCharacter);
+            await charactersDb.UpdateAsync(SelectedCharacter, SelectedCharacter.Nom).ConfigureAwait(true);
         }
     }
 }

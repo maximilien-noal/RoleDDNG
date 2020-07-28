@@ -13,7 +13,8 @@
              Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <converters:CharacterToRealLevelConverter x:Key="CharacterToRealLevelConverter" />
+        <converters:IntToNextIntConverter x:Key="IntToNextIntConverter" />
+        <converters:CharacterToIsNextLevelConverter x:Key="CharacterToIsNextLevelConverter" />
         <converters:CharacterToLevelConverter x:Key="CharacterToLevelConverter" />
         <converters:CharacterToClasseConverter x:Key="CharacterToClasseConverter" />
         <converters:FilePathToBitmapConverter x:Key="FilePathToBitmapConverter" />
@@ -29,66 +30,60 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ScrollViewer Grid.Column="0" Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <DataGrid AutoGenerateColumns="False"
+            <DockPanel Grid.Column="0" Grid.Row="0">
+                <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <DataGrid AutoGenerateColumns="False" IsReadOnly="False" CanUserAddRows="False"
                     ItemsSource="{Binding Characters}"
                     SelectedItem="{Binding SelectedCharacter, Mode=TwoWay}">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn IsReadOnly="True">
-                            <DataGridTemplateColumn.Header>
-                                Personnage
-                            </DataGridTemplateColumn.Header>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Vertical">
-                                        <Image MaxWidth="128" MaxHeight="128" Source="{Binding Image, Converter={StaticResource FilePathToBitmapConverter}}" />
-                                        <Label Content="{Binding Nom}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-                                        <TextBlock Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" HorizontalAlignment="Center" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Niveau" IsReadOnly="True" Binding="{Binding Converter={StaticResource CharacterToLevelConverter}}" />
-                        <DataGridTextColumn Header="NGE" IsReadOnly="True" Binding="{Binding NiveauGE}" />
-                        <DataGridTextColumn Header="Expérience" IsReadOnly="True" Binding="{Binding Xp}" />
-                        <DataGridTextColumn Header="Niveau suivant" IsReadOnly="True" Binding="{Binding NiveauSuivant}" />
-                        <DataGridTextColumn Header="Gain d'XP" Binding="{Binding GainXp}" />
-                        <DataGridTextColumn Header="Part" IsReadOnly="True" Binding="{Binding Part}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </ScrollViewer>
-            <ScrollViewer Grid.Column="0" Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible"
-                MinHeight="50">
-                <StackPanel Orientation="Horizontal" DataContext="{Binding CharactersLog}">
-                    <ItemsControl>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn IsReadOnly="True">
+                                <DataGridTemplateColumn.Header>
+                                    Personnage
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical">
+                                            <Image MaxWidth="64" MaxHeight="64" Source="{Binding Image, Converter={StaticResource FilePathToBitmapConverter}}" />
+                                            <Label Content="{Binding Nom}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                                            <TextBlock Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" HorizontalAlignment="Center" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Niveau" IsReadOnly="True" Binding="{Binding Converter={StaticResource CharacterToLevelConverter}}" />
+                            <DataGridTextColumn Header="NGE" IsReadOnly="True" Binding="{Binding NiveauGE}" />
+                            <DataGridTextColumn Header="Expérience" IsReadOnly="True" Binding="{Binding Xp}" />
+                            <DataGridTextColumn Header="Niveau suivant" IsReadOnly="True" Binding="{Binding NiveauSuivant}" />
+                            <DataGridTextColumn Header="Gain d'XP" IsReadOnly="False" Binding="{Binding GainXp}" />
+                            <DataGridTextColumn Header="Part" IsReadOnly="True" Binding="{Binding Part}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </ScrollViewer>
+                <ScrollViewer DockPanel.Dock="Bottom"
+                HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding CharactersLog}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type models:Personnage}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Orientation="Vertical" Grid.Column="0">
-                                        <Image MaxWidth="128" MaxHeight="128" Source="{Binding Image, Converter={StaticResource FilePathToBitmapConverter}}" />
-                                        <Label Content="{Binding Nom}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-                                        <TextBlock Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" HorizontalAlignment="Center" />
-                                    </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                    <Label Content="{Binding Nom}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
                                     <TextBlock>
                                         <Run Text="{Binding Xp}" />
-                                        <Run> XP. Gain d'un ou plusieurs niveaux. </Run>
-                                        <Run>Nouveau niveau actuel: </Run>
-                                        <Run Text="{Binding Niveau}" />
+                                        <Run> XP. </Run>
                                     </TextBlock>
-                                </Grid>
+                                    <TextBlock Visibility="{Binding Converter={StaticResource CharacterToIsNextLevelConverter}}">
+                                        <Run> Passage au niveau </Run>
+                                        <Run Text="{Binding Niveau, Converter={StaticResource IntToNextIntConverter}}" />
+                                    </TextBlock>
+                                </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </StackPanel>
-            </ScrollViewer>
-            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0">
-                <TextBlock>
+                </ScrollViewer>
+            </DockPanel>
+            <DockPanel Grid.Column="1" Grid.Row="0">
+                <StackPanel DockPanel.Dock="Top"  Orientation="Vertical">
+                    <TextBlock>
                     <Run>Sélectionner les personnages,</Run>
                     <LineBreak></LineBreak>
                     <Run>puis saisir le FP de la rencontre,</Run>
@@ -102,42 +97,43 @@
                     <LineBreak></LineBreak>
                     <Run>et 0.5 pour un PNJ.</Run>
                     <LineBreak></LineBreak>
-                </TextBlock>
-                <TextBlock Visibility="{Binding SelectedCharacter.IsBelowNormalXpLevel, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <Run Text="{Binding SelectedCharacter.Nom}" />
+                    </TextBlock>
+                    <TextBlock Visibility="{Binding SelectedCharacter.IsBelowNormalXpLevel, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                    <Run Text="{Binding SelectedCharacter.Nom}" FontWeight="Bold" />
+                    <Run>devrait être au niveau </Run>
+                    <Run Text="{Binding SelectedCharacter.NiveauGE}" />
                     <LineBreak></LineBreak>
-                    <Run Text="{Binding SelectedCharacter.Niveau, StringFormat='devrait être au niveau {0},', Converter={StaticResource CharacterToRealLevelConverter}}" />
-                    <LineBreak></LineBreak>
-                    <Run Text="les calculs d'XP avec le FP des monstres seront faux." />
-                </TextBlock>
-            </StackPanel>
-            <Grid Grid.Row="1" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Label Grid.ColumnSpan="2" Grid.Row="1">FP rencontre</Label>
-                <TextBox Grid.Column="0" Grid.Row="2" IsEnabled="{Binding SelectedCharacter, Converter={StaticResource NotNullToBooleanConverter}}"
+                    <Run Text="Les calculs d'XP avec le FP des monstres seront faux." />
+                    </TextBlock>
+                </StackPanel>
+                <Grid DockPanel.Dock="Bottom">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.ColumnSpan="2" Grid.Row="1">FP rencontre</Label>
+                    <TextBox Grid.Column="0" Grid.Row="2" IsEnabled="{Binding SelectedCharacter, Converter={StaticResource NotNullToBooleanConverter}}"
                          ToolTip="Saisir le FP de la rencontre."
                          Text="{Binding FP}" />
-                <Button Grid.Column="1" Grid.Row="2" Margin="2,0,0,0" Command="{Binding Add}" IsEnabled="{Binding SelectedCharacter, Converter={StaticResource NotNullToBooleanConverter}}">Ajouter</Button>
-                <Label Grid.Column="0" Grid.Row="3">% XP d'idée</Label>
-                <Label Grid.Column="1" Grid.Row="3">Total XP d'idée</Label>
-                <TextBox Grid.Column="0" Grid.Row="4" Text="{Binding XpPercentage}" ToolTip="Saisir un pourcentage pour les XP d'idée." IsEnabled="{Binding SelectedCharacter, Converter={StaticResource NotNullToBooleanConverter}}" />
-                <TextBlock Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Margin="2,0,0,0" Text="{Binding XpCalculated, FallbackValue=0}" />
-                <Button Grid.Column="0" Grid.Row="5" Margin="0,2,2,0" IsEnabled="{Binding SelectedCharacter, Converter={StaticResource NotNullToBooleanConverter}}" Command="{Binding Save}">Enregistrer</Button>
-                <Button Grid.Column="1" Grid.Row="5" Margin="0,2,2,0" IsDefault="True" IsCancel="True" Command="{Binding Cancel}">Annuler</Button>
-            </Grid>
+                    <Button Grid.Column="1" Grid.Row="2" Margin="2,0,0,0" Command="{Binding Add}" IsEnabled="{Binding SelectedCharacter, Converter={StaticResource NotNullToBooleanConverter}}">Ajouter</Button>
+                    <Label Grid.Column="0" Grid.Row="3">% XP d'idée</Label>
+                    <Label Grid.Column="1" Grid.Row="3">Total XP d'idée</Label>
+                    <TextBox Grid.Column="0" Grid.Row="4" Text="{Binding XpPercentage}" ToolTip="Saisir un pourcentage pour les XP d'idée." IsEnabled="{Binding SelectedCharacter, Converter={StaticResource NotNullToBooleanConverter}}" />
+                    <TextBlock Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Margin="2,0,0,0" Text="{Binding XpCalculated, FallbackValue=0}" />
+                    <Button Grid.Column="0" Grid.Row="5" Margin="0,2,2,0" IsEnabled="{Binding SelectedCharacter, Converter={StaticResource NotNullToBooleanConverter}}" Command="{Binding Save}">Enregistrer</Button>
+                    <Button Grid.Column="1" Grid.Row="5" Margin="0,2,2,0" IsDefault="True" IsCancel="True" Command="{Binding Cancel}">Annuler</Button>
+                </Grid>
+            </DockPanel>
             <Grid
-                Grid.RowSpan="2"
+                Grid.RowSpan="1"
                 Grid.ColumnSpan="2"
                 Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
                 Opacity="0.5"
