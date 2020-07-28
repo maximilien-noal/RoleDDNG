@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
+﻿using GalaSoft.MvvmLight;
 using PetaPoco;
-
-using GalaSoft.MvvmLight;
+using System.Collections.ObjectModel;
 
 namespace RoleDDNG.Models.Characters
 {
+    [TableName(nameof(Personnage))]
+    [PrimaryKey("Nom")]
     public class Personnage : ObservableObject
     {
         private short? _age = 0;
@@ -46,8 +45,6 @@ namespace RoleDDNG.Models.Characters
         private string _classe7 = "";
 
         private string _classe8 = "";
-
-        private string _date = DateTime.MinValue.ToString(CultureInfo.GetCultureInfo("fr-FR"));
 
         private string _dieu = "";
 
@@ -141,7 +138,7 @@ namespace RoleDDNG.Models.Characters
 
         private int _part = 1;
 
-        private double? _poids = 0;
+        private double _poids = 0;
 
         private short? _précision = 0;
 
@@ -167,7 +164,7 @@ namespace RoleDDNG.Models.Characters
 
         private string _titre = "";
 
-        private double? _totalPo = 0d;
+        private double _totalPo = 0d;
 
         private long? _totalXp = 0;
 
@@ -183,12 +180,16 @@ namespace RoleDDNG.Models.Characters
         {
         }
 
+        [Column]
         public short? Age { get => _age; set { Set(nameof(Age), ref _age, value); } }
 
+        [Column]
         public string Alignement { get => _alignement; set { Set(nameof(Alignement), ref _alignement, value); } }
 
+        [Column]
         public string Alphabet { get => _alphabet; set { Set(nameof(Alphabet), ref _alphabet, value); } }
 
+        [Column]
         public string Archetype { get => _archetype; set { Set(nameof(Archetype), ref _archetype, value); } }
 
         [Column("Artisanat_1")]
@@ -200,12 +201,16 @@ namespace RoleDDNG.Models.Characters
         [Column("Artisanat_3")]
         public string Artisanat3 { get => _artisanat3; set { Set(nameof(Artisanat3), ref _artisanat3, value); } }
 
+        [Column]
         public string BackGround { get => _backGround; set { Set(nameof(BackGround), ref _backGround, value); } }
 
+        [Column]
         public short? Beaute { get => _beaute; set { Set(nameof(Beaute), ref _beaute, value); } }
 
+        [Column]
         public short? Charme { get => _charme; set { Set(nameof(Charme), ref _charme, value); } }
 
+        [Column]
         public string Cheveux { get => _cheveux; set { Set(nameof(Cheveux), ref _cheveux, value); } }
 
         [Column("Classe_1")]
@@ -232,9 +237,8 @@ namespace RoleDDNG.Models.Characters
         [Column("Classe_8")]
         public string Classe8 { get => _classe8; set { Set(nameof(Classe8), ref _classe8, value); } }
 
-        public string Date { get => _date; set { Set(nameof(Date), ref _date, value); } }
-
-        public virtual ObservableCollection<DiceRollEntry> DiceRollEntries { get; private set; } = new ObservableCollection<DiceRollEntry>();
+        [Ignore]
+        public ObservableCollection<DiceRollEntry> DiceRollEntries { get; private set; } = new ObservableCollection<DiceRollEntry>();
 
         [Column("dieu")]
         public string Dieu { get => _dieu; set { Set(nameof(Dieu), ref _dieu, value); } }
@@ -265,12 +269,16 @@ namespace RoleDDNG.Models.Characters
         [Column("Ecole_interdite_4")]
         public string EcoleInterdite4 { get => _ecoleInterdite4; set { Set(nameof(EcoleInterdite4), ref _ecoleInterdite4, value); } }
 
+        [Column]
         public string EcoleSpecialisation { get => _ecoleSpecialisation; set { Set(nameof(EcoleSpecialisation), ref _ecoleSpecialisation, value); } }
 
+        [Column]
         public string ElementShugenja { get => _elementShugenja; set { Set(nameof(ElementShugenja), ref _elementShugenja, value); } }
 
+        [Column]
         public string ElementWujen { get => _elementWujen; set { Set(nameof(ElementWujen), ref _elementWujen, value); } }
 
+        [Column]
         public short? Endurance { get => _endurance; set { Set(nameof(Endurance), ref _endurance, value); } }
 
         [Column("Energie_Elu_1")]
@@ -288,31 +296,43 @@ namespace RoleDDNG.Models.Characters
         [Column("Energie_Sorcier_2")]
         public string EnergieSorcier2 { get => _energieSorcier2; set { Set(nameof(EnergieSorcier2), ref _energieSorcier2, value); } }
 
+        [Column]
         public string EnnemisJures { get => _ennemisJures; set { Set(nameof(EnnemisJures), ref _ennemisJures, value); } }
 
+        [Column]
         public short? Équilibre { get => _équilibre; set { Set(nameof(Équilibre), ref _équilibre, value); } }
 
-        public virtual ObservableCollection<Equipement> Equipement { get; private set; } = new ObservableCollection<Equipement>();
+        [Ignore]
+        public ObservableCollection<Equipement> Equipement { get; private set; } = new ObservableCollection<Equipement>();
 
+        [Column]
         public short? Érudition { get => _érudition; set { Set(nameof(Érudition), ref _érudition, value); } }
 
         [Column("exclu")]
         public bool Exclu { get => _exclu; set { Set(nameof(Exclu), ref _exclu, value); } }
 
+        [Ignore]
         public long GainXp { get => _gainXp; set { Set(nameof(GainXp), ref _gainXp, value); } }
 
+        [Column]
         public string Histoire { get => _histoire; set { Set(nameof(Histoire), ref _histoire, value); } }
 
+        [Column]
         public string Image { get => _image; set { Set(nameof(Image), ref _image, value); } }
 
+        [Column]
         public short? Intellect { get => _intellect; set { Set(nameof(Intellect), ref _intellect, value); } }
 
+        [Column]
         public short? Intuition { get => _intuition; set { Set(nameof(Intuition), ref _intuition, value); } }
 
+        [Column]
         public bool IsBelowNormalXpLevel { get => _isBelowNormalXpLevel; set { Set(nameof(IsBelowNormalXpLevel), ref _isBelowNormalXpLevel, value); } }
 
+        [Column]
         public string LangueConnue { get => _langueConnue; set { Set(nameof(LangueConnue), ref _langueConnue, value); } }
 
+        [Column]
         public short? Magnétisme { get => _magnétisme; set { Set(nameof(Magnétisme), ref _magnétisme, value); } }
 
         [Column("MalusXP")]
@@ -342,22 +362,31 @@ namespace RoleDDNG.Models.Characters
         [Column("Niv_8")]
         public short? Niv8 { get => _niv8; set { Set(nameof(Niv8), ref _niv8, value); } }
 
+        [Ignore]
         public int Niveau { get => _niveau; set { Set(nameof(Niveau), ref _niveau, value); } }
 
+        [Ignore]
         public long NiveauGE { get => _niveauGE; set { Set(nameof(NiveauGE), ref _niveauGE, value); } }
 
+        [Ignore]
         public long NiveauSuivant { get => _nivSuivant; set { Set(nameof(NiveauSuivant), ref _nivSuivant, value); } }
 
+        [Column]
         public string Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
 
+        [Column]
         public string OrdreShugenja { get => _ordreShugenja; set { Set(nameof(OrdreShugenja), ref _ordreShugenja, value); } }
 
+        [Ignore]
         public int Part { get => _part; set { Set(nameof(Part), ref _part, value); } }
 
-        public virtual ObservableCollection<PersonnageProgression> PersonnageProgression { get; private set; } = new ObservableCollection<PersonnageProgression>();
+        [Ignore]
+        public ObservableCollection<PersonnageProgression> PersonnageProgression { get; private set; } = new ObservableCollection<PersonnageProgression>();
 
-        public double? Poids { get => _poids; set { Set(nameof(Poids), ref _poids, value); } }
+        [Column]
+        public double Poids { get => _poids; set { Set(nameof(Poids), ref _poids, value); } }
 
+        [Column]
         public short? Précision { get => _précision; set { Set(nameof(Précision), ref _précision, value); } }
 
         [Column("Profession_1")]
@@ -375,32 +404,43 @@ namespace RoleDDNG.Models.Characters
         [Column("profil")]
         public string Profil { get => _profil; set { Set(nameof(Profil), ref _profil, value); } }
 
+        [Column]
         public short? Puissance { get => _puissance; set { Set(nameof(Puissance), ref _puissance, value); } }
 
+        [Column]
         public string Race { get => _race; set { Set(nameof(Race), ref _race, value); } }
 
+        [Column]
         public short? Résistance { get => _résistance; set { Set(nameof(Résistance), ref _résistance, value); } }
 
+        [Column]
         public string Sexe { get => _sexe; set { Set(nameof(Sexe), ref _sexe, value); } }
 
-        public virtual ObservableCollection<SortPersonnage> SortPersonnage { get; private set; } = new ObservableCollection<SortPersonnage>();
+        [Ignore]
+        public ObservableCollection<SortPersonnage> SortPersonnage { get; private set; } = new ObservableCollection<SortPersonnage>();
 
+        [Column]
         public short? Taille { get => _taille; set { Set(nameof(Taille), ref _taille, value); } }
 
         [Column("titre")]
         public string Titre { get => _titre; set { Set(nameof(Titre), ref _titre, value); } }
 
-        public double? TotalPo { get => _totalPo; set { Set(nameof(TotalPo), ref _totalPo, value); } }
+        [Column]
+        public double TotalPo { get => _totalPo; set { Set(nameof(TotalPo), ref _totalPo, value); } }
 
         [Column("TotalXP")]
         public long? TotalXp { get => _totalXp; set { Set(nameof(TotalXp), ref _totalXp, value); } }
 
+        [Column]
         public short? Vitalité { get => _vitalité; set { Set(nameof(Vitalité), ref _vitalité, value); } }
 
+        [Column]
         public short? Volonté { get => _volonté; set { Set(nameof(Volonté), ref _volonté, value); } }
 
+        [Ignore]
         public long Xp { get => _xp; set { Set(nameof(Xp), ref _xp, value); } }
 
+        [Column]
         public string Yeux { get => _yeux; set { Set(nameof(Yeux), ref _yeux, value); } }
     }
 }

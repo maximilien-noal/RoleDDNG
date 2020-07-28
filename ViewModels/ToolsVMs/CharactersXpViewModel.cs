@@ -12,6 +12,7 @@ using RoleDDNG.ViewModels.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -158,7 +159,8 @@ namespace RoleDDNG.ViewModels.ToolsVMs
             SelectedCharacter.GainXp = 0;
             SelectedCharacter.TotalXp = SelectedCharacter.Xp;
             CharactersLog.Add(SelectedCharacter);
-            await charactersDb.UpdateAsync(SelectedCharacter, SelectedCharacter.Nom).ConfigureAwait(true);
+            int affectedRows = await charactersDb.UpdateAsync(SelectedCharacter, SelectedCharacter.Nom, columns: new string[] { "TotalXP" }).ConfigureAwait(true);
+            Debug.WriteLine(affectedRows);
         }
     }
 }
