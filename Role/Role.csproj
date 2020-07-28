@@ -126,7 +126,7 @@
 
 	<ItemGroup>
 		<None Update="roles.mdb">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 </Project>

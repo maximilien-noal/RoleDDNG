@@ -4,6 +4,8 @@ using GalaSoft.MvvmLight;
 
 namespace RoleDDNG.Models.Roles
 {
+    [TableName(nameof(Archetype))]
+    [PrimaryKey("archetype")]
     public class Archetype : ObservableObject
     {
         private short? _adjNiv = 0;
@@ -102,14 +104,19 @@ namespace RoleDDNG.Models.Roles
         {
         }
 
+        [Column(nameof(AdjNiv))]
         public short? AdjNiv { get => _adjNiv; set { Set(nameof(AdjNiv), ref _adjNiv, value); } }
 
+        [Column]
         public int Ca { get => _ca; set { Set(nameof(Ca), ref _ca, value); } }
 
+        [Column]
         public int Cha { get => _cha; set { Set(nameof(Cha), ref _cha, value); } }
 
+        [Column]
         public int Competence { get => _competence; set { Set(nameof(Competence), ref _competence, value); } }
 
+        [Column]
         public int Con { get => _con; set { Set(nameof(Con), ref _con, value); } }
 
         [Column("Deplacement_Eau")]
@@ -122,8 +129,10 @@ namespace RoleDDNG.Models.Roles
 
         public string Description { get => _description; set { Set(nameof(Description), ref _description, value); } }
 
+        [Column]
         public int Dex { get => _dex; set { Set(nameof(Dex), ref _dex, value); } }
 
+        [Column]
         public int Don { get => _don; set { Set(nameof(Don), ref _don, value); } }
 
         [Column("Don_1")]
@@ -169,14 +178,17 @@ namespace RoleDDNG.Models.Roles
         [Column("Int")]
         public int Intelligence { get => _int; set { Set(nameof(Intelligence), ref _int, value); } }
 
+        [Column]
         public string Langue { get => _langue; set { Set(nameof(Langue), ref _langue, value); } }
 
+        [Column]
         public string Manoeuvrabilite { get => _manoeuvrabilite; set { Set(nameof(Manoeuvrabilite), ref _manoeuvrabilite, value); } }
 
         /// <summary> Key </summary>
-        [Column("Archetype")]
+        [Column("archetype")]
         public string NomArchetype { get => _archetype; set { Set(nameof(NomArchetype), ref _archetype, value); } }
 
+        [Column]
         public int Number { get => _number; set { Set(nameof(Number), ref _number, value); } }
 
         [Column("Progression_rm")]
@@ -208,10 +220,13 @@ namespace RoleDDNG.Models.Roles
         [Column("Resistance_son")]
         public int ResistanceSon { get => _resistanceSon; set { Set(nameof(ResistanceSon), ref _resistanceSon, value); } }
 
+        [Column]
         public int Sag { get => _sag; set { Set(nameof(Sag), ref _sag, value); } }
 
+        [Column]
         public string Taille { get => _taille; set { Set(nameof(Taille), ref _taille, value); } }
 
+        [Column]
         public int Vigueur { get => _vigueur; set { Set(nameof(Vigueur), ref _vigueur, value); } }
 
         public int Vision { get => _vision; set { Set(nameof(Vision), ref _vision, value); } }
@@ -219,6 +234,7 @@ namespace RoleDDNG.Models.Roles
         [Column("Vision_Texte")]
         public string VisionTexte { get => _vision_texte; set { Set(nameof(VisionTexte), ref _vision_texte, value); } }
 
+        [Column]
         public int Volonte { get => _volonte; set { Set(nameof(Volonte), ref _volonte, value); } }
     }
 }

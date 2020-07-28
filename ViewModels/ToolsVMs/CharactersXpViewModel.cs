@@ -72,9 +72,9 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
             var charactersRaces = new List<RacePersonnage>();
 
-            await progDb.QueryAsync<RacePersonnage>(x => charactersRaces.Add(x), "select race,AdjNiv from Race").ConfigureAwait(true);
+            await progDb.QueryAsync<RacePersonnage>(x => charactersRaces.Add(x), "select AdjNiv,race from Race").ConfigureAwait(true);
             var charactersArchetypes = new List<Archetype>();
-            await progDb.QueryAsync<Archetype>(x => charactersArchetypes.Add(x), "select archetype,AdjNiv from Archetype").ConfigureAwait(true);
+            await progDb.QueryAsync<Archetype>(x => charactersArchetypes.Add(x), "select AdjNiv,archetype from Archetype").ConfigureAwait(true);
             var charactersGifts = new List<PersonnageDons>();
             await charactersDb.QueryAsync<PersonnageDons>(x => charactersGifts.Add(x), "select nom,dons from PersonnageDons").ConfigureAwait(true);
             if (Characters.Any())
@@ -85,9 +85,9 @@ namespace RoleDDNG.ViewModels.ToolsVMs
 
             foreach (var character in Characters)
             {
-                var races = charactersRaces.Where(x => x.Race == character.Race);
-                var archetypes = charactersArchetypes.Where(x => x.NomArchetype == character.Archetype);
-                var dons = charactersGifts.Where(x => x.Nom == character.Nom);
+                var race = charactersRaces.Where(x => x.Race == character.Race).FirstOrDefault();
+                var archetype = charactersArchetypes.Where(x => x.NomArchetype == character.Archetype).FirstOrDefault();
+                var don = charactersGifts.Where(x => x.Nom == character.Nom).FirstOrDefault();
                 foreach (var level in new short?[] { character.Niv1, character.Niv2, character.Niv3, character.Niv4, character.Niv5, character.Niv6, character.Niv7, character.Niv8 })
                 {
                     if (level.HasValue)
@@ -95,14 +95,14 @@ namespace RoleDDNG.ViewModels.ToolsVMs
                         character.Niveau += level.Value;
                     }
                 }
-                foreach (var level in new short?[] { character.Niv1, character.Niv2, character.Niv3, character.Niv4, character.Niv5, character.Niv6, character.Niv7, character.Niv8, races.Select(x => x.AdjNiv).FirstOrDefault(), archetypes.Select(x => x.AdjNiv).FirstOrDefault() })
+                foreach (var level in new short?[] { character.Niv1, character.Niv2, character.Niv3, character.Niv4, character.Niv5, character.Niv6, character.Niv7, character.Niv8, (short?)race?.AdjNiv, archetype?.AdjNiv })
                 {
                     if (level.HasValue)
                     {
                         character.NiveauGE += level.Value;
                     }
                 }
-                if (dons.Select(x => x.Dons).Any(x => x == Consts.LevelOneAdjustmentReduction))
+                if (don?.Dons == Consts.LevelOneAdjustmentReduction)
                 {
                     character.NiveauGE -= 1;
                 }

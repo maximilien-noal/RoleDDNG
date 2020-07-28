@@ -51,7 +51,7 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Niveau" IsReadOnly="True" Binding="{Binding Converter={StaticResource CharacterToLevelConverter}}" />
+                            <DataGridTextColumn Header="Niveau" IsReadOnly="True" Binding="{Binding Niveau}" />
                             <DataGridTextColumn Header="NGE" IsReadOnly="True" Binding="{Binding NiveauGE}" />
                             <DataGridTextColumn Header="Expérience" IsReadOnly="True" Binding="{Binding Xp}" />
                             <DataGridTextColumn Header="Niveau suivant" IsReadOnly="True" Binding="{Binding NiveauSuivant}" />
@@ -68,11 +68,14 @@
                                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                                     <Label Content="{Binding Nom}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
                                     <TextBlock>
+                                        <Run> </Run>
                                         <Run Text="{Binding Xp}" />
+                                        <Run> </Run>
                                         <Run> XP. </Run>
                                     </TextBlock>
                                     <TextBlock Visibility="{Binding Converter={StaticResource CharacterToIsNextLevelConverter}}">
                                         <Run> Passage au niveau </Run>
+                                        <Run> </Run>
                                         <Run Text="{Binding Niveau, Converter={StaticResource IntToNextIntConverter}}" />
                                     </TextBlock>
                                 </StackPanel>

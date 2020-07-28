@@ -4,9 +4,10 @@ using PetaPoco;
 namespace RoleDDNG.Models.Roles
 {
     [TableName(nameof(Race))]
+    [PrimaryKey("race")]
     public class RacePersonnage : ObservableObject
     {
-        private short? _adjNiv = 0;
+        private int? _adjNiv = 0;
 
         private string _race = "";
 
@@ -16,11 +17,13 @@ namespace RoleDDNG.Models.Roles
         {
         }
 
-        public short? AdjNiv { get => _adjNiv; set { Set(nameof(AdjNiv), ref _adjNiv, value); } }
+        [Column(nameof(AdjNiv))]
+        public int? AdjNiv { get => _adjNiv; set { Set(nameof(AdjNiv), ref _adjNiv, value); } }
 
-        /// <summary> Key </summary>
+        [Column("race")]
         public string Race { get => _race; set { Set(nameof(Race), ref _race, value); } }
 
+        [Column]
         public string Source { get => _source; set { Set(nameof(Source), ref _source, value); } }
     }
 }
