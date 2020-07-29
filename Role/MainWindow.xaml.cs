@@ -40,12 +40,6 @@ namespace RoleDDNG.Role
 
         public RelayCommand HelpCommand { get; private set; }
 
-        public void CloseForced()
-        {
-            _forceClose = true;
-            Close();
-        }
-
         private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
         {
             new AboutBox(this).ShowDialog();
@@ -74,7 +68,11 @@ namespace RoleDDNG.Role
             SimpleIoc.Default.GetInstance<IWindowPlacer>().GetWindowPlacement(new WindowInteropHelper(this).Handle, out WindowPlacement windowPlacement);
             SimpleIoc.Default.GetInstance<AppSettings>().MainWindowPlacement = windowPlacement;
             await SimpleIoc.Default.GetInstance<MainViewModel>().ExitAppAsync().ConfigureAwait(true);
-            CloseForced();
+            if (!_forceClose)
+            {
+                _forceClose = true;
+                Close();
+            }
         }
 
         private async void Window_SourceInitialized(object sender, System.EventArgs e)
