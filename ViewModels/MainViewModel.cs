@@ -108,6 +108,13 @@ namespace RoleDDNG.ViewModels
             {
                 var viewModel = new T();
                 Items.Add(viewModel);
+                return;
+            }
+            var existingViewModel = Items.OfType<T>().FirstOrDefault();
+            if (existingViewModel != null)
+            {
+                Items.Remove(existingViewModel);
+                Items.Add(existingViewModel);
             }
         }
 
