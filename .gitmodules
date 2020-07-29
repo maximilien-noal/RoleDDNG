@@ -4,6 +4,3 @@
 [submodule "DatabaseLayer/PetaPoco"]
 	path = DatabaseLayer/PetaPoco
 	url = https://github.com/CollaboratingPlatypus/PetaPoco
-[submodule "PetaPoco"]
-	path = PetaPoco
-	url = https://github.com/CollaboratingPlatypus/PetaPoco
