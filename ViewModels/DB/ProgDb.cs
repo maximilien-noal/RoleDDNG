@@ -3,7 +3,7 @@ using RoleDDNG.DatabaseLayer;
 
 namespace RoleDDNG.ViewModels.DB
 {
-    internal static class ProgDbInstanceCreator
+    internal static class ProgDb
     {
         public static Database Create()
         {

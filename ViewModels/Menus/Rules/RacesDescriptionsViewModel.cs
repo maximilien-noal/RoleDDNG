@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using RoleDDNG.Models.Roles;
 using RoleDDNG.ViewModels.Interfaces;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,10 +24,8 @@ namespace RoleDDNG.ViewModels.Menus.Rules
         public async Task LoadDbDataAsync()
         {
             IsBusy = true;
-            using var progDb = DB.ProgDbInstanceCreator.Create();
-            var races = new List<RacePersonnage>();
-            await progDb.QueryAsync<RacePersonnage>(x => races.Add(x), "select race,Description from Race order by race").ConfigureAwait(true);
-            Races = new ObservableCollection<RacePersonnage>(races.Where(x => string.IsNullOrWhiteSpace(x.Description) == false));
+            using var progDb = DB.ProgDb.Create();
+            Races = new ObservableCollection<RacePersonnage>(await Task.Run(() => progDb.Query<RacePersonnage>("select race,Description from Race order by race").Where(x => string.IsNullOrWhiteSpace(x.Description) == false)).ConfigureAwait(false));
             if (Races.Any())
             {
                 SelectedRace = Races.FirstOrDefault();

@@ -2,7 +2,6 @@
 using RoleDDNG.Models.Characters;
 using RoleDDNG.ViewModels.Interfaces;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.Menus.Tools
@@ -22,12 +21,8 @@ namespace RoleDDNG.ViewModels.Menus.Tools
         public async Task LoadDbDataAsync()
         {
             IsBusy = true;
-            if (Characters.Any())
-            {
-                Characters.Clear();
-            }
-            using var charactersDb = DB.CharacterDbInstanceCreator.Create();
-            await charactersDb.QueryAsync<Personnage>(p => Characters.Add(p), DbCharactersQuery).ConfigureAwait(true);
+            using var charactersDb = DB.CharactersDb.Create();
+            Characters = new ObservableCollection<Personnage>(await Task.Run(() => charactersDb.Query<Personnage>(DbCharactersQuery)).ConfigureAwait(false));
             IsBusy = false;
         }
     }

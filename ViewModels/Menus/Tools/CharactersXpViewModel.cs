@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.Menus.Tools
@@ -64,21 +65,19 @@ namespace RoleDDNG.ViewModels.Menus.Tools
         {
             IsBusy = true;
 
-            using var charactersDb = DB.CharacterDbInstanceCreator.Create();
-            using var progDb = DB.ProgDbInstanceCreator.Create();
-
             var charactersRaces = new List<RacePersonnage>();
-
-            await progDb.QueryAsync<RacePersonnage>(x => charactersRaces.Add(x), "select AdjNiv,race from Race").ConfigureAwait(true);
             var charactersArchetypes = new List<Archetype>();
-            await progDb.QueryAsync<Archetype>(x => charactersArchetypes.Add(x), "select AdjNiv,archetype from Archetype").ConfigureAwait(true);
             var charactersGifts = new List<PersonnageDons>();
-            await charactersDb.QueryAsync<PersonnageDons>(x => charactersGifts.Add(x), "select nom,dons from PersonnageDons").ConfigureAwait(true);
-            if (Characters.Any())
-            {
-                Characters.Clear();
-            }
-            await charactersDb.QueryAsync<Personnage>(p => Characters.Add(p), DbCharactersQuery).ConfigureAwait(true);
+            var characters = new List<Personnage>();
+
+            var task1 = Task.Run(() => charactersRaces.AddRange(DB.ProgDb.Create().Query<RacePersonnage>("select AdjNiv,race from Race")));
+            var task2 = Task.Run(() => charactersArchetypes.AddRange(DB.ProgDb.Create().Query<Archetype>("select AdjNiv,archetype from Archetype")));
+            var task3 = Task.Run(() => charactersGifts.AddRange(DB.CharactersDb.Create().Query<PersonnageDons>("select nom,dons from PersonnageDons")));
+            var task4 = Task.Run(() => characters.AddRange(DB.CharactersDb.Create().Query<Personnage>(DbCharactersQuery)));
+
+            await Task.WhenAll(task1, task2, task3, task4).ConfigureAwait(false);
+
+            Characters = new ObservableCollection<Personnage>(characters);
 
             foreach (var character in Characters)
             {
@@ -127,10 +126,8 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             {
                 return;
             }
-            using var progDb = DB.ProgDbInstanceCreator.Create();
-            var experience = new List<Experience>();
             FP = Math.Max(Math.Min(FP, 125), 0);
-            await progDb.QueryAsync<Experience>((x) => experience.Add(x), $"select fp{FP} from experience where niveau=@0", SelectedCharacter.NiveauGE).ConfigureAwait(true);
+            var experience = new List<Experience>(await Task.Run(() => DB.ProgDb.Create().Query<Experience>($"select fp{FP} from experience where niveau=@0", SelectedCharacter.NiveauGE)).ConfigureAwait(false));
             if (experience.Any() == false)
             {
                 return;
@@ -150,13 +147,12 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             {
                 return;
             }
-            using var charactersDb = DB.CharacterDbInstanceCreator.Create();
             SelectedCharacter.Xp += SelectedCharacter.GainXp;
             XpCalculated += XpCalculated + SelectedCharacter.GainXp * XpPercentage / 100 - XpPercentage;
             SelectedCharacter.GainXp = 0;
             SelectedCharacter.TotalXp = SelectedCharacter.Xp;
             CharactersLog.Add(SelectedCharacter);
-            int affectedRows = await charactersDb.UpdateAsync(SelectedCharacter, SelectedCharacter.Nom, columns: new string[] { "TotalXP" }).ConfigureAwait(true);
+            await Task.Run(() => DB.CharactersDb.Create().Update(SelectedCharacter, SelectedCharacter.Nom, columns: new string[] { "TotalXP" })).ConfigureAwait(false);
         }
     }
 }

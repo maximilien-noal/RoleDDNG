@@ -5,7 +5,7 @@ using PetaPoco;
 
 namespace RoleDDNG.ViewModels.DB
 {
-    internal static class CharacterDbInstanceCreator
+    internal static class CharactersDb
     {
         public static Database Create()
         {
