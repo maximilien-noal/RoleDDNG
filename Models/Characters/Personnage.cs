@@ -92,7 +92,7 @@ namespace RoleDDNG.Models.Characters
 
         private bool _exclu = false;
 
-        private long _gainXp = 0;
+        private double _gainXp = 0;
 
         private string _histoire = "";
 
@@ -128,9 +128,9 @@ namespace RoleDDNG.Models.Characters
 
         private int _niveau = 0;
 
-        private long _niveauGE = 0;
+        private double _niveauGE = 0;
 
-        private long _nivSuivant = 0;
+        private double _nivSuivant = 0;
 
         private string _nom = "";
 
@@ -172,7 +172,7 @@ namespace RoleDDNG.Models.Characters
 
         private short? _volonté = 0;
 
-        private long _xp = 0;
+        private double _xp = 0;
 
         private string _yeux = "";
 
@@ -312,7 +312,7 @@ namespace RoleDDNG.Models.Characters
         public bool Exclu { get => _exclu; set { Set(nameof(Exclu), ref _exclu, value); } }
 
         [Ignore]
-        public long GainXp { get => _gainXp; set { Set(nameof(GainXp), ref _gainXp, value); } }
+        public double GainXp { get => _gainXp; set { Set(nameof(GainXp), ref _gainXp, value); } }
 
         [Column]
         public string Histoire { get => _histoire; set { Set(nameof(Histoire), ref _histoire, value); } }
@@ -366,10 +366,10 @@ namespace RoleDDNG.Models.Characters
         public int Niveau { get => _niveau; set { Set(nameof(Niveau), ref _niveau, value); } }
 
         [Ignore]
-        public long NiveauGE { get => _niveauGE; set { Set(nameof(NiveauGE), ref _niveauGE, value); } }
+        public double NiveauGE { get => _niveauGE; set { Set(nameof(NiveauGE), ref _niveauGE, value); } }
 
         [Ignore]
-        public long NiveauSuivant { get => _nivSuivant; set { Set(nameof(NiveauSuivant), ref _nivSuivant, value); } }
+        public double NiveauSuivant { get => _nivSuivant; set { Set(nameof(NiveauSuivant), ref _nivSuivant, value); } }
 
         [Column]
         public string Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
@@ -438,7 +438,7 @@ namespace RoleDDNG.Models.Characters
         public short? Volonté { get => _volonté; set { Set(nameof(Volonté), ref _volonté, value); } }
 
         [Ignore]
-        public long Xp { get => _xp; set { Set(nameof(Xp), ref _xp, value); } }
+        public double Xp { get => _xp; set { Set(nameof(Xp), ref _xp, value); } }
 
         [Column]
         public string Yeux { get => _yeux; set { Set(nameof(Yeux), ref _yeux, value); } }

@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.Menus.Tools
@@ -132,13 +131,18 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             {
                 return;
             }
-            var percentage = Math.Max(Math.Min(XpPercentage, 100), 0);
+            CapXpPercentage();
             var fpValue = (double?)experience.FirstOrDefault()?.GetType().GetProperty($"FP{FP}")?.GetValue(experience.FirstOrDefault(), null);
             if (fpValue is null || fpValue.HasValue == false)
             {
                 return;
             }
-            SelectedCharacter.GainXp = (long)(SelectedCharacter.Part * fpValue.Value * (1 - percentage / 100));
+            SelectedCharacter.GainXp = SelectedCharacter.Part * fpValue.Value * (1 - XpPercentage / 100);
+        }
+
+        private void CapXpPercentage()
+        {
+            XpPercentage = Math.Max(Math.Min(XpPercentage, 100), 0);
         }
 
         private async Task SaveMethodAsync()
@@ -148,9 +152,10 @@ namespace RoleDDNG.ViewModels.Menus.Tools
                 return;
             }
             SelectedCharacter.Xp += SelectedCharacter.GainXp;
+            CapXpPercentage();
             XpCalculated += XpCalculated + SelectedCharacter.GainXp * XpPercentage / 100 - XpPercentage;
             SelectedCharacter.GainXp = 0;
-            SelectedCharacter.TotalXp = SelectedCharacter.Xp;
+            SelectedCharacter.TotalXp = (long?)Math.Min(SelectedCharacter.Xp, long.MaxValue);
             CharactersLog.Add(SelectedCharacter);
             await Task.Run(() => DB.CharactersDb.Create().Update(SelectedCharacter, SelectedCharacter.Nom, columns: new string[] { "TotalXP" })).ConfigureAwait(false);
         }
