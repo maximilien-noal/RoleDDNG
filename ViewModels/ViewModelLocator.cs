@@ -13,8 +13,8 @@
 */
 
 using GalaSoft.MvvmLight.Ioc;
-using RoleDDNG.ViewModels.DescriptionsVMs;
-using RoleDDNG.ViewModels.ToolsVMs;
+using RoleDDNG.ViewModels.Menus.Rules;
+using RoleDDNG.ViewModels.Menus.Tools;
 
 namespace RoleDDNG.ViewModels
 {

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RoleDDNG.ViewModels.ToolsVMs
+namespace RoleDDNG.ViewModels.Menus.Tools
 {
     public class TownGeneratorViewModel : ViewModelBase, IDocumentViewModel
     {

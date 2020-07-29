@@ -8,7 +8,7 @@ using System.Linq;
 using RandN.Compat;
 using RandN;
 
-namespace RoleDDNG.ViewModels.ToolsVMs
+namespace RoleDDNG.ViewModels.Menus.Tools
 {
     public class DiceRollViewModel : ViewModelBase, IDocumentViewModel
     {

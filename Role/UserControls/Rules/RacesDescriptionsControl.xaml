@@ -17,15 +17,27 @@
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/RacesDescriptionsIcon.png" />
     </userControls:WindowContent.Resources>
     <ScrollViewer>
-        <DockPanel>
-            <dotNetKitControls:AutoCompleteComboBox DockPanel.Dock="Top"
-            DisplayMemberPath="Race"
-            SelectedValuePath="Race"
-            TextSearch.TextPath="Race"
-            ItemsSource="{Binding Races}"
-            SelectedItem="{Binding SelectedRace, Mode=TwoWay}" />
-            <TextBlock DockPanel.Dock="Bottom" DataContext="{Binding SelectedRace}" Text="{Binding Description}" IsEnabled="False" TextWrapping="Wrap" />
-            <Grid
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <dotNetKitControls:AutoCompleteComboBox Grid.Row="0"
+                DisplayMemberPath="Race"
+                SelectedValuePath="Race"
+                TextSearch.TextPath="Race"
+                IsTextSearchCaseSensitive="False"
+                IsTextSearchEnabled="True"
+                ItemsSource="{Binding Races}"
+                SelectedItem="{Binding SelectedRace, Mode=TwoWay}">
+                <dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
+            </dotNetKitControls:AutoCompleteComboBox>
+            <TextBlock Grid.Row="1" DataContext="{Binding SelectedRace}" Text="{Binding Description}" IsEnabled="False" TextWrapping="Wrap" />
+            <Grid Grid.RowSpan="2"
                 Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
                 Opacity="0.5"
                 Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -37,6 +49,6 @@
                     Chargement en cours...
                 </TextBlock>
             </Grid>
-        </DockPanel>
+        </Grid>
     </ScrollViewer>
 </userControls:WindowContent>

@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RoleDDNG.ViewModels.DescriptionsVMs
+namespace RoleDDNG.ViewModels.Menus.Rules
 {
     public class RacesDescriptionsViewModel : ViewModelBase, IDocumentViewModel, IDbDependantViewModel
     {

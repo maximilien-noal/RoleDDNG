@@ -9,9 +9,9 @@ using RoleDDNG.Interfaces.Backgrounds;
 using RoleDDNG.Interfaces.Dialogs;
 using RoleDDNG.Interfaces.Serialization;
 using RoleDDNG.Models.Options;
-using RoleDDNG.ViewModels.DescriptionsVMs;
 using RoleDDNG.ViewModels.Interfaces;
-using RoleDDNG.ViewModels.ToolsVMs;
+using RoleDDNG.ViewModels.Menus.Rules;
+using RoleDDNG.ViewModels.Menus.Tools;
 
 using System;
 using System.Collections.ObjectModel;

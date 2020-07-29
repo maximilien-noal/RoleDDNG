@@ -13,7 +13,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RoleDDNG.ViewModels.ToolsVMs
+namespace RoleDDNG.ViewModels.Menus.Tools
 {
     public class CharactersXpViewModel : ViewModelBase, IDocumentViewModel, IDbDependantViewModel
     {

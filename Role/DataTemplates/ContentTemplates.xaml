@@ -2,8 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:uc="clr-namespace:RoleDDNG.Role.UserControls"
-    xmlns:descsVms="clr-namespace:RoleDDNG.ViewModels.DescriptionsVMs;assembly=ViewModels"
-    xmlns:toolsVms="clr-namespace:RoleDDNG.ViewModels.ToolsVMs;assembly=ViewModels">
+    xmlns:rulesVms="clr-namespace:RoleDDNG.ViewModels.Menus.Rules;assembly=ViewModels"
+    xmlns:toolsVms="clr-namespace:RoleDDNG.ViewModels.Menus.Tools;assembly=ViewModels">
 
     <DataTemplate DataType="{x:Type toolsVms:DiceRollViewModel}">
         <uc:DiceRollUserControl />
@@ -21,7 +21,7 @@
         <uc:CharactersXpUserControl />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type descsVms:RacesDescriptionsViewModel}">
+    <DataTemplate DataType="{x:Type rulesVms:RacesDescriptionsViewModel}">
         <uc:RacesDescriptionsControl />
     </DataTemplate>
 </ResourceDictionary>
