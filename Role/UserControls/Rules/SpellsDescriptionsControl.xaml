@@ -1,4 +1,4 @@
-﻿<userControls:WindowContent x:Class="RoleDDNG.Role.UserControls.RacesDescriptionsControl"
+﻿<userControls:WindowContent x:Class="RoleDDNG.Role.UserControls.SpellsDescriptionsControls"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,7 +6,7 @@
              xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
              xmlns:userControls="clr-namespace:RoleDDNG.Role.UserControls"
              xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
-             Title="Description des races"
+             Title="Description des sorts"
              DataContext="{Binding Source={StaticResource Locator}, Path=SpellsDescriptions}"
              mc:Ignorable="d"
              Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
@@ -14,7 +14,7 @@
             MinWidth="800" MinHeight="600">
     <userControls:WindowContent.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/RacesDescriptionsIcon.png" />
+        <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/SpellsDescriptionsIcon.png" />
     </userControls:WindowContent.Resources>
     <ScrollViewer>
         <Grid>
@@ -23,9 +23,9 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <dotNetKitControls:AutoCompleteComboBox Grid.Row="0"
-                DisplayMemberPath="Race"
-                SelectedValuePath="Race"
-                TextSearch.TextPath="Race"
+                DisplayMemberPath="Nom"
+                SelectedValuePath="Nom"
+                TextSearch.TextPath="Nom"
                 IsTextSearchCaseSensitive="False"
                 IsTextSearchEnabled="True"
                 ItemsSource="{Binding Spells}"
@@ -36,7 +36,7 @@
                     </ItemsPanelTemplate>
                 </dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
             </dotNetKitControls:AutoCompleteComboBox>
-            <TextBlock Grid.Row="1" DataContext="{Binding SelectedRace}" Text="{Binding Description}" IsEnabled="False" TextWrapping="Wrap" />
+            <TextBlock Grid.Row="1" DataContext="{Binding SelectedSpell}" Text="{Binding Explication}" IsEnabled="False" TextWrapping="Wrap" />
             <Grid Grid.RowSpan="2"
                 Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
                 Opacity="0.5"

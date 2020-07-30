@@ -49,6 +49,7 @@
 		<None Remove="UserControls\Assets\DiceRollIcon.png" />
 		<None Remove="UserControls\Assets\OpenCharacterIcon.png" />
 		<None Remove="UserControls\Assets\RacesDescriptionsIcon.png" />
+		<None Remove="UserControls\Assets\SpellsDescriptionsIcon.png" />
 		<None Remove="UserControls\Assets\TownGeneratorIcon.png" />
 		<None Remove="UserControls\diceButton.png" />
 	</ItemGroup>
@@ -91,6 +92,7 @@
 		<Resource Include="UserControls\Assets\DiceRollIcon.png" />
 		<Resource Include="UserControls\Assets\OpenCharacterIcon.png" />
 		<Resource Include="UserControls\Assets\RacesDescriptionsIcon.png" />
+		<Resource Include="UserControls\Assets\SpellsDescriptionsIcon.png" />
 		<Resource Include="UserControls\Assets\TownGeneratorIcon.png" />
 	</ItemGroup>
 
@@ -131,5 +133,11 @@
 		<None Update="roles.mdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="UserControls\Rules\SpellsDescriptionsControl.xaml">
+	    <SubType>Designer</SubType>
+	  </Page>
 	</ItemGroup>
 </Project>

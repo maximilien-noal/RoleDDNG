@@ -43,6 +43,7 @@ namespace RoleDDNG.ViewModels
             OpenCharactersDataBase = new AsyncCommand(async () => await AskAndOpenCharacterDbFileAsync().ConfigureAwait(false));
             OpenCharacterSheet = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<OpenCharacterViewModel>().ConfigureAwait(false));
             OpenRacesDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<RacesDescriptionsViewModel>().ConfigureAwait(false));
+            OpenSpellsDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<SpellsDescriptionsViewModel>().ConfigureAwait(false));
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
         }
 
@@ -59,6 +60,8 @@ namespace RoleDDNG.ViewModels
         public AsyncCommand OpenCharacterSheet { get; private set; }
 
         public AsyncCommand OpenRacesDescriptions { get; private set; }
+
+        public AsyncCommand OpenSpellsDescriptions { get; private set; }
 
         public IDocumentViewModel? SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
 

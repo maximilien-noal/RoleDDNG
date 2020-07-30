@@ -29,6 +29,8 @@ namespace RoleDDNG.ViewModels
 
         public RacesDescriptionsViewModel RacesDescriptions => new RacesDescriptionsViewModel();
 
+        public SpellsDescriptionsViewModel SpellsDescriptions => new SpellsDescriptionsViewModel();
+
         public TownGeneratorViewModel TownGenerator => new TownGeneratorViewModel();
 
 #pragma warning restore CA1822
