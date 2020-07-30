@@ -9,8 +9,7 @@
 		<ApplicationIcon>Assets\appicon.ico</ApplicationIcon>
 		<LangVersion>8.0</LangVersion>
 		<Nullable>enable</Nullable>
-		<TargetPlatformIdentifier>win-x64</TargetPlatformIdentifier>
-		<PublishReadyToRun>True</PublishReadyToRun>	</PropertyGroup>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<None Remove="Assets\appicon.png" />

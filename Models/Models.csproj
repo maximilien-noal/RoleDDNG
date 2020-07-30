@@ -6,8 +6,6 @@
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 		<LangVersion>8.0</LangVersion>
 		<Nullable>enable</Nullable>
-		<TargetPlatformIdentifier>win-x64</TargetPlatformIdentifier>
-		<PublishReadyToRun>True</PublishReadyToRun>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="PetaPoco.Compiled" Version="6.0.459" />

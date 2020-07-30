@@ -8,8 +8,6 @@
 		<UseWPF>true</UseWPF>
 		<LangVersion>8.0</LangVersion>
 		<Nullable>enable</Nullable>
-		<TargetPlatformIdentifier>win-x64</TargetPlatformIdentifier>
-		<PublishReadyToRun>True</PublishReadyToRun>
 	</PropertyGroup>
 
 	<ItemGroup>
