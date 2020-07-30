@@ -24,4 +24,8 @@
     <DataTemplate DataType="{x:Type rulesVms:RacesDescriptionsViewModel}">
         <uc:RacesDescriptionsControl />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type rulesVms:SpellsDescriptionsViewModel}">
+        <uc:SpellsDescriptionsControls />
+    </DataTemplate>
 </ResourceDictionary>
