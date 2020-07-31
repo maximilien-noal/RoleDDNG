@@ -25,7 +25,7 @@ namespace RoleDDNG.ViewModels.Menus.Rules
         {
             IsBusy = true;
             using var progDb = DB.ProgDb.Create();
-            Races = new ObservableCollection<RacePersonnage>(await Task.Run(() => progDb.Query<RacePersonnage>("select race,Description from Race order by race").Where(x => string.IsNullOrWhiteSpace(x.Description) == false)).ConfigureAwait(false));
+            Races = new ObservableCollection<RacePersonnage>(await Task.Run(() => progDb.Query<RacePersonnage>("select race,Description from Race order by race").Where(x => string.IsNullOrWhiteSpace(x.Description) == false && x.Description != x.Race)).ConfigureAwait(false));
             if (Races.Any())
             {
                 SelectedRace = Races.FirstOrDefault();
