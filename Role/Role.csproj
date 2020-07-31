@@ -44,9 +44,12 @@
 		<None Remove="Assets\backgrounds\warrior.jpg" />
 		<None Remove="Assets\diceroll.wav" />
 		<None Remove="Assets\splashscreen.png" />
+		<None Remove="UserControls\Assets\CharacterSheetIcon.png" />
 		<None Remove="UserControls\Assets\CharactersXPToolIcon.png" />
 		<None Remove="UserControls\Assets\DiceRollButon.png" />
 		<None Remove="UserControls\Assets\DiceRollIcon.png" />
+		<None Remove="UserControls\Assets\GiftsDescriptionsIcon.png" />
+		<None Remove="UserControls\Assets\ObjectsManagmentToolIcon.png" />
 		<None Remove="UserControls\Assets\OpenCharacterIcon.png" />
 		<None Remove="UserControls\Assets\RacesDescriptionsIcon.png" />
 		<None Remove="UserControls\Assets\SpellsDescriptionsIcon.png" />
@@ -87,9 +90,12 @@
 		<Resource Include="Assets\backgrounds\warrior.jpg" />
 		<Resource Include="Assets\diceroll.wav" />
 		<Resource Include="Assets\splashscreen.png" />
+		<Resource Include="UserControls\Assets\CharacterSheetIcon.png" />
 		<Resource Include="UserControls\Assets\CharactersXPToolIcon.png" />
 		<Resource Include="UserControls\Assets\DiceRollButon.png" />
 		<Resource Include="UserControls\Assets\DiceRollIcon.png" />
+		<Resource Include="UserControls\Assets\GiftsDescriptionsIcon.png" />
+		<Resource Include="UserControls\Assets\ObjectsManagmentToolIcon.png" />
 		<Resource Include="UserControls\Assets\OpenCharacterIcon.png" />
 		<Resource Include="UserControls\Assets\RacesDescriptionsIcon.png" />
 		<Resource Include="UserControls\Assets\SpellsDescriptionsIcon.png" />
