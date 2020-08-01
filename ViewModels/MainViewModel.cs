@@ -83,8 +83,12 @@ namespace RoleDDNG.ViewModels
             {
                 var serializer = SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>();
                 var appSettings = await serializer.DeserializeAsync<AppSettings>(_appSettingsFilePath).ConfigureAwait(false);
-                SimpleIoc.Default.Register<AppSettings>(() => appSettings);
+                SimpleIoc.Default.Register(() => appSettings);
                 return await OpenCharactersDatabaseAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                SimpleIoc.Default.Register(() => new AppSettings());
             }
             IsBusy = false;
             return false;
