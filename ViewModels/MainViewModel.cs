@@ -75,19 +75,20 @@ namespace RoleDDNG.ViewModels
         public async Task<bool> LoadAppSettingsAsync()
         {
             IsBusy = true;
+            var foundCharacterDb = false;
             if (File.Exists(_appSettingsFilePath))
             {
                 var serializer = SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>();
                 var appSettings = await serializer.DeserializeAsync<AppSettings>(_appSettingsFilePath).ConfigureAwait(false);
                 SimpleIoc.Default.Register(() => appSettings);
-                return await OpenCharactersDatabaseAsync().ConfigureAwait(false);
+                foundCharacterDb = await OpenCharactersDatabaseAsync().ConfigureAwait(false);
             }
             else
             {
                 SimpleIoc.Default.Register(() => new AppSettings());
             }
             IsBusy = false;
-            return false;
+            return foundCharacterDb;
         }
 
         public void RemoveDocumentViewModel<T>() where T : IDocumentViewModel
@@ -122,8 +123,7 @@ namespace RoleDDNG.ViewModels
 
         private async Task<bool> OpenCharacterDbAsync(string dbFile)
         {
-            if (!string.IsNullOrWhiteSpace(dbFile) &&
-                File.Exists(dbFile) &&
+            if (File.Exists(dbFile) &&
                 await new AccessDb(dbFile).CanConnectAsync().ConfigureAwait(false))
             {
                 SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath = dbFile;
@@ -144,8 +144,7 @@ namespace RoleDDNG.ViewModels
 
         private async Task<bool> OpenCharacterDbIfNoneOpenAsync()
         {
-            if (!string.IsNullOrWhiteSpace(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath) &&
-                File.Exists(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath))
+            if (File.Exists(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath))
             {
                 return true;
             }
@@ -155,7 +154,7 @@ namespace RoleDDNG.ViewModels
         private async Task<bool> OpenCharactersDatabaseAsync()
         {
             var dbFile = SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath;
-            if (string.IsNullOrWhiteSpace(dbFile))
+            if (!File.Exists(dbFile))
             {
                 dbFile = await AskForCharactersDbFileAsync().ConfigureAwait(false);
             }
