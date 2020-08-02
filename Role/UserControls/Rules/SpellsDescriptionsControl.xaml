@@ -16,13 +16,8 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/SpellsDescriptionsIcon.png" />
     </userControls:WindowContent.Resources>
-    <ScrollViewer>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <dotNetKitControls:AutoCompleteComboBox Grid.Row="0"
+    <DockPanel>
+        <dotNetKitControls:AutoCompleteComboBox DockPanel.Dock="Top"
                 DisplayMemberPath="Nom"
                 SelectedValuePath="Nom"
                 TextSearch.TextPath="Nom"
@@ -30,25 +25,30 @@
                 IsTextSearchEnabled="True"
                 ItemsSource="{Binding Spells}"
                 SelectedItem="{Binding SelectedSpell, Mode=TwoWay}">
-                <dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel />
-                    </ItemsPanelTemplate>
-                </dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
-            </dotNetKitControls:AutoCompleteComboBox>
-            <TextBlock Grid.Row="1" DataContext="{Binding SelectedSpell}" Text="{Binding Explication}" IsEnabled="False" TextWrapping="Wrap" />
-            <Grid Grid.RowSpan="2"
+            <dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
+        </dotNetKitControls:AutoCompleteComboBox>
+        <ScrollViewer DockPanel.Dock="Right">
+            <TextBlock DataContext="{Binding SelectedSpell}" Text="{Binding Explication}" IsEnabled="False" TextWrapping="Wrap" />
+        </ScrollViewer>
+        <UniformGrid HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Button Content="Précédent" Command="{Binding Previous}" />
+            <Button Content="Suivant" Command="{Binding Next}" />
+        </UniformGrid>
+        <Grid
                 Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
                 Opacity="0.5"
                 Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock
+            <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="17"
                     Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}">
                     Chargement en cours...
-                </TextBlock>
-            </Grid>
+            </TextBlock>
         </Grid>
-    </ScrollViewer>
+    </DockPanel>
 </userControls:WindowContent>

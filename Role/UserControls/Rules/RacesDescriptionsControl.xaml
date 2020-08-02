@@ -16,13 +16,9 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/RacesDescriptionsIcon.png" />
     </userControls:WindowContent.Resources>
-    <ScrollViewer>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <dotNetKitControls:AutoCompleteComboBox Grid.Row="0"
+    <DockPanel>
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+            <dotNetKitControls:AutoCompleteComboBox
                 DisplayMemberPath="Race"
                 SelectedValuePath="Race"
                 TextSearch.TextPath="Race"
@@ -36,19 +32,25 @@
                     </ItemsPanelTemplate>
                 </dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
             </dotNetKitControls:AutoCompleteComboBox>
-            <TextBlock Grid.Row="1" DataContext="{Binding SelectedRace}" Text="{Binding Description}" IsEnabled="False" TextWrapping="Wrap" />
-            <Grid Grid.RowSpan="2"
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Précédent" Command="{Binding Previous}" />
+                <Button Content="Suivant" Command="{Binding Next}" />
+            </StackPanel>
+        </StackPanel>
+        <ScrollViewer DockPanel.Dock="Right">
+            <TextBlock DataContext="{Binding SelectedRace}" Text="{Binding Description}" IsEnabled="False" TextWrapping="Wrap" />
+        </ScrollViewer>
+        <Grid
                 Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
                 Opacity="0.5"
                 Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock
+            <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="17"
                     Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}">
                     Chargement en cours...
-                </TextBlock>
-            </Grid>
+            </TextBlock>
         </Grid>
-    </ScrollViewer>
+    </DockPanel>
 </userControls:WindowContent>
