@@ -1,5 +1,8 @@
 ﻿using Microsoft.Win32;
+
 using Serilog;
+using Serilog.Core;
+
 using System;
 using System.Globalization;
 using System.IO;
@@ -18,6 +21,8 @@ namespace RoleDDNG.Role
 
         private Uri? _currentTheme;
 
+        private Logger _logger;
+
         public App()
         {
             Current.DispatcherUnhandledException += OnWpfUnhandledException;
@@ -27,15 +32,14 @@ namespace RoleDDNG.Role
                                     Environment.SpecialFolder.ApplicationData),
                                     "RoleDDNG\\ROLE.LOG");
 
-            var rollConfiguration = new LoggerConfiguration()
+            _logger = new LoggerConfiguration()
                 .WriteTo.Async(config => config.File(logFilePath)).CreateLogger();
 
-            Log.Logger.Information("Program {ProgramName} Start at {StartTime}", nameof(RoleDDNG), DateTime.Now);
+            _logger.Information("Program {ProgramName} Start at {StartTime}", nameof(RoleDDNG), DateTime.Now);
 
             Exit += (s, e) =>
             {
-                Log.Logger.Information("Program {ProgramName} End at {StartTime}", nameof(RoleDDNG), DateTime.Now);
-                Log.CloseAndFlush();
+                _logger.Information("Program {ProgramName} End at {StartTime}", nameof(RoleDDNG), DateTime.Now);
             };
         }
 
@@ -98,7 +102,7 @@ namespace RoleDDNG.Role
 
         private void OnWpfUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            Log.Logger.Error(e.Exception.GetBaseException(), "An unhandled exception occured");
+            _logger.Error(e.Exception.GetBaseException(), "An unhandled exception occured");
             e.Handled = true;
         }
 
@@ -130,7 +134,9 @@ namespace RoleDDNG.Role
 
             public static Uri ClassicTheme => new Uri("pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml", UriKind.Absolute);
 
-            /// <summary> Adds any Adonis theme to the provided resource dictionary. </summary>
+            /// <summary>
+            /// Adds any Adonis theme to the provided resource dictionary.
+            /// </summary>
             /// <param name="rootResourceDictionary">
             /// The resource dictionary containing AdonisUI's resources. Expected are the resource
             /// dictionaries of the app or window.
@@ -140,7 +146,9 @@ namespace RoleDDNG.Role
                 rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = ClassicTheme });
             }
 
-            /// <summary> Removes all resources of AdonisUI from the provided resource dictionary. </summary>
+            /// <summary>
+            /// Removes all resources of AdonisUI from the provided resource dictionary.
+            /// </summary>
             /// <param name="rootResourceDictionary">
             /// The resource dictionary containing AdonisUI's resources. Expected are the resource
             /// dictionaries of the app or window.
