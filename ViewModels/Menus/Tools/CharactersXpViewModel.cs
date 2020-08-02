@@ -37,7 +37,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
         {
             Add = new AsyncCommand(AddMethodAsync);
             Save = new AsyncCommand(SaveMethodAsync);
-            Cancel = new RelayCommand(() => SimpleIoc.Default.GetInstance<MainViewModel>().RemoveMdiWindow<CharactersXpViewModel>());
+            Cancel = new RelayCommand(() => SimpleIoc.Default.GetInstance<MainViewModel>().RemoveDocumentViewModel<CharactersXpViewModel>());
         }
 
         public AsyncCommand Add { get; private set; }

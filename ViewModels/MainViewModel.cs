@@ -33,13 +33,11 @@ namespace RoleDDNG.ViewModels
 
         private ObservableCollection<IDocumentViewModel> _items = new ObservableCollection<IDocumentViewModel>();
 
-        private IDocumentViewModel? _selectedWindow;
-
         public MainViewModel()
         {
-            ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
+            ShowDiceRollWindow = new RelayCommand(() => AddDocumentViewModel<DiceRollViewModel>());
             ShowCharactersXpWindow = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<CharactersXpViewModel>().ConfigureAwait(false));
-            ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
+            ShowTownGeneratorWindow = new RelayCommand(() => AddDocumentViewModel<TownGeneratorViewModel>());
             OpenCharactersDataBase = new AsyncCommand(async () => await AskAndOpenCharacterDbFileAsync().ConfigureAwait(false));
             OpenCharacterSheet = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<OpenCharacterViewModel>().ConfigureAwait(false));
             OpenRacesDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<RacesDescriptionsViewModel>().ConfigureAwait(false));
@@ -62,8 +60,6 @@ namespace RoleDDNG.ViewModels
         public AsyncCommand OpenRacesDescriptions { get; private set; }
 
         public AsyncCommand OpenSpellsDescriptions { get; private set; }
-
-        public IDocumentViewModel? SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
 
         public AsyncCommand ShowCharactersXpWindow { get; private set; }
 
@@ -94,7 +90,7 @@ namespace RoleDDNG.ViewModels
             return false;
         }
 
-        public void RemoveMdiWindow<T>() where T : IDocumentViewModel
+        public void RemoveDocumentViewModel<T>() where T : IDocumentViewModel
         {
             if (Items.OfType<T>().Any())
             {
@@ -109,7 +105,7 @@ namespace RoleDDNG.ViewModels
             return dbFile;
         }
 
-        private void AddMdiWindow<T>() where T : IDocumentViewModel, new()
+        private void AddDocumentViewModel<T>() where T : IDocumentViewModel, new()
         {
             if (!Items.OfType<T>().Any())
             {
@@ -142,7 +138,7 @@ namespace RoleDDNG.ViewModels
         {
             if (await OpenCharacterDbIfNoneOpenAsync().ConfigureAwait(false))
             {
-                AddMdiWindow<T>();
+                AddDocumentViewModel<T>();
             }
         }
 
