@@ -165,11 +165,7 @@ namespace RoleDDNG.ViewModels
         {
             IsBusy = true;
             var configDir = Path.GetDirectoryName(_appSettingsFilePath);
-            if (!Directory.Exists(configDir))
-            {
-                Directory.CreateDirectory(configDir);
-            }
-
+            Directory.CreateDirectory(configDir);
             await SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>().SerializeAsync(_appSettingsFilePath, SimpleIoc.Default.GetInstance<AppSettings>()).ConfigureAwait(false);
             IsBusy = false;
         }
