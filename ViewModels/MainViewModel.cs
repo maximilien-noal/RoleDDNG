@@ -31,6 +31,8 @@ namespace RoleDDNG.ViewModels
 
         private bool _isBusy = true;
 
+        private bool _isStartingUp = true;
+
         private ObservableCollection<IDocumentViewModel> _items = new ObservableCollection<IDocumentViewModel>();
 
         public MainViewModel()
@@ -88,6 +90,11 @@ namespace RoleDDNG.ViewModels
                 SimpleIoc.Default.Register(() => new AppSettings());
             }
             IsBusy = false;
+            _isStartingUp = false;
+            if(!foundCharacterDb)
+            {
+                SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath = "";
+            }
             return foundCharacterDb;
         }
 
@@ -156,6 +163,10 @@ namespace RoleDDNG.ViewModels
             var dbFile = SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath;
             if (!File.Exists(dbFile))
             {
+                if(_isStartingUp)
+                {
+                    return false;
+                }
                 dbFile = await AskForCharactersDbFileAsync().ConfigureAwait(false);
             }
             return await OpenCharacterDbAsync(dbFile).ConfigureAwait(false);
