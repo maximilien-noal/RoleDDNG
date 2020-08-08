@@ -103,6 +103,9 @@ namespace RoleDDNG.Role
         private void OnWpfUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             _logger.Error(e.Exception.GetBaseException(), "An unhandled exception occured");
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+            MessageBox.Show(e.Exception.GetBaseException().GetType().ToString() + Environment.NewLine + e.Exception.GetBaseException().Message, "Une erreur est survenue. Opération annulée.");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
             e.Handled = true;
         }
 
