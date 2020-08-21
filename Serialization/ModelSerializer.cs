@@ -24,7 +24,7 @@ namespace RoleDDNG.Serialization
         public async Task SerializeAsync(string filePath, T objectToSerialize)
         {
             using var fileStream = File.Create(filePath);
-            await JsonSerializer.SerializeAsync<T>(fileStream, objectToSerialize).ConfigureAwait(false);
+            await JsonSerializer.SerializeAsync(fileStream, objectToSerialize).ConfigureAwait(false);
         }
     }
 }
