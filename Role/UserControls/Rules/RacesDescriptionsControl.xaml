@@ -24,8 +24,8 @@
                 TextSearch.TextPath="Race"
                 IsTextSearchCaseSensitive="False"
                 IsTextSearchEnabled="True"
-                ItemsSource="{Binding Races}"
-                SelectedItem="{Binding SelectedRace, Mode=TwoWay}">
+                ItemsSource="{Binding Collection}"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                 <dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel />
@@ -38,7 +38,7 @@
             </StackPanel>
         </StackPanel>
         <ScrollViewer DockPanel.Dock="Right">
-            <TextBlock DataContext="{Binding SelectedRace}" Text="{Binding Description}" IsEnabled="False" TextWrapping="Wrap" />
+            <TextBlock DataContext="{Binding SelectedItem}" Text="{Binding Description}" IsEnabled="False" TextWrapping="Wrap" />
         </ScrollViewer>
         <Grid
                 Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
