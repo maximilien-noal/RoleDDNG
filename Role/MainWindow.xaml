@@ -113,8 +113,7 @@
         <Image Grid.Row="1" Source="{Binding BackgroundSource}" />
         <MDI:MdiContainer
                 Grid.Row="1"
-                ItemsSource="{Binding Items}"
-                SelectedItem="{Binding SelectedWindow, Mode=TwoWay}">
+                ItemsSource="{Binding Items}">
         </MDI:MdiContainer>
         <Grid
             Grid.RowSpan="2"

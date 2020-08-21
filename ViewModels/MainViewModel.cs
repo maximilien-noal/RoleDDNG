@@ -31,15 +31,15 @@ namespace RoleDDNG.ViewModels
 
         private bool _isBusy = true;
 
-        private ObservableCollection<IDocumentViewModel> _items = new ObservableCollection<IDocumentViewModel>();
+        private bool _isStartingUp = true;
 
-        private IDocumentViewModel? _selectedWindow;
+        private ObservableCollection<IDocumentViewModel> _items = new ObservableCollection<IDocumentViewModel>();
 
         public MainViewModel()
         {
-            ShowDiceRollWindow = new RelayCommand(() => AddMdiWindow<DiceRollViewModel>());
+            ShowDiceRollWindow = new RelayCommand(() => AddDocumentViewModel<DiceRollViewModel>());
             ShowCharactersXpWindow = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<CharactersXpViewModel>().ConfigureAwait(false));
-            ShowTownGeneratorWindow = new RelayCommand(() => AddMdiWindow<TownGeneratorViewModel>());
+            ShowTownGeneratorWindow = new RelayCommand(() => AddDocumentViewModel<TownGeneratorViewModel>());
             OpenCharactersDataBase = new AsyncCommand(async () => await AskAndOpenCharacterDbFileAsync().ConfigureAwait(false));
             OpenCharacterSheet = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<OpenCharacterViewModel>().ConfigureAwait(false));
             OpenRacesDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<RacesDescriptionsViewModel>().ConfigureAwait(false));
@@ -63,8 +63,6 @@ namespace RoleDDNG.ViewModels
 
         public AsyncCommand OpenSpellsDescriptions { get; private set; }
 
-        public IDocumentViewModel? SelectedWindow { get => _selectedWindow; set { Set(nameof(SelectedWindow), ref _selectedWindow, value); } }
-
         public AsyncCommand ShowCharactersXpWindow { get; private set; }
 
         public RelayCommand ShowDiceRollWindow { get; private set; }
@@ -79,18 +77,28 @@ namespace RoleDDNG.ViewModels
         public async Task<bool> LoadAppSettingsAsync()
         {
             IsBusy = true;
+            var foundCharacterDb = false;
             if (File.Exists(_appSettingsFilePath))
             {
                 var serializer = SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>();
                 var appSettings = await serializer.DeserializeAsync<AppSettings>(_appSettingsFilePath).ConfigureAwait(false);
                 SimpleIoc.Default.Register(() => appSettings);
-                return await OpenCharactersDatabaseAsync().ConfigureAwait(false);
+                foundCharacterDb = await OpenCharactersDatabaseAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                SimpleIoc.Default.Register(() => new AppSettings());
             }
             IsBusy = false;
-            return false;
+            _isStartingUp = false;
+            if(!foundCharacterDb)
+            {
+                SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath = "";
+            }
+            return foundCharacterDb;
         }
 
-        public void RemoveMdiWindow<T>() where T : IDocumentViewModel
+        public void RemoveDocumentViewModel<T>() where T : IDocumentViewModel
         {
             if (Items.OfType<T>().Any())
             {
@@ -105,7 +113,7 @@ namespace RoleDDNG.ViewModels
             return dbFile;
         }
 
-        private void AddMdiWindow<T>() where T : IDocumentViewModel, new()
+        private void AddDocumentViewModel<T>() where T : IDocumentViewModel, new()
         {
             if (!Items.OfType<T>().Any())
             {
@@ -122,8 +130,7 @@ namespace RoleDDNG.ViewModels
 
         private async Task<bool> OpenCharacterDbAsync(string dbFile)
         {
-            if (!string.IsNullOrWhiteSpace(dbFile) &&
-                File.Exists(dbFile) &&
+            if (File.Exists(dbFile) &&
                 await new AccessDb(dbFile).CanConnectAsync().ConfigureAwait(false))
             {
                 SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath = dbFile;
@@ -138,14 +145,13 @@ namespace RoleDDNG.ViewModels
         {
             if (await OpenCharacterDbIfNoneOpenAsync().ConfigureAwait(false))
             {
-                AddMdiWindow<T>();
+                AddDocumentViewModel<T>();
             }
         }
 
         private async Task<bool> OpenCharacterDbIfNoneOpenAsync()
         {
-            if (!string.IsNullOrWhiteSpace(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath) &&
-                File.Exists(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath))
+            if (File.Exists(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath))
             {
                 return true;
             }
@@ -155,8 +161,12 @@ namespace RoleDDNG.ViewModels
         private async Task<bool> OpenCharactersDatabaseAsync()
         {
             var dbFile = SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath;
-            if (string.IsNullOrWhiteSpace(dbFile))
+            if (!File.Exists(dbFile))
             {
+                if(_isStartingUp)
+                {
+                    return false;
+                }
                 dbFile = await AskForCharactersDbFileAsync().ConfigureAwait(false);
             }
             return await OpenCharacterDbAsync(dbFile).ConfigureAwait(false);
@@ -166,11 +176,7 @@ namespace RoleDDNG.ViewModels
         {
             IsBusy = true;
             var configDir = Path.GetDirectoryName(_appSettingsFilePath);
-            if (!Directory.Exists(configDir))
-            {
-                Directory.CreateDirectory(configDir);
-            }
-
+            Directory.CreateDirectory(configDir);
             await SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>().SerializeAsync(_appSettingsFilePath, SimpleIoc.Default.GetInstance<AppSettings>()).ConfigureAwait(false);
             IsBusy = false;
         }

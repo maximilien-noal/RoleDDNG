@@ -21,11 +21,11 @@ using RoleDDNG.ViewModels;
 
 namespace RoleDDNG.Role
 {
-    /// <summary> Interaction logic for MainWindow.xaml </summary>
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window
     {
-        private bool _forceClose = false;
-
         public MainWindow()
         {
             SimpleIoc.Default.Register<IWindowPlacer, HwndPlacer>();
@@ -59,20 +59,10 @@ namespace RoleDDNG.Role
 
         private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;
-            if (_forceClose)
-            {
-                e.Cancel = false;
-                return;
-            }
+            Closing -= MainWindow_Closing;
             SimpleIoc.Default.GetInstance<IWindowPlacer>().GetWindowPlacement(new WindowInteropHelper(this).Handle, out WindowPlacement windowPlacement);
             SimpleIoc.Default.GetInstance<AppSettings>().MainWindowPlacement = windowPlacement;
             await SimpleIoc.Default.GetInstance<MainViewModel>().ExitAppAsync().ConfigureAwait(true);
-            if (!_forceClose)
-            {
-                _forceClose = true;
-                Close();
-            }
         }
 
         private async void Window_SourceInitialized(object sender, System.EventArgs e)

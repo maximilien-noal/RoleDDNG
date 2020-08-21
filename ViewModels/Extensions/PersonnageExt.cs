@@ -4,17 +4,17 @@ namespace RoleDDNG.ViewModels.Extensions
 {
     internal static class PersonnageExt
     {
-        public static double GetNextLevelXp(this Personnage character)
+        public static double GetXpPointsForLevel(this Personnage character)
         {
-            return GetXpLevel(character.NiveauGE + 1);
+            return GetXpPointsForLevel(character.NiveauGE);
         }
 
-        public static double GetXpLevel(this Personnage character)
+        public static double GetXpPointsForNextLevel(this Personnage character)
         {
-            return GetXpLevel(character.NiveauGE);
+            return GetXpPointsForLevel(character.NiveauGE + 1);
         }
 
-        private static double GetXpLevel(double level)
+        private static double GetXpPointsForLevel(double level)
         {
             var xpLevel = 0;
 

@@ -37,7 +37,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
         {
             Add = new AsyncCommand(AddMethodAsync);
             Save = new AsyncCommand(SaveMethodAsync);
-            Cancel = new RelayCommand(() => SimpleIoc.Default.GetInstance<MainViewModel>().RemoveMdiWindow<CharactersXpViewModel>());
+            Cancel = new RelayCommand(() => SimpleIoc.Default.GetInstance<MainViewModel>().RemoveDocumentViewModel<CharactersXpViewModel>());
         }
 
         public AsyncCommand Add { get; private set; }
@@ -101,15 +101,15 @@ namespace RoleDDNG.ViewModels.Menus.Tools
                 {
                     character.NiveauGE -= 1;
                 }
-                if (character.TotalXp.HasValue && character.TotalXp > character.GetXpLevel())
+                if (character.TotalXp.HasValue && character.TotalXp > character.GetXpPointsForLevel())
                 {
                     character.Xp = character.TotalXp.Value;
                 }
                 else
                 {
-                    character.Xp = character.GetXpLevel();
+                    character.Xp = character.GetXpPointsForLevel();
                 }
-                character.NiveauSuivant = character.GetNextLevelXp();
+                character.NiveauSuivant = character.GetXpPointsForNextLevel();
                 if (character.Xp >= character.NiveauSuivant)
                 {
                     character.IsBelowNormalXpLevel = true;

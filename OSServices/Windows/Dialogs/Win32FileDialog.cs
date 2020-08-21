@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 
 using Microsoft.Win32;
@@ -22,7 +23,7 @@ namespace RoleDDNG.OSServices.Windows.Dialogs
                     Filter = $"{defaultExtension.Substring(1)} ({defaultExtension})|*{defaultExtension}",
                     Title = dialogTitle
                 };
-                if (dialog.ShowDialog() == true)
+                if (dialog.ShowDialog(Application.Current.MainWindow) == true)
                 {
                     filename = dialog.FileName;
                 }
