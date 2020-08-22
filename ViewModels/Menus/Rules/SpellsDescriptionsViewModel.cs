@@ -9,7 +9,7 @@ namespace RoleDDNG.ViewModels.Menus.Rules
 {
     public class SpellsDescriptionsViewModel : ViewModelBase, IDocumentViewModel, IDbDependantViewModel
     {
-        private bool _isBusy = false;
+        private bool _isBusy;
 
         private Sort? _selectedSpell;
 

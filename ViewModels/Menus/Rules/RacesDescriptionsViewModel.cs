@@ -9,7 +9,7 @@ namespace RoleDDNG.ViewModels.Menus.Rules
 {
     public class RacesDescriptionsViewModel : CollectionViewModel<RacePersonnage>, IDocumentViewModel, IDbDependantViewModel
     {
-        private bool _isBusy = false;
+        private bool _isBusy;
 
         public bool IsBusy { get => _isBusy; set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
