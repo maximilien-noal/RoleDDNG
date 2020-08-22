@@ -25,6 +25,7 @@
             <DockPanel>
                 <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
                     <dotNetKitControls:AutoCompleteComboBox
+
                         TextSearch.TextPath="Nom"
                         IsTextSearchCaseSensitive="False"
                         IsTextSearchEnabled="True"
@@ -40,7 +41,6 @@
                                 <TextBlock Text="{Binding Converter={StaticResource SpellToNameConverter}}"></TextBlock>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding Converter={StaticResource SpellToIsFromVersionThreeConverter}}" Value="True">
-                                        <Setter Property="Selector.Foreground" Value="Red" />
                                         <Setter Property="Selector.FontWeight" Value="Bold" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
@@ -63,7 +63,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="1" Grid.Column="0">
                         <Label>Version</Label>
-                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Version}" TextWrapping="Wrap" />
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Version}" FontWeight="DemiBold" TextWrapping="Wrap" />
                         <Label>Ecole [Branche] (Registre)</Label>
                         <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Ecole}" TextWrapping="Wrap" />
                         <Label>Niveau</Label>
