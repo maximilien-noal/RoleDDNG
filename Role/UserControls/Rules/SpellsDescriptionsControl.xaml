@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
              xmlns:userControls="clr-namespace:RoleDDNG.Role.UserControls"
+             xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
              xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
              Title="Description des sorts"
              DataContext="{Binding Source={StaticResource Locator}, Path=SpellsDescriptions}"
@@ -13,29 +14,94 @@
              d:DesignHeight="450" d:DesignWidth="800"
             MinWidth="800" MinHeight="600">
     <userControls:WindowContent.Resources>
+        <converters:SpellToNameConverter x:Key="SpellToNameConverter" />
+        <converters:SpellToIsFromVersionThreeConverter x:Key="SpellToIsFromVersionThreeConverter" />
+        <converters:EpicSpellToVisibilityConverter x:Key="EpicSpellToVisibilityConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/SpellsDescriptionsIcon.png" />
     </userControls:WindowContent.Resources>
-    <DockPanel>
-        <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
-            <dotNetKitControls:AutoCompleteComboBox
-                DisplayMemberPath="Nom"
-                SelectedValuePath="Nom"
-                TextSearch.TextPath="Nom"
-                IsTextSearchCaseSensitive="False"
-                IsTextSearchEnabled="True"
-                ItemsSource="{Binding Collection}"
-                SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Précédent" Command="{Binding Previous}" />
-                <Button Content="Suivant" Command="{Binding Next}" />
-            </StackPanel>
-        </StackPanel>
-        <Grid DockPanel.Dock="Left">
-            <ScrollViewer>
-                <TextBlock DataContext="{Binding SelectedItem}" Text="{Binding Explication}" IsEnabled="False" TextWrapping="Wrap" />
-            </ScrollViewer>
-        </Grid>
+    <Grid>
+        <ScrollViewer>
+            <DockPanel>
+                <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                    <dotNetKitControls:AutoCompleteComboBox
+                        TextSearch.TextPath="Nom"
+                        IsTextSearchCaseSensitive="False"
+                        IsTextSearchEnabled="True"
+                        ItemsSource="{Binding Collection}"
+                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                        <dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
+                        <dotNetKitControls:AutoCompleteComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource SpellToNameConverter}}"></TextBlock>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Converter={StaticResource SpellToIsFromVersionThreeConverter}}" Value="True">
+                                        <Setter Property="Selector.Foreground" Value="Red" />
+                                        <Setter Property="Selector.FontWeight" Value="Bold" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </dotNetKitControls:AutoCompleteComboBox.ItemTemplate>
+                    </dotNetKitControls:AutoCompleteComboBox>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Précédent" Command="{Binding Previous}" />
+                        <Button Content="Suivant" Command="{Binding Next}" />
+                    </StackPanel>
+                </StackPanel>
+                <Grid DockPanel.Dock="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="4*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="1" Grid.Column="0">
+                        <Label>Version</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Version}" TextWrapping="Wrap" />
+                        <Label>Ecole [Branche] (Registre)</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Ecole}" TextWrapping="Wrap" />
+                        <Label>Niveau</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.ClasseNiveau}" TextWrapping="Wrap" />
+                        <Label>Composante</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Composantes}" TextWrapping="Wrap" />
+                        <Label>Temps d'incantation</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.TempsIncantation}" TextWrapping="Wrap" />
+                        <Label>Portée</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Portee}" TextWrapping="Wrap" />
+                        <Label>Cible</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Cible}" TextWrapping="Wrap" />
+                        <Label>Effet</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Effet}" TextWrapping="Wrap" />
+                        <Label>Zone d'effet</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.ZoneDeffet}" TextWrapping="Wrap" />
+                        <Label>Durée</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Duree}" TextWrapping="Wrap" />
+                        <Label>Jet de sauvegarde</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.JetDeSauvegarde}" TextWrapping="Wrap" />
+                        <Label>Résistance à la magie</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.ResistanceALaMagie}" TextWrapping="Wrap" />
+                        <Label>Source</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Source}" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="2">
+                        <Label Name="DD" Visibility="{Binding SelectedItem, Converter={StaticResource EpicSpellToVisibilityConverter}}">DD pour lancer le sort épique</Label>
+                        <TextBlock DataContext="{Binding SelectedItem}" Text="{Binding DDdeDifficultee}" IsEnabled="False" TextWrapping="Wrap"
+                                   Visibility="{Binding Visibility, ElementName=DD}" />
+                        <Label Visibility="{Binding Visibility, ElementName=DD}">Pour développer</Label>
+                        <TextBlock DataContext="{Binding SelectedItem}" Text="{Binding PourDevelopper}" IsEnabled="False" TextWrapping="Wrap"
+                                   Visibility="{Binding Visibility, ElementName=DD}" />
+                        <Label>Explication</Label>
+                        <TextBlock DataContext="{Binding SelectedItem}" Text="{Binding Explication}" IsEnabled="False" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Grid>
+            </DockPanel>
+        </ScrollViewer>
         <Grid
                 Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
                 Opacity="0.5"
@@ -48,5 +114,5 @@
                     Chargement en cours...
             </TextBlock>
         </Grid>
-    </DockPanel>
+    </Grid>
 </userControls:WindowContent>

@@ -3,9 +3,9 @@ using PetaPoco;
 
 namespace RoleDDNG.Models.Roles
 {
-    [TableName(nameof(Sort))]
+    [TableName("Sort")]
     [PrimaryKey(nameof(Nom))]
-    public class Sort : ObservableObject
+    public class Spell : ObservableObject
     {
         private string _cible = "";
 
@@ -45,7 +45,7 @@ namespace RoleDDNG.Models.Roles
 
         private string _zoneDeffet = "";
 
-        public Sort()
+        public Spell()
         {
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.Menus.Rules
 {
-    public class SpellsDescriptionsViewModel : CollectionViewModel<Sort>, IDocumentViewModel, IDbDependantViewModel
+    public class SpellsDescriptionsViewModel : CollectionViewModel<Spell>, IDocumentViewModel, IDbDependantViewModel
     {
         private bool _isBusy;
 
@@ -16,7 +16,7 @@ namespace RoleDDNG.ViewModels.Menus.Rules
         {
             IsBusy = true;
             using var progDb = DB.ProgDb.Create();
-            SetCollection(new ObservableCollection<Sort>(await Task.Run(() => progDb.Query<Sort>("select Nom,Explication from Sort order by Nom").Where(x => string.IsNullOrWhiteSpace(x.Explication) == false)).ConfigureAwait(false)));
+            SetCollection(new ObservableCollection<Spell>(await Task.Run(() => progDb.Query<Spell>("select * from Sort order by Nom").Where(x => string.IsNullOrWhiteSpace(x.Explication) == false)).ConfigureAwait(false)));
             if (Collection.Any())
             {
                 SelectedItem = Collection.FirstOrDefault();

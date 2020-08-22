@@ -25,7 +25,13 @@
                 IsTextSearchCaseSensitive="False"
                 IsTextSearchEnabled="True"
                 ItemsSource="{Binding Collection}"
-                SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                <dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
+            </dotNetKitControls:AutoCompleteComboBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Précédent" Command="{Binding Previous}" />
                 <Button Content="Suivant" Command="{Binding Next}" />
