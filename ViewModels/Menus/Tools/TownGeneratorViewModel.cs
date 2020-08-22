@@ -17,7 +17,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
 
         private int _dimePercentage = 10;
 
-        private bool _isBusy = false;
+        private bool _isBusy;
 
         private int _popCount = 500;
 

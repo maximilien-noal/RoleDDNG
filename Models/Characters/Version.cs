@@ -8,9 +8,9 @@ namespace RoleDDNG.Models.Characters
     {
         private DateTime? _dateModif = DateTime.MinValue;
 
-        private short? _objets = 0;
+        private short? _objets;
 
-        private short _version1 = 0;
+        private short _version1;
 
         public Version()
         {

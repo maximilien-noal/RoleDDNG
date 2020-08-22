@@ -23,15 +23,15 @@ namespace RoleDDNG.ViewModels.Menus.Tools
 
         private ObservableCollection<Personnage> _charactersLog = new ObservableCollection<Personnage>();
 
-        private int _fp = 0;
+        private int _fp;
 
-        private bool _isBusy = false;
+        private bool _isBusy;
 
         private Personnage? _selectedCharacter;
 
-        private double _xpCalculated = 0;
+        private double _xpCalculated;
 
-        private double _xpPercentage = 0;
+        private double _xpPercentage;
 
         public CharactersXpViewModel()
         {

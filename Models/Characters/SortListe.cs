@@ -8,7 +8,7 @@ namespace RoleDDNG.Models.Characters
 
         private string _emplacementSort = "";
 
-        private int _id = 0;
+        private int _id;
 
         private string _metamagie = "";
 

@@ -7,7 +7,7 @@ namespace RoleDDNG.Models.Roles
     [TableName(nameof(Classe))]
     public class ClassePersonnage : ObservableObject
     {
-        private bool _affichage = false;
+        private bool _affichage;
 
         private string _alignements = "";
 
@@ -23,27 +23,27 @@ namespace RoleDDNG.Models.Roles
 
         private string _classe = "";
 
-        private int _competenceNiveauSupp = 0;
+        private int _competenceNiveauSupp;
 
         private string _conditions = "";
 
         private string _description = "";
 
-        private bool _estLanceurSort = false;
+        private bool _estLanceurSort;
 
-        private bool _estLimite = false;
+        private bool _estLimite;
 
-        private bool _estTout = false;
+        private bool _estTout;
 
         private string _listSort = "";
 
-        private int _nls = 0;
+        private int _nls;
 
-        private int _number = 0;
+        private int _number;
 
-        private int _pointDeVie = 0;
+        private int _pointDeVie;
 
-        private int _progression = 0;
+        private int _progression;
 
         private string _sorts = "";
 

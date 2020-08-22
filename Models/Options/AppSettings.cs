@@ -8,7 +8,7 @@ namespace RoleDDNG.Models.Options
     {
         private string _lastCharacterDBPath = "";
 
-        private WindowPlacement _mainWindowPlacement = default;
+        private WindowPlacement _mainWindowPlacement;
 
         public string LastCharacterDBPath { get => _lastCharacterDBPath; set { Set(nameof(_lastCharacterDBPath), ref _lastCharacterDBPath, value); } }
 

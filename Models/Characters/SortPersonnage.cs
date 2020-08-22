@@ -6,7 +6,7 @@ namespace RoleDDNG.Models.Characters
     {
         private string _classePerso = "";
 
-        private int _id = 0;
+        private int _id;
 
         private string _niveau = "";
 

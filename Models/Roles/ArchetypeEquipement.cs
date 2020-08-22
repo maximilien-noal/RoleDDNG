@@ -6,9 +6,9 @@ namespace RoleDDNG.Models.Roles
     {
         private string _archetype = "";
 
-        private int _emplacement = 0;
+        private int _emplacement;
 
-        private int _multiple = 0;
+        private int _multiple;
 
         private string _objet = "";
 

@@ -11,7 +11,7 @@ namespace RoleDDNG.Models.Characters
 
         private int _sides = 6;
 
-        private int _sum = 0;
+        private int _sum;
 
         public DiceRollEntry()
         {

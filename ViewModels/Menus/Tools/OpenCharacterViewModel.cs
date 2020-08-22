@@ -12,7 +12,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
 
         private ObservableCollection<Personnage> _characters = new ObservableCollection<Personnage>();
 
-        private bool _isBusy = false;
+        private bool _isBusy;
 
         public ObservableCollection<Personnage> Characters { get => _characters; private set { Set(nameof(Characters), ref _characters, value); } }
 

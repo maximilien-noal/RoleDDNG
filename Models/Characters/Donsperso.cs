@@ -6,31 +6,31 @@ namespace RoleDDNG.Models.Characters
     {
         private string _caracteristique = "";
 
-        private bool _epique = false;
+        private bool _epique;
 
         private string _explication = "";
 
         private string _genre = "";
 
-        private bool _liearme = false;
+        private bool _liearme;
 
-        private bool _multiple = false;
+        private bool _multiple;
 
         private string _nom = "";
 
-        private bool _pouvoir = false;
+        private bool _pouvoir;
 
-        private bool _prive = false;
+        private bool _prive;
 
         private string _résumé = "";
 
         private string _source = "";
 
-        private bool _tare = false;
+        private bool _tare;
 
-        private bool _trait = false;
+        private bool _trait;
 
-        private double? _version = 0d;
+        private double? _version;
 
         public Donsperso()
         {

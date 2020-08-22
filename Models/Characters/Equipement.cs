@@ -6,7 +6,7 @@ namespace RoleDDNG.Models.Characters
     {
         private short? _charge = 0;
 
-        private int _id = 0;
+        private int _id;
 
         private short? _multiple = 0;
 
@@ -20,7 +20,7 @@ namespace RoleDDNG.Models.Characters
 
         private short? _pos = 0;
 
-        private bool _surPersonnage = false;
+        private bool _surPersonnage;
 
         private string _type = "";
 

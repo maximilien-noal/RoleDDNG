@@ -10,7 +10,7 @@ namespace RoleDDNG.Models.Roles
 
         private string _competence = "";
 
-        private int _modif = 0;
+        private int _modif;
 
         private string _texte = "";
 

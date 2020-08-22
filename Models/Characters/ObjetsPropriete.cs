@@ -4,7 +4,7 @@ namespace RoleDDNG.Models.Characters
 {
     public class ObjetsPropriete : ObservableObject
     {
-        private int _id = 0;
+        private int _id;
 
         private string _nomObjet = "";
 

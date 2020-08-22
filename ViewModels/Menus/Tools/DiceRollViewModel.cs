@@ -18,7 +18,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
 
         private ObservableCollection<int> _results = new ObservableCollection<int>();
 
-        private int _sum = 0;
+        private int _sum;
 
         public DiceRollViewModel()
         {

@@ -8,7 +8,7 @@ namespace RoleDDNG.Models.Characters
     [PrimaryKey("Nom")]
     public class Personnage : ObservableObject
     {
-        private short? _age = 0;
+        private short? _age;
 
         private string _alignement = "";
 
@@ -24,9 +24,9 @@ namespace RoleDDNG.Models.Characters
 
         private string _backGround = "";
 
-        private short? _beaute = 0;
+        private short? _beaute;
 
-        private short? _charme = 0;
+        private short? _charme;
 
         private string _cheveux = "";
 
@@ -90,9 +90,9 @@ namespace RoleDDNG.Models.Characters
 
         private short? _érudition = 0;
 
-        private bool _exclu = false;
+        private bool _exclu;
 
-        private double _gainXp = 0;
+        private double _gainXp;
 
         private string _histoire = "";
 
@@ -102,7 +102,7 @@ namespace RoleDDNG.Models.Characters
 
         private short? _intuition = 0;
 
-        private bool _isBelowNormalXpLevel = false;
+        private bool _isBelowNormalXpLevel;
 
         private string _langueConnue = "";
 
@@ -126,11 +126,11 @@ namespace RoleDDNG.Models.Characters
 
         private short? _niv8 = 0;
 
-        private int _niveau = 0;
+        private int _niveau;
 
-        private double _niveauGE = 0;
+        private double _niveauGE;
 
-        private double _nivSuivant = 0;
+        private double _nivSuivant;
 
         private string _nom = "";
 
@@ -138,7 +138,7 @@ namespace RoleDDNG.Models.Characters
 
         private int _part = 1;
 
-        private double _poids = 0;
+        private double _poids;
 
         private short? _précision = 0;
 
@@ -152,27 +152,27 @@ namespace RoleDDNG.Models.Characters
 
         private string _profil = "";
 
-        private short? _puissance = 0;
+        private short? _puissance;
 
         private string _race = "";
 
-        private short? _résistance = 0;
+        private short? _résistance;
 
         private string _sexe = "";
 
-        private short? _taille = 0;
+        private short? _taille;
 
         private string _titre = "";
 
-        private double _totalPo = 0d;
+        private double _totalPo;
 
-        private long? _totalXp = 0;
+        private long? _totalXp;
 
-        private short? _vitalité = 0;
+        private short? _vitalité;
 
-        private short? _volonté = 0;
+        private short? _volonté;
 
-        private double _xp = 0;
+        private double _xp;
 
         private string _yeux = "";
 

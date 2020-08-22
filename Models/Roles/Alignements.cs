@@ -8,7 +8,7 @@ namespace RoleDDNG.Models.Roles
 
         private string _nom = "";
 
-        private int _ordre = 0;
+        private int _ordre;
 
         public Alignements()
         {

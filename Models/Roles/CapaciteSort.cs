@@ -10,7 +10,7 @@ namespace RoleDDNG.Models.Roles
 
         private string _bonusBase = "";
 
-        private bool _bonusCapacite = false;
+        private bool _bonusCapacite;
 
         private string _categorie = "";
 
@@ -18,27 +18,27 @@ namespace RoleDDNG.Models.Roles
 
         private string _genre = "";
 
-        private int _index = 0;
+        private int _index;
 
-        private bool _lieArme = false;
+        private bool _lieArme;
 
-        private int _max = 0;
+        private int _max;
 
-        private int _min = 0;
+        private int _min;
 
-        private bool _multiple = false;
+        private bool _multiple;
 
         private string _nom = "";
 
-        private bool _personnel = false;
+        private bool _personnel;
 
         private string _sousCategorie = "";
 
-        private int _tousLes = 0;
+        private int _tousLes;
 
         private string _type = "";
 
-        private int _version = 0;
+        private int _version;
 
         public CapaciteSort()
         {

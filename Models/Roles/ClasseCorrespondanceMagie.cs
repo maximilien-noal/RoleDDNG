@@ -4,17 +4,17 @@ namespace RoleDDNG.Models.Roles
 {
     public class ClasseCorrespondanceMagie : ObservableObject
     {
-        private int _bonusDeSort = 0;
+        private int _bonusDeSort;
 
         private string _classeEsclave = "";
 
         private string _classeMaitre = "";
 
-        private int _niveau = 0;
+        private int _niveau;
 
-        private int _point = 0;
+        private int _point;
 
-        private int _sortAutreEnPlus = 0;
+        private int _sortAutreEnPlus;
 
         public ClasseCorrespondanceMagie()
         {

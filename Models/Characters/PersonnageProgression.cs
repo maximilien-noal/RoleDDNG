@@ -6,35 +6,35 @@ namespace RoleDDNG.Models.Characters
 {
     public class PersonnageProgression : ObservableObject
     {
-        private short? _cha = 0;
+        private short? _cha;
 
         private string _classe = "";
 
         private string _competence = "";
 
-        private short? _con = 0;
+        private short? _con;
 
-        private short? _dex = 0;
+        private short? _dex;
 
-        private short? _for = 0;
+        private short? _for;
 
-        private int _id = 0;
+        private int _id;
 
-        private short? _int = 0;
+        private short? _int;
 
-        private short? _modifint = 0;
+        private short? _modifint;
 
-        private short? _niv = 0;
+        private short? _niv;
 
-        private short? _niveau = 0;
+        private short? _niveau;
 
         private string _nom = "";
 
         private Personnage _nomNavigation = new Personnage();
 
-        private short? _pv = 0;
+        private short? _pv;
 
-        private short? _sag = 0;
+        private short? _sag;
 
         public PersonnageProgression()
         {

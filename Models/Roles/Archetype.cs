@@ -12,25 +12,25 @@ namespace RoleDDNG.Models.Roles
 
         private string _archetype = "";
 
-        private int _ca = 0;
+        private int _ca;
 
-        private int _cha = 0;
+        private int _cha;
 
-        private int _competence = 0;
+        private int _competence;
 
-        private int _con = 0;
+        private int _con;
 
-        private int _deplacement = 0;
+        private int _deplacement;
 
-        private int _deplacementAir = 0;
+        private int _deplacementAir;
 
-        private int _deplacementEau = 0;
+        private int _deplacementEau;
 
         private string _description = "";
 
-        private int _dex = 0;
+        private int _dex;
 
-        private int _don = 0;
+        private int _don;
 
         private string _don1 = "";
 
@@ -56,49 +56,49 @@ namespace RoleDDNG.Models.Roles
 
         private string _don9 = "";
 
-        private int _for = 0;
+        private int _for;
 
-        private int _fp = 0;
+        private int _fp;
 
-        private int _int = 0;
+        private int _int;
 
         private string _langue = "";
 
         private string _manoeuvrabilite = "";
 
-        private int _number = 0;
+        private int _number;
 
-        private int _progressionResistance = 0;
+        private int _progressionResistance;
 
-        private int _reflexe = 0;
+        private int _reflexe;
 
-        private int _resistanceAcide = 0;
+        private int _resistanceAcide;
 
-        private int _resistanceDegat = 0;
+        private int _resistanceDegat;
 
         private string _resistanceDegatTexte = "";
 
-        private int _resistanceElectricite = 0;
+        private int _resistanceElectricite;
 
-        private int _resistanceFeu = 0;
+        private int _resistanceFeu;
 
-        private int _resistanceFroid = 0;
+        private int _resistanceFroid;
 
-        private int _resistanceMagie = 0;
+        private int _resistanceMagie;
 
-        private int _resistanceSon = 0;
+        private int _resistanceSon;
 
-        private int _sag = 0;
+        private int _sag;
 
         private string _taille = "";
 
-        private int _vigueur = 0;
+        private int _vigueur;
 
-        private int _vision = 0;
+        private int _vision;
 
         private string _vision_texte = "";
 
-        private int _volonte = 0;
+        private int _volonte;
 
         public Archetype()
         {
