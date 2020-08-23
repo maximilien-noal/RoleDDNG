@@ -48,7 +48,7 @@
 		<None Remove="UserControls\Assets\CharactersXPToolIcon.png" />
 		<None Remove="UserControls\Assets\DiceRollButon.png" />
 		<None Remove="UserControls\Assets\DiceRollIcon.png" />
-		<None Remove="UserControls\Assets\GiftsDescriptionsIcon.png" />
+		<None Remove="UserControls\Assets\DonsDescriptionsIcon.png" />
 		<None Remove="UserControls\Assets\ObjectsManagmentToolIcon.png" />
 		<None Remove="UserControls\Assets\OpenCharacterIcon.png" />
 		<None Remove="UserControls\Assets\RacesDescriptionsIcon.png" />
@@ -94,7 +94,7 @@
 		<Resource Include="UserControls\Assets\CharactersXPToolIcon.png" />
 		<Resource Include="UserControls\Assets\DiceRollButon.png" />
 		<Resource Include="UserControls\Assets\DiceRollIcon.png" />
-		<Resource Include="UserControls\Assets\GiftsDescriptionsIcon.png" />
+		<Resource Include="UserControls\Assets\DonsDescriptionsIcon.png" />
 		<Resource Include="UserControls\Assets\ObjectsManagmentToolIcon.png" />
 		<Resource Include="UserControls\Assets\OpenCharacterIcon.png" />
 		<Resource Include="UserControls\Assets\RacesDescriptionsIcon.png" />

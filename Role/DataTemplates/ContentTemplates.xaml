@@ -26,6 +26,10 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type rulesVms:SpellsDescriptionsViewModel}">
-        <uc:SpellsDescriptionsControls />
+        <uc:SpellsDescriptionsControl />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type rulesVms:DonsDescriptionsViewModel}">
+        <uc:DonsDescriptionsControl />
     </DataTemplate>
 </ResourceDictionary>

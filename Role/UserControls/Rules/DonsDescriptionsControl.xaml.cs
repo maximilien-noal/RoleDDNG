@@ -1,8 +1,8 @@
-﻿namespace RoleDDNG.Role.UserControls.Rules
+﻿namespace RoleDDNG.Role.UserControls
 {
-    public partial class ClassSpellsDescriptionsControl : WindowContent
+    public partial class DonsDescriptionsControl : WindowContent
     {
-        public ClassSpellsDescriptionsControl()
+        public DonsDescriptionsControl()
         {
             InitializeComponent();
         }
