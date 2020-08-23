@@ -54,20 +54,20 @@
                         <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Genre}" TextWrapping="Wrap" />
                         <Label>Type</Label>
                         <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Type}" TextWrapping="Wrap" />
-                        <Label>Résumé</Label>
-                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Resume}" TextWrapping="Wrap" />
-                        <Label>Condition</Label>
-                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Condition}" TextWrapping="Wrap" />
-                        <Label>Normal</Label>
-                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Normal}" TextWrapping="Wrap" />
-                        <Label>Spécial</Label>
-                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Special}" TextWrapping="Wrap" />
                         <Label>Source</Label>
                         <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Source}" TextWrapping="Wrap" />
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="2">
-                        <Label>Explication</Label>
+                        <Label>Résumé</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Resume}" TextWrapping="Wrap" />
+                        <Label>Condition</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Condition}" TextWrapping="Wrap" />
+                        <Label>Avantage</Label>
                         <TextBlock DataContext="{Binding SelectedItem}" Text="{Binding Explication}" IsEnabled="False" TextWrapping="Wrap" />
+                        <Label>Normal</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Normal}" TextWrapping="Wrap" />
+                        <Label>Spécial</Label>
+                        <TextBlock IsEnabled="False" Text="{Binding SelectedItem.Special}" TextWrapping="Wrap" />
                     </StackPanel>
                 </Grid>
             </DockPanel>
