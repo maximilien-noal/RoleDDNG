@@ -7,12 +7,12 @@ namespace RoleDDNG.Models.Roles
     [PrimaryKey(nameof(Nom))]
     public class DonGenre : ObservableObject
     {
-        private string _nom = "";
+        private string? _nom;
 
         public DonGenre()
         {
         }
 
-        public string Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
+        public string? Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
     }
 }

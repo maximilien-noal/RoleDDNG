@@ -8,9 +8,9 @@ namespace RoleDDNG.Models.Characters
     {
         private short? _cha;
 
-        private string _classe = "";
+        private string? _classe;
 
-        private string _competence = "";
+        private string? _competence;
 
         private short? _con;
 
@@ -28,7 +28,7 @@ namespace RoleDDNG.Models.Characters
 
         private short? _niveau;
 
-        private string _nom = "";
+        private string? _nom;
 
         private Personnage _nomNavigation = new Personnage();
 
@@ -42,9 +42,9 @@ namespace RoleDDNG.Models.Characters
 
         public short? Cha { get => _cha; set { Set(nameof(Cha), ref _cha, value); } }
 
-        public string Classe { get => _classe; set { Set(nameof(Classe), ref _classe, value); } }
+        public string? Classe { get => _classe; set { Set(nameof(Classe), ref _classe, value); } }
 
-        public string Competence { get => _competence; set { Set(nameof(Competence), ref _competence, value); } }
+        public string? Competence { get => _competence; set { Set(nameof(Competence), ref _competence, value); } }
 
         public short? Con { get => _con; set { Set(nameof(Con), ref _con, value); } }
 
@@ -63,7 +63,7 @@ namespace RoleDDNG.Models.Characters
 
         public short? Niveau { get => _niveau; set { Set(nameof(Niveau), ref _niveau, value); } }
 
-        public string Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
+        public string? Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
 
         public virtual Personnage NomNavigation { get => _nomNavigation; set { Set(nameof(NomNavigation), ref _nomNavigation, value); } }
 

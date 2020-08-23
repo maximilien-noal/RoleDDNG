@@ -19,7 +19,7 @@ namespace RoleDDNG.Role.Converters
                 {
                     return $"{spell.Nom} (version 3.0)";
                 }
-                return spell.Nom;
+                return spell.Nom is null ? "" : spell.Nom;
             }
             return "";
         }

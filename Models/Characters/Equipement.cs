@@ -10,9 +10,9 @@ namespace RoleDDNG.Models.Characters
 
         private short? _multiple = 0;
 
-        private string _nomObjet = "";
+        private string? _nomObjet;
 
-        private string _personnage = "";
+        private string? _personnage;
 
         private Personnage _personnageNavigation = new Personnage();
 
@@ -22,7 +22,7 @@ namespace RoleDDNG.Models.Characters
 
         private bool _surPersonnage;
 
-        private string _type = "";
+        private string? _type;
 
         public Equipement()
         {
@@ -34,9 +34,9 @@ namespace RoleDDNG.Models.Characters
 
         public short? Multiple { get => _multiple; set { Set(nameof(Multiple), ref _multiple, value); } }
 
-        public string NomObjet { get => _nomObjet; set { Set(nameof(NomObjet), ref _nomObjet, value); } }
+        public string? NomObjet { get => _nomObjet; set { Set(nameof(NomObjet), ref _nomObjet, value); } }
 
-        public string Personnage { get => _personnage; set { Set(nameof(Personnage), ref _personnage, value); } }
+        public string? Personnage { get => _personnage; set { Set(nameof(Personnage), ref _personnage, value); } }
 
         public virtual Personnage PersonnageNavigation { get => _personnageNavigation; set { Set(nameof(PersonnageNavigation), ref _personnageNavigation, value); } }
 
@@ -46,6 +46,6 @@ namespace RoleDDNG.Models.Characters
 
         public bool SurPersonnage { get => _surPersonnage; set { Set(nameof(SurPersonnage), ref _surPersonnage, value); } }
 
-        public string Type { get => _type; set { Set(nameof(Type), ref _type, value); } }
+        public string? Type { get => _type; set { Set(nameof(Type), ref _type, value); } }
     }
 }

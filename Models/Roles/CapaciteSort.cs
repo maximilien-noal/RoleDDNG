@@ -6,17 +6,17 @@ namespace RoleDDNG.Models.Roles
 {
     public class CapaciteSort : ObservableObject
     {
-        private string _augmentation = "";
+        private string? _augmentation;
 
-        private string _bonusBase = "";
+        private string? _bonusBase;
 
         private bool _bonusCapacite;
 
-        private string _categorie = "";
+        private string? _categorie;
 
-        private string _explication = "";
+        private string? _explication;
 
-        private string _genre = "";
+        private string? _genre;
 
         private int _index;
 
@@ -28,15 +28,15 @@ namespace RoleDDNG.Models.Roles
 
         private bool _multiple;
 
-        private string _nom = "";
+        private string? _nom;
 
         private bool _personnel;
 
-        private string _sousCategorie = "";
+        private string? _sousCategorie;
 
         private int _tousLes;
 
-        private string _type = "";
+        private string? _type;
 
         private int _version;
 
@@ -44,17 +44,17 @@ namespace RoleDDNG.Models.Roles
         {
         }
 
-        public string Augmentation { get => _augmentation; set { Set(nameof(Augmentation), ref _augmentation, value); } }
+        public string? Augmentation { get => _augmentation; set { Set(nameof(Augmentation), ref _augmentation, value); } }
 
-        public string BonusBase { get => _bonusBase; set { Set(nameof(BonusBase), ref _bonusBase, value); } }
+        public string? BonusBase { get => _bonusBase; set { Set(nameof(BonusBase), ref _bonusBase, value); } }
 
         public bool BonusCapacite { get => _bonusCapacite; set { Set(nameof(BonusCapacite), ref _bonusCapacite, value); } }
 
-        public string Categorie { get => _categorie; set { Set(nameof(Categorie), ref _categorie, value); } }
+        public string? Categorie { get => _categorie; set { Set(nameof(Categorie), ref _categorie, value); } }
 
-        public string Explication { get => _explication; set { Set(nameof(Explication), ref _explication, value); } }
+        public string? Explication { get => _explication; set { Set(nameof(Explication), ref _explication, value); } }
 
-        public string Genre { get => _genre; set { Set(nameof(Genre), ref _genre, value); } }
+        public string? Genre { get => _genre; set { Set(nameof(Genre), ref _genre, value); } }
 
         public int Index { get => _index; set { Set(nameof(Index), ref _index, value); } }
 
@@ -67,15 +67,15 @@ namespace RoleDDNG.Models.Roles
 
         public bool Multiple { get => _multiple; set { Set(nameof(Multiple), ref _multiple, value); } }
 
-        public string Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
+        public string? Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
 
         public bool Personnel { get => _personnel; set { Set(nameof(Personnel), ref _personnel, value); } }
 
-        public string SousCategorie { get => _sousCategorie; set { Set(nameof(SousCategorie), ref _sousCategorie, value); } }
+        public string? SousCategorie { get => _sousCategorie; set { Set(nameof(SousCategorie), ref _sousCategorie, value); } }
 
         public int TousLes { get => _tousLes; set { Set(nameof(TousLes), ref _tousLes, value); } }
 
-        public string Type { get => _type; set { Set(nameof(Type), ref _type, value); } }
+        public string? Type { get => _type; set { Set(nameof(Type), ref _type, value); } }
 
         public int Version { get => _version; set { Set(nameof(Version), ref _version, value); } }
     }

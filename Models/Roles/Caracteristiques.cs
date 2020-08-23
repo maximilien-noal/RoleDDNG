@@ -4,17 +4,17 @@ namespace RoleDDNG.Models.Roles
 {
     public class Caracteristiques : ObservableObject
     {
-        private string _description = "";
+        private string? _description;
 
-        private string _nom = "";
+        private string? _nom;
 
         public Caracteristiques()
         {
         }
 
-        public string Description { get => _description; set { Set(nameof(Description), ref _description, value); } }
+        public string? Description { get => _description; set { Set(nameof(Description), ref _description, value); } }
 
         /// <summary> Key </summary>
-        public string Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
+        public string? Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
     }
 }

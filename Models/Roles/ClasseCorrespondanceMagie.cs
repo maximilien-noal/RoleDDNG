@@ -6,9 +6,9 @@ namespace RoleDDNG.Models.Roles
     {
         private int _bonusDeSort;
 
-        private string _classeEsclave = "";
+        private string? _classeEsclave;
 
-        private string _classeMaitre = "";
+        private string? _classeMaitre;
 
         private int _niveau;
 
@@ -22,9 +22,9 @@ namespace RoleDDNG.Models.Roles
 
         public int BonusDeSort { get => _bonusDeSort; set { Set(nameof(BonusDeSort), ref _bonusDeSort, value); } }
 
-        public string ClasseEsclave { get => _classeEsclave; set { Set(nameof(ClasseEsclave), ref _classeEsclave, value); } }
+        public string? ClasseEsclave { get => _classeEsclave; set { Set(nameof(ClasseEsclave), ref _classeEsclave, value); } }
 
-        public string ClasseMaitre { get => _classeMaitre; set { Set(nameof(ClasseMaitre), ref _classeMaitre, value); } }
+        public string? ClasseMaitre { get => _classeMaitre; set { Set(nameof(ClasseMaitre), ref _classeMaitre, value); } }
 
         public int Niveau { get => _niveau; set { Set(nameof(Niveau), ref _niveau, value); } }
 
