@@ -44,6 +44,7 @@ namespace RoleDDNG.ViewModels
             OpenCharacterSheet = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<OpenCharacterViewModel>().ConfigureAwait(false));
             OpenRacesDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<RacesDescriptionsViewModel>().ConfigureAwait(false));
             OpenSpellsDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<SpellsDescriptionsViewModel>().ConfigureAwait(false));
+            OpenDonsDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<DonsDescriptionsViewModel>().ConfigureAwait(false));
             BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
         }
 
@@ -58,6 +59,8 @@ namespace RoleDDNG.ViewModels
         public AsyncCommand OpenCharactersDataBase { get; private set; }
 
         public AsyncCommand OpenCharacterSheet { get; private set; }
+
+        public AsyncCommand OpenDonsDescriptions { get; }
 
         public AsyncCommand OpenRacesDescriptions { get; private set; }
 
@@ -91,7 +94,7 @@ namespace RoleDDNG.ViewModels
             }
             IsBusy = false;
             _isStartingUp = false;
-            if(!foundCharacterDb)
+            if (!foundCharacterDb)
             {
                 SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath = "";
             }
@@ -163,7 +166,7 @@ namespace RoleDDNG.ViewModels
             var dbFile = SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath;
             if (!File.Exists(dbFile))
             {
-                if(_isStartingUp)
+                if (_isStartingUp)
                 {
                     return false;
                 }

@@ -23,6 +23,8 @@ namespace RoleDDNG.ViewModels
 
         public DiceRollViewModel DiceRoll => new DiceRollViewModel();
 
+        public DonsDescriptionsViewModel DonsDescriptions => new DonsDescriptionsViewModel();
+
         public MainViewModel Main => SimpleIoc.Default.GetInstance<MainViewModel>();
 
         public OpenCharacterViewModel OpenCharacter => new OpenCharacterViewModel();

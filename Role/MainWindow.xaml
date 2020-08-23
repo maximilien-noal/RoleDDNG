@@ -26,6 +26,10 @@
     </Window.Style>
     <Window.InputBindings>
         <KeyBinding
+            Key="T"
+            Command="{Binding OpenDonsDescriptions}"
+            Modifiers="Control" />
+        <KeyBinding
             Key="S"
             Command="{Binding OpenSpellsDescriptions}"
             Modifiers="Control" />
@@ -97,7 +101,7 @@
                 <MenuItem Header="_Règles" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <MenuItem Header="_Description des sorts" InputGestureText="Ctrl + S" Command="{Binding OpenSpellsDescriptions}" />
                     <MenuItem Header="_Description des races" InputGestureText="Ctrl + R" Command="{Binding OpenRacesDescriptions}" />
-                    <MenuItem Header="_Description des dons" InputGestureText="Ctrl + T" />
+                    <MenuItem Header="_Description des dons" InputGestureText="Ctrl + T" Command="{Binding OpenDonsDescriptions}" />
                 </MenuItem>
                 <MenuItem Header="_Aide">
                     <MenuItem Header="_Astuce du jour" />
