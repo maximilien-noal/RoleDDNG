@@ -18,11 +18,11 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.7.54">
+		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.7.56">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="WpfAnalyzers" Version="3.1.0">
+		<PackageReference Include="WpfAnalyzers" Version="3.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

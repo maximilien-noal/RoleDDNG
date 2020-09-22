@@ -13,16 +13,16 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.7.54">
+		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.7.56">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="PetaPoco.Compiled" Version="6.0.459" />
 		<PackageReference Include="System.Data.OleDb" Version="4.7.1" />
-		<PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="4.2.0" />
+		<PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="4.3.0" />
 		<PackageReference Include="MvvmLightStd10" Version="5.4.1.2" />
 		<PackageReference Include="RandN" Version="0.1.0" />
-		<PackageReference Include="WpfAnalyzers" Version="3.1.0">
+		<PackageReference Include="WpfAnalyzers" Version="3.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
