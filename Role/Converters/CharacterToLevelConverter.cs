@@ -7,7 +7,7 @@ using System.Windows.Data;
 
 namespace RoleDDNG.Role.Converters
 {
-    [ValueConversion(typeof(Personnage), typeof(short))]
+    [ValueConversion(typeof(Personnage), typeof(int))]
     public sealed class CharacterToLevelConverter : IValueConverter
     {
         /// <summary> Gets the default instance </summary>
@@ -21,16 +21,7 @@ namespace RoleDDNG.Role.Converters
             }
             if (value is Personnage character)
             {
-                var col = new short?[] { character.Niv1, character.Niv2, character.Niv3, character.Niv4, character.Niv5, character.Niv6, character.Niv7, character.Niv8 };
-                var maxLevel = col.Max();
-                if(maxLevel is null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return maxLevel;
-                }
+                character.EffectiveLevel();
             }
             return 0;
         }

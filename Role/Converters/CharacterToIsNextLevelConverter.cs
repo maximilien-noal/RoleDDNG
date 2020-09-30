@@ -20,7 +20,7 @@ namespace RoleDDNG.Role.Converters
             }
             if (value is Personnage character)
             {
-                return character.Xp >= character.NiveauSuivant;
+                return character.ShouldBeNextLevel();
             }
             return false;
         }

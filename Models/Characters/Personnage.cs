@@ -1,6 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
+
 using PetaPoco;
+
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace RoleDDNG.Models.Characters
 {
@@ -8,6 +11,31 @@ namespace RoleDDNG.Models.Characters
     [PrimaryKey("Nom")]
     public class Personnage : ObservableObject
     {
+        public short? EffectiveLevel()
+        {
+            var col = new short?[] { Niv1, Niv2, Niv3, Niv4, Niv5, Niv6, Niv7, Niv8 };
+            var maxLevel = col.Max();
+            if (maxLevel is null)
+            {
+                return 0;
+            }
+            else
+            {
+                return maxLevel;
+            }
+        }
+
+        public string EffectiveClass()
+        {
+            var levels = new short?[] { Niv1, Niv2, Niv3, Niv4, Niv5, Niv6, Niv7, Niv8 };
+            var classes = new string?[] { Classe1, Classe2, Classe3, Classe4, Classe5, Classe6, Classe7, Classe8 };
+            var maxLevel = levels.Max();
+            var topClasse = classes[levels.ToList().IndexOf(maxLevel)];
+            return topClasse is null ? "" : topClasse;
+        }
+
+        public bool ShouldBeNextLevel() => Xp >= NiveauSuivant;
+
         private short? _age;
 
         private string? _alignement;

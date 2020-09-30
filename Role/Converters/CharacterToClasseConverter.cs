@@ -21,11 +21,7 @@ namespace RoleDDNG.Role.Converters
             }
             if (value is Personnage character)
             {
-                var levels = new short?[] { character.Niv1, character.Niv2, character.Niv3, character.Niv4, character.Niv5, character.Niv6, character.Niv7, character.Niv8 };
-                var classes = new string?[] { character.Classe1, character.Classe2, character.Classe3, character.Classe4, character.Classe5, character.Classe6, character.Classe7, character.Classe8 };
-                var maxLevel = levels.Max();
-                var topClasse = classes[levels.ToList().IndexOf(maxLevel)];
-                return topClasse is null ? "" : topClasse;
+                return character.EffectiveClass();
             }
             return string.Empty;
         }

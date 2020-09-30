@@ -1,5 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
+
 using PetaPoco;
+
+using System;
 
 namespace RoleDDNG.Models.Roles
 {
@@ -7,6 +10,10 @@ namespace RoleDDNG.Models.Roles
     [PrimaryKey(nameof(Nom))]
     public class Spell : ObservableObject
     {
+        public bool IsEpic() => string.IsNullOrWhiteSpace(ClasseNiveau) == false && ClasseNiveau.ToUpperInvariant().Contains("EPIQUE", StringComparison.InvariantCultureIgnoreCase);
+
+        public bool IsFromVersion3() => Version != "3.5";
+
         private string? _cible;
 
         private string? _classeNiveau;

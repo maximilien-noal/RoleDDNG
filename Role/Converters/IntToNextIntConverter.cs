@@ -12,7 +12,7 @@ namespace RoleDDNG.Role.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is int intValue && intValue < Int32.MaxValue)
+            if (value is int intValue && intValue < int.MaxValue)
             {
                 return intValue + 1;
             }
@@ -21,7 +21,7 @@ namespace RoleDDNG.Role.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is int intValue && intValue > Int32.MinValue)
+            if (value is int intValue && intValue > int.MinValue)
             {
                 return intValue - 1;
             }
