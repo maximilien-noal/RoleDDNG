@@ -46,6 +46,7 @@
 		<None Remove="Assets\splashscreen.png" />
 		<None Remove="UserControls\Assets\CharacterSheetIcon.png" />
 		<None Remove="UserControls\Assets\CharactersXPToolIcon.png" />
+		<None Remove="UserControls\Assets\DefaultCharacterImage.png" />
 		<None Remove="UserControls\Assets\DiceRollButon.png" />
 		<None Remove="UserControls\Assets\DiceRollIcon.png" />
 		<None Remove="UserControls\Assets\DonsDescriptionsIcon.png" />
@@ -92,6 +93,7 @@
 		<Resource Include="Assets\splashscreen.png" />
 		<Resource Include="UserControls\Assets\CharacterSheetIcon.png" />
 		<Resource Include="UserControls\Assets\CharactersXPToolIcon.png" />
+		<Resource Include="UserControls\Assets\DefaultCharacterImage.png" />
 		<Resource Include="UserControls\Assets\DiceRollButon.png" />
 		<Resource Include="UserControls\Assets\DiceRollIcon.png" />
 		<Resource Include="UserControls\Assets\DonsDescriptionsIcon.png" />

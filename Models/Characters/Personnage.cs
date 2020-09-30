@@ -11,7 +11,7 @@ namespace RoleDDNG.Models.Characters
     [PrimaryKey("Nom")]
     public class Personnage : ObservableObject
     {
-        public short? EffectiveLevel()
+        public int EffectiveLevel()
         {
             var col = new short?[] { Niv1, Niv2, Niv3, Niv4, Niv5, Niv6, Niv7, Niv8 };
             var maxLevel = col.Max();
@@ -21,7 +21,7 @@ namespace RoleDDNG.Models.Characters
             }
             else
             {
-                return maxLevel;
+                return (int)maxLevel;
             }
         }
 

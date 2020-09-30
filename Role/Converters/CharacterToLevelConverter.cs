@@ -1,7 +1,6 @@
 ﻿using RoleDDNG.Models.Characters;
 
 using System;
-using System.Linq;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -21,7 +20,7 @@ namespace RoleDDNG.Role.Converters
             }
             if (value is Personnage character)
             {
-                character.EffectiveLevel();
+                return character.EffectiveLevel();
             }
             return 0;
         }
