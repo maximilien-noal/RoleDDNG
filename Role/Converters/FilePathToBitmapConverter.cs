@@ -12,7 +12,7 @@ namespace RoleDDNG.Role.Converters
         /// <summary> Gets the default instance </summary>
         internal static readonly FilePathToBitmapConverter Default = new FilePathToBitmapConverter();
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is null)
             {
@@ -26,7 +26,7 @@ namespace RoleDDNG.Role.Converters
                 bitmapRender.EndInit();
                 return bitmapRender;
             }
-            return new object();
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
