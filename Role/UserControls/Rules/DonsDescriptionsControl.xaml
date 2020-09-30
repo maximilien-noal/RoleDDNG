@@ -73,14 +73,14 @@
             </DockPanel>
         </ScrollViewer>
         <Grid
-                Opacity="0.5"
-                Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+            Opacity="0.5"
+            Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="17"
-                    Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}">
-                    Chargement en cours...
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="17"
+                Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}">
+                Chargement en cours...
             </TextBlock>
         </Grid>
     </Grid>

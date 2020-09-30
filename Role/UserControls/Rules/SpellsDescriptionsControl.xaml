@@ -91,10 +91,10 @@
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="2">
                         <Label Name="DD" Visibility="{Binding SelectedItem, Converter={StaticResource EpicSpellToVisibilityConverter}}">DD pour lancer le sort épique</Label>
                         <TextBlock DataContext="{Binding SelectedItem}" Text="{Binding DDdeDifficultee}" IsEnabled="False" TextWrapping="Wrap"
-                                   Visibility="{Binding Visibility, ElementName=DD}" />
+                            Visibility="{Binding Visibility, ElementName=DD}" />
                         <Label Visibility="{Binding Visibility, ElementName=DD}">Pour développer</Label>
                         <TextBlock DataContext="{Binding SelectedItem}" Text="{Binding PourDevelopper}" IsEnabled="False" TextWrapping="Wrap"
-                                   Visibility="{Binding Visibility, ElementName=DD}" />
+                            Visibility="{Binding Visibility, ElementName=DD}" />
                         <Label>Explication</Label>
                         <TextBlock DataContext="{Binding SelectedItem}" Text="{Binding Explication}" IsEnabled="False" TextWrapping="Wrap" />
                     </StackPanel>
@@ -102,15 +102,15 @@
             </DockPanel>
         </ScrollViewer>
         <Grid
-                Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
-                Opacity="0.5"
-                Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+            Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
+            Opacity="0.5"
+            Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="17"
-                    Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}">
-                    Chargement en cours...
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="17"
+                Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}">
+                Chargement en cours...
             </TextBlock>
         </Grid>
     </Grid>
