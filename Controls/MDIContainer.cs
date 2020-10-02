@@ -56,20 +56,26 @@ namespace Hammer.MDI.Control
         {
             if (element is MdiWindow window)
             {
+                window.PreviewMouseMove += Window_PreviewMouseMove;
                 window.SizeChanged += OnWindowSizeChanged;
                 window.FocusChanged += OnWindowFocusChanged;
                 window.Closing += OnWindowClosing;
                 window.WindowStateChanged += OnWindowStateChanged;
                 window.Initialize(this);
-                if (window.Container != null)
-                {
-                    window.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                }
                 window.Position();
                 window.Focus();
             }
 
             base.PrepareContainerForItemOverride(element, item);
+        }
+
+        private void Window_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (sender is MdiWindow window)
+            {
+                window.LockDimensions();
+                window.UnlockDimensions();
+            }
         }
 
         private static void OnIsModalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -80,9 +86,10 @@ namespace Hammer.MDI.Control
 
         private void MdiContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count > 0 && ItemContainerGenerator.ContainerFromItem(e.AddedItems[0]) is MdiWindow newWindow)
+            if (e.AddedItems.Count > 0 && ItemContainerGenerator.ContainerFromItem(e.AddedItems[0]) is MdiWindow window)
             {
-                newWindow.SetValue(MdiWindow.IsSelectedProperty, true);
+                window.SetValue(MdiWindow.IsSelectedProperty, true);
+                window.Focus();
             }
         }
 
@@ -135,6 +142,7 @@ namespace Hammer.MDI.Control
             if (sender is MdiWindow window && window.WindowState == WindowState.Normal)
             {
                 window.ResizeToAvailableSpace();
+                window.SaveFirstSize();
             }
         }
 

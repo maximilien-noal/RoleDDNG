@@ -6,6 +6,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 using Hammer.MDI.Control.Events;
 using Hammer.MDI.Control.Extensions;
@@ -123,6 +124,48 @@ namespace Hammer.MDI.Control
                         break;
                 }
             }
+        }
+
+        internal void SaveFirstSize()
+        {
+            if (WindowState != WindowState.Normal || LastWidth != 0 || LastHeight != 0)
+            {
+                return;
+            }
+            LastLeft = Canvas.GetLeft(this);
+            LastTop = Canvas.GetTop(this);
+            LastWidth = ActualWidth;
+            LastHeight = ActualHeight;
+        }
+
+        private bool _unlockPass;
+
+        internal void UnlockDimensions()
+        {
+            if (_unlockPass)
+            {
+                return;
+            }
+            _unlockPass = true;
+            SetCurrentValue(MinWidthProperty, ActualWidth);
+            SetCurrentValue(MaxWidthProperty, double.PositiveInfinity);
+            SetCurrentValue(MinHeightProperty, ActualHeight);
+            SetCurrentValue(MaxHeightProperty, double.PositiveInfinity);
+        }
+
+        private bool _lockPass;
+
+        internal void LockDimensions()
+        {
+            if (_lockPass)
+            {
+                return;
+            }
+            _lockPass = true;
+            SetCurrentValue(MinWidthProperty, ActualWidth);
+            SetCurrentValue(MaxWidthProperty, ActualWidth);
+            SetCurrentValue(MinHeightProperty, ActualHeight);
+            SetCurrentValue(MaxHeightProperty, ActualHeight);
         }
 
         private void SaveLastSize()
@@ -398,7 +441,10 @@ namespace Hammer.MDI.Control
             {
                 return;
             }
-            if (Math.Max(0, Canvas.GetTop(this)) + DesiredSize.Height > Container.ActualHeight ||
+
+            if
+                (
+                Math.Max(0, Canvas.GetTop(this)) + DesiredSize.Height > Container.ActualHeight ||
                 Math.Max(0, Canvas.GetLeft(this)) + DesiredSize.Width > Container.ActualWidth)
             {
                 Rect availableRect = new Rect(
@@ -426,18 +472,6 @@ namespace Hammer.MDI.Control
             Panel.SetZIndex(this, 2);
 
             RaiseEvent(new RoutedEventArgs(FocusChangedEvent, DataContext));
-        }
-
-        private bool _firstArrange = true;
-
-        protected override Size ArrangeOverride(Size arrangeBounds)
-        {
-            if (_firstArrange)
-            {
-                ResizeToAvailableSpace();
-                _firstArrange = false;
-            }
-            return base.ArrangeOverride(arrangeBounds);
         }
 
         protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
