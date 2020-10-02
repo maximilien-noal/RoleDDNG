@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Hammer.MDI.Control.Events;
+using Hammer.MDI.Control.Extensions;
+using Hammer.MDI.Control.WindowControls;
+
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,11 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-
-using Hammer.MDI.Control.Events;
-using Hammer.MDI.Control.Extensions;
-using Hammer.MDI.Control.WindowControls;
 
 namespace Hammer.MDI.Control
 {
