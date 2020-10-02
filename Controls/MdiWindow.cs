@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 using Hammer.MDI.Control.Events;
 using Hammer.MDI.Control.Extensions;
@@ -29,6 +30,113 @@ namespace Hammer.MDI.Control
     [TemplatePart(Name = "PART_Tumblr", Type = typeof(Image))]
     public sealed class MdiWindow : ContentControl
     {
+        public RenderTargetBitmap CreateSnapshot()
+        {
+            var bitmap = new RenderTargetBitmap((int)Math.Round(ActualWidth), (int)Math.Round(ActualHeight), 96, 96, PixelFormats.Default);
+            var drawingVisual = new DrawingVisual();
+            using (var context = drawingVisual.RenderOpen())
+            {
+                var brush = new VisualBrush(this);
+                context.DrawRectangle(brush, null, new Rect(new Point(), new Size(ActualWidth, ActualHeight)));
+                context.Close();
+            }
+
+            bitmap.Render(drawingVisual);
+
+            return bitmap;
+        }
+
+        internal void Maximize()
+        {
+            SaveLastSize();
+            Canvas.SetTop(this, 0.0);
+            Canvas.SetLeft(this, 0.0);
+            if (Container != null)
+            {
+                SetCurrentValue(HeightProperty, Container.ActualHeight);
+                SetCurrentValue(WidthProperty, Container.ActualWidth);
+            }
+
+            SetCurrentValue(WindowStateProperty, WindowState.Maximized);
+        }
+
+        internal void Minimize()
+        {
+            var index = 0;
+            if (Container != null)
+            {
+                index = Container.MinimizedWindowsCount;
+            }
+            SaveLastSize();
+            Tumblr.SetCurrentValue(Image.SourceProperty, CreateSnapshot());
+            SetCurrentValue(WidthProperty, 128d);
+            if (Container != null)
+            {
+                Canvas.SetTop(this, Container.ActualHeight - ChromeHeight);
+            }
+            Canvas.SetLeft(this, index * 205);
+
+            SetCurrentValue(WindowStateProperty, WindowState.Minimized);
+        }
+
+        internal void Normalize()
+        {
+            SetCurrentValue(HeightProperty, LastHeight);
+            SetCurrentValue(WidthProperty, LastWidth);
+            Canvas.SetTop(this, LastTop);
+            Canvas.SetLeft(this, LastLeft);
+
+            SetCurrentValue(WindowStateProperty, WindowState.Normal);
+        }
+
+        internal void ToggleMaximize()
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                Normalize();
+            }
+            else
+            {
+                Maximize();
+            }
+        }
+
+        public void ToggleMinimize()
+        {
+            if (WindowState != WindowState.Minimized)
+            {
+                Minimize();
+            }
+            else
+            {
+                switch (PreviousWindowState)
+                {
+                    case WindowState.Maximized:
+                        Maximize();
+                        break;
+
+                    case WindowState.Normal:
+                        Normalize();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void SaveLastSize()
+        {
+            if (WindowState != WindowState.Normal)
+            {
+                return;
+            }
+            LastLeft = Canvas.GetLeft(this);
+            LastTop = Canvas.GetTop(this);
+            LastWidth = ActualWidth;
+            LastHeight = ActualHeight;
+        }
+
         /// <summary>
         /// Identifies the <see cref="Closing" /> routed event.
         /// </summary>
@@ -257,8 +365,8 @@ namespace Hammer.MDI.Control
             if (Container != null)
             {
                 ResizeToAvailableSpace();
-                double left = Container.ActualWidth / 4 - (this.DesiredSize.Width / 2);
-                double top = Container.ActualHeight / 4 - (this.DesiredSize.Height / 2);
+                double left = Container.ActualWidth / 4 - (DesiredSize.Width / 2);
+                double top = Container.ActualHeight / 4 - (DesiredSize.Height / 2);
                 if (top < 0)
                 {
                     top = 0;
@@ -267,17 +375,17 @@ namespace Hammer.MDI.Control
                 {
                     left = 0;
                 }
-                if (top + this.DesiredSize.Height > Container.ActualHeight)
+                if (top + DesiredSize.Height > Container.ActualHeight)
                 {
-                    top = Container.ActualHeight - this.DesiredSize.Height;
+                    top = Container.ActualHeight - DesiredSize.Height;
                 }
                 if (left < 0)
                 {
                     left = 0;
                 }
-                if (left + this.DesiredSize.Width > Container.ActualWidth)
+                if (left + DesiredSize.Width > Container.ActualWidth)
                 {
-                    left = Container.ActualWidth - this.DesiredSize.Width;
+                    left = Container.ActualWidth - DesiredSize.Width;
                 }
                 Canvas.SetLeft(this, left);
                 Canvas.SetTop(this, top);
@@ -294,9 +402,9 @@ namespace Hammer.MDI.Control
                 Math.Max(0, Canvas.GetLeft(this)) + DesiredSize.Width > Container.ActualWidth)
             {
                 Rect availableRect = new Rect(
-                                    Canvas.GetLeft(this), Canvas.GetTop(this),
-                                    Math.Min(DesiredSize.Width, Container.ActualWidth - Math.Max(0, Canvas.GetLeft(this))),
-                                    Math.Min(DesiredSize.Height + ChromeHeight, Container.ActualHeight - Math.Max(0, Canvas.GetTop(this))));
+                    Canvas.GetLeft(this), Canvas.GetTop(this),
+                    Math.Min(DesiredSize.Width, Container.ActualWidth - Math.Max(0, Canvas.GetLeft(this))),
+                    Math.Min(DesiredSize.Height + ChromeHeight, Container.ActualHeight - Math.Max(0, Canvas.GetTop(this))));
                 SetCurrentValue(WidthProperty, availableRect.Width);
                 SetCurrentValue(HeightProperty, availableRect.Height);
             }
@@ -326,7 +434,7 @@ namespace Hammer.MDI.Control
         {
             if (_firstArrange)
             {
-                this.ResizeToAvailableSpace();
+                ResizeToAvailableSpace();
                 _firstArrange = false;
             }
             return base.ArrangeOverride(arrangeBounds);
@@ -460,13 +568,13 @@ namespace Hammer.MDI.Control
         private void ToggleMaximizeWindow(object sender, RoutedEventArgs e)
         {
             Focus();
-            this.ToggleMaximize();
+            ToggleMaximize();
         }
 
         private void ToggleMinimizeWindow(object sender, RoutedEventArgs e)
         {
             Focus();
-            this.ToggleMinimize();
+            ToggleMinimize();
         }
     }
 }
