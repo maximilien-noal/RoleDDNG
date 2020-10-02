@@ -599,6 +599,44 @@ namespace Hammer.MDI.Control
             }
         }
 
+        internal void FocusOnFirstFocusableChild()
+        {
+            var child = FindChild(this);
+            if (child is FrameworkElement fe)
+            {
+                fe.Focus();
+            }
+        }
+
+        private static FrameworkElement? FindChild(DependencyObject parent)
+        {
+            if (parent == null)
+            {
+                return null;
+            }
+
+            int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childrenCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child is FrameworkElement fe && fe.Focusable)
+                {
+                    return fe;
+                }
+                else
+                {
+                    var foundChild = FindChild(child);
+                    if (foundChild != null)
+                    {
+                        return foundChild;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         private void ToggleMaximizeWindow(object sender, RoutedEventArgs e)
         {
             Focus();

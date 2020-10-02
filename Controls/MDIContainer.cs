@@ -56,6 +56,7 @@ namespace Hammer.MDI.Control
         {
             if (element is MdiWindow window)
             {
+                window.Loaded += OnWindowLoaded;
                 window.PreviewMouseMove += Window_PreviewMouseMove;
                 window.SizeChanged += OnWindowSizeChanged;
                 window.FocusChanged += OnWindowFocusChanged;
@@ -107,6 +108,7 @@ namespace Hammer.MDI.Control
                         windowNew.IsSelected = true;
                     }
                 }
+                window.Loaded -= OnWindowLoaded;
                 window.FocusChanged -= OnWindowFocusChanged;
                 window.Closing -= OnWindowClosing;
                 window.WindowStateChanged -= OnWindowStateChanged;
@@ -115,9 +117,17 @@ namespace Hammer.MDI.Control
             }
         }
 
+        private void OnWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is MdiWindow window)
+            {
+                window.FocusOnFirstFocusableChild();
+            }
+        }
+
         private void OnWindowFocusChanged(object sender, RoutedEventArgs e)
         {
-            if (((MdiWindow)sender).IsFocused)
+            if (sender is MdiWindow senderWindow && senderWindow.IsFocused)
             {
                 SetCurrentValue(SelectedItemProperty, e.OriginalSource);
 
