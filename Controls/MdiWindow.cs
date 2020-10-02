@@ -70,7 +70,7 @@ namespace Hammer.MDI.Control
             }
             SaveLastSize();
             Tumblr.SetCurrentValue(Image.SourceProperty, CreateSnapshot());
-            SetCurrentValue(WidthProperty, 128d);
+            SetCurrentValue(WidthProperty, 64d);
             if (Container != null)
             {
                 Canvas.SetTop(this, Container.ActualHeight - ChromeHeight);
@@ -88,6 +88,7 @@ namespace Hammer.MDI.Control
             Canvas.SetLeft(this, LastLeft);
 
             SetCurrentValue(WindowStateProperty, WindowState.Normal);
+            ResizeToAvailableSpace();
         }
 
         internal void ToggleMaximize()
