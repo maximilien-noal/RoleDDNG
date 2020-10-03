@@ -122,9 +122,6 @@ namespace Hammer.MDI.Control
                         Panel.SetZIndex(window, 0);
                     }
                 }
-                SetCurrentValue(SelectedItemProperty, e.OriginalSource);
-
-                ((MdiWindow)ItemContainerGenerator.ContainerFromItem(SelectedItem)).SetCurrentValue(MdiWindow.IsSelectedProperty, true);
             }
         }
 
