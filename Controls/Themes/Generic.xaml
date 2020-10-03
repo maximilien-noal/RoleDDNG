@@ -283,8 +283,8 @@
                         <Border
                             x:Name="PART_Border"
                             BorderBrush="{StaticResource InactiveWindowChromeColor}"
-                            BorderThickness="4"
-                            CornerRadius="4">
+                            BorderThickness="1"
+                            CornerRadius="0">
                             <Grid x:Name="PART_BorderGrid" Background="{TemplateBinding Background}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="24" />
@@ -292,7 +292,6 @@
                                 </Grid.RowDefinitions>
                                 <Border
                                     x:Name="PART_Header"
-                                    Height="24"
                                     VerticalAlignment="Top"
                                     Background="{StaticResource InactiveWindowChromeColor}"
                                     ToolTipService.HasDropShadow="False"
