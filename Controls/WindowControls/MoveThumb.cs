@@ -91,12 +91,7 @@ namespace Hammer.MDI.Control.WindowControls
 
             if (window.WindowState == WindowState.Normal)
             {
-                window.LastLeft = Canvas.GetLeft(window);
-                window.LastTop = Canvas.GetTop(window);
-                var candidateLeft = window.LastLeft + e.HorizontalChange;
-                var candidateTop = window.LastTop + e.VerticalChange;
-                Canvas.SetLeft(window, candidateLeft);
-                Canvas.SetTop(window, candidateTop);
+                window.SetChromeCenterOnMouse();
             }
         }
     }

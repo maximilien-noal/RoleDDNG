@@ -74,9 +74,17 @@ namespace Hammer.MDI.Control
             {
                 Canvas.SetTop(this, Container.ActualHeight - ChromeHeight);
             }
-            Canvas.SetLeft(this, index * 205);
+            Canvas.SetLeft(this, index * 64d);
 
             SetCurrentValue(WindowStateProperty, WindowState.Minimized);
+        }
+
+        internal void SetChromeCenterOnMouse()
+        {
+            Canvas.SetLeft(this, Mouse.GetPosition(this.Container).X - ActualWidth / 2);
+            Canvas.SetTop(this, Mouse.GetPosition(this.Container).Y - ChromeHeight / 2);
+            LastLeft = Canvas.GetLeft(this);
+            LastTop = Canvas.GetTop(this);
         }
 
         internal void Normalize()
@@ -189,7 +197,7 @@ namespace Hammer.MDI.Control
         /// Identifies the <see cref="FocusChanged" /> routed event.
         /// </summary>
         public static readonly RoutedEvent FocusChangedEvent = EventManager.RegisterRoutedEvent(
-           nameof(FocusChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
+            nameof(FocusChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MdiWindow));
 
         /// <summary>
         /// Identifies the <see cref="HasDropShadow" /> dependency property.
@@ -213,7 +221,7 @@ namespace Hammer.MDI.Control
         /// Identifies the <see cref="WindowStateChanged" /> routed event.
         /// </summary>
         public static readonly RoutedEvent WindowStateChangedEvent = EventManager.RegisterRoutedEvent(
-           nameof(WindowStateChanged), RoutingStrategy.Bubble, typeof(WindowStateChangedRoutedEventHandler), typeof(MdiWindow));
+            nameof(WindowStateChanged), RoutingStrategy.Bubble, typeof(WindowStateChangedRoutedEventHandler), typeof(MdiWindow));
 
         /// <summary>
         /// Identifies the <see cref="WindowState" /> dependency property.
