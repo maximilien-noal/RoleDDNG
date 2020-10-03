@@ -10,12 +10,6 @@ namespace Hammer.MDI.Control
 {
     public sealed class MdiContainer : Selector
     {
-        /// <summary>
-        /// Identifies the <see cref="IsModal" /> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty IsModalProperty =
-            DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiContainer), new UIPropertyMetadata(OnIsModalChanged));
-
         static MdiContainer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MdiContainer), new FrameworkPropertyMetadata(typeof(MdiContainer)));
@@ -24,13 +18,6 @@ namespace Hammer.MDI.Control
         public MdiContainer() : base()
         {
             this.SelectionChanged += MdiContainer_SelectionChanged;
-        }
-
-        public bool? IsModal
-        {
-            get { return (bool?)GetValue(IsModalProperty); }
-
-            set { SetValue(IsModalProperty, value); }
         }
 
         internal int MinimizedWindowsCount { get; private set; }
@@ -46,9 +33,9 @@ namespace Hammer.MDI.Control
         {
             base.OnItemsSourceChanged(oldValue, newValue);
 
-            if (newValue is IList newValueList)
+            if (newValue is IList list)
             {
-                InternalItemSource = newValueList;
+                InternalItemSource = list;
             }
         }
 
@@ -77,12 +64,6 @@ namespace Hammer.MDI.Control
                 window.LockDimensions();
                 window.UnlockDimensions();
             }
-        }
-
-        private static void OnIsModalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue == null || !((bool?)e.NewValue).HasValue) return;
-            ((MdiContainer)d).SetCurrentValue(IsModalProperty, ((bool?)e.NewValue).Value);
         }
 
         private void MdiContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)

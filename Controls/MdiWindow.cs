@@ -87,7 +87,6 @@ namespace Hammer.MDI.Control
             Canvas.SetLeft(this, LastLeft);
 
             SetCurrentValue(WindowStateProperty, WindowState.Normal);
-            ResizeToAvailableSpace();
         }
 
         internal void ToggleMaximize()
@@ -199,12 +198,6 @@ namespace Hammer.MDI.Control
             DependencyProperty.Register(nameof(HasDropShadow), typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(true));
 
         /// <summary>
-        /// Identifies the <see cref="IsModal" /> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty IsModalProperty =
-            DependencyProperty.Register(nameof(IsModal), typeof(bool?), typeof(MdiWindow), new UIPropertyMetadata(OnIsModalChanged));
-
-        /// <summary>
         /// Identifies the <see cref="IsSelected" /> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsSelectedProperty =
@@ -227,8 +220,6 @@ namespace Hammer.MDI.Control
         /// </summary>
         public static readonly DependencyProperty WindowStateProperty =
             DependencyProperty.Register(nameof(WindowState), typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
-
-        private Adorner? _myAdorner;
 
         private AdornerLayer? _myAdornerLayer;
 
@@ -275,45 +266,6 @@ namespace Hammer.MDI.Control
         {
             get { return (bool)GetValue(HasDropShadowProperty); }
             set { SetValue(HasDropShadowProperty, value); }
-        }
-
-        public bool? IsModal
-        {
-            get
-            {
-                return (bool?)GetValue(IsModalProperty);
-            }
-
-            set
-            {
-#pragma warning disable WPF0036 // Avoid side effects in CLR accessors.
-                if (!value.HasValue)
-                {
-                    _myAdornerLayer?.Remove(_myAdorner);
-                }
-                else
-                {
-                    if (_myAdornerLayer == null)
-                    {
-                        _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
-                    }
-
-                    if (_myAdorner == null)
-                    {
-                        _myAdorner = new HollowRectangleAdorner(this);
-                    }
-                    _myAdornerLayer.Add(_myAdorner);
-                }
-#pragma warning restore WPF0036 // Avoid side effects in CLR accessors.
-                if (Container != null)
-                {
-                    Container.SetCurrentValue(MdiContainer.IsModalProperty, value);
-                }
-
-#pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                SetValue(IsModalProperty, value);
-#pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
-            }
         }
 
         public bool IsSelected
@@ -509,12 +461,6 @@ namespace Hammer.MDI.Control
             Focus();
         }
 
-        private static void OnIsModalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue == null || !((bool?)e.NewValue).HasValue) return;
-            ((MdiWindow)d).SetCurrentValue(IsModalProperty, ((bool?)e.NewValue).Value);
-        }
-
         private static void OnWindowStateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             if (obj is MdiWindow window)
@@ -566,11 +512,11 @@ namespace Hammer.MDI.Control
             {
                 KeepWithinContainer();
                 ResizeToAvailableSpace();
-                GetTopAndLeftWithinInContainer();
+                GetTopAndLeftWithinContainer();
             }
         }
 
-        private void GetTopAndLeftWithinInContainer()
+        private void GetTopAndLeftWithinContainer()
         {
             if (Canvas.GetTop(this) < 0)
             {
@@ -584,7 +530,7 @@ namespace Hammer.MDI.Control
 
         internal void KeepWithinContainer()
         {
-            GetTopAndLeftWithinInContainer();
+            GetTopAndLeftWithinContainer();
             if (Container is null)
             {
                 return;

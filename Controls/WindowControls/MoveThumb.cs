@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Hammer.MDI.Control.Extensions;
+
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-
-using Hammer.MDI.Control.Extensions;
 
 namespace Hammer.MDI.Control.WindowControls
 {
@@ -48,6 +47,18 @@ namespace Hammer.MDI.Control.WindowControls
             e.Handled = true;
         }
 
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            if (e is null)
+            {
+                return;
+            }
+
+            var window = VisualTreeExtension.FindMdiWindow(this);
+            window?.KeepWithinContainer();
+            base.OnMouseUp(e);
+        }
+
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             if (e is null)
@@ -86,7 +97,6 @@ namespace Hammer.MDI.Control.WindowControls
                 var candidateTop = window.LastTop + e.VerticalChange;
                 Canvas.SetLeft(window, candidateLeft);
                 Canvas.SetTop(window, candidateTop);
-                window.KeepWithinContainer();
             }
         }
     }
