@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -48,7 +49,7 @@ namespace Hammer.MDI.Control
 
         internal void Maximize()
         {
-            SaveLastSize();
+            SaveLastSizeAndPosition();
             Canvas.SetTop(this, 0.0);
             Canvas.SetLeft(this, 0.0);
             if (Container != null)
@@ -67,7 +68,7 @@ namespace Hammer.MDI.Control
             {
                 index = Container.MinimizedWindowsCount;
             }
-            SaveLastSize();
+            SaveLastSizeAndPosition();
             Tumblr.SetCurrentValue(Image.SourceProperty, CreateSnapshot());
             SetCurrentValue(WidthProperty, 64d);
             if (Container != null)
@@ -79,21 +80,62 @@ namespace Hammer.MDI.Control
             SetCurrentValue(WindowStateProperty, WindowState.Minimized);
         }
 
-        internal void SetChromeCenterOnMouse()
+        internal void FollowMouse(DragDeltaEventArgs e)
         {
-            Canvas.SetLeft(this, Mouse.GetPosition(this.Container).X - ActualWidth / 2);
-            Canvas.SetTop(this, Mouse.GetPosition(this.Container).Y - ChromeHeight / 2);
-            LastLeft = Canvas.GetLeft(this);
-            LastTop = Canvas.GetTop(this);
+            if (Container is null)
+            {
+                return;
+            }
+            if (!GetChromeUnderMouseIfNotUnderit())
+            {
+                var candidateLeft = LastLeft + e.HorizontalChange;
+                var candidateTop = LastTop + e.VerticalChange;
+                if (candidateLeft < 0)
+                {
+                    candidateLeft = 0;
+                }
+                else if (candidateLeft + ActualWidth > Container.ActualWidth)
+                {
+                    candidateLeft = Container.ActualWidth - ActualWidth;
+                }
+                if (candidateTop < 0)
+                {
+                    candidateTop = 0;
+                }
+                else if (candidateTop + ActualHeight > Container.ActualHeight)
+                {
+                    candidateTop = Container.ActualHeight - ActualHeight;
+                }
+                Canvas.SetLeft(this, candidateLeft);
+                Canvas.SetTop(this, candidateTop);
+                SaveLastSizeAndPosition();
+            }
         }
 
-        internal void Normalize()
+        internal void UnMaximize()
+        {
+            Restore();
+            GetChromeUnderMouseIfNotUnderit();
+        }
+
+        internal bool GetChromeUnderMouseIfNotUnderit()
+        {
+            if (_windowChrome != null && _windowChrome.IsMouseDirectlyOver)
+            {
+                Canvas.SetLeft(this, Mouse.GetPosition(Container).X - ChromeWidth * 2);
+                Canvas.SetTop(this, Mouse.GetPosition(Container).Y - ChromeHeight / 2);
+                SaveLastSizeAndPosition();
+                return true;
+            }
+            return false;
+        }
+
+        internal void Restore()
         {
             SetCurrentValue(HeightProperty, LastHeight);
             SetCurrentValue(WidthProperty, LastWidth);
             Canvas.SetTop(this, LastTop);
             Canvas.SetLeft(this, LastLeft);
-
             SetCurrentValue(WindowStateProperty, WindowState.Normal);
         }
 
@@ -101,7 +143,7 @@ namespace Hammer.MDI.Control
         {
             if (WindowState == WindowState.Maximized)
             {
-                Normalize();
+                UnMaximize();
             }
             else
             {
@@ -124,7 +166,7 @@ namespace Hammer.MDI.Control
                         break;
 
                     case WindowState.Normal:
-                        Normalize();
+                        Restore();
                         break;
 
                     default:
@@ -175,7 +217,7 @@ namespace Hammer.MDI.Control
             SetCurrentValue(MaxHeightProperty, ActualHeight);
         }
 
-        private void SaveLastSize()
+        internal void SaveLastSizeAndPosition()
         {
             if (WindowState != WindowState.Normal)
             {
@@ -324,6 +366,14 @@ namespace Hammer.MDI.Control
         private FrameworkElement? _windowChrome;
 
         public double ChromeHeight
+        {
+            get
+            {
+                return _windowChrome is null ? 24 : _windowChrome.ActualHeight;
+            }
+        }
+
+        public double ChromeWidth
         {
             get
             {

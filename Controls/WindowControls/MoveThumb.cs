@@ -1,7 +1,6 @@
 ﻿using Hammer.MDI.Control.Extensions;
 
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
@@ -28,7 +27,7 @@ namespace Hammer.MDI.Control.WindowControls
                 switch (window.WindowState)
                 {
                     case WindowState.Maximized:
-                        window.Normalize();
+                        window.UnMaximize();
                         break;
 
                     case WindowState.Normal:
@@ -36,7 +35,7 @@ namespace Hammer.MDI.Control.WindowControls
                         break;
 
                     case WindowState.Minimized:
-                        window.Normalize();
+                        window.Restore();
                         break;
 
                     default:
@@ -45,18 +44,6 @@ namespace Hammer.MDI.Control.WindowControls
             }
 
             e.Handled = true;
-        }
-
-        protected override void OnMouseUp(MouseButtonEventArgs e)
-        {
-            if (e is null)
-            {
-                return;
-            }
-
-            var window = VisualTreeExtension.FindMdiWindow(this);
-            window?.KeepWithinContainer();
-            base.OnMouseUp(e);
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -86,23 +73,11 @@ namespace Hammer.MDI.Control.WindowControls
             }
             if (window.WindowState == WindowState.Maximized)
             {
-                window.Normalize();
+                window.UnMaximize();
             }
             else if (window.WindowState == WindowState.Normal)
             {
-                if (window.IsMouseDirectlyOver)
-                {
-                    window.LastLeft = Canvas.GetLeft(window);
-                    window.LastTop = Canvas.GetTop(window);
-                    var candidateLeft = window.LastLeft + e.HorizontalChange;
-                    var candidateTop = window.LastTop + e.VerticalChange;
-                    Canvas.SetLeft(window, candidateLeft);
-                    Canvas.SetTop(window, candidateTop);
-                }
-                else
-                {
-                    window.SetChromeCenterOnMouse();
-                }
+                window.FollowMouse(e);
             }
         }
     }
