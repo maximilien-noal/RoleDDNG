@@ -104,14 +104,24 @@ namespace Hammer.MDI.Control
             return calculatedLeft;
         }
 
-        internal void GetChromeUnderMouse()
+        internal void FollowMouse(DragDeltaEventArgs e)
         {
             if (Container is null)
             {
                 return;
             }
-            Canvas.SetTop(this, GetYAxisValueWithinContainer(Mouse.GetPosition(Container).Y - ChromeHeight / 2));
-            Canvas.SetLeft(this, GetXAxisValueWithinContainer(Mouse.GetPosition(Container).X - ChromeWidth * 2));
+            var candidateLeft = LastLeft + e.HorizontalChange;
+            var candidateTop = LastTop + e.VerticalChange;
+            var largeCandidateLeft = Mouse.GetPosition(Container).X - ChromeWidth * 2;
+            Canvas.SetTop(this, GetYAxisValueWithinContainer(candidateTop));
+            if (candidateLeft + ActualWidth > largeCandidateLeft)
+            {
+                Canvas.SetLeft(this, GetXAxisValueWithinContainer(candidateLeft));
+            }
+            else
+            {
+                Canvas.SetLeft(this, GetXAxisValueWithinContainer(largeCandidateLeft));
+            }
             SaveLastSizeAndPosition();
         }
 

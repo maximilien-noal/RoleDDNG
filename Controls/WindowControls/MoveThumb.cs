@@ -77,7 +77,7 @@ namespace Hammer.MDI.Control.WindowControls
             }
             else if (window.WindowState == WindowState.Normal)
             {
-                window.GetChromeUnderMouse();
+                window.FollowMouse(e);
             }
         }
     }
