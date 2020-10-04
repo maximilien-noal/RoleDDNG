@@ -68,14 +68,15 @@ namespace Hammer.MDI.Control
             {
                 index = Container.MinimizedWindowsCount;
             }
+            SetCurrentValue(MinWidthProperty, 205d);
+            SetCurrentValue(WidthProperty, 205d);
             SaveLastSizeAndPosition();
             Tumblr.SetCurrentValue(Image.SourceProperty, CreateSnapshot());
-            SetCurrentValue(WidthProperty, 64d);
             if (Container != null)
             {
                 Canvas.SetTop(this, Container.ActualHeight - ChromeHeight);
             }
-            Canvas.SetLeft(this, index * 64d);
+            Canvas.SetLeft(this, index * 205d);
 
             SetCurrentValue(WindowStateProperty, WindowState.Minimized);
         }
@@ -133,6 +134,7 @@ namespace Hammer.MDI.Control
         internal void Restore()
         {
             SetCurrentValue(HeightProperty, LastHeight);
+            SetCurrentValue(MinWidthProperty, LastWidth);
             SetCurrentValue(WidthProperty, LastWidth);
             Canvas.SetTop(this, LastTop);
             Canvas.SetLeft(this, LastLeft);
@@ -365,21 +367,9 @@ namespace Hammer.MDI.Control
 
         private FrameworkElement? _windowChrome;
 
-        public double ChromeHeight
-        {
-            get
-            {
-                return _windowChrome is null ? 24 : _windowChrome.ActualHeight;
-            }
-        }
+        public double ChromeHeight => _windowChrome is null ? 24 : _windowChrome.ActualHeight;
 
-        public double ChromeWidth
-        {
-            get
-            {
-                return _windowChrome is null ? 24 : _windowChrome.ActualHeight;
-            }
-        }
+        public double ChromeWidth => _windowChrome is null ? 24 : _windowChrome.ActualHeight;
 
         public override void OnApplyTemplate()
         {
