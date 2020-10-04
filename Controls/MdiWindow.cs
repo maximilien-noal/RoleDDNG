@@ -258,7 +258,7 @@ namespace Hammer.MDI.Control
         public static readonly DependencyProperty WindowStateProperty =
             DependencyProperty.Register(nameof(WindowState), typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
 
-        private AdornerLayer? _myAdornerLayer;
+        private readonly AdornerLayer? _myAdornerLayer;
 
         static MdiWindow()
         {
