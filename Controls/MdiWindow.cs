@@ -63,72 +63,56 @@ namespace Hammer.MDI.Control
 
         internal void Minimize()
         {
-            var index = 0;
-            if (Container != null)
+            if (Container is null)
             {
-                index = Container.MinimizedWindowsCount;
+                return;
             }
+            var index = Container.MinimizedWindowsCount;
             SetCurrentValue(MinWidthProperty, 205d);
             SetCurrentValue(WidthProperty, 205d);
             SaveLastSizeAndPosition();
             Tumblr.SetCurrentValue(Image.SourceProperty, CreateSnapshot());
-            if (Container != null)
-            {
-                Canvas.SetTop(this, Container.ActualHeight - ChromeHeight);
-            }
+            Canvas.SetTop(this, Container.ActualHeight - ChromeHeight);
             Canvas.SetLeft(this, index * 205d);
-
             SetCurrentValue(WindowStateProperty, WindowState.Minimized);
         }
 
-        internal void FollowMouse(DragDeltaEventArgs e)
+        private double GetYAxisValueWithinContainer(double calculatedTop)
+        {
+            if (Container is null || calculatedTop < 0)
+            {
+                return 0;
+            }
+            else if (calculatedTop + ActualHeight > Container.ActualHeight)
+            {
+                return Container.ActualHeight - ActualHeight;
+            }
+            return calculatedTop;
+        }
+
+        private double GetXAxisValueWithinContainer(double calculatedLeft)
+        {
+            if (Container is null || calculatedLeft < 0)
+            {
+                return 0;
+            }
+            else if (calculatedLeft + ActualWidth > Container.ActualWidth)
+            {
+                return Container.ActualWidth - ActualWidth;
+            }
+
+            return calculatedLeft;
+        }
+
+        internal void GetChromeUnderMouse()
         {
             if (Container is null)
             {
                 return;
             }
-            if (!GetChromeUnderMouseIfNotUnderit())
-            {
-                var candidateLeft = LastLeft + e.HorizontalChange;
-                var candidateTop = LastTop + e.VerticalChange;
-                if (candidateLeft < 0)
-                {
-                    candidateLeft = 0;
-                }
-                else if (candidateLeft + ActualWidth > Container.ActualWidth)
-                {
-                    candidateLeft = Container.ActualWidth - ActualWidth;
-                }
-                if (candidateTop < 0)
-                {
-                    candidateTop = 0;
-                }
-                else if (candidateTop + ActualHeight > Container.ActualHeight)
-                {
-                    candidateTop = Container.ActualHeight - ActualHeight;
-                }
-                Canvas.SetLeft(this, candidateLeft);
-                Canvas.SetTop(this, candidateTop);
-                SaveLastSizeAndPosition();
-            }
-        }
-
-        internal void UnMaximize()
-        {
-            Restore();
-            GetChromeUnderMouseIfNotUnderit();
-        }
-
-        internal bool GetChromeUnderMouseIfNotUnderit()
-        {
-            if (_windowChrome != null && _windowChrome.IsMouseDirectlyOver)
-            {
-                Canvas.SetLeft(this, Mouse.GetPosition(Container).X - ChromeWidth * 2);
-                Canvas.SetTop(this, Mouse.GetPosition(Container).Y - ChromeHeight / 2);
-                SaveLastSizeAndPosition();
-                return true;
-            }
-            return false;
+            Canvas.SetTop(this, GetYAxisValueWithinContainer(Mouse.GetPosition(Container).Y - ChromeHeight / 2));
+            Canvas.SetLeft(this, GetXAxisValueWithinContainer(Mouse.GetPosition(Container).X - ChromeWidth * 2));
+            SaveLastSizeAndPosition();
         }
 
         internal void Restore()
@@ -139,13 +123,14 @@ namespace Hammer.MDI.Control
             Canvas.SetTop(this, LastTop);
             Canvas.SetLeft(this, LastLeft);
             SetCurrentValue(WindowStateProperty, WindowState.Normal);
+            SaveLastSizeAndPosition();
         }
 
         internal void ToggleMaximize()
         {
             if (WindowState == WindowState.Maximized)
             {
-                UnMaximize();
+                Restore();
             }
             else
             {
@@ -191,7 +176,7 @@ namespace Hammer.MDI.Control
 
         private bool _unlockPass;
 
-        internal void UnlockDimensions()
+        internal void UnlockDimensionsOnce()
         {
             if (_unlockPass)
             {
@@ -206,7 +191,7 @@ namespace Hammer.MDI.Control
 
         private bool _lockPass;
 
-        internal void LockDimensions()
+        internal void LockDimensionsOnce()
         {
             if (_lockPass)
             {
@@ -405,34 +390,15 @@ namespace Hammer.MDI.Control
 
         public void Position()
         {
-            if (Container != null)
+            if (Container == null)
             {
-                ResizeToAvailableSpace();
-                double left = Container.ActualWidth / 4 - (DesiredSize.Width / 2);
-                double top = Container.ActualHeight / 4 - (DesiredSize.Height / 2);
-                if (top < 0)
-                {
-                    top = 0;
-                }
-                if (left < 0)
-                {
-                    left = 0;
-                }
-                if (top + DesiredSize.Height > Container.ActualHeight)
-                {
-                    top = Container.ActualHeight - DesiredSize.Height;
-                }
-                if (left < 0)
-                {
-                    left = 0;
-                }
-                if (left + DesiredSize.Width > Container.ActualWidth)
-                {
-                    left = Container.ActualWidth - DesiredSize.Width;
-                }
-                Canvas.SetLeft(this, left);
-                Canvas.SetTop(this, top);
+                return;
             }
+            ResizeToAvailableSpace();
+            double left = Container.ActualWidth / 4 - (DesiredSize.Width / 2);
+            double top = Container.ActualHeight / 4 - (DesiredSize.Height / 2);
+            Canvas.SetLeft(this, GetXAxisValueWithinContainer(left));
+            Canvas.SetTop(this, GetYAxisValueWithinContainer(top));
         }
 
         public void ResizeToAvailableSpace()
@@ -492,7 +458,7 @@ namespace Hammer.MDI.Control
                     var newWindow = (e.NewFocus is MdiWindow) ? (e.NewFocus as MdiWindow) : (parent as MdiWindow);
                     if (newWindow != null && Container != null)
                     {
-                        Container.SetCurrentValue(System.Windows.Controls.Primitives.Selector.SelectedItemProperty, newWindow.DataContext);
+                        Container.SetCurrentValue(Selector.SelectedItemProperty, newWindow.DataContext);
                         newWindow.IsSelected = true;
                     }
                 }
@@ -531,7 +497,7 @@ namespace Hammer.MDI.Control
 
         private void OnContainerSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (WindowState == WindowState.Maximized && Container != null)
+            if (WindowState == WindowState.Maximized)
             {
                 SetCurrentValue(WidthProperty, e.NewSize.Width);
                 SetCurrentValue(HeightProperty, e.NewSize.Height);
@@ -560,37 +526,17 @@ namespace Hammer.MDI.Control
             {
                 KeepWithinContainer();
                 ResizeToAvailableSpace();
-                GetTopAndLeftWithinContainer();
             }
         }
 
-        private void GetTopAndLeftWithinContainer()
+        private void KeepWithinContainer()
         {
-            if (Canvas.GetTop(this) < 0)
-            {
-                Canvas.SetTop(this, 0);
-            }
-            if (Canvas.GetLeft(this) < 0)
-            {
-                Canvas.SetLeft(this, 0);
-            }
-        }
-
-        internal void KeepWithinContainer()
-        {
-            GetTopAndLeftWithinContainer();
             if (Container is null)
             {
                 return;
             }
-            if (Canvas.GetLeft(this) + this.ActualWidth > Container.ActualWidth)
-            {
-                Canvas.SetLeft(this, Container.ActualWidth - this.ActualWidth);
-            }
-            if (Canvas.GetTop(this) + this.ActualHeight > Container.ActualHeight)
-            {
-                Canvas.SetTop(this, Container.ActualHeight - this.ActualHeight);
-            }
+            Canvas.SetLeft(this, GetXAxisValueWithinContainer(Canvas.GetLeft(this)));
+            Canvas.SetTop(this, GetYAxisValueWithinContainer(Canvas.GetTop(this)));
         }
 
         internal void FocusOnFirstFocusableChild()

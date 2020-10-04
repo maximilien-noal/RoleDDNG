@@ -27,7 +27,7 @@ namespace Hammer.MDI.Control.WindowControls
                 switch (window.WindowState)
                 {
                     case WindowState.Maximized:
-                        window.UnMaximize();
+                        window.Restore();
                         break;
 
                     case WindowState.Normal:
@@ -73,11 +73,11 @@ namespace Hammer.MDI.Control.WindowControls
             }
             if (window.WindowState == WindowState.Maximized)
             {
-                window.UnMaximize();
+                window.Restore();
             }
             else if (window.WindowState == WindowState.Normal)
             {
-                window.FollowMouse(e);
+                window.GetChromeUnderMouse();
             }
         }
     }

@@ -61,8 +61,8 @@ namespace Hammer.MDI.Control
         {
             if (sender is MdiWindow window)
             {
-                window.LockDimensions();
-                window.UnlockDimensions();
+                window.LockDimensionsOnce();
+                window.UnlockDimensionsOnce();
             }
         }
 
@@ -90,6 +90,7 @@ namespace Hammer.MDI.Control
                     }
                 }
                 window.Loaded -= OnWindowLoaded;
+                window.PreviewMouseMove -= Window_PreviewMouseMove;
                 window.FocusChanged -= OnWindowFocusChanged;
                 window.Closing -= OnWindowClosing;
                 window.WindowStateChanged -= OnWindowStateChanged;
