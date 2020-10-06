@@ -32,7 +32,7 @@ namespace RoleDDNG.Role.UserControls
                 return;
             }
 
-            if (DataContext is IDbDependantViewModel viewModel)
+            if (DataContext is IDbDependentViewModel viewModel)
             {
                 await viewModel.LoadDbDataAsync().ConfigureAwait(true);
             }

@@ -2,7 +2,7 @@
 
 namespace RoleDDNG.ViewModels.Interfaces
 {
-    public interface IDbDependantViewModel
+    public interface IDbDependentViewModel
     {
         public Task LoadDbDataAsync();
     }

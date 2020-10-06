@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.Menus.Rules
 {
-    public class RacesDescriptionsViewModel : CollectionViewModel<RacePersonnage>, IDocumentViewModel, IDbDependantViewModel
+    public class RacesDescriptionsViewModel : CollectionViewModel<RacePersonnage>, IDocumentViewModel, IDbDependentViewModel
     {
         private bool _isBusy;
 
