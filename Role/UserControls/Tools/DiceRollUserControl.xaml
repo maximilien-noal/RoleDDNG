@@ -1,22 +1,23 @@
 ﻿<usercontrols:WindowContent
-             xmlns:usercontrols="clr-namespace:RoleDDNG.Role.UserControls"
-             x:Class="RoleDDNG.Role.UserControls.DiceRollUserControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-             xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
-             Title="Lanceur de dés"
-             DataContext="{Binding Source={StaticResource Locator}, Path=DiceRoll}"
-             mc:Ignorable="d"
-             Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
+    xmlns:usercontrols="clr-namespace:RoleDDNG.Role.UserControls"
+    x:Class="RoleDDNG.Role.UserControls.DiceRollUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:Extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+    xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
+    Title="Lanceur de dés"
+    DataContext="{Binding Source={StaticResource Locator}, Path=DiceRoll}"
+    mc:Ignorable="d"
+    Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
     <usercontrols:WindowContent.Resources>
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/DiceRollIcon.png" />
         <converters:ListOfIntsToStringConverter x:Key="ListOfIntsToStringConverter" />
         <converters:IntToStringConverter x:Key="IntToStringConverter" />
     </usercontrols:WindowContent.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"  Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

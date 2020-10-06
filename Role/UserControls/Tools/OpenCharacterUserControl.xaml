@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
+    xmlns:Extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
@@ -21,7 +22,7 @@
         <converters:CharacterToClasseConverter x:Key="CharacterToClasseConverter" />
         <converters:CharacterToLevelConverter x:Key="CharacterToLevelConverter" />
     </usercontrols:WindowContent.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"  Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
         <Grid>
             <ListBox ItemsSource="{Binding Characters}">
                 <ListBox.ItemTemplate>
