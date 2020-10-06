@@ -1,27 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<RootNamespace>RoleDDNG.DatabaseLayer</RootNamespace>
-		<LangVersion>8.0</LangVersion>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <RootNamespace>RoleDDNG.DatabaseLayer</RootNamespace>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.7.56">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="PetaPoco.Compiled" Version="6.0.459" />
-		<PackageReference Include="System.Data.OleDb" Version="4.7.1" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.7.56">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="PetaPoco.Compiled" Version="6.0.459" />
+    <PackageReference Include="System.Data.OleDb" Version="4.7.1" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Models\Models.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Models\Models.csproj" />
+  </ItemGroup>
 </Project>

@@ -4,7 +4,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>RoleDDNG.ViewModels</RootNamespace>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
