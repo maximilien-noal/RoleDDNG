@@ -1,23 +1,21 @@
-﻿using System.Windows;
-using System.Windows.Interop;
-
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 
-using RoleDDNG.Serialization;
 using RoleDDNG.Interfaces.Backgrounds;
 using RoleDDNG.Interfaces.Dialogs;
-using RoleDDNG.Interfaces.Printing;
 using RoleDDNG.Interfaces.Serialization;
 using RoleDDNG.Interfaces.Window;
 using RoleDDNG.Models.Options;
 using RoleDDNG.Models.Structs;
 using RoleDDNG.OSServices.Windows.Dialogs;
-using RoleDDNG.OSServices.Windows.Printing;
 using RoleDDNG.Role.Backgrounds;
 using RoleDDNG.Role.Dialogs;
 using RoleDDNG.Role.PInvoke;
+using RoleDDNG.Serialization;
 using RoleDDNG.ViewModels;
+
+using System.Windows;
+using System.Windows.Interop;
 
 namespace RoleDDNG.Role
 {
@@ -31,7 +29,6 @@ namespace RoleDDNG.Role
             SimpleIoc.Default.Register<IWindowPlacer, HwndPlacer>();
             SimpleIoc.Default.Register<IBackgroundSource, BackgroundSource>();
             SimpleIoc.Default.Register<IAsyncSerializer<AppSettings>, ModelSerializer<AppSettings>>();
-            SimpleIoc.Default.Register<ITextPrinter, TextPrinter>();
             SimpleIoc.Default.Register<IFileDialog, Win32FileDialog>();
             InitializeComponent();
             HelpCommand = new RelayCommand(HelpCommandMethod);

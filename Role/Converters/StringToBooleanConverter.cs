@@ -6,24 +6,24 @@ using System.Windows.Data;
 
 namespace RoleDDNG.Role.Converters
 {
-    [ValueConversion(typeof(Spell), typeof(Visibility))]
-    public sealed class SpellToVisibiltyConverter : IValueConverter
+    [ValueConversion(typeof(string), typeof(bool))]
+    public sealed class StringToBooleanConverter : IValueConverter
     {
         /// <summary> Gets the default instance </summary>
-        internal static readonly SpellToVisibiltyConverter Default = new SpellToVisibiltyConverter();
+        internal static readonly StringToBooleanConverter Default = new StringToBooleanConverter();
 
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Spell spell && spell.IsEpic())
+            if (value is null || value is string str && string.IsNullOrWhiteSpace(str))
             {
-                return Visibility.Visible;
+                return false;
             }
-            return Visibility.Collapsed;
+            return true;
         }
 
         public object ConvertBack(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
-            return new Spell();
+            return "";
         }
     }
 }

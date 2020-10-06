@@ -2,10 +2,13 @@
     xmlns:usercontrols="clr-namespace:RoleDDNG.Role.UserControls"
     x:Class="RoleDDNG.Role.UserControls.TownGeneratorUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     xmlns:Extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:localBehaviors="clr-namespace:RoleDDNG.Role.Behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
     Title="Générateur de ville"
@@ -14,6 +17,7 @@
     <usercontrols:WindowContent.Resources>
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/TownGeneratorIcon.png" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:StringToBooleanConverter x:Key="StringToBooleanConverter" />
     </usercontrols:WindowContent.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"  Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
         <Grid>
@@ -93,19 +97,25 @@
                 Command="{Binding Generate}"
                 Content="Générer" />
             <Button
+                IsEnabled="{Binding Result, Converter={StaticResource StringToBooleanConverter}}"
                 Grid.Row="2"
                 Grid.Column="2"
                 Grid.ColumnSpan="4"
-                Margin="2"
-                Command="{Binding Print}"
-                Content="Imprimer" />
+                Margin="2">
+                <behaviors:Interaction.Behaviors>
+                    <localBehaviors:PrintBehavior TextSource="{Binding ElementName=ResultTextBox}" />
+                </behaviors:Interaction.Behaviors>
+                <Button.Content>
+                    Imprimer
+                </Button.Content>
+            </Button>
             <ScrollViewer
                 Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand"
                 Grid.Row="3"
                 Grid.ColumnSpan="6"
                 HorizontalScrollBarVisibility="Disabled"
                 VerticalScrollBarVisibility="Auto">
-                <TextBox
+                <TextBox x:Name="ResultTextBox"
                     AcceptsReturn="True"
                     IsReadOnly="True"
                     Text="{Binding Result}" />

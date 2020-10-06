@@ -16,7 +16,7 @@
     <userControls:WindowContent.Resources>
         <converters:SpellToNameConverter x:Key="SpellToNameConverter" />
         <converters:SpellToIsFromVersionThreeConverter x:Key="SpellToIsFromVersionThreeConverter" />
-        <converters:EpicSpellToVisibilityConverter x:Key="EpicSpellToVisibilityConverter" />
+        <converters:SpellToVisibiltyConverter x:Key="EpicSpellToVisibilityConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/SpellsDescriptionsIcon.png" />
     </userControls:WindowContent.Resources>
