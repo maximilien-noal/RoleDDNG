@@ -16,18 +16,15 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/RacesDescriptionsIcon.png" />
     </userControls:WindowContent.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="2*" />
-        </Grid.ColumnDefinitions>
-        <dotNetKitControls:AutoCompleteComboBox
-                Grid.Row="0" Grid.Column="0"
+    <ScrollViewer Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <dotNetKitControls:AutoCompleteComboBox
+                Grid.Row="0"
                 DisplayMemberPath="Race"
                 SelectedValuePath="Race"
                 TextSearch.TextPath="Race"
@@ -35,32 +32,30 @@
                 IsTextSearchEnabled="True"
                 ItemsSource="{Binding Collection}"
                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-            <dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel />
-                </ItemsPanelTemplate>
-            </dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
-        </dotNetKitControls:AutoCompleteComboBox>
-        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="1">
-            <Button Content="Précédent" Command="{Binding Previous}" />
-            <Button Content="Suivant" Command="{Binding Next}" />
-        </StackPanel>
-        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2" Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
-            <TextBlock Text="{Binding SelectedItem.Description}" TextWrapping="Wrap" />
-        </ScrollViewer>
-        <Grid
+                <dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </dotNetKitControls:AutoCompleteComboBox.ItemsPanel>
+            </dotNetKitControls:AutoCompleteComboBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
+                <Button Content="Précédent" Command="{Binding Previous}" />
+                <Button Content="Suivant" Command="{Binding Next}" />
+            </StackPanel>
+            <TextBlock  Grid.Row="2" Text="{Binding SelectedItem.Description}" TextWrapping="Wrap" />
+            <Grid
                 Grid.RowSpan="3"
-             Grid.ColumnSpan="2"
                 Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
                 Opacity="0.5"
                 Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <TextBlock
+                <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="17"
                     Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}">
                     Chargement en cours...
-            </TextBlock>
+                </TextBlock>
+            </Grid>
         </Grid>
-    </Grid>
+    </ScrollViewer>
 </userControls:WindowContent>
