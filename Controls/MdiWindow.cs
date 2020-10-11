@@ -184,36 +184,6 @@ namespace Hammer.MDI.Control
             LastHeight = ActualHeight;
         }
 
-        private bool _unlockPass;
-
-        internal void UnlockDimensionsOnce()
-        {
-            if (_unlockPass)
-            {
-                return;
-            }
-            _unlockPass = true;
-            SetCurrentValue(MinWidthProperty, ActualWidth);
-            SetCurrentValue(MaxWidthProperty, double.PositiveInfinity);
-            SetCurrentValue(MinHeightProperty, ActualHeight);
-            SetCurrentValue(MaxHeightProperty, double.PositiveInfinity);
-        }
-
-        private bool _lockPass;
-
-        internal void LockDimensionsOnce()
-        {
-            if (_lockPass)
-            {
-                return;
-            }
-            _lockPass = true;
-            SetCurrentValue(MinWidthProperty, ActualWidth);
-            SetCurrentValue(MaxWidthProperty, ActualWidth);
-            SetCurrentValue(MinHeightProperty, ActualHeight);
-            SetCurrentValue(MaxHeightProperty, ActualHeight);
-        }
-
         internal void SaveLastSizeAndPosition()
         {
             if (WindowState != WindowState.Normal)

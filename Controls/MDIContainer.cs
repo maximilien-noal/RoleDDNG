@@ -44,7 +44,6 @@ namespace Hammer.MDI.Control
             if (element is MdiWindow window)
             {
                 window.Loaded += OnWindowLoaded;
-                window.PreviewMouseMove += Window_PreviewMouseMove;
                 window.SizeChanged += OnWindowSizeChanged;
                 window.FocusChanged += OnWindowFocusChanged;
                 window.Closing += OnWindowClosing;
@@ -55,15 +54,6 @@ namespace Hammer.MDI.Control
             }
 
             base.PrepareContainerForItemOverride(element, item);
-        }
-
-        private void Window_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if (sender is MdiWindow window)
-            {
-                window.LockDimensionsOnce();
-                window.UnlockDimensionsOnce();
-            }
         }
 
         private void MdiContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -90,7 +80,6 @@ namespace Hammer.MDI.Control
                     }
                 }
                 window.Loaded -= OnWindowLoaded;
-                window.PreviewMouseMove -= Window_PreviewMouseMove;
                 window.FocusChanged -= OnWindowFocusChanged;
                 window.Closing -= OnWindowClosing;
                 window.WindowStateChanged -= OnWindowStateChanged;
