@@ -375,8 +375,8 @@ namespace Hammer.MDI.Control
                 return;
             }
             ResizeToAvailableSpace();
-            double left = Container.ActualWidth / 4 - (DesiredSize.Width / 2);
-            double top = Container.ActualHeight / 4 - (DesiredSize.Height / 2);
+            double left = new Random().Next(0, (int)Container.ActualWidth / 4);
+            double top = new Random().Next(0, (int)Container.ActualHeight / 4);
             Canvas.SetLeft(this, GetXAxisValueWithinContainer(left));
             Canvas.SetTop(this, GetYAxisValueWithinContainer(top));
         }
