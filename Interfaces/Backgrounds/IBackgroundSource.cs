@@ -2,6 +2,6 @@
 {
     public interface IBackgroundSource
     {
-        string GetBackgroundSource();
+        string GetBackgroundSource(string currentValue);
     }
 }

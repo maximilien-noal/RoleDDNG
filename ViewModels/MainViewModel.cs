@@ -37,6 +37,7 @@ namespace RoleDDNG.ViewModels
 
         public MainViewModel()
         {
+            ChangeBackgroundCommand = new RelayCommand(ChangeBackgroundMethod);
             ShowDiceRollWindow = new RelayCommand(() => AddDocumentViewModel<DiceRollViewModel>());
             ShowCharactersXpWindow = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<CharactersXpViewModel>().ConfigureAwait(false));
             ShowTownGeneratorWindow = new RelayCommand(() => AddDocumentViewModel<TownGeneratorViewModel>());
@@ -45,8 +46,10 @@ namespace RoleDDNG.ViewModels
             OpenRacesDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<RacesDescriptionsViewModel>().ConfigureAwait(false));
             OpenSpellsDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<SpellsDescriptionsViewModel>().ConfigureAwait(false));
             OpenDonsDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<DonsDescriptionsViewModel>().ConfigureAwait(false));
-            BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource();
+            ChangeBackgroundCommand.Execute(this);
         }
+
+        private void ChangeBackgroundMethod() => BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource(BackgroundSource);
 
         public string BackgroundSource { get => _backgroundSource; private set { Set(nameof(BackgroundSource), ref _backgroundSource, value); } }
 
@@ -61,6 +64,8 @@ namespace RoleDDNG.ViewModels
         public AsyncCommand OpenCharacterSheet { get; private set; }
 
         public AsyncCommand OpenDonsDescriptions { get; }
+
+        public RelayCommand ChangeBackgroundCommand { get; }
 
         public AsyncCommand OpenRacesDescriptions { get; private set; }
 

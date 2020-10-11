@@ -114,11 +114,22 @@
                 </MenuItem>
             </Menu>
         </StackPanel>
-        <Image Grid.Row="1" Source="{Binding BackgroundSource}" />
-        <MDI:MdiContainer
-                Grid.Row="1"
-                ItemsSource="{Binding Items}">
-        </MDI:MdiContainer>
+        <Button Grid.Row="1" Margin="0" Padding="0"
+                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+            <Button.InputBindings>
+                <MouseBinding Gesture="MiddleClick" Command="{Binding ChangeBackgroundCommand}" />
+            </Button.InputBindings>
+            <Button.Content>
+                <Grid>
+                    <Border Background="{Binding Background, ElementName=MainWindowInstance}" />
+                    <Image
+                        Source="{Binding BackgroundSource}" />
+                    <MDI:MdiContainer
+                        ItemsSource="{Binding Items}">
+                    </MDI:MdiContainer>
+                </Grid>
+            </Button.Content>
+        </Button>
         <Grid
             Grid.RowSpan="2"
             Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"

@@ -1,15 +1,20 @@
 ﻿using RoleDDNG.Interfaces.Backgrounds;
 using System;
 using System.Collections.Generic;
+using RandN;
+using RandN.Compat;
 
 namespace RoleDDNG.Role.Backgrounds
 {
     public class BackgroundSource : IBackgroundSource
     {
+        private readonly Random _rng;
+
         private readonly List<string> _backgrounds = new List<string>();
 
         public BackgroundSource()
         {
+            _rng = RandomShim.Create(StandardRng.Create());
             if (DateTime.Now.Month == 12)
             {
                 _backgrounds.Add("Assets/backgrounds/christmas.jpg");
@@ -51,9 +56,14 @@ namespace RoleDDNG.Role.Backgrounds
             }
         }
 
-        public string GetBackgroundSource()
+        public string GetBackgroundSource(string currentValue)
         {
-            return _backgrounds[new Random().Next(0, _backgrounds.Count)];
+            var newValue = currentValue;
+            while (newValue == currentValue)
+            {
+                newValue = _backgrounds[_rng.Next(0, _backgrounds.Count)];
+            }
+            return newValue;
         }
     }
 }
