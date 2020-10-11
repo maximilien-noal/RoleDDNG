@@ -6,10 +6,8 @@ using System.Windows.Media;
 
 namespace Hammer.MDI.Control.WindowControls
 {
-    // Adorners must subclass the abstract base class Adorner.
     internal class HollowRectangleAdorner : Adorner
     {
-        // Be sure to call the base class constructor.
         public HollowRectangleAdorner(UIElement adornedElement)
             : base(adornedElement)
         {
@@ -19,18 +17,17 @@ namespace Hammer.MDI.Control.WindowControls
         {
             var result = base.MeasureOverride(constraint);
 
-            // ... add custom measure code here if desired ...
             InvalidateVisual();
             return result;
         }
 
-        // A common way to implement an adorner's rendering behavior is to override the OnRender
-        // method, which is called by the layout system as part of a rendering pass.
         protected override void OnRender(DrawingContext drawingContext)
         {
-            if ((AdornedElement as MdiWindow)?.Container == null) return;
+            if ((AdornedElement as MdiWindow)?.Container == null)
+            {
+                return;
+            }
 
-            // Some arbitrary drawing implements.
             var renderBrush = new SolidColorBrush(Colors.Transparent)
             {
                 Opacity = 0.1
