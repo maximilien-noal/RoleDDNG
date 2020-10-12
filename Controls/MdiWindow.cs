@@ -47,6 +47,22 @@ namespace Hammer.MDI.Control
             return bitmap;
         }
 
+        protected override Size MeasureOverride(Size constraint)
+        {
+            if (IsLoaded)
+            {
+                var oldMaxWidth = GetValue(MaxWidthProperty);
+                var oldMaxHeight = GetValue(MaxHeightProperty);
+                SetCurrentValue(MaxHeightProperty, ActualWidth);
+                SetCurrentValue(MaxWidthProperty, ActualHeight);
+                var size = base.MeasureOverride(new Size(Math.Min(ActualWidth, constraint.Width), Math.Min(ActualHeight, constraint.Height)));
+                SetCurrentValue(MaxHeightProperty, oldMaxHeight);
+                SetCurrentValue(MaxWidthProperty, oldMaxWidth);
+                return size;
+            }
+            return base.MeasureOverride(constraint);
+        }
+
         internal void Maximize()
         {
             SaveLastSizeAndPosition();
