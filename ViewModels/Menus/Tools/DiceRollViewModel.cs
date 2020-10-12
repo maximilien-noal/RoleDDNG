@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using RandN.Compat;
 using RandN;
+using RoleDDNG.Models.Characters;
 
 namespace RoleDDNG.ViewModels.Menus.Tools
 {
@@ -17,6 +18,8 @@ namespace RoleDDNG.ViewModels.Menus.Tools
         private int _numberOfSides = 6;
 
         private ObservableCollection<int> _results = new ObservableCollection<int>();
+
+        private ObservableCollection<DiceRollEntry> _history = new ObservableCollection<DiceRollEntry>();
 
         private int _sum;
 
@@ -42,6 +45,8 @@ namespace RoleDDNG.ViewModels.Menus.Tools
 
         public ObservableCollection<int> Results { get => _results; private set { Set(nameof(Results), ref _results, value); } }
 
+        public ObservableCollection<DiceRollEntry> History { get => _history; private set { Set(nameof(History), ref _history, value); } }
+
         public RelayCommand Roll { get; private set; }
 
         public int Sum { get => _sum; set { Set(nameof(Sum), ref _sum, value); } }
@@ -57,6 +62,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             }
             RaisePropertyChanged(nameof(Results));
             Sum = Results.Sum(x => x);
+            History.Add(new DiceRollEntry() { DateTime = DateTime.Now, Dices = NumberOfDices, Sides = NumberofSides, Sum = Sum });
         }
     }
 }

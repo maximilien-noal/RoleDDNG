@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+
 using System;
 
 namespace RoleDDNG.Models.Characters
@@ -13,9 +14,13 @@ namespace RoleDDNG.Models.Characters
 
         private int _sum;
 
+        private int _result;
+
         public DiceRollEntry()
         {
         }
+
+        public int Result { get => _result; set { Set(nameof(Result), ref _result, value); } }
 
         public DateTime DateTime { get => _dateTime; set { Set(nameof(DateTime), ref _dateTime, value); } }
 

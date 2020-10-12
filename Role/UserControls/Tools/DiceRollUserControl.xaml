@@ -8,16 +8,18 @@
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     xmlns:Extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
     xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
+    xmlns:models="clr-namespace:RoleDDNG.Models.Characters;assembly=Models"
     Title="Lanceur de dés"
     DataContext="{Binding Source={StaticResource Locator}, Path=DiceRoll}"
     mc:Ignorable="d"
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
     <usercontrols:WindowContent.Resources>
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/DiceRollIcon.png" />
+        <converters:DateTimeToUIStringConverter x:Key="DateTimeToUIStringConverter" />
         <converters:ListOfIntsToStringConverter x:Key="ListOfIntsToStringConverter" />
         <converters:IntToStringConverter x:Key="IntToStringConverter" />
     </usercontrols:WindowContent.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"  Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -25,11 +27,14 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
             <Label Margin="5" Grid.Row="0" Grid.Column="0">Nombre de dés</Label>
             <TextBox Margin="5" Grid.Row="0" Grid.Column="1" Text="{Binding NumberOfDices, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
@@ -45,10 +50,25 @@
                     </EventTrigger>
                 </Button.Triggers>
             </Button>
-            <TextBox Margin="5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="{Binding Results, Mode=OneWay, Converter={StaticResource ListOfIntsToStringConverter}}">
-            </TextBox>
+            <TextBox Margin="5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"  IsReadOnly="True" TextWrapping="Wrap" Text="{Binding Results, Mode=OneWay, Converter={StaticResource ListOfIntsToStringConverter}}" />
             <Label Margin="5" Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Résultat</Label>
-            <TextBox Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="{Binding Sum, Mode=OneWay, Converter={StaticResource IntToStringConverter}}"></TextBox>
+            <TextBox Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Sum, Mode=OneWay, Converter={StaticResource IntToStringConverter}}"></TextBox>
+            <Label Margin="5" Grid.Row="5" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Historique</Label>
+            <ListBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding History}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type models:DiceRollEntry}">
+                        <TextBlock>
+                            <Run Text="{Binding DateTime, Converter={StaticResource DateTimeToUIStringConverter}}" />
+                            <Run Text=" - Dés : " />
+                            <Run Text="{Binding Dices}" />
+                            <Run Text=" - Type : D" />
+                            <Run Text="{Binding Sides}" />
+                            <Run Text=" - Résultat : " />
+                            <Run Text="{Binding Sum}" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </ScrollViewer>
 </usercontrols:WindowContent>
