@@ -54,7 +54,12 @@
             <Label Margin="5" Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Résultat</Label>
             <TextBox Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Sum, Mode=OneWay, Converter={StaticResource IntToStringConverter}}"></TextBox>
             <Label Margin="5" Grid.Row="5" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Historique</Label>
-            <ListBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding History}">
+            <ListBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" MinHeight="100" ItemsSource="{Binding History}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type models:DiceRollEntry}">
                         <TextBlock>
