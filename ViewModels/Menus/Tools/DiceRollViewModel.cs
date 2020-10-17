@@ -19,7 +19,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
 
         private ObservableCollection<int> _results = new ObservableCollection<int>();
 
-        private ObservableCollection<DiceRollEntry> _history = new ObservableCollection<DiceRollEntry>();
+        private ObservableCollection<DiceRoll> _history = new ObservableCollection<DiceRoll>();
 
         private int _sum;
 
@@ -45,7 +45,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
 
         public ObservableCollection<int> Results { get => _results; private set { Set(nameof(Results), ref _results, value); } }
 
-        public ObservableCollection<DiceRollEntry> History { get => _history; private set { Set(nameof(History), ref _history, value); } }
+        public ObservableCollection<DiceRoll> History { get => _history; private set { Set(nameof(History), ref _history, value); } }
 
         public RelayCommand Roll { get; private set; }
 
@@ -62,7 +62,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             }
             RaisePropertyChanged(nameof(Results));
             Sum = Results.Sum(x => x);
-            History.Add(new DiceRollEntry() { DateTime = DateTime.Now, Dices = NumberOfDices, Sides = NumberofSides, Sum = Sum });
+            History.Add(new DiceRoll() { DateTime = DateTime.Now, Dices = NumberOfDices, Sides = NumberofSides, Sum = Sum });
         }
     }
 }

@@ -9,6 +9,7 @@ using RoleDDNG.Interfaces.Backgrounds;
 using RoleDDNG.Interfaces.Dialogs;
 using RoleDDNG.Interfaces.Serialization;
 using RoleDDNG.Models.Options;
+using RoleDDNG.ViewModels.DB;
 using RoleDDNG.ViewModels.Interfaces;
 using RoleDDNG.ViewModels.Menus.Rules;
 using RoleDDNG.ViewModels.Menus.Tools;
@@ -38,7 +39,7 @@ namespace RoleDDNG.ViewModels
         public MainViewModel()
         {
             ChangeBackgroundCommand = new RelayCommand(ChangeBackgroundMethod);
-            ShowDiceRollWindow = new RelayCommand(() => AddDocumentViewModel<DiceRollViewModel>());
+            ShowDiceRollWindow = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<DiceRollViewModel>().ConfigureAwait(false));
             ShowCharactersXpWindow = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<CharactersXpViewModel>().ConfigureAwait(false));
             ShowTownGeneratorWindow = new RelayCommand(() => AddDocumentViewModel<TownGeneratorViewModel>());
             OpenCharactersDataBase = new AsyncCommand(async () => await AskAndOpenCharacterDbFileAsync().ConfigureAwait(false));
@@ -73,7 +74,7 @@ namespace RoleDDNG.ViewModels
 
         public AsyncCommand ShowCharactersXpWindow { get; private set; }
 
-        public RelayCommand ShowDiceRollWindow { get; private set; }
+        public AsyncCommand ShowDiceRollWindow { get; private set; }
 
         public RelayCommand ShowTownGeneratorWindow { get; private set; }
 
@@ -153,6 +154,9 @@ namespace RoleDDNG.ViewModels
         {
             if (await OpenCharacterDbIfNoneOpenAsync().ConfigureAwait(false))
             {
+                IsBusy = true;
+                await new MigrationsRunner().RunCharactersDbMigrationsAsync().ConfigureAwait(false);
+                IsBusy = false;
                 AddDocumentViewModel<T>();
             }
         }

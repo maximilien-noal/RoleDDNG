@@ -2,6 +2,8 @@
 
 using GalaSoft.MvvmLight;
 
+using PetaPoco;
+
 namespace RoleDDNG.Models.Characters
 {
     public class Version : ObservableObject
@@ -20,6 +22,7 @@ namespace RoleDDNG.Models.Characters
 
         public short? Objets { get => _objets; set { Set(nameof(Objets), ref _objets, value); } }
 
+        [Column(nameof(Version))]
         public short Version1 { get => _version1; set { Set(nameof(Version1), ref _version1, value); } }
     }
 }

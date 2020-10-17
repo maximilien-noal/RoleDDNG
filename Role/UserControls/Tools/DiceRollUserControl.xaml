@@ -61,7 +61,7 @@
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type models:DiceRollEntry}">
+                    <DataTemplate DataType="{x:Type models:DiceRoll}">
                         <TextBlock>
                             <Run Text="{Binding DateTime, Converter={StaticResource DateTimeToUIStringConverter}}" />
                             <Run Text=" - Dés : " />

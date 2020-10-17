@@ -266,7 +266,7 @@ namespace RoleDDNG.Models.Characters
         public string? Classe8 { get => _classe8; set { Set(nameof(Classe8), ref _classe8, value); } }
 
         [Ignore]
-        public ObservableCollection<DiceRollEntry> DiceRollEntries { get; private set; } = new ObservableCollection<DiceRollEntry>();
+        public ObservableCollection<DiceRoll> DiceRollEntries { get; private set; } = new ObservableCollection<DiceRoll>();
 
         [Column("dieu")]
         public string? Dieu { get => _dieu; set { Set(nameof(Dieu), ref _dieu, value); } }
