@@ -55,44 +55,16 @@
             <Label Margin="5" Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Résultat</Label>
             <TextBox Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Sum, Mode=OneWay, Converter={StaticResource IntToStringConverter}}"></TextBox>
             <Label Margin="5" Grid.Row="5" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Historique</Label>
-            <ScrollViewer Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" MinHeight="100"
-                Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
-                <ListBox ItemsSource="{Binding History}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type models:DiceRoll}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Orientation="Vertical" Grid.Column="0" Margin="2">
-                                    <Label>Date</Label>
-                                    <TextBlock Text="{Binding DateTime, Converter={StaticResource DateTimeToUIStringConverter}}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical" Grid.Column="1" Margin="2">
-                                    <Label>Dés</Label>
-                                    <TextBlock Text="{Binding Dices}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical" Grid.Column="2" Margin="2">
-                                    <Label>Type</Label>
-                                    <TextBlock Text="{Binding Sides}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical" Grid.Column="3" Margin="2">
-                                    <Label>Résultats</Label>
-                                    <TextBlock Text="{Binding Results}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical" Grid.Column="4" Margin="2">
-                                    <Label>Somme</Label>
-                                    <TextBlock Text="{Binding Sum}" />
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </ScrollViewer>
+            <DataGrid MaxHeight="200" Grid.Row="6" Grid.ColumnSpan="3" ColumnWidth="*" CanUserReorderColumns="True" CanUserDeleteRows="False" CanUserResizeColumns="True" CanUserResizeRows="True" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="True" ItemsSource="{Binding History}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn MinWidth="100" Header="Date" Binding="{Binding DateTime, Converter={StaticResource DateTimeToUIStringConverter}}" />
+                    <DataGridTextColumn Header="Dés" Binding="{Binding Dices}" />
+                    <DataGridTextColumn Header="Type" Binding="{Binding Sides}" />
+                    <DataGridTextColumn Header="Résultats" Binding="{Binding Results}" />
+                    <DataGridTextColumn Header="Somme" Binding="{Binding Sum}" />
+                    <DataGridTextColumn Header="Personnage" Binding="{Binding Character}" Visibility="Collapsed" />
+                </DataGrid.Columns>
+            </DataGrid>
             <Grid Grid.RowSpan="7" Grid.ColumnSpan="4"
                 Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
                 Opacity="0.5"
