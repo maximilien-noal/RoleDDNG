@@ -21,6 +21,8 @@ namespace RoleDDNG.ViewModels.DB
             "Dices INTEGER," +
             "Personnage VARCHAR(50));";
 
+        private const int TargetFinalDbVersion = 22;
+
         public Task RunCharactersDbMigrationsAsync()
         {
             if (_doneMigrations)
@@ -56,6 +58,12 @@ namespace RoleDDNG.ViewModels.DB
             });
 
             return task;
+        }
+
+        internal static bool NeedsToRun()
+        {
+            using var db = CharactersDb.Create();
+            return VersionIsAt(db, TargetFinalDbVersion) == false;
         }
     }
 }

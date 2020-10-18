@@ -154,9 +154,12 @@ namespace RoleDDNG.ViewModels
         {
             if (await OpenCharacterDbIfNoneOpenAsync().ConfigureAwait(false))
             {
-                IsBusy = true;
-                await new MigrationsRunner().RunCharactersDbMigrationsAsync().ConfigureAwait(true);
-                IsBusy = false;
+                if (MigrationsRunner.NeedsToRun())
+                {
+                    IsBusy = true;
+                    await new MigrationsRunner().RunCharactersDbMigrationsAsync().ConfigureAwait(true);
+                    IsBusy = false;
+                }
                 AddDocumentViewModel<T>();
             }
         }
