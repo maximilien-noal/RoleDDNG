@@ -19,7 +19,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
 {
     public class DiceRollViewModel : ViewModelBase, IDocumentViewModel, IDbDependentViewModel
     {
-        private const string DbDiceRollsQuery = "SELECT * FROM DiceRoll;";
+        private const string DbDiceRollsQuery = "SELECT TOP 300 Results,DSum,DDateTime,Sides,Dices FROM DiceRoll WHERE Personnage=\"\" ORDER BY DDateTime DESC;";
 
         private int _numberOfDices = 1;
 

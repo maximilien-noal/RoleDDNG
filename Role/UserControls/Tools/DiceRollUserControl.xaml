@@ -55,7 +55,7 @@
             <Label Margin="5" Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Résultat</Label>
             <TextBox Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Sum, Mode=OneWay, Converter={StaticResource IntToStringConverter}}"></TextBox>
             <Label Margin="5" Grid.Row="5" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Historique</Label>
-            <DataGrid MaxHeight="200" Grid.Row="6" Grid.ColumnSpan="3" ColumnWidth="*" CanUserReorderColumns="True" CanUserDeleteRows="False" CanUserResizeColumns="True" CanUserResizeRows="True" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="True" ItemsSource="{Binding History}">
+            <DataGrid Height="200" Grid.Row="6" Grid.ColumnSpan="3" ColumnWidth="*" CanUserReorderColumns="True" CanUserDeleteRows="False" CanUserResizeColumns="True" CanUserResizeRows="True" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="True" ItemsSource="{Binding History}">
                 <DataGrid.Columns>
                     <DataGridTextColumn MinWidth="100" Header="Date" Binding="{Binding DateTime, Converter={StaticResource DateTimeToUIStringConverter}}" />
                     <DataGridTextColumn Header="Dés" Binding="{Binding Dices}" />
