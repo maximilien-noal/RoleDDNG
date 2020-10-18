@@ -35,7 +35,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Label Margin="5" Grid.Row="0" Grid.Column="0">Nombre de dés</Label>
             <TextBox Margin="5" Grid.Row="0" Grid.Column="1" Text="{Binding NumberOfDices, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
@@ -55,16 +55,18 @@
             <Label Margin="5" Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Résultat</Label>
             <TextBox Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Sum, Mode=OneWay, Converter={StaticResource IntToStringConverter}}"></TextBox>
             <Label Margin="5" Grid.Row="5" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Historique</Label>
-            <DataGrid Height="200" Grid.Row="6" Grid.ColumnSpan="3" ColumnWidth="*" CanUserReorderColumns="True" CanUserDeleteRows="False" CanUserResizeColumns="True" CanUserResizeRows="True" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="True" ItemsSource="{Binding History}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn MinWidth="100" Header="Date" Binding="{Binding DateTime, Converter={StaticResource DateTimeToUIStringConverter}}" />
-                    <DataGridTextColumn Header="Dés" Binding="{Binding Dices}" />
-                    <DataGridTextColumn Header="Type" Binding="{Binding Sides}" />
-                    <DataGridTextColumn Header="Résultats" Binding="{Binding Results}" />
-                    <DataGridTextColumn Header="Somme" Binding="{Binding Sum}" />
-                    <DataGridTextColumn Header="Personnage" Binding="{Binding Character}" Visibility="Collapsed" />
-                </DataGrid.Columns>
-            </DataGrid>
+            <Grid x:Name="DataGrid" MinHeight="200" Grid.Row="6" Grid.ColumnSpan="3">
+                <DataGrid Height="{Binding MinHeight, ElementName=DataGrid}" ColumnWidth="*" GridLinesVisibility="None" CanUserReorderColumns="True" CanUserDeleteRows="False" CanUserResizeColumns="True" CanUserResizeRows="True" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="True" ItemsSource="{Binding History}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn MinWidth="100" Header="Date" Binding="{Binding DateTime, Converter={StaticResource DateTimeToUIStringConverter}}" />
+                        <DataGridTextColumn Header="Dés" Binding="{Binding Dices}" />
+                        <DataGridTextColumn Header="Type" Binding="{Binding Sides}" />
+                        <DataGridTextColumn MinWidth="80" Header="Résultats" Binding="{Binding Results}" />
+                        <DataGridTextColumn MinWidth="50" Header="Somme" Binding="{Binding Sum}" />
+                        <DataGridTextColumn Header="Personnage" Binding="{Binding Character}" Visibility="Collapsed" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
             <Grid Grid.RowSpan="7" Grid.ColumnSpan="4"
                 Background="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"
                 Opacity="0.5"
