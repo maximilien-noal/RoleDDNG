@@ -1,5 +1,8 @@
-﻿namespace RoleDDNG.Models.Roles
+﻿using PetaPoco;
+
+namespace RoleDDNG.Models.Roles
 {
+    [PrimaryKey(nameof(Nom))]
     public class Alignment : ObservableObject
     {
         private string? _nom;
@@ -8,7 +11,7 @@
         {
         }
 
-        /// <summary> Key </summary>
+        [Column]
         public string? Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
     }
 }

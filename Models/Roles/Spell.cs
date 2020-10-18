@@ -54,26 +54,33 @@ namespace RoleDDNG.Models.Roles
         {
         }
 
-        public string? Cible { get => _cible; set { Set(nameof(_cible), ref _cible, value); } }
+        public string? Cible { get => _cible; set { Set(nameof(Cible), ref _cible, value); } }
 
         [Column("Classe/Niveau")]
         public string? ClasseNiveau { get => _classeNiveau; set { Set(nameof(ClasseNiveau), ref _classeNiveau, value); } }
 
+        [Column]
         public string? Composantes { get => _composantes; set { Set(nameof(Composantes), ref _composantes, value); } }
 
+        [Column]
         public short? DDdeDifficultee { get => _ddDeDefficultee; set { Set(nameof(DDdeDifficultee), ref _ddDeDefficultee, value); } }
 
         [Column("Durée")]
         public string? Duree { get => _duree; set { Set(nameof(Duree), ref _duree, value); } }
 
+        [Column]
         public string? Ecole { get => _ecole; set { Set(nameof(Ecole), ref _ecole, value); } }
 
+        [Column]
         public string? Effet { get => _effet; set { Set(nameof(Effet), ref _effet, value); } }
 
+        [Column]
         public int? Epique { get => _epique; set { Set(nameof(Epique), ref _epique, value); } }
 
+        [Column]
         public string? Explication { get => _explication; set { Set(nameof(Explication), ref _explication, value); } }
 
+        [Column]
         public int? Id { get => _id; set { Set(nameof(Id), ref _id, value); } }
 
         [Column("Jet de sauvegarde")]
@@ -100,6 +107,6 @@ namespace RoleDDNG.Models.Roles
         public string? Version { get => _version; set { Set(nameof(Version), ref _version, value); } }
 
         [Column("Zone d'effet")]
-        public string? ZoneDeffet { get => _zoneDeffet; set { Set(nameof(_zoneDeffet), ref _zoneDeffet, value); } }
+        public string? ZoneDeffet { get => _zoneDeffet; set { Set(nameof(ZoneDeffet), ref _zoneDeffet, value); } }
     }
 }

@@ -24,6 +24,7 @@ namespace RoleDDNG.Models.Roles
         [Column("modif")]
         public int Modif { get => _modif; set { Set(nameof(Modif), ref _modif, value); } }
 
+        [Column]
         public string? Texte { get => _texte; set { Set(nameof(Texte), ref _texte, value); } }
     }
 }

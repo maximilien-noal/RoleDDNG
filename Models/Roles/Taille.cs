@@ -1,4 +1,6 @@
-﻿namespace RoleDDNG.Models.Roles
+﻿using PetaPoco;
+
+namespace RoleDDNG.Models.Roles
 {
     public class Taille : ObservableObject
     {
@@ -8,6 +10,7 @@
         {
         }
 
+        [Column]
         public string? Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
     }
 }

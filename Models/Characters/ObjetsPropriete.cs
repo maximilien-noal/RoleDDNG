@@ -1,4 +1,6 @@
-﻿namespace RoleDDNG.Models.Characters
+﻿using PetaPoco;
+
+namespace RoleDDNG.Models.Characters
 {
     public class ObjetsPropriete : ObservableObject
     {
@@ -18,16 +20,22 @@
         {
         }
 
+        [Column]
         public int Id { get => _id; set { Set(nameof(Id), ref _id, value); } }
 
+        [Column]
         public string? NomObjet { get => _nomObjet; set { Set(nameof(NomObjet), ref _nomObjet, value); } }
 
+        [Column]
         public string? Propriete1 { get => _propriete1; set { Set(nameof(Propriete1), ref _propriete1, value); } }
 
+        [Column]
         public string? Propriete2 { get => _propriete2; set { Set(nameof(Propriete2), ref _propriete2, value); } }
 
+        [Column]
         public string? Propriete3 { get => _propriete3; set { Set(nameof(Propriete3), ref _propriete3, value); } }
 
+        [Column]
         public string? Valeur { get => _valeur; set { Set(nameof(Valeur), ref _valeur, value); } }
     }
 }

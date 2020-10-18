@@ -16,7 +16,7 @@ namespace RoleDDNG.Models.Roles
         {
         }
 
-        [Column(nameof(AdjNiv))]
+        [Column]
         public int? AdjNiv { get => _adjNiv; set { Set(nameof(AdjNiv), ref _adjNiv, value); } }
 
         [Column]

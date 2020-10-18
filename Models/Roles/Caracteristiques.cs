@@ -1,5 +1,8 @@
-﻿namespace RoleDDNG.Models.Roles
+﻿using PetaPoco;
+
+namespace RoleDDNG.Models.Roles
 {
+    [PrimaryKey(nameof(Nom))]
     public class Caracteristiques : ObservableObject
     {
         private string? _description;
@@ -10,9 +13,10 @@
         {
         }
 
+        [Column]
         public string? Description { get => _description; set { Set(nameof(Description), ref _description, value); } }
 
-        /// <summary> Key </summary>
+        [Column]
         public string? Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
     }
 }

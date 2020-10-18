@@ -12,6 +12,7 @@ namespace RoleDDNG.Models.Roles
         {
         }
 
+        [Column]
         public string? Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
     }
 }

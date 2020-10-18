@@ -16,8 +16,10 @@ namespace RoleDDNG.Models.Characters
         {
         }
 
+        [Column]
         public DateTime? DateModif { get => _dateModif; set { Set(nameof(DateModif), ref _dateModif, value); } }
 
+        [Column]
         public short? Objets { get => _objets; set { Set(nameof(Objets), ref _objets, value); } }
 
         [Column(nameof(Version))]

@@ -169,6 +169,7 @@ namespace RoleDDNG.Models.Roles
         [Column("Don_9")]
         public string? Don9 { get => _don9; set { Set(nameof(Don9), ref _don9, value); } }
 
+        [Column]
         public int For { get => _for; set { Set(nameof(For), ref _for, value); } }
 
         public int FP { get => _fp; set { Set(nameof(FP), ref _fp, value); } }
@@ -192,6 +193,7 @@ namespace RoleDDNG.Models.Roles
         [Column("Progression_rm")]
         public int ProgressionResistance { get => _progressionResistance; set { Set(nameof(ProgressionResistance), ref _progressionResistance, value); } }
 
+        [Column]
         public int Reflexe { get => _reflexe; set { Set(nameof(Reflexe), ref _reflexe, value); } }
 
         [Column("Resistance_acide")]
@@ -227,6 +229,7 @@ namespace RoleDDNG.Models.Roles
         [Column]
         public int Vigueur { get => _vigueur; set { Set(nameof(Vigueur), ref _vigueur, value); } }
 
+        [Column]
         public int Vision { get => _vision; set { Set(nameof(Vision), ref _vision, value); } }
 
         [Column("Vision_Texte")]

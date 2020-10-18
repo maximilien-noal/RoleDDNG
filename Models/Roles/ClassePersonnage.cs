@@ -3,6 +3,7 @@
 namespace RoleDDNG.Models.Roles
 {
     [TableName(nameof(Classe))]
+    [PrimaryKey(nameof(Classe))]
     public class ClassePersonnage : ObservableObject
     {
         private bool _affichage;
@@ -51,10 +52,13 @@ namespace RoleDDNG.Models.Roles
         {
         }
 
+        [Column]
         public bool Affichage { get => _affichage; set { Set(nameof(Affichage), ref _affichage, value); } }
 
+        [Column]
         public string? Alignements { get => _alignements; set { Set(nameof(Alignements), ref _alignements, value); } }
 
+        [Column]
         public string? Anciens { get => _anciens; set { Set(nameof(Anciens), ref _anciens, value); } }
 
         [Column("Armes_Armures")]
@@ -68,34 +72,46 @@ namespace RoleDDNG.Models.Roles
         [Column("CaracSort_Niv")]
         public string? CaracSortNiv { get => _caracSortNiv; set { Set(nameof(CaracSortNiv), ref _caracSortNiv, value); } }
 
-        /// <summary> Key </summary>
+        [Column]
         public string? Classe { get => _classe; set { Set(nameof(Classe), ref _classe, value); } }
 
+        [Column]
         public int CompetenceNiveauSupp { get => _competenceNiveauSupp; set { Set(nameof(CompetenceNiveauSupp), ref _competenceNiveauSupp, value); } }
 
+        [Column]
         public string? Conditions { get => _conditions; set { Set(nameof(Conditions), ref _conditions, value); } }
 
+        [Column]
         public string? Description { get => _description; set { Set(nameof(Description), ref _description, value); } }
 
+        [Column]
         public bool EstLanceurSort { get => _estLanceurSort; set { Set(nameof(EstLanceurSort), ref _estLanceurSort, value); } }
 
+        [Column]
         public bool EstLimite { get => _estLimite; set { Set(nameof(EstLimite), ref _estLimite, value); } }
 
+        [Column]
         public bool EstTout { get => _estTout; set { Set(nameof(EstTout), ref _estTout, value); } }
 
+        [Column]
         public string? ListeSort { get => _listSort; set { Set(nameof(ListeSort), ref _listSort, value); } }
 
+        [Column]
         public int NLS { get => _nls; set { Set(nameof(NLS), ref _nls, value); } }
 
         [Column("n°")]
         public int Number { get => _number; set { Set(nameof(Number), ref _number, value); } }
 
+        [Column]
         public int PointDeVie { get => _pointDeVie; set { Set(nameof(PointDeVie), ref _pointDeVie, value); } }
 
+        [Column]
         public int Progression { get => _progression; set { Set(nameof(Progression), ref _progression, value); } }
 
+        [Column]
         public string? Sorts { get => _sorts; set { Set(nameof(Sorts), ref _sorts, value); } }
 
+        [Column]
         public string? Type { get => _type; set { Set(nameof(Type), ref _type, value); } }
     }
 }
