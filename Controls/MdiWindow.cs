@@ -278,7 +278,7 @@ namespace Hammer.MDI.Control
         public MdiWindow()
         {
             _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
-            _timer = new DispatcherTimer(TimeSpan.FromSeconds(2), DispatcherPriority.Normal, (s, e) => { _limitMeasure = true; _timer.Stop(); }, Application.Current.Dispatcher);
+            _timer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (s, e) => { _limitMeasure = true; _timer.Stop(); }, Application.Current.Dispatcher);
             _timer.Start();
         }
 
