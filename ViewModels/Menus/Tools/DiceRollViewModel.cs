@@ -100,7 +100,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
                 return charactersDb.Insert(history);
             });
             await task.ConfigureAwait(true);
-            History.Add(history);
+            History.Insert(0, history);
         }
 
         private Task<string> GetResulsStringAsync()
