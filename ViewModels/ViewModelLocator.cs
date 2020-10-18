@@ -1,4 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+
+using RoleDDNG.ViewModels.Menus.Characters;
 using RoleDDNG.ViewModels.Menus.Rules;
 using RoleDDNG.ViewModels.Menus.Tools;
 
@@ -34,6 +36,8 @@ namespace RoleDDNG.ViewModels
         public SpellsDescriptionsViewModel SpellsDescriptions => new SpellsDescriptionsViewModel();
 
         public TownGeneratorViewModel TownGenerator => new TownGeneratorViewModel();
+
+        public CharacterImportViewModel CharacterImport => new CharacterImportViewModel();
 
 #pragma warning restore CA1822
     }

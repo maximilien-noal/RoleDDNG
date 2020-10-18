@@ -57,6 +57,10 @@
             Key="X"
             Command="{Binding ShowCharactersXpWindow}"
             Modifiers="Control" />
+        <KeyBinding
+            Key="M"
+            Command="{Binding OpenCharacterImport}"
+            Modifiers="Control" />
         <KeyBinding Key="F1" Command="{Binding HelpCommand, ElementName=MainWindowInstance}" />
     </Window.InputBindings>
     <Grid>
@@ -72,7 +76,7 @@
                     <MenuItem Header="_Accéder aux fiches des personnages" Command="{Binding OpenCharacterSheet}" InputGestureText="Ctrl + F" />
                     <MenuItem Header="_Gestion des objets" InputGestureText="Ctrl + I" />
                     <Separator />
-                    <MenuItem Header="_Importation des personnages" InputGestureText="Ctrl + M" />
+                    <MenuItem Header="_Importation des personnages" InputGestureText="Ctrl + M" Command="{Binding OpenCharacterImport}" />
                     <Separator />
                     <MenuItem
                         Command="{Binding OpenCharactersDataBase}"

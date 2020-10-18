@@ -11,6 +11,7 @@ using RoleDDNG.Interfaces.Serialization;
 using RoleDDNG.Models.Options;
 using RoleDDNG.ViewModels.DB;
 using RoleDDNG.ViewModels.Interfaces;
+using RoleDDNG.ViewModels.Menus.Characters;
 using RoleDDNG.ViewModels.Menus.Rules;
 using RoleDDNG.ViewModels.Menus.Tools;
 
@@ -38,15 +39,16 @@ namespace RoleDDNG.ViewModels
 
         public MainViewModel()
         {
+            OpenCharacterImport = new RelayCommand(() => AddDocumentViewModel<CharacterImportViewModel>());
             ChangeBackgroundCommand = new RelayCommand(ChangeBackgroundMethod);
-            ShowDiceRollWindow = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<DiceRollViewModel>().ConfigureAwait(false));
-            ShowCharactersXpWindow = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<CharactersXpViewModel>().ConfigureAwait(false));
+            ShowDiceRollWindow = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<DiceRollViewModel>().ConfigureAwait(false));
+            ShowCharactersXpWindow = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<CharactersXpViewModel>().ConfigureAwait(false));
             ShowTownGeneratorWindow = new RelayCommand(() => AddDocumentViewModel<TownGeneratorViewModel>());
             OpenCharactersDataBase = new AsyncCommand(async () => await AskAndOpenCharacterDbFileAsync().ConfigureAwait(false));
-            OpenCharacterSheet = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<OpenCharacterViewModel>().ConfigureAwait(false));
-            OpenRacesDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<RacesDescriptionsViewModel>().ConfigureAwait(false));
-            OpenSpellsDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<SpellsDescriptionsViewModel>().ConfigureAwait(false));
-            OpenDonsDescriptions = new AsyncCommand(async () => await OpenCharacterDbDependantViewAsync<DonsDescriptionsViewModel>().ConfigureAwait(false));
+            OpenCharacterSheet = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<OpenCharacterViewModel>().ConfigureAwait(false));
+            OpenRacesDescriptions = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<RacesDescriptionsViewModel>().ConfigureAwait(false));
+            OpenSpellsDescriptions = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<SpellsDescriptionsViewModel>().ConfigureAwait(false));
+            OpenDonsDescriptions = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<DonsDescriptionsViewModel>().ConfigureAwait(false));
             ChangeBackgroundCommand.Execute(this);
         }
 
@@ -59,6 +61,8 @@ namespace RoleDDNG.ViewModels
         public bool IsBusy { get => _isBusy; private set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
         public ObservableCollection<IDocumentViewModel> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
+
+        public RelayCommand OpenCharacterImport { get; private set; }
 
         public AsyncCommand OpenCharactersDataBase { get; private set; }
 
@@ -150,7 +154,7 @@ namespace RoleDDNG.ViewModels
             return false;
         }
 
-        private async Task OpenCharacterDbDependantViewAsync<T>() where T : IDocumentViewModel, new()
+        private async Task OpenDbDependantViewModelAsync<T>() where T : IDocumentViewModel, new()
         {
             if (await OpenCharacterDbIfNoneOpenAsync().ConfigureAwait(false))
             {

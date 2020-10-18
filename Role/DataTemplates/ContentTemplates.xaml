@@ -3,7 +3,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:uc="clr-namespace:RoleDDNG.Role.UserControls"
     xmlns:rulesVms="clr-namespace:RoleDDNG.ViewModels.Menus.Rules;assembly=ViewModels"
-    xmlns:toolsVms="clr-namespace:RoleDDNG.ViewModels.Menus.Tools;assembly=ViewModels">
+    xmlns:toolsVms="clr-namespace:RoleDDNG.ViewModels.Menus.Tools;assembly=ViewModels"
+    xmlns:charactersVMs="clr-namespace:RoleDDNG.ViewModels.Menus.Characters;assembly=ViewModels">
+
+    <DataTemplate DataType="{x:Type charactersVMs:CharacterImportViewModel}">
+        <uc:CharacterImportUserControl />
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type toolsVms:DiceRollViewModel}">
         <uc:DiceRollUserControl />
