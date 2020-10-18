@@ -86,6 +86,7 @@ namespace RoleDDNG.Models.Roles
         [Column("Jet de sauvegarde")]
         public string? JetDeSauvegarde { get => _jetDeSauvegarde; set { Set(nameof(JetDeSauvegarde), ref _jetDeSauvegarde, value); } }
 
+        [Column]
         public string? Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
 
         [Column("Portée")]
