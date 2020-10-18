@@ -96,8 +96,8 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             };
             var task = Task.Run(() =>
             {
-                using var database = DB.CharactersDb.Create();
-                return database.Insert(history);
+                using var charactersDb = DB.CharactersDb.Create();
+                return charactersDb.Insert(history);
             });
             await task.ConfigureAwait(true);
             History.Add(history);

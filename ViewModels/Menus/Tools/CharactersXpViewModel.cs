@@ -71,10 +71,26 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             var charactersGifts = new List<PersonnageDons>();
             var characters = new List<Personnage>();
 
-            var task1 = Task.Run(() => charactersRaces.AddRange(DB.ProgDb.Create().Query<RacePersonnage>("select AdjNiv,race from Race")));
-            var task2 = Task.Run(() => charactersArchetypes.AddRange(DB.ProgDb.Create().Query<Archetype>("select AdjNiv,archetype from Archetype")));
-            var task3 = Task.Run(() => charactersGifts.AddRange(DB.CharactersDb.Create().Query<PersonnageDons>("select nom,dons from PersonnageDons")));
-            var task4 = Task.Run(() => characters.AddRange(DB.CharactersDb.Create().Query<Personnage>(DbCharactersQuery)));
+            var task1 = Task.Run(() =>
+            {
+                using var progDb = DB.ProgDb.Create();
+                charactersRaces.AddRange(progDb.Query<RacePersonnage>("select AdjNiv,race from Race"));
+            });
+            var task2 = Task.Run(() =>
+            {
+                using var progDb = DB.ProgDb.Create();
+                charactersArchetypes.AddRange(progDb.Query<Archetype>("select AdjNiv,archetype from Archetype"));
+            });
+            var task3 = Task.Run(() =>
+            {
+                using var charactersDb = DB.CharactersDb.Create();
+                charactersGifts.AddRange(charactersDb.Query<PersonnageDons>("select nom,dons from PersonnageDons"));
+            });
+            var task4 = Task.Run(() =>
+            {
+                using var charactersDb = DB.CharactersDb.Create();
+                characters.AddRange(charactersDb.Query<Personnage>(DbCharactersQuery));
+            });
 
             await Task.WhenAll(task1, task2, task3, task4).ConfigureAwait(false);
 
@@ -159,7 +175,11 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             SelectedCharacter.GainXp = 0;
             SelectedCharacter.TotalXp = (long?)Math.Min(SelectedCharacter.Xp, long.MaxValue);
             CharactersLog.Add(SelectedCharacter);
-            await Task.Run(() => DB.CharactersDb.Create().Update(SelectedCharacter, SelectedCharacter.Nom, columns: new string[] { "TotalXP" })).ConfigureAwait(false);
+            await Task.Run(() =>
+            {
+                using var charactersDb = DB.CharactersDb.Create();
+                return charactersDb.Update(SelectedCharacter, SelectedCharacter.Nom, columns: new string[] { "TotalXP" });
+            }).ConfigureAwait(false);
         }
     }
 }
