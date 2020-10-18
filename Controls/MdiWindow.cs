@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Hammer.MDI.Control
 {
@@ -47,9 +48,13 @@ namespace Hammer.MDI.Control
             return bitmap;
         }
 
+        private bool _limitMeasure;
+
+        private readonly DispatcherTimer _timer;
+
         protected override Size MeasureOverride(Size constraint)
         {
-            if (IsLoaded)
+            if (IsLoaded && _limitMeasure)
             {
                 var oldMaxWidth = GetValue(MaxWidthProperty);
                 var oldMaxHeight = GetValue(MaxHeightProperty);
@@ -273,6 +278,7 @@ namespace Hammer.MDI.Control
         public MdiWindow()
         {
             _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
+            _timer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (s, e) => { _limitMeasure = true; _timer.Stop(); }, Application.Current.Dispatcher);
         }
 
         public delegate void WindowStateChangedRoutedEventHandler(object sender, WindowStateChangedEventArgs e);
