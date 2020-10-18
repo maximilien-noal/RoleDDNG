@@ -118,6 +118,7 @@
                 <TextBox x:Name="ResultTextBox"
                     AcceptsReturn="True"
                     IsReadOnly="True"
+                    MinHeight="300"
                     Text="{Binding Result}" />
             </ScrollViewer>
             <Grid
