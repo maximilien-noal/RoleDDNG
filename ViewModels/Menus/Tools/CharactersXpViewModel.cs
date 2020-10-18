@@ -1,12 +1,14 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
+
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+
 using RoleDDNG.Models.Characters;
 using RoleDDNG.Models.Roles;
 using RoleDDNG.ViewModels.Constants;
-using RoleDDNG.ViewModels.Extensions;
 using RoleDDNG.ViewModels.Interfaces;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

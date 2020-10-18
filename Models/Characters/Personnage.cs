@@ -9,6 +9,35 @@ namespace RoleDDNG.Models.Characters
     [PrimaryKey("Nom")]
     public class Personnage : ObservableObject
     {
+        public double GetXpPointsForLevel()
+        {
+            return GetXpPointsForLevel(NiveauGE);
+        }
+
+        public double GetXpPointsForNextLevel()
+        {
+            return GetXpPointsForLevel(NiveauGE + 1);
+        }
+
+        private static double GetXpPointsForLevel(double level)
+        {
+            var xpLevel = 0;
+
+            if (level < 2)
+            {
+                return xpLevel;
+            }
+
+            var i = 1;
+            while (i < level)
+            {
+                xpLevel += (i * 1000);
+                i++;
+            }
+
+            return xpLevel;
+        }
+
         public int EffectiveLevel()
         {
             var col = new short?[] { Niv1, Niv2, Niv3, Niv4, Niv5, Niv6, Niv7, Niv8 };
