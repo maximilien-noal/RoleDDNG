@@ -23,7 +23,8 @@
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/CharactersXPToolIcon.png" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </userControls:WindowContent.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                  Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

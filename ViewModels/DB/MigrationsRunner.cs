@@ -13,31 +13,22 @@ namespace RoleDDNG.ViewModels.DB
 
         private const string DiceRollMigration =
             "CREATE TABLE DiceRoll (" +
-            "Id INTEGER PRIMARY KEY," +
-            "Result INTEGER," +
+            "Id AUTOINCREMENT PRIMARY KEY," +
+            "Results MEMO," +
             "DSum INTEGER," +
             "DDateTime DATETIME," +
             "Sides INTEGER," +
-            "Personnage VARCHAR(50)," +
             "Dices INTEGER," +
-            "FOREIGN KEY(Personnage) REFERENCES Personnage(Nom));";
+            "Personnage VARCHAR(50));";
 
-        private const int TargetCharactersDbVersion = 22;
-
-        public async Task RunCharactersDbMigrationsAsync()
+        public Task RunCharactersDbMigrationsAsync()
         {
             if (_doneMigrations)
             {
-                return;
+                return Task.Delay(0);
             }
             _doneMigrations = true;
-            using var db = CharactersDb.Create();
-            if (VersionIsAt(db, TargetCharactersDbVersion))
-            {
-                return;
-            }
-            await CreateDiceRollTableAsync(db).ConfigureAwait(false);
-            UpdateCharactersDbVersion(db, TargetCharactersDbVersion);
+            return CreateDiceRollTableAsync();
         }
 
         private static bool VersionIsAt(Database db, short v)
@@ -51,9 +42,19 @@ namespace RoleDDNG.ViewModels.DB
             db.Execute("UPDATE VERSION SET Version=@0 WHERE Version=@1;", v, v - 1);
         }
 
-        public static Task CreateDiceRollTableAsync(Database db)
+        public static Task CreateDiceRollTableAsync()
         {
-            var task = db.ExecuteAsync(DiceRollMigration);
+            var task = Task.Run(() =>
+            {
+                using var db = CharactersDb.Create();
+                if (VersionIsAt(db, 22))
+                {
+                    return;
+                }
+                db.Execute(DiceRollMigration);
+                UpdateCharactersDbVersion(db, 22);
+            });
+
             return task;
         }
     }

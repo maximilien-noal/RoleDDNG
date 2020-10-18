@@ -1,20 +1,18 @@
-﻿using GalaSoft.MvvmLight;
-
-using PetaPoco;
+﻿using PetaPoco;
 
 using System;
 
 namespace RoleDDNG.Models.Characters
 {
     [TableName(nameof(DiceRoll))]
-    [PrimaryKey(nameof(Id))]
+    [PrimaryKey(nameof(Id), AutoIncrement = true)]
     public class DiceRoll : ObservableObject
     {
         private int _id;
 
-        private Personnage? _character;
+        private string _character = "";
 
-        private DateTime _dateTime = DateTime.Now;
+        private DateTime _dateTime = DateTime.Now.WithoutMs();
 
         private int _dices = 1;
 
@@ -22,23 +20,28 @@ namespace RoleDDNG.Models.Characters
 
         private int _sum;
 
-        private int _result;
+        private string _results = "";
 
         public DiceRoll()
         {
         }
 
+        [Column]
         public int Id { get => _id; set { Set(nameof(Id), ref _id, value); } }
 
-        public Personnage? Character { get => _character; set { Set(nameof(Character), ref _character, value); } }
+        [Column("Personnage")]
+        public string Character { get => _character; set { Set(nameof(Character), ref _character, value); } }
 
-        public int Result { get => _result; set { Set(nameof(Result), ref _result, value); } }
+        [Column]
+        public string Results { get => _results; set { Set(nameof(Results), ref _results, value); } }
 
         [Column("DDateTime")]
         public DateTime DateTime { get => _dateTime; set { Set(nameof(DateTime), ref _dateTime, value); } }
 
+        [Column]
         public int Dices { get => _dices; set { Set(nameof(Dices), ref _dices, value); } }
 
+        [Column]
         public int Sides { get => _sides; set { Set(nameof(Sides), ref _sides, value); } }
 
         [Column("DSum")]

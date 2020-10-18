@@ -6,6 +6,10 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="PetaPoco.Compiled" Version="6.0.459" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">

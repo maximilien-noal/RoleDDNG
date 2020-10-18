@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-
-namespace RoleDDNG.Models.Roles
+﻿namespace RoleDDNG.Models.Roles
 {
     public class Yeux : ObservableObject
     {

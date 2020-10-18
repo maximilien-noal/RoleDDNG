@@ -1,7 +1,5 @@
 ﻿using System;
 
-using GalaSoft.MvvmLight;
-
 using PetaPoco;
 
 namespace RoleDDNG.Models.Characters

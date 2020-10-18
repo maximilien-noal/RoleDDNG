@@ -1,18 +1,26 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using AsyncAwaitBestPractices.MVVM;
+
+using GalaSoft.MvvmLight;
+
+using RandN;
+using RandN.Compat;
+
+using RoleDDNG.Models.Characters;
 using RoleDDNG.ViewModels.Interfaces;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using RandN.Compat;
-using RandN;
-using RoleDDNG.Models.Characters;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.Menus.Tools
 {
-    public class DiceRollViewModel : ViewModelBase, IDocumentViewModel
+    public class DiceRollViewModel : ViewModelBase, IDocumentViewModel, IDbDependentViewModel
     {
+        private const string DbDiceRollsQuery = "SELECT * FROM DiceRoll;";
+
         private int _numberOfDices = 1;
 
         private int _numberOfSides = 6;
@@ -32,12 +40,14 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             DiceTypes.Add(12);
             DiceTypes.Add(20);
             DiceTypes.Add(100);
-            Roll = new RelayCommand(Roll_Execute);
+            Roll = new AsyncCommand(RollAsync);
         }
 
         public List<int> DiceTypes { get; private set; } = new List<int>();
 
-        public bool IsBusy => false;
+        private bool _isBusy;
+
+        public bool IsBusy { get => _isBusy; private set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
         public int NumberOfDices { get => _numberOfDices; set { Set(nameof(NumberOfDices), ref _numberOfDices, value); } }
 
@@ -47,11 +57,26 @@ namespace RoleDDNG.ViewModels.Menus.Tools
 
         public ObservableCollection<DiceRoll> History { get => _history; private set { Set(nameof(History), ref _history, value); } }
 
-        public RelayCommand Roll { get; private set; }
+        public AsyncCommand Roll { get; private set; }
 
         public int Sum { get => _sum; set { Set(nameof(Sum), ref _sum, value); } }
 
-        private void Roll_Execute()
+        public async Task LoadDbDataAsync()
+        {
+            IsBusy = true;
+            var diceRolls = await Task.Run(() =>
+            {
+                using var database = DB.CharactersDb.Create();
+                return database.Query<DiceRoll>(DbDiceRollsQuery);
+            }).ConfigureAwait(true);
+            foreach (var diceRoll in diceRolls.Where(x => string.IsNullOrWhiteSpace(x.Character)))
+            {
+                History.Add(diceRoll);
+            }
+            IsBusy = false;
+        }
+
+        private async Task RollAsync()
         {
             Results.Clear();
             for (int i = 0; i < NumberOfDices; i++)
@@ -62,7 +87,39 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             }
             RaisePropertyChanged(nameof(Results));
             Sum = Results.Sum(x => x);
-            History.Add(new DiceRoll() { DateTime = DateTime.Now, Dices = NumberOfDices, Sides = NumberofSides, Sum = Sum });
+            var history = new DiceRoll()
+            {
+                Dices = NumberOfDices,
+                Sides = NumberofSides,
+                Sum = Sum,
+                Results = await GetResulsStringAsync().ConfigureAwait(true)
+            };
+            var task = Task.Run(() =>
+            {
+                using var database = DB.CharactersDb.Create();
+                return database.Insert(history);
+            });
+            await task.ConfigureAwait(true);
+            History.Add(history);
+        }
+
+        private Task<string> GetResulsStringAsync()
+        {
+            var result = Task.Run(() =>
+            {
+                var sb = new StringBuilder();
+                for (int i = 0; i < Results.Count; i++)
+                {
+                    int item = Results[i];
+                    sb.Append(item);
+                    if (i < Results.Count - 1)
+                    {
+                        sb.Append(", ");
+                    }
+                }
+                return sb.ToString();
+            });
+            return result;
         }
     }
 }

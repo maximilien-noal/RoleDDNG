@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-
-namespace RoleDDNG.Models.Characters
+﻿namespace RoleDDNG.Models.Characters
 {
     public class SortListe : ObservableObject
     {

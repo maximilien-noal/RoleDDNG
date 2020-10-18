@@ -1,7 +1,5 @@
 ﻿using PetaPoco;
 
-using GalaSoft.MvvmLight;
-
 namespace RoleDDNG.Models.Roles
 {
     public class ArchetypeCompetence : ObservableObject

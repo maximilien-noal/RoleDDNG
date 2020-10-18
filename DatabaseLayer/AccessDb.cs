@@ -1,4 +1,5 @@
 ﻿using PetaPoco;
+
 using System.IO;
 using System.Threading.Tasks;
 
@@ -28,7 +29,7 @@ namespace RoleDDNG.DatabaseLayer
 
         public Database GetDatabase()
         {
-            var petaPoco = new Database($"{ConnectionStringBeginning}{_dbFilePath}", "OleDb", new ConventionMapper() { InflectColumnName = (inflector, cn) => inflector.Underscore(cn) });
+            var petaPoco = new Database($"{ConnectionStringBeginning}{_dbFilePath}", "OleDb", new ConventionMapper());
             return petaPoco;
         }
     }

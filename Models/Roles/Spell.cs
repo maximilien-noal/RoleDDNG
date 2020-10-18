@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-
-using PetaPoco;
+﻿using PetaPoco;
 
 using System;
 
