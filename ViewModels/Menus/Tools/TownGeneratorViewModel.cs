@@ -142,7 +142,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
                 generatedTownInfo.Append($"{Environment.NewLine}Mélange de races{Environment.NewLine}");
                 generatedTownInfo.Append($"{GetRaces()}{Environment.NewLine}");
                 return generatedTownInfo.ToString();
-            }).ConfigureAwait(false);
+            }).ConfigureAwait(true);
             IsBusy = false;
         }
 

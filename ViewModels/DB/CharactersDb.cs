@@ -7,9 +7,13 @@ namespace RoleDDNG.ViewModels.DB
 {
     internal static class CharactersDb
     {
-        public static Database Create()
+        public static Database Create(string source = "")
         {
-            return new AccessDb(SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath).GetDatabase();
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                source = SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath;
+            }
+            return new AccessDb(source).GetDatabase();
         }
     }
 }

@@ -9,13 +9,33 @@
     Title="Import de personnages d'une autre base de données"
     DataContext="{Binding Source={StaticResource Locator}, Path=CharacterImport}"
     mc:Ignorable="d"
-    d:DesignHeight="450" d:DesignWidth="800">
+    d:DesignHeight="450" d:DesignWidth="800"
+    Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
     <userControls:WindowContent.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/ImportCharacterTool.png" />
     </userControls:WindowContent.Resources>
-    <ScrollViewer Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
-        <Grid>
-        </Grid>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
+        <DockPanel>
+            <Grid x:Name="DataGrid" DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0">
+                    <Label.Content>
+                        <TextBlock>
+                                <Run Text="{Binding SourceDbFile}" />
+                                <Run Text=" -> " />
+                                <Run Text="{Binding TargetDbFile}" />
+                        </TextBlock>
+                    </Label.Content>
+                </Label>
+                <DataGrid Width="{Binding ActualWidth, ElementName=DataGrid}" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="True" ItemsSource="{Binding Characters}" />
+            </Grid>
+            <DockPanel DockPanel.Dock="Bottom">
+                <Button DockPanel.Dock="Right" Margin="0,2,2,0" IsDefault="True" IsCancel="True" Command="{Binding Cancel}">Annuler</Button>
+            </DockPanel>
+        </DockPanel>
     </ScrollViewer>
 </userControls:WindowContent>

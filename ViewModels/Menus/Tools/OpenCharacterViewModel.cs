@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
+
 using RoleDDNG.Models.Characters;
 using RoleDDNG.ViewModels.Interfaces;
+
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -22,7 +24,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
         {
             IsBusy = true;
             using var charactersDb = DB.CharactersDb.Create();
-            Characters = new ObservableCollection<Personnage>(await Task.Run(() => charactersDb.Query<Personnage>(DbCharactersQuery)).ConfigureAwait(false));
+            Characters = new ObservableCollection<Personnage>(await Task.Run(() => charactersDb.Query<Personnage>(DbCharactersQuery)).ConfigureAwait(true));
             IsBusy = false;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using RoleDDNG.Models.Roles;
 using RoleDDNG.ViewModels.Interfaces;
+
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace RoleDDNG.ViewModels.Menus.Rules
         {
             IsBusy = true;
             using var progDb = DB.ProgDb.Create();
-            SetCollection(new ObservableCollection<RacePersonnage>(await Task.Run(() => progDb.Query<RacePersonnage>("select race,Description from Race order by race").Where(x => string.IsNullOrWhiteSpace(x.Description) == false && x.Description != x.Race)).ConfigureAwait(false)));
+            SetCollection(new ObservableCollection<RacePersonnage>(await Task.Run(() => progDb.Query<RacePersonnage>("select race,Description from Race order by race").Where(x => string.IsNullOrWhiteSpace(x.Description) == false && x.Description != x.Race)).ConfigureAwait(true)));
             if (Collection.Any())
             {
                 SelectedItem = Collection.FirstOrDefault();

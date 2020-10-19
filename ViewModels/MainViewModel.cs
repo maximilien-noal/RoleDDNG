@@ -20,6 +20,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace RoleDDNG.ViewModels
 {
@@ -39,17 +40,41 @@ namespace RoleDDNG.ViewModels
 
         public MainViewModel()
         {
-            OpenCharacterImport = new RelayCommand(() => AddDocumentViewModel<CharacterImportViewModel>());
+            OpenCharacterImport = new AsyncCommand(async () => await OpenCharacterImportMethodAsync().ConfigureAwait(true));
             ChangeBackgroundCommand = new RelayCommand(ChangeBackgroundMethod);
-            ShowDiceRollWindow = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<DiceRollViewModel>().ConfigureAwait(false));
-            ShowCharactersXpWindow = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<CharactersXpViewModel>().ConfigureAwait(false));
+            ShowDiceRollWindow = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<DiceRollViewModel>().ConfigureAwait(true));
+            ShowCharactersXpWindow = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<CharactersXpViewModel>().ConfigureAwait(true));
             ShowTownGeneratorWindow = new RelayCommand(() => AddDocumentViewModel<TownGeneratorViewModel>());
-            OpenCharactersDataBase = new AsyncCommand(async () => await AskAndOpenCharacterDbFileAsync().ConfigureAwait(false));
-            OpenCharacterSheet = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<OpenCharacterViewModel>().ConfigureAwait(false));
-            OpenRacesDescriptions = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<RacesDescriptionsViewModel>().ConfigureAwait(false));
-            OpenSpellsDescriptions = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<SpellsDescriptionsViewModel>().ConfigureAwait(false));
-            OpenDonsDescriptions = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<DonsDescriptionsViewModel>().ConfigureAwait(false));
+            OpenCharactersDataBase = new AsyncCommand(async () => await AskAndOpenCharacterDbFileAsync().ConfigureAwait(true));
+            OpenCharacterSheet = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<OpenCharacterViewModel>().ConfigureAwait(true));
+            OpenRacesDescriptions = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<RacesDescriptionsViewModel>().ConfigureAwait(true));
+            OpenSpellsDescriptions = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<SpellsDescriptionsViewModel>().ConfigureAwait(true));
+            OpenDonsDescriptions = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<DonsDescriptionsViewModel>().ConfigureAwait(true));
             ChangeBackgroundCommand.Execute(this);
+        }
+
+        private async Task OpenCharacterImportMethodAsync()
+        {
+            var otherCharactersDb = await OpenForeignCharacterDbAsync().ConfigureAwait(true);
+            if (CurrentCharacterDb == otherCharactersDb)
+            {
+                MessageBox.Show("ceci est la base de données de personnages déjà ouverte.");
+                return;
+            }
+            if (ProgDb.GetFullPath() == otherCharactersDb)
+            {
+                MessageBox.Show("Ceci est la base de données du programme.");
+                return;
+            }
+            if (!string.IsNullOrWhiteSpace(otherCharactersDb) && File.Exists(otherCharactersDb) && !Items.OfType<CharacterImportViewModel>().Any())
+            {
+                var viewModel = new CharacterImportViewModel(otherCharactersDb);
+                if (SimpleIoc.Default.IsRegistered<CharacterImportViewModel>() == false)
+                {
+                    SimpleIoc.Default.Register(() => viewModel);
+                }
+                Items.Add(viewModel);
+            }
         }
 
         private void ChangeBackgroundMethod() => BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource(BackgroundSource);
@@ -62,7 +87,7 @@ namespace RoleDDNG.ViewModels
 
         public ObservableCollection<IDocumentViewModel> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
 
-        public RelayCommand OpenCharacterImport { get; private set; }
+        public AsyncCommand OpenCharacterImport { get; private set; }
 
         public AsyncCommand OpenCharactersDataBase { get; private set; }
 
@@ -84,7 +109,7 @@ namespace RoleDDNG.ViewModels
 
         public async Task ExitAppAsync()
         {
-            await SaveAppSettingsAsync().ConfigureAwait(false);
+            await SaveAppSettingsAsync().ConfigureAwait(true);
         }
 
         public async Task<bool> LoadAppSettingsAsync()
@@ -94,9 +119,9 @@ namespace RoleDDNG.ViewModels
             if (File.Exists(_appSettingsFilePath))
             {
                 var serializer = SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>();
-                var appSettings = await serializer.DeserializeAsync<AppSettings>(_appSettingsFilePath).ConfigureAwait(false);
+                var appSettings = await serializer.DeserializeAsync<AppSettings>(_appSettingsFilePath).ConfigureAwait(true);
                 SimpleIoc.Default.Register(() => appSettings);
-                foundCharacterDb = await OpenCharactersDatabaseAsync().ConfigureAwait(false);
+                foundCharacterDb = await OpenCharactersDatabaseAsync().ConfigureAwait(true);
             }
             else
             {
@@ -119,10 +144,10 @@ namespace RoleDDNG.ViewModels
             }
         }
 
-        private static async Task<string> AskForCharactersDbFileAsync()
+        private static async Task<string> AskForCharactersDbFileAsync(string title = "Ouvrir une base de données de personnages...")
         {
             var fileDialog = SimpleIoc.Default.GetInstance<IFileDialog>();
-            var dbFile = await fileDialog.OpenFileDialogAsync("Ouvrir une base de données de personnages...", "mdb").ConfigureAwait(false);
+            var dbFile = await fileDialog.OpenFileDialogAsync(title, "mdb").ConfigureAwait(true);
             return dbFile;
         }
 
@@ -135,20 +160,30 @@ namespace RoleDDNG.ViewModels
             }
         }
 
-        private async Task<bool> AskAndOpenCharacterDbFileAsync()
+        private static async Task<string?> OpenForeignCharacterDbAsync()
         {
-            var dbFile = await AskForCharactersDbFileAsync().ConfigureAwait(false);
-            return await OpenCharacterDbAsync(dbFile).ConfigureAwait(false);
+            var dbFile = await AskForCharactersDbFileAsync("Ouvrir une base de données de personnages à importer...").ConfigureAwait(true);
+            if (File.Exists(dbFile) && await new AccessDb(dbFile).CanConnectAsync().ConfigureAwait(true))
+            {
+                return dbFile;
+            }
+            return null;
+        }
+
+        private async Task AskAndOpenCharacterDbFileAsync()
+        {
+            var dbFile = await AskForCharactersDbFileAsync().ConfigureAwait(true);
+            await OpenCharacterDbAsync(dbFile).ConfigureAwait(true);
         }
 
         private async Task<bool> OpenCharacterDbAsync(string dbFile)
         {
             if (File.Exists(dbFile) &&
-                await new AccessDb(dbFile).CanConnectAsync().ConfigureAwait(false))
+                await new AccessDb(dbFile).CanConnectAsync().ConfigureAwait(true))
             {
                 SimpleIoc.Default.GetInstance<AppSettings>().LastCharacterDBPath = dbFile;
                 CurrentCharacterDb = dbFile;
-                await SaveAppSettingsAsync().ConfigureAwait(false);
+                await SaveAppSettingsAsync().ConfigureAwait(true);
                 return true;
             }
             return false;
@@ -156,7 +191,7 @@ namespace RoleDDNG.ViewModels
 
         private async Task OpenDbDependantViewModelAsync<T>() where T : IDocumentViewModel, new()
         {
-            if (await OpenCharacterDbIfNoneOpenAsync().ConfigureAwait(false))
+            if (await OpenCharacterDbIfNoneOpenAsync().ConfigureAwait(true))
             {
                 if (MigrationsRunner.NeedsToRun())
                 {
@@ -174,7 +209,7 @@ namespace RoleDDNG.ViewModels
             {
                 return true;
             }
-            return await OpenCharactersDatabaseAsync().ConfigureAwait(false);
+            return await OpenCharactersDatabaseAsync().ConfigureAwait(true);
         }
 
         private async Task<bool> OpenCharactersDatabaseAsync()
@@ -186,9 +221,9 @@ namespace RoleDDNG.ViewModels
                 {
                     return false;
                 }
-                dbFile = await AskForCharactersDbFileAsync().ConfigureAwait(false);
+                dbFile = await AskForCharactersDbFileAsync().ConfigureAwait(true);
             }
-            return await OpenCharacterDbAsync(dbFile).ConfigureAwait(false);
+            return await OpenCharacterDbAsync(dbFile).ConfigureAwait(true);
         }
 
         private async Task SaveAppSettingsAsync()
@@ -196,7 +231,7 @@ namespace RoleDDNG.ViewModels
             IsBusy = true;
             var configDir = Path.GetDirectoryName(_appSettingsFilePath);
             Directory.CreateDirectory(configDir);
-            await SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>().SerializeAsync(_appSettingsFilePath, SimpleIoc.Default.GetInstance<AppSettings>()).ConfigureAwait(false);
+            await SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>().SerializeAsync(_appSettingsFilePath, SimpleIoc.Default.GetInstance<AppSettings>()).ConfigureAwait(true);
             IsBusy = false;
         }
     }
