@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
     xmlns:userControls="clr-namespace:RoleDDNG.Role.UserControls"
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     xmlns:Extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
@@ -12,7 +13,11 @@
     d:DesignHeight="450" d:DesignWidth="800"
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
     <userControls:WindowContent.Resources>
+        <BitmapImage x:Key="DefaultImage" UriSource="/UserControls/Assets/DefaultCharacterImage.png" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:FilePathToBitmapConverter x:Key="FilePathToBitmapConverter" />
+        <converters:CharacterToClasseConverter x:Key="CharacterToClasseConverter" />
+        <converters:CharacterToLevelConverter x:Key="CharacterToLevelConverter" />
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/ImportCharacterTool.png" />
     </userControls:WindowContent.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
@@ -22,20 +27,59 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0">
+                <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Label.Content>
                         <TextBlock>
                                 <Run Text="{Binding SourceDbFile}" />
-                                <Run Text=" -> " />
+                                <Run Text=" vers " />
                                 <Run Text="{Binding TargetDbFile}" />
                         </TextBlock>
                     </Label.Content>
                 </Label>
-                <DataGrid Width="{Binding ActualWidth, ElementName=DataGrid}" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="True" ItemsSource="{Binding Characters}" />
+                <ListBox Grid.Row="1" ItemsSource="{Binding Characters}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Label HorizontalAlignment="Center" Grid.Row="0">Importer</Label>
+                                        <CheckBox Grid.Row="1" HorizontalAlignment="Center" IsChecked="{Binding IsSelected}" />
+                                    </Grid>
+                                    <Image Source="{Binding Image, Converter={StaticResource FilePathToBitmapConverter}, FallbackValue={StaticResource DefaultImage}}" Width="64" Height="64" />
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+                                    <Label Content="{Binding Nom}" />
+                                    <TextBlock Text="{Binding Race}" />
+                                    <TextBlock Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" />
+                                    <TextBlock>
+                                    <Run Text="Niveau : " />
+                                    <Run Text="{Binding Mode=OneWay, Converter={StaticResource CharacterToLevelConverter}}" />
+                                    </TextBlock>
+                                </StackPanel>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
-            <DockPanel DockPanel.Dock="Bottom">
-                <Button DockPanel.Dock="Right" Margin="0,2,2,0" IsDefault="True" IsCancel="True" Command="{Binding Cancel}">Annuler</Button>
-            </DockPanel>
+            <Grid DockPanel.Dock="Bottom">
+                <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,2,2,0" IsDefault="True" IsCancel="True" Command="{Binding DoImport}">Importer</Button>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,2,2,0" IsDefault="True" IsCancel="True" Command="{Binding Cancel}">Fermer</Button>
+            </Grid>
+            <Grid
+                Opacity="0.5"
+                Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="17"
+                    Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}">
+                    Chargement en cours...
+                </TextBlock>
+            </Grid>
         </DockPanel>
     </ScrollViewer>
 </userControls:WindowContent>

@@ -9,6 +9,16 @@ namespace RoleDDNG.Models.Characters
     [PrimaryKey("Nom")]
     public class Personnage : ObservableObject
     {
+        private bool _isSelected;
+
+        [Ignore]
+        public bool IsSelected { get => _isSelected; set { Set(nameof(IsSelected), ref _isSelected, value); } }
+
+        private bool _wasProcessed;
+
+        [Ignore]
+        public bool WasProcessed { get => _wasProcessed; set { Set(nameof(WasProcessed), ref _wasProcessed, value); } }
+
         public double GetXpPointsForLevel()
         {
             return GetXpPointsForLevel(NiveauGE);
