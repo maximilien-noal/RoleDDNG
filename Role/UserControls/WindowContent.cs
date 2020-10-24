@@ -1,6 +1,7 @@
 ﻿using Hammer.MDI.Control;
 using RoleDDNG.ViewModels.Interfaces;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -32,11 +33,6 @@ namespace RoleDDNG.Role.UserControls
                 return;
             }
 
-            if (DataContext is IDbDependentViewModel viewModel)
-            {
-                await viewModel.LoadDbDataAsync().ConfigureAwait(true);
-            }
-
             var imageBrush = this.FindResource("WindowIcon");
             if (imageBrush is null)
             {
@@ -51,6 +47,11 @@ namespace RoleDDNG.Role.UserControls
             {
                 window.SetCurrentValue(MdiWindow.TitleProperty, GetValue(TitleProperty));
                 window.ChangeMenuButtonIcon(brush);
+            }
+
+            if (DataContext is IDbDependentViewModel viewModel)
+            {
+                await viewModel.LoadDbDataAsync().ConfigureAwait(true);
             }
         }
 
