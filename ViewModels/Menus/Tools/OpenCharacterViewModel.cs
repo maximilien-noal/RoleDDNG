@@ -1,7 +1,4 @@
-﻿
-using RoleDDNG.Models.Characters;
-
-namespace RoleDDNG.ViewModels.Menus.Tools
+﻿namespace RoleDDNG.ViewModels.Menus.Tools
 {
     public class OpenCharacterViewModel : CharactersListViewModel
     {

@@ -17,12 +17,22 @@ namespace RoleDDNG.ViewModels.Menus.Rules
         {
             IsBusy = true;
             using var progDb = DB.ProgDb.Create();
-            SetCollection(new ObservableCollection<Don>(await Task.Run(() => progDb.Query<Don>("select * from Dons order by Nom").Where(x => string.IsNullOrWhiteSpace(x.Nom) == false)).ConfigureAwait(true)));
+            using var elementsReader = await progDb.QueryAsync<Don>("select * from Dons order by Nom").ConfigureAwait(true);
+            var collection = new ObservableCollection<Don>();
+            while (await elementsReader.ReadAsync().ConfigureAwait(true))
+            {
+                if (string.IsNullOrWhiteSpace(elementsReader.Poco.Nom) == false)
+                {
+                    collection.Add(elementsReader.Poco);
+                }
+            }
+            SetCollection(collection);
             if (Collection.Any())
             {
                 SelectedItem = Collection.FirstOrDefault();
             }
             IsBusy = false;
+
         }
     }
 }

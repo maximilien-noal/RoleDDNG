@@ -1,6 +1,6 @@
 ﻿using RoleDDNG.Models.Roles;
 using RoleDDNG.ViewModels.Interfaces;
-
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +17,16 @@ namespace RoleDDNG.ViewModels.Menus.Rules
         {
             IsBusy = true;
             using var progDb = DB.ProgDb.Create();
-            SetCollection(new ObservableCollection<Spell>(await Task.Run(() => progDb.Query<Spell>("select * from Sort order by Nom").Where(x => string.IsNullOrWhiteSpace(x.Explication) == false)).ConfigureAwait(true)));
+            using var elementsReader = await progDb.QueryAsync<Spell>("select * from Sort order by Nom").ConfigureAwait(true);
+            var collection = new ObservableCollection<Spell>();
+            while (await elementsReader.ReadAsync().ConfigureAwait(true))
+            {
+                if (string.IsNullOrWhiteSpace(elementsReader.Poco.Explication) == false)
+                {
+                    collection.Add(elementsReader.Poco);
+                }
+            }
+            SetCollection(collection);
             if (Collection.Any())
             {
                 SelectedItem = Collection.FirstOrDefault();

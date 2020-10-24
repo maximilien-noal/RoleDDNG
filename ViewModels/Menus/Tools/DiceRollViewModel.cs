@@ -64,14 +64,11 @@ namespace RoleDDNG.ViewModels.Menus.Tools
         public async Task LoadDbDataAsync()
         {
             IsBusy = true;
-            var diceRolls = await Task.Run(() =>
+            using var charactersDb = DB.CharactersDb.Create();
+            using var elementsReader = await charactersDb.QueryAsync<DiceRoll>(DbDiceRollsQuery).ConfigureAwait(true);
+            while (await elementsReader.ReadAsync().ConfigureAwait(true))
             {
-                using var database = DB.CharactersDb.Create();
-                return database.Query<DiceRoll>(DbDiceRollsQuery);
-            }).ConfigureAwait(true);
-            foreach (var diceRoll in diceRolls.Where(x => string.IsNullOrWhiteSpace(x.Character)))
-            {
-                History.Add(diceRoll);
+                History.Add(elementsReader.Poco);
             }
             IsBusy = false;
         }
