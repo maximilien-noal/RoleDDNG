@@ -24,7 +24,7 @@
     </usercontrols:WindowContent.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"  Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
         <Grid>
-            <ListBox ItemsSource="{Binding Characters}">
+            <ListBox ItemsSource="{Binding Collection}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel>

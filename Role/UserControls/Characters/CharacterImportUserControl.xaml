@@ -36,7 +36,7 @@
                         </TextBlock>
                     </Label.Content>
                 </Label>
-                <ListBox Grid.Row="1" ItemsSource="{Binding Characters}">
+                <ListBox Grid.Row="1" ItemsSource="{Binding Collection}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <DockPanel>

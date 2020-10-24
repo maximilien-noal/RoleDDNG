@@ -1,7 +1,6 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
 
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
 
 using RoleDDNG.ViewModels.Interfaces;
 

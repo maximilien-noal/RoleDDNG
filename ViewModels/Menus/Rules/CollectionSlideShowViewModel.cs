@@ -1,24 +1,19 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using System.Collections.ObjectModel;
+﻿using GalaSoft.MvvmLight.Command;
+
 using System.Linq;
 
 namespace RoleDDNG.ViewModels.Menus.Rules
 {
-    public class CollectionViewModel<T> : ViewModelBase
+    public class CollectionSlideShowViewModel<T> : CollectionViewModel<T>
         where T : new()
     {
-        private ObservableCollection<T> _collectionStore = new ObservableCollection<T>();
-
         private T _selectedItem = new T();
 
-        public CollectionViewModel()
+        public CollectionSlideShowViewModel()
         {
             Previous = new RelayCommand(PreviousMethod);
             Next = new RelayCommand(NextMethod);
         }
-
-        public ObservableCollection<T> Collection { get => _collectionStore; private set { Set(nameof(Collection), ref _collectionStore, value); } }
 
         public RelayCommand Next { get; private set; }
 
@@ -34,11 +29,6 @@ namespace RoleDDNG.ViewModels.Menus.Rules
         protected void PreviousMethod()
         {
             MoveTo(-1);
-        }
-
-        protected void SetCollection(ObservableCollection<T> newCollection)
-        {
-            Collection = newCollection;
         }
 
         private void MoveTo(int diff)

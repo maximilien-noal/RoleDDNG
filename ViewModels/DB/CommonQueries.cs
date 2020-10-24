@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RoleDDNG.ViewModels.DB
+﻿namespace RoleDDNG.ViewModels.DB
 {
     internal static class CommonQueries
     {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.Menus.Rules
 {
-    public class SpellsDescriptionsViewModel : CollectionViewModel<Spell>, IDocumentViewModel, IDbDependentViewModel
+    public class SpellsDescriptionsViewModel : CollectionSlideShowViewModel<Spell>, IDocumentViewModel, IDbDependentViewModel
     {
         private bool _isBusy;
 
