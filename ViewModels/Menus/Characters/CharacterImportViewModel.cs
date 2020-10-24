@@ -7,12 +7,9 @@ using RoleDDNG.ViewModels.DB;
 using RoleDDNG.ViewModels.Interfaces;
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Documents;
 
 namespace RoleDDNG.ViewModels.Menus.Characters
 {
@@ -77,8 +74,13 @@ namespace RoleDDNG.ViewModels.Menus.Characters
             try
             {
                 IsBusy = true;
-                using var charactersDb = DB.CharactersDb.Create(_sourceDbFile);
-                Characters = new ObservableCollection<Personnage>(await Task.Run(() => charactersDb.Query<Personnage>(CommonQueries.DbCharactersQuery)).ConfigureAwait(true));
+                Characters.Clear();
+                using var charactersDb = CharactersDb.Create(_sourceDbFile);
+                using var elementsReader = await charactersDb.QueryAsync<Personnage>(CommonQueries.DbCharactersQuery).ConfigureAwait(true);
+                while(await elementsReader.ReadAsync().ConfigureAwait(true))
+                {
+                    Characters.Add(elementsReader.Poco);
+                }
                 IsBusy = false;
             }
             catch
