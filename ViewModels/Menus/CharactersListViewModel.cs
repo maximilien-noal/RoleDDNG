@@ -4,7 +4,6 @@ using RoleDDNG.Models.Characters;
 using RoleDDNG.ViewModels.DB;
 using RoleDDNG.ViewModels.Interfaces;
 
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.Menus
