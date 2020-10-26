@@ -439,6 +439,11 @@ namespace RoleDDNG.Models.Characters
         [Column]
         public string? Nom { get => _nom; set { Set(nameof(Nom), ref _nom, value); } }
 
+        private string _nameImport = "";
+
+        [Ignore]
+        public string NameImport { get => _nameImport; set { Set(nameof(NameImport), ref _nameImport, value); } }
+
         [Column]
         public string? OrdreShugenja { get => _ordreShugenja; set { Set(nameof(OrdreShugenja), ref _ordreShugenja, value); } }
 
