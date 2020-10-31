@@ -55,6 +55,10 @@ namespace RoleDDNG.ViewModels
 
         private async Task OpenCharacterImportMethodAsync()
         {
+            if (await OpenCharacterDbIfNoneOpenAndRunMigrationsAsync().ConfigureAwait(true) == false)
+            {
+                return;
+            }
             var otherCharactersDb = await OpenForeignCharacterDbAsync().ConfigureAwait(true);
             if (CurrentCharacterDb == otherCharactersDb)
             {
@@ -191,6 +195,14 @@ namespace RoleDDNG.ViewModels
 
         private async Task OpenDbDependantViewModelAsync<T>() where T : IDocumentViewModel, new()
         {
+            if (await OpenCharacterDbIfNoneOpenAndRunMigrationsAsync().ConfigureAwait(true))
+            {
+                AddDocumentViewModel<T>();
+            }
+        }
+
+        private async Task<bool> OpenCharacterDbIfNoneOpenAndRunMigrationsAsync()
+        {
             if (await OpenCharacterDbIfNoneOpenAsync().ConfigureAwait(true))
             {
                 if (MigrationsRunner.NeedsToRun())
@@ -199,8 +211,9 @@ namespace RoleDDNG.ViewModels
                     await new MigrationsRunner().RunCharactersDbMigrationsAsync().ConfigureAwait(true);
                     IsBusy = false;
                 }
-                AddDocumentViewModel<T>();
+                return true;
             }
+            return false;
         }
 
         private async Task<bool> OpenCharacterDbIfNoneOpenAsync()
