@@ -45,7 +45,11 @@ namespace RoleDDNG.Models
         /// </summary>
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
+#pragma warning disable CS8612 // Nullability of reference types in type doesn't match implicitly implemented member.
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+#pragma warning restore CS8612 // Nullability of reference types in type doesn't match implicitly implemented member.
 
 #pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
@@ -184,11 +188,7 @@ namespace RoleDDNG.Models
         {
             VerifyPropertyName(propertyName);
 
-            var handler = PropertyChanging;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangingEventArgs(propertyName));
-            }
+            PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
         }
 
 #endif
@@ -228,11 +228,7 @@ namespace RoleDDNG.Models
         {
             VerifyPropertyName(propertyName);
 
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
 #if !PORTABLE && !SL4
@@ -248,10 +244,6 @@ namespace RoleDDNG.Models
             "Microsoft.Design",
             "CA1030:UseEventsWhereAppropriate",
             Justification = "This cannot be an event")]
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1006:GenericMethodsShouldProvideTypeParameter",
-            Justification = "This syntax is more convenient than other alternatives.")]
         public virtual void RaisePropertyChanging<T>(Expression<Func<T>> propertyExpression)
         {
             var handler = PropertyChanging;
@@ -275,10 +267,6 @@ namespace RoleDDNG.Models
             "Microsoft.Design",
             "CA1030:UseEventsWhereAppropriate",
             Justification = "This cannot be an event")]
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1006:GenericMethodsShouldProvideTypeParameter",
-            Justification = "This syntax is more convenient than other alternatives.")]
         public virtual void RaisePropertyChanged<T>(Expression<Func<T>> propertyExpression)
         {
             var handler = PropertyChanged;
@@ -303,14 +291,6 @@ namespace RoleDDNG.Models
         /// <returns>The name of the property returned by the expression.</returns>
         /// <exception cref="ArgumentNullException">If the expression is null.</exception>
         /// <exception cref="ArgumentException">If the expression does not represent a property.</exception>
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1011:ConsiderPassingBaseTypesAsParameters",
-            Justification = "This syntax is more convenient than the alternatives."),
-         SuppressMessage(
-            "Microsoft.Design",
-            "CA1006:DoNotNestGenericTypesInMemberSignatures",
-            Justification = "This syntax is more convenient than the alternatives.")]
         protected static string GetPropertyName<T>(Expression<Func<T>> propertyExpression)
         {
             if (propertyExpression == null)
@@ -320,9 +300,7 @@ namespace RoleDDNG.Models
 #pragma warning restore CA1507 // Use nameof to express symbol names
             }
 
-            var body = propertyExpression.Body as MemberExpression;
-
-            if (body == null)
+            if (propertyExpression.Body is not MemberExpression body)
             {
 #pragma warning disable CA1507 // Use nameof to express symbol names
                 throw new ArgumentException("Invalid argument", "propertyExpression");
@@ -355,15 +333,6 @@ namespace RoleDDNG.Models
         /// <returns>True if the PropertyChanged event has been raised,
         /// false otherwise. The event is not raised if the old
         /// value is equal to the new value.</returns>
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1006:DoNotNestGenericTypesInMemberSignatures",
-            Justification = "This syntax is more convenient than the alternatives."),
-         SuppressMessage(
-            "Microsoft.Design",
-            "CA1045:DoNotPassTypesByReference",
-            MessageId = "1#",
-            Justification = "This syntax is more convenient than the alternatives.")]
         protected bool Set<T>(
             Expression<Func<T>> propertyExpression,
             ref T field,
@@ -396,11 +365,6 @@ namespace RoleDDNG.Models
         /// <returns>True if the PropertyChanged event has been raised,
         /// false otherwise. The event is not raised if the old
         /// value is equal to the new value.</returns>
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1045:DoNotPassTypesByReference",
-            MessageId = "1#",
-            Justification = "This syntax is more convenient than the alternatives.")]
         protected bool Set<T>(
             string propertyName,
             ref T field,

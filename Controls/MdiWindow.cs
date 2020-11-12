@@ -259,8 +259,6 @@ namespace Hammer.MDI.Control
         public static readonly DependencyProperty WindowStateProperty =
             DependencyProperty.Register(nameof(WindowState), typeof(WindowState), typeof(MdiWindow), new PropertyMetadata(WindowState.Normal, OnWindowStateChanged));
 
-        private readonly AdornerLayer? _myAdornerLayer;
-
         static MdiWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MdiWindow), new FrameworkPropertyMetadata(typeof(MdiWindow)));
@@ -277,8 +275,7 @@ namespace Hammer.MDI.Control
 
         public MdiWindow()
         {
-            _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
-            _timer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (s, e) => { _limitMeasure = true; _timer.Stop(); }, Application.Current.Dispatcher);
+            _timer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (s, e) => { _limitMeasure = true; _timer?.Stop(); }, Application.Current.Dispatcher);
             _timer.Start();
         }
 

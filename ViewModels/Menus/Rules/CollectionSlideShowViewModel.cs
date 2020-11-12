@@ -33,9 +33,9 @@ namespace RoleDDNG.ViewModels.Menus.Rules
 
         private void MoveTo(int diff)
         {
-            if (SelectedItem is null)
+            if (SelectedItem is null && Collection.Any())
             {
-                SelectedItem = Collection.FirstOrDefault();
+                SelectedItem = Collection.First();
                 return;
             }
             var index = Collection.IndexOf(SelectedItem);
@@ -50,7 +50,7 @@ namespace RoleDDNG.ViewModels.Menus.Rules
                 {
                     newIdex = Collection.Count - 1;
                 }
-                SelectedItem = Collection.ElementAtOrDefault(newIdex);
+                SelectedItem = Collection.ElementAt(newIdex);
             }
         }
     }

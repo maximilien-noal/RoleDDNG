@@ -9,9 +9,9 @@ namespace RoleDDNG.Role.Behaviors
 {
     public class PrintBehavior : Behavior<Button>
     {
-        public TextBox TextSource
+        public TextBox? TextSource
         {
-            get { return (TextBox)GetValue(TextSourceProperty); }
+            get { return (TextBox?)GetValue(TextSourceProperty); }
             set { SetValue(TextSourceProperty, value); }
         }
 
@@ -36,7 +36,7 @@ namespace RoleDDNG.Role.Behaviors
             FlowDocument printedDocument = new FlowDocument();
             Section section = new Section();
             Paragraph paragraph = new Paragraph();
-            paragraph.Inlines.Add(TextSource.Text);
+            paragraph.Inlines.Add(TextSource?.Text);
             section.Blocks.Add(paragraph);
             printedDocument.Blocks.Add(section);
             printDialog.PrintDocument(((IDocumentPaginatorSource)printedDocument).DocumentPaginator, "");

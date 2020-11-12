@@ -20,7 +20,7 @@ namespace RoleDDNG.OSServices.Windows.Dialogs
                     CheckFileExists = true,
                     Multiselect = false,
                     DefaultExt = defaultExtension,
-                    Filter = $"{defaultExtension.Substring(1)} ({defaultExtension})|*{defaultExtension}",
+                    Filter = $"{defaultExtension[1..]} ({defaultExtension})|*{defaultExtension}",
                     Title = dialogTitle
                 };
                 if (dialog.ShowDialog(Application.Current.MainWindow) == true)

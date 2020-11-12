@@ -120,7 +120,7 @@ namespace RoleDDNG.Role
             var query = string.Format(
                 CultureInfo.InvariantCulture,
                 @"SELECT * FROM RegistryValueChangeEvent WHERE Hive = 'HKEY_USERS' AND KeyPath = '{0}\\{1}' AND ValueName = '{2}'",
-                currentUser.User.Value,
+                currentUser?.User?.Value,
                 RegistryKeyPath.Replace(@"\", @"\\", System.StringComparison.InvariantCulture),
                 RegistryValueName);
 

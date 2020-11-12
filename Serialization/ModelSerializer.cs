@@ -1,4 +1,5 @@
 ﻿using RoleDDNG.Interfaces.Serialization;
+
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -13,7 +14,12 @@ namespace RoleDDNG.Serialization
             try
             {
                 using var reader = File.OpenRead(filePath);
-                return await JsonSerializer.DeserializeAsync<T>(reader).ConfigureAwait(false);
+                TModel? t = await JsonSerializer.DeserializeAsync<TModel>(reader).ConfigureAwait(false);
+                if (t is null)
+                {
+                    return new TModel();
+                }
+                return t;
             }
             catch (JsonException)
             {

@@ -2,61 +2,13 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows10.0.17763.0</TargetFramework>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <UseWPF>true</UseWPF>
     <RootNamespace>RoleDDNG.Role</RootNamespace>
     <ApplicationIcon>Assets\appicon.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Assets\appicon.png" />
-    <None Remove="Assets\back.png" />
-    <None Remove="Assets\backgrounds\christmas.jpg" />
-    <None Remove="Assets\backgrounds\christmas2.png" />
-    <None Remove="Assets\backgrounds\christmas3.jpg" />
-    <None Remove="Assets\backgrounds\christmasEve.jpg" />
-    <None Remove="Assets\backgrounds\citiesInTheSky.png" />
-    <None Remove="Assets\backgrounds\deer.jpg" />
-    <None Remove="Assets\backgrounds\deer2.jpg" />
-    <None Remove="Assets\backgrounds\diceTable.jpg" />
-    <None Remove="Assets\backgrounds\dwarfHouse.jpg" />
-    <None Remove="Assets\backgrounds\faery.png" />
-    <None Remove="Assets\backgrounds\forest.png" />
-    <None Remove="Assets\backgrounds\forest2.jpg" />
-    <None Remove="Assets\backgrounds\halloween.jpg" />
-    <None Remove="Assets\backgrounds\halloween2.png" />
-    <None Remove="Assets\backgrounds\halloween3.png" />
-    <None Remove="Assets\backgrounds\halloween4.jpg" />
-    <None Remove="Assets\backgrounds\halloween5.png" />
-    <None Remove="Assets\backgrounds\halloween6.png" />
-    <None Remove="Assets\backgrounds\halloween7.png" />
-    <None Remove="Assets\backgrounds\halloween8.png" />
-    <None Remove="Assets\backgrounds\IceQueen.png" />
-    <None Remove="Assets\backgrounds\imp.png" />
-    <None Remove="Assets\backgrounds\LotsOfDices.png" />
-    <None Remove="Assets\backgrounds\merchant.jpg" />
-    <None Remove="Assets\backgrounds\sorceress.png" />
-    <None Remove="Assets\backgrounds\sword.png" />
-    <None Remove="Assets\backgrounds\unicorn.png" />
-    <None Remove="Assets\backgrounds\warrior.jpg" />
-    <None Remove="Assets\diceroll.wav" />
-    <None Remove="Assets\splashscreen.png" />
-    <None Remove="UserControls\Assets\CharacterSheetIcon.png" />
-    <None Remove="UserControls\Assets\CharactersXPToolIcon.png" />
-    <None Remove="UserControls\Assets\DefaultCharacterImage.png" />
-    <None Remove="UserControls\Assets\DiceRollButon.png" />
-    <None Remove="UserControls\Assets\DiceRollIcon.png" />
-    <None Remove="UserControls\Assets\DonsDescriptionsIcon.png" />
-    <None Remove="UserControls\Assets\ImportCharacterTool.png" />
-    <None Remove="UserControls\Assets\ObjectsManagmentToolIcon.png" />
-    <None Remove="UserControls\Assets\OpenCharacterIcon.png" />
-    <None Remove="UserControls\Assets\RacesDescriptionsIcon.png" />
-    <None Remove="UserControls\Assets\SpellsDescriptionsIcon.png" />
-    <None Remove="UserControls\Assets\TownGeneratorIcon.png" />
-    <None Remove="UserControls\diceButton.png" />
-  </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\appicon.png" />
@@ -110,22 +62,20 @@
     <PackageReference Include="AdonisUI" Version="1.16.0" />
     <PackageReference Include="AdonisUI.ClassicTheme" Version="1.16.0" />
     <PackageReference Include="DotNetKit.Wpf.AutoCompleteComboBox" Version="1.3.3" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NETCore.Targets" Version="3.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.7.56">
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.8.55">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="DotNetProjects.Extended.Wpf.Toolkit" Version="4.6.94" />
+    <PackageReference Include="System.Management" Version="4.7.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="SerilogAnalyzer" Version="0.15.0" />
-    <PackageReference Include="System.Management" Version="4.7.0" />
-    <PackageReference Include="WpfAnalyzers" Version="3.2.0">
+    <PackageReference Include="WpfAnalyzers" Version="3.5.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -143,11 +93,5 @@
     <None Update="roles.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="UserControls\Rules\SpellsDescriptionsControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 </Project>

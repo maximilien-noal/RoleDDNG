@@ -29,10 +29,9 @@ namespace RoleDDNG.ViewModels.Menus.Rules
             SetCollection(collection);
             if (Collection.Any())
             {
-                SelectedItem = Collection.FirstOrDefault();
+                SelectedItem = Collection.First();
             }
             IsBusy = false;
-
         }
     }
 }
