@@ -18,10 +18,6 @@ namespace RoleDDNG.ViewModels.Menus.Characters
 
         private string _stateMessage = "";
 
-        private bool _isDoingImport;
-
-        public bool IsDoingImport { get => _isDoingImport; set { Set(nameof(IsDoingImport), ref _isDoingImport, value); } }
-
         public string StateMessage { get => _stateMessage; set { Set(nameof(StateMessage), ref _stateMessage, value); } }
 
         private bool _canImport = true;
@@ -58,7 +54,6 @@ namespace RoleDDNG.ViewModels.Menus.Characters
         private async Task DoImportAsync()
         {
             CanImport = false;
-            IsDoingImport = true;
             Report(Tuple.Create(0, "Importation en cours..."));
             for (int i = 0; i < Collection.Count; i++)
             {
@@ -69,7 +64,6 @@ namespace RoleDDNG.ViewModels.Menus.Characters
                 await Task.Delay(1000).ConfigureAwait(true);
             }
             CanImport = true;
-            IsDoingImport = false;
         }
 
         public AsyncCommand DoImport { get; private set; }
