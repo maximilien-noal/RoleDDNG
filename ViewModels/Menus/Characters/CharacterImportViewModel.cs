@@ -66,6 +66,7 @@ namespace RoleDDNG.ViewModels.Menus.Characters
                 await Task.Delay(1000).ConfigureAwait(true);
                 var percentage = (i + 1) / Collection.Count * 100;
                 Report(Tuple.Create(percentage, $"{character.Nom} importé."));
+                await Task.Delay(1000).ConfigureAwait(true);
             }
             CanImport = true;
             IsDoingImport = false;

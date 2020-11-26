@@ -79,12 +79,12 @@
                     </ListBox>
                 </ScrollViewer>
             </Grid>
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Bottom">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Bottom">
                 <ProgressBar Orientation="Horizontal" Minimum="0" Maximum="100" Value="{Binding Percentage}"
                     Visibility="{Binding IsDoingImport, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <TextBlock Text="{Binding StateMessage}"
+                <TextBlock Text="{Binding StateMessage}" TextWrapping="Wrap"
                     Visibility="{Binding IsDoingImport, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Margin="4" Command="{Binding DoImport}" IsEnabled="{Binding CanImport}">Importer</Button>
                     <Button Margin="4" IsDefault="True" IsCancel="True" Command="{Binding Cancel}">Fermer</Button>
                 </StackPanel>
