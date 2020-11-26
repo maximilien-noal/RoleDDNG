@@ -8,7 +8,6 @@
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     xmlns:Extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
     xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
-    xmlns:models="clr-namespace:RoleDDNG.Models.Characters;assembly=Models"
     Title="Lanceur de dés"
     DataContext="{Binding Source={StaticResource Locator}, Path=DiceRoll}"
     mc:Ignorable="d"
@@ -56,14 +55,13 @@
             <TextBox Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Sum, Mode=OneWay, Converter={StaticResource IntToStringConverter}}"></TextBox>
             <Label Margin="5" Grid.Row="5" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextBlock.FontWeight="ExtraBold">Historique</Label>
             <Grid x:Name="DataGrid" MinHeight="200" Grid.Row="6" Grid.ColumnSpan="3">
-                <DataGrid Height="{Binding MinHeight, ElementName=DataGrid}" ColumnWidth="*" GridLinesVisibility="None" CanUserReorderColumns="True" CanUserDeleteRows="False" CanUserResizeColumns="True" CanUserResizeRows="True" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="True" ItemsSource="{Binding History}">
+                <DataGrid Height="{Binding MinHeight, ElementName=DataGrid}" GridLinesVisibility="None" CanUserReorderColumns="True" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="True" ItemsSource="{Binding History}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn MinWidth="100" Header="Date" Binding="{Binding DateTime, Converter={StaticResource DateTimeToUIStringConverter}}" />
-                        <DataGridTextColumn Header="Dés" Binding="{Binding Dices}" />
-                        <DataGridTextColumn Header="Type" Binding="{Binding Sides}" />
-                        <DataGridTextColumn MinWidth="80" Header="Résultats" Binding="{Binding Results}" />
-                        <DataGridTextColumn MinWidth="50" Header="Somme" Binding="{Binding Sum}" />
-                        <DataGridTextColumn Header="Personnage" Binding="{Binding Character}" Visibility="Collapsed" />
+                        <DataGridTextColumn Header="Date" Binding="{Binding DateTime, Converter={StaticResource DateTimeToUIStringConverter}}" CanUserResize="False" />
+                        <DataGridTextColumn Header="Dés" Binding="{Binding Dices}" CanUserResize="False" />
+                        <DataGridTextColumn Header="Type" Binding="{Binding Sides}"  CanUserResize="False" />
+                        <DataGridTextColumn Header="Résultats" Binding="{Binding Results}"  CanUserResize="False" />
+                        <DataGridTextColumn Header="Somme" Binding="{Binding Sum}"  CanUserResize="False" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
