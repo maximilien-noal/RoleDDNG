@@ -81,7 +81,7 @@
             </Grid>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Bottom">
                 <ProgressBar Orientation="Horizontal" Minimum="0" Maximum="100" Value="{Binding Percentage}" />
-                <TextBlock Text="{Binding StateMessage}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding StateMessage}" HorizontalAlignment="Center" TextWrapping="Wrap" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Margin="4" Command="{Binding DoImport}" IsEnabled="{Binding CanImport}">Importer</Button>
                     <Button Margin="4" IsDefault="True" IsCancel="True" Command="{Binding Cancel}">Fermer</Button>
