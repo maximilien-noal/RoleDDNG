@@ -6,7 +6,9 @@ using GalaSoft.MvvmLight.Ioc;
 using RoleDDNG.Models.Characters;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.Menus.Characters
@@ -39,12 +41,27 @@ namespace RoleDDNG.ViewModels.Menus.Characters
             SelectNone = new RelayCommand(() => { foreach (var item in Collection) { item.IsSelected = false; } });
         }
 
-        public void SetImportNames()
+        public async Task SetImportNamesAsync()
         {
+            using var targetDb = DB.CharactersDb.Create();
+            IsBusy = true;
+            var existingCharacters = new List<Personnage>();
+            using var elementsReader = await targetDb.QueryAsync<Personnage>(DB.CommonQueries.DbCharactersNames).ConfigureAwait(true);
+            while (await elementsReader.ReadAsync().ConfigureAwait(true))
+            {
+                existingCharacters.Add(elementsReader.Poco);
+            }
+            IsBusy = false;
             for (int i = 0; i < Collection.Count; i++)
             {
-                Personnage? item = Collection[i];
-                item.NameImport = string.IsNullOrWhiteSpace(item.Nom) ? $"Sans nom {i}" : item.Nom;
+                var item = Collection[i];
+                var fallbackName = string.IsNullOrWhiteSpace(item.Nom) ? $"Sans nom {i}" : item.Nom;
+                var num = 2;
+                while (existingCharacters.Any(x => x.Nom == fallbackName))
+                {
+                    fallbackName = $"{fallbackName} {num++}";
+                }
+                item.NameImport = fallbackName;
             }
         }
 
@@ -54,6 +71,7 @@ namespace RoleDDNG.ViewModels.Menus.Characters
         private async Task DoImportAsync()
         {
             CanImport = false;
+            await SetImportNamesAsync().ConfigureAwait(true);
             Report(Tuple.Create(0, "Importation en cours..."));
             for (int i = 0; i < Collection.Count; i++)
             {

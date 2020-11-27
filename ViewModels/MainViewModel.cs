@@ -73,10 +73,6 @@ namespace RoleDDNG.ViewModels
             if (!string.IsNullOrWhiteSpace(otherCharactersDb) && File.Exists(otherCharactersDb) && !Items.OfType<CharacterImportViewModel>().Any())
             {
                 var viewModel = new CharacterImportViewModel(otherCharactersDb);
-                if (SimpleIoc.Default.IsRegistered<CharacterImportViewModel>() == false)
-                {
-                    SimpleIoc.Default.Register(() => viewModel);
-                }
                 Items.Add(viewModel);
             }
         }

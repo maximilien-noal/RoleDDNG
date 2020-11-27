@@ -12,12 +12,14 @@ namespace RoleDDNG.Role.UserControls
             InitializeComponent();
         }
 
-        private void WindowContent_Loaded(object sender, System.Windows.RoutedEventArgs e)
+#pragma warning disable VSTHRD100 // Avoid async void methods (this is an event)
+
+        private async void WindowContent_Loaded(object sender, System.Windows.RoutedEventArgs e)
+#pragma warning restore VSTHRD100 // Avoid async void methods (this is an event)
         {
-            var vm = this.DataContext as CharacterImportViewModel;
-            if (vm != null)
+            if (this.DataContext is CharacterImportViewModel vm)
             {
-                vm.SetImportNames();
+                await vm.SetImportNamesAsync().ConfigureAwait(true);
             }
         }
     }

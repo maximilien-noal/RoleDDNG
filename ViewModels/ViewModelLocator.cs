@@ -37,7 +37,7 @@ namespace RoleDDNG.ViewModels
 
         public TownGeneratorViewModel TownGenerator => new TownGeneratorViewModel();
 
-        public CharacterImportViewModel? CharacterImport => SimpleIoc.Default.IsRegistered<CharacterImportViewModel>() ? SimpleIoc.Default.GetInstance<CharacterImportViewModel>() : null;
+        public CharacterImportViewModel? CharacterImport => new CharacterImportViewModel("");
 
 #pragma warning restore CA1822
     }

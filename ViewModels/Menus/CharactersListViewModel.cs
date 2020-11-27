@@ -25,7 +25,7 @@ namespace RoleDDNG.ViewModels.Menus
             {
                 IsBusy = true;
                 using var charactersDb = CharactersDb.Create(_sourceDbFile);
-                using var elementsReader = await charactersDb.QueryAsync<Personnage>(CommonQueries.DbCharactersQuery).ConfigureAwait(true);
+                using var elementsReader = await charactersDb.QueryAsync<Personnage>(CommonQueries.DbCharactersAll).ConfigureAwait(true);
                 while (await elementsReader.ReadAsync().ConfigureAwait(true))
                 {
                     Collection.Add(elementsReader.Poco);
