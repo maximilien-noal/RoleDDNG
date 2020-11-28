@@ -36,7 +36,7 @@ namespace RoleDDNG.ViewModels
 
         private bool _isStartingUp = true;
 
-        private ObservableCollection<IDocumentViewModel> _items = new ObservableCollection<IDocumentViewModel>();
+        private ObservableCollection<dynamic> _items = new ObservableCollection<dynamic>();
 
         public MainViewModel()
         {
@@ -85,7 +85,7 @@ namespace RoleDDNG.ViewModels
 
         public bool IsBusy { get => _isBusy; private set { Set(nameof(IsBusy), ref _isBusy, value); } }
 
-        public ObservableCollection<IDocumentViewModel> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
+        public ObservableCollection<object> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
 
         public AsyncCommand OpenCharacterImport { get; private set; }
 
@@ -136,11 +136,12 @@ namespace RoleDDNG.ViewModels
             return foundCharacterDb;
         }
 
-        public void RemoveDocumentViewModel<T>() where T : IDocumentViewModel
+        public void RemoveDocumentViewModel(dynamic viewModel)
         {
-            if (Items.OfType<T>().Any())
+            var itemToRemove = Items.FirstOrDefault(x => viewModel.GetType() == x.GetType());
+            if (itemToRemove != null)
             {
-                Items.Remove(Items.OfType<T>().First());
+                Items.Remove(itemToRemove);
             }
         }
 

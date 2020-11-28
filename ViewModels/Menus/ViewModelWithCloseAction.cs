@@ -10,7 +10,7 @@ namespace RoleDDNG.ViewModels.Menus
     {
         public ViewModelWithCloseAction()
         {
-            Cancel = new RelayCommand(() => SimpleIoc.Default.GetInstance<MainViewModel>().RemoveDocumentViewModel<T>());
+            Cancel = new RelayCommand(() => SimpleIoc.Default.GetInstance<MainViewModel>().RemoveDocumentViewModel(this));
         }
 
         public RelayCommand Cancel { get; private set; }
