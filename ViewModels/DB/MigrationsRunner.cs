@@ -44,7 +44,7 @@ namespace RoleDDNG.ViewModels.DB
             db.Execute("UPDATE VERSION SET Version=@0 WHERE Version=@1;", v, v - 1);
         }
 
-        public static Task CreateDiceRollTableAsync()
+        private static Task CreateDiceRollTableAsync()
         {
             var task = Task.Run(() =>
             {
