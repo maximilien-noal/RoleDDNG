@@ -37,8 +37,6 @@ namespace RoleDDNG.ViewModels
 
         public TownGeneratorViewModel TownGenerator => new TownGeneratorViewModel();
 
-        public CharacterImportViewModel? CharacterImport => new CharacterImportViewModel("");
-
 #pragma warning restore CA1822
     }
 }

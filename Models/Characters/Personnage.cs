@@ -442,7 +442,7 @@ namespace RoleDDNG.Models.Characters
         private string _nameImport = "";
 
         [Ignore]
-        public string NameImport { get => _nameImport; set { Set(nameof(NameImport), ref _nameImport, value); } }
+        public string ImportName { get => _nameImport; set { Set(nameof(ImportName), ref _nameImport, value); } }
 
         [Column]
         public string? OrdreShugenja { get => _ordreShugenja; set { Set(nameof(OrdreShugenja), ref _ordreShugenja, value); } }
@@ -512,5 +512,10 @@ namespace RoleDDNG.Models.Characters
 
         [Column]
         public string? Yeux { get => _yeux; set { Set(nameof(Yeux), ref _yeux, value); } }
+
+        private string _sourceDb = "";
+
+        [Ignore]
+        public string SourceDb { get => _sourceDb; set { Set(nameof(SourceDb), ref _sourceDb, value); } }
     }
 }

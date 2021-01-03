@@ -16,6 +16,7 @@ using RoleDDNG.ViewModels.Menus.Rules;
 using RoleDDNG.ViewModels.Menus.Tools;
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -59,22 +60,20 @@ namespace RoleDDNG.ViewModels
             {
                 return;
             }
-            var otherCharactersDb = await OpenForeignCharacterDbAsync().ConfigureAwait(true);
-            if (CurrentCharacterDb == otherCharactersDb)
+            var otherCharactersDatabases = await OpenForeignCharacterDBsAsync().ConfigureAwait(true);
+            if (otherCharactersDatabases.Any(x => Path.GetFullPath(x).ToUpperInvariant() == Path.GetFullPath(CurrentCharacterDb).ToUpperInvariant()) && otherCharactersDatabases.Count() == 1)
             {
-                MessageBox.Show("ceci est la base de données de personnages déjà ouverte.");
+                MessageBox.Show("Ceci est la base de données de personnages déjà ouverte.");
                 return;
             }
-            if (ProgDb.GetFullPath() == otherCharactersDb)
+            if (otherCharactersDatabases.Any(x => Path.GetFullPath(x).ToUpperInvariant() == ProgDb.GetFullPath().ToUpperInvariant()) && otherCharactersDatabases.Count() == 1)
             {
                 MessageBox.Show("Ceci est la base de données du programme.");
                 return;
             }
-            if (!string.IsNullOrWhiteSpace(otherCharactersDb) && File.Exists(otherCharactersDb) && !Items.OfType<CharacterImportViewModel>().Any())
-            {
-                var viewModel = new CharacterImportViewModel(otherCharactersDb);
-                Items.Add(viewModel);
-            }
+            otherCharactersDatabases = otherCharactersDatabases.Where(x => Path.GetFullPath(x).ToUpperInvariant() != Path.GetFullPath(CurrentCharacterDb).ToUpperInvariant() && Path.GetFullPath(x).ToUpperInvariant() != ProgDb.GetFullPath().ToUpperInvariant());
+            var viewModel = new CharacterImportViewModel(otherCharactersDatabases);
+            Items.Add(viewModel);
         }
 
         private void ChangeBackgroundMethod() => BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource(BackgroundSource);
@@ -161,14 +160,19 @@ namespace RoleDDNG.ViewModels
             }
         }
 
-        private static async Task<string?> OpenForeignCharacterDbAsync()
+        private static async Task<IEnumerable<string>> OpenForeignCharacterDBsAsync()
         {
-            var dbFile = await AskForCharactersDbFileAsync("Ouvrir une base de données de personnages à importer...").ConfigureAwait(true);
-            if (File.Exists(dbFile) && await new AccessDb(dbFile).CanConnectAsync().ConfigureAwait(true))
+            var fileDialog = SimpleIoc.Default.GetInstance<IFileDialog>();
+            var dbFiles = await fileDialog.OpenFilesDialogAsync("Ouvrir une ou plusieurs bases de données de personnages à importer...", "mdb").ConfigureAwait(true);
+            var validFiles = new List<string>();
+            foreach (var dbFile in dbFiles)
             {
-                return dbFile;
+                if (File.Exists(dbFile) && await new AccessDb(dbFile).CanConnectAsync().ConfigureAwait(true))
+                {
+                    validFiles.Add(dbFile);
+                }
             }
-            return null;
+            return validFiles;
         }
 
         private async Task AskAndOpenCharacterDbFileAsync()

@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 
 using RoleDDNG.Models.Characters;
+using RoleDDNG.ViewModels.DB;
 
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace RoleDDNG.ViewModels.Menus.Characters
     public class CharacterImportViewModel : CharactersListViewModel, IProgress<Tuple<int, string>>
     {
         private bool _withObjects;
-        private string _sourceDbFile;
+        private IEnumerable<string> _sourceDbFiles;
 
         private string _stateMessage = "";
 
@@ -26,19 +27,41 @@ namespace RoleDDNG.ViewModels.Menus.Characters
 
         public bool CanImport { get => _canImport; set { Set(nameof(CanImport), ref _canImport, value); } }
 
-        public string SourceDbFile { get => Path.GetFileName(_sourceDbFile); set { Set(nameof(SourceDbFile), ref _sourceDbFile, value); } }
+        public IEnumerable<string> SourceDbFiles { get => _sourceDbFiles; set { Set(nameof(SourceDbFiles), ref _sourceDbFiles, value); } }
 
         private string _targetDbFile;
 
         public string TargetDbFile { get => Path.GetFileName(_targetDbFile); set { Set(nameof(TargetDbFile), ref _targetDbFile, value); } }
 
-        public CharacterImportViewModel(string sourceDbFile) : base(sourceDbFile)
+        public CharacterImportViewModel(IEnumerable<string> sourceDbFiles) : base("")
         {
-            _sourceDbFile = sourceDbFile;
+            _sourceDbFiles = sourceDbFiles;
             _targetDbFile = SimpleIoc.Default.GetInstance<MainViewModel>().CurrentCharacterDb;
             DoImport = new AsyncCommand(async () => await DoImportAsync().ConfigureAwait(true));
             SelectAll = new RelayCommand(() => { foreach (var item in Collection) { item.IsSelected = true; } });
             SelectNone = new RelayCommand(() => { foreach (var item in Collection) { item.IsSelected = false; } });
+        }
+
+        public override async Task LoadDbDataAsync()
+        {
+            if (SourceDbFiles.Any() == false)
+            {
+                return;
+            }
+            try
+            {
+                IsBusy = true;
+                foreach (var source in SourceDbFiles)
+                {
+                    await base.LoadDbDataFromFileAsync(source).ConfigureAwait(true);
+                }
+                IsBusy = false;
+            }
+            catch
+            {
+                Cancel.Execute(this);
+                throw;
+            }
         }
 
         public async Task SetImportNamesAsync()
@@ -54,32 +77,41 @@ namespace RoleDDNG.ViewModels.Menus.Characters
             IsBusy = false;
             for (int i = 0; i < Collection.Count; i++)
             {
-                var item = Collection[i];
-                var fallbackName = string.IsNullOrWhiteSpace(item.Nom) ? $"Sans nom {i}" : item.Nom;
+                var character = Collection[i];
+                var fallbackName = string.IsNullOrWhiteSpace(character.Nom) ? $"Sans nom {i}" : character.Nom;
                 var num = 2;
                 while (existingCharacters.Any(x => x.Nom == fallbackName))
                 {
                     fallbackName = $"{fallbackName} {num++}";
                 }
-                item.NameImport = fallbackName;
+                character.ImportName = fallbackName;
             }
         }
 
         public RelayCommand SelectAll { get; private set; }
         public RelayCommand SelectNone { get; private set; }
 
+        private async Task ImportObjectsAsync()
+        {
+            if (WithObjects == false)
+            {
+                return;
+            }
+            await Task.Delay(0).ConfigureAwait(true);
+        }
+
         private async Task DoImportAsync()
         {
             CanImport = false;
-            await SetImportNamesAsync().ConfigureAwait(true);
+            var objetImportTask = ImportObjectsAsync();
+            var updateImportNamesTask = SetImportNamesAsync();
+            await Task.WhenAll(objetImportTask, updateImportNamesTask).ConfigureAwait(true);
             Report(Tuple.Create(0, "Importation en cours..."));
             for (int i = 0; i < Collection.Count; i++)
             {
                 var character = Collection[i];
-                await Task.Delay(1000).ConfigureAwait(true);
                 var percentage = (i + 1) / Collection.Count * 100;
-                Report(Tuple.Create(percentage, $"{character.Nom} importé."));
-                await Task.Delay(1000).ConfigureAwait(true);
+                Report(Tuple.Create(percentage, $"{character.Nom} importé sous le nom {character.ImportName}."));
             }
             CanImport = true;
         }
