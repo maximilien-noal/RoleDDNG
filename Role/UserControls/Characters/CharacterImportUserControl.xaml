@@ -20,88 +20,90 @@
         <converters:FullPathsToSingleNamesStringConverter x:Key="FullPathsToSingleNamesStringConverter" />
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/ImportCharacterTool.png" />
     </userControls:WindowContent.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label.Content>
+                    <TextBlock>
                                 <Run Text="{Binding SourceDbFiles, Converter={StaticResource FullPathsToSingleNamesStringConverter}}" />
                                 <Run Text=" vers " />
                                 <Run Text="{Binding TargetDbFile}" />
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
-                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Margin="4" Command="{Binding SelectAll}">Tous les personnages</Button>
-                    <Button Margin="4" Command="{Binding SelectNone}">Aucun personnage</Button>
-                    <CheckBox Margin="4" IsChecked="{Binding WithObjects, Mode=TwoWay}">Avec les objets</CheckBox>
-                </StackPanel>
-                <ScrollViewer Grid.Row="2" Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
-                    <ListBox ItemsSource="{Binding Collection}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="*" />
-                                            </Grid.RowDefinitions>
-                                            <Label HorizontalAlignment="Center" Grid.Row="0">Importer</Label>
-                                            <CheckBox Grid.Row="1" HorizontalAlignment="Center" IsChecked="{Binding IsSelected, Mode=TwoWay}" />
-                                        </Grid>
-                                        <Image Source="{Binding Image, Converter={StaticResource FilePathToBitmapConverter}, FallbackValue={StaticResource DefaultImage}}" Width="64" Height="64" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Vertical" Grid.Column="1">
-                                        <Label Content="{Binding Nom}" />
-                                        <Label>Nom d'import</Label>
-                                        <TextBox Text="{Binding ImportName}" />
-                                        <TextBlock Text="{Binding Race}" />
-                                        <TextBlock Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" />
-                                        <TextBlock>
+                    </TextBlock>
+                </Label.Content>
+            </Label>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Margin="4" Command="{Binding SelectAll}">Tous les personnages</Button>
+                <Button Margin="4" Command="{Binding SelectNone}">Aucun personnage</Button>
+                <CheckBox Margin="4" IsChecked="{Binding WithObjects, Mode=TwoWay}">Avec les objets</CheckBox>
+            </StackPanel>
+            <ScrollViewer Grid.Row="2" Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
+                <ListBox ItemsSource="{Binding Collection}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0">Importer</Label>
+                                        <CheckBox Grid.Row="1" HorizontalAlignment="Center" IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+                                    </Grid>
+                                    <Image Source="{Binding Image, Converter={StaticResource FilePathToBitmapConverter}, FallbackValue={StaticResource DefaultImage}}" Width="64" Height="64" />
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Grid.Column="1">
+                                    <Label Content="{Binding Nom}" />
+                                    <Label>Nom d'import</Label>
+                                    <TextBox Text="{Binding ImportName}" />
+                                    <TextBlock Text="{Binding Race}" />
+                                    <TextBlock Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" />
+                                    <TextBlock>
                                         <Run Text="Niveau : " />
                                         <Run Text="{Binding Mode=OneWay, Converter={StaticResource CharacterToLevelConverter}}" />
-                                        </TextBlock>
-                                        <TextBlock>
+                                    </TextBlock>
+                                    <TextBlock>
                                         <Run Text="Fichier source : " />
                                         <Run Text="{Binding SourceDb}" />
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </ScrollViewer>
-            </Grid>
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Bottom">
-                <ProgressBar Orientation="Horizontal" Minimum="0" Maximum="100" Value="{Binding Percentage}" />
-                <TextBlock Text="{Binding StateMessage}" HorizontalAlignment="Center" TextWrapping="Wrap" />
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Margin="4" Command="{Binding DoImport}" IsEnabled="{Binding CanImport}">Importer</Button>
-                    <Button Margin="4" IsDefault="True" IsCancel="True" Command="{Binding Cancel}">Fermer</Button>
-                </StackPanel>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <ProgressBar Orientation="Horizontal" Minimum="0" Maximum="100" Value="{Binding Percentage}" />
+            <TextBlock Text="{Binding StateMessage}" HorizontalAlignment="Center" TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Margin="4" Command="{Binding DoImport}" IsEnabled="{Binding CanImport}">Importer</Button>
+                <Button Margin="4" IsDefault="True" IsCancel="True" Command="{Binding Cancel}">Fermer</Button>
             </StackPanel>
-            <Grid
+        </StackPanel>
+        <Grid   Grid.RowSpan="2"
                 Opacity="0.5"
                 Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock
+            <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="17"
                     Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
                     Text="Chargement en cours...">
-                </TextBlock>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </TextBlock>
+        </Grid>
+    </Grid>
 </userControls:WindowContent>
