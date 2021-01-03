@@ -54,32 +54,38 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0">Importer</Label>
-                                        <CheckBox Grid.Row="1" HorizontalAlignment="Center" IsChecked="{Binding IsSelected, Mode=TwoWay}" />
-                                    </Grid>
-                                    <Image Source="{Binding Image, Converter={StaticResource FilePathToBitmapConverter}, FallbackValue={StaticResource DefaultImage}}" Width="64" Height="64" />
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical" Grid.Column="1">
-                                    <Label Content="{Binding Nom}" />
-                                    <Label>Nom d'import</Label>
-                                    <TextBox Text="{Binding ImportName}" />
-                                    <TextBlock Text="{Binding Race}" />
-                                    <TextBlock Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" />
-                                    <TextBlock>
+                                <Grid Grid.Column="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox Grid.Column="0" MinWidth="64" MinHeight="64" IsChecked="{Binding IsSelected, Mode=TwoWay}">Importer</CheckBox>
+                                    <Image Grid.Column="1" Source="{Binding Image, Converter={StaticResource FilePathToBitmapConverter}, FallbackValue={StaticResource DefaultImage}}" MinWidth="64" MinHeight="64" />
+                                </Grid>
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Content="{Binding Nom}" />
+                                    <Label Grid.Row="1">Nom d'import</Label>
+                                    <TextBox Grid.Row="2" Text="{Binding ImportName}" />
+                                    <TextBlock Grid.Row="3" Text="{Binding Race}" />
+                                    <TextBlock Grid.Row="4" Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" />
+                                    <TextBlock Grid.Row="5">
                                         <Run Text="Niveau : " />
                                         <Run Text="{Binding Mode=OneWay, Converter={StaticResource CharacterToLevelConverter}}" />
                                     </TextBlock>
-                                    <TextBlock>
+                                    <TextBlock Grid.Row="6">
                                         <Run Text="Fichier source : " />
                                         <Run Text="{Binding SourceDb}" />
                                     </TextBlock>
-                                </StackPanel>
+                                </Grid>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -94,9 +100,10 @@
                 <Button Margin="4" IsDefault="True" IsCancel="True" Command="{Binding Cancel}">Fermer</Button>
             </StackPanel>
         </StackPanel>
-        <Grid   Grid.RowSpan="2"
-                Opacity="0.5"
-                Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid
+            Grid.RowSpan="2"
+            Opacity="0.5"
+            Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
