@@ -16,7 +16,7 @@ namespace RoleDDNG.ViewModels.Menus.Characters
 {
     public class CharacterImportViewModel : CharactersListViewModel, IProgress<Tuple<int, string>>
     {
-        private bool _withObjects;
+        private bool _withObjects = true;
         private IEnumerable<string> _sourceDbFiles;
 
         private string _stateMessage = "";
