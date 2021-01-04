@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 
+using RoleDDNG.Interfaces.Taskbar;
 using RoleDDNG.ViewModels.Menus.Characters;
 using RoleDDNG.ViewModels.Menus.Rules;
 using RoleDDNG.ViewModels.Menus.Tools;

@@ -3,14 +3,16 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 
+using RoleDDNG.Interfaces.Taskbar;
 using RoleDDNG.Models.Characters;
-using RoleDDNG.ViewModels.DB;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Interop;
 
 namespace RoleDDNG.ViewModels.Menus.Characters
 {
@@ -106,6 +108,7 @@ namespace RoleDDNG.ViewModels.Menus.Characters
             var objetImportTask = ImportObjectsAsync();
             var updateImportNamesTask = SetImportNamesAsync();
             await Task.WhenAll(objetImportTask, updateImportNamesTask).ConfigureAwait(true);
+            SimpleIoc.Default.GetInstance<ITaskbarProgress>().SetValue(new WindowInteropHelper(Application.Current.MainWindow).Handle, 0, 100);
             Report(Tuple.Create(0, "Importation en cours..."));
             for (int i = 0; i < Collection.Count; i++)
             {
@@ -131,6 +134,7 @@ namespace RoleDDNG.ViewModels.Menus.Characters
                 return;
             }
             Percentage = value.Item1;
+            SimpleIoc.Default.GetInstance<ITaskbarProgress>().SetValue(new WindowInteropHelper(Application.Current.MainWindow).Handle, Percentage, 100);
             StateMessage = value.Item2;
         }
     }
