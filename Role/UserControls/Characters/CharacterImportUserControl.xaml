@@ -35,7 +35,7 @@
                 <Label.Content>
                     <TextBlock>
                                 <Run Text="{Binding SourceDbFiles, Converter={StaticResource FullPathsToSingleNamesStringConverter}}" />
-                                <Run Text=" vers " />
+                                <Run Text=" ➜ " />
                                 <Run Text="{Binding TargetDbFile}" />
                     </TextBlock>
                 </Label.Content>
@@ -45,52 +45,50 @@
                 <Button Margin="4" Command="{Binding SelectNone}">Aucun personnage</Button>
                 <CheckBox Margin="4" IsChecked="{Binding WithObjects, Mode=TwoWay}">Avec les objets</CheckBox>
             </StackPanel>
-            <ScrollViewer Grid.Row="2" Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
-                <ListBox ItemsSource="{Binding Collection}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
+            <ListBox Grid.Row="2" ItemsSource="{Binding Collection}" Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <CheckBox Grid.Column="0" MinWidth="64" MinHeight="64" IsChecked="{Binding IsSelected, Mode=TwoWay}">Importer</CheckBox>
-                                    <Image Grid.Column="1" Source="{Binding Image, Converter={StaticResource FilePathToBitmapConverter}, FallbackValue={StaticResource DefaultImage}}" MinWidth="64" MinHeight="64" />
-                                </Grid>
-                                <Grid Grid.Column="1">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Content="{Binding Nom}" />
-                                    <Label Grid.Row="1">Nom d'import</Label>
-                                    <TextBox Grid.Row="2" Text="{Binding ImportName}" />
-                                    <TextBlock Grid.Row="3" Text="{Binding Race}" />
-                                    <TextBlock Grid.Row="4" Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" />
-                                    <TextBlock Grid.Row="5">
+                                <CheckBox Grid.Column="0" MinWidth="64" MinHeight="64" IsChecked="{Binding IsSelected, Mode=TwoWay}">Importer</CheckBox>
+                                <Image Grid.Column="1" Source="{Binding Image, Converter={StaticResource FilePathToBitmapConverter}, FallbackValue={StaticResource DefaultImage}}" MinWidth="64" MinHeight="64" />
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Content="{Binding Nom}" />
+                                <Label Grid.Row="1">Nom d'import</Label>
+                                <TextBox Grid.Row="2" Text="{Binding ImportName}" />
+                                <TextBlock Grid.Row="3" Text="{Binding Race}" />
+                                <TextBlock Grid.Row="4" Text="{Binding Converter={StaticResource CharacterToClasseConverter}}" />
+                                <TextBlock Grid.Row="5">
                                         <Run Text="Niveau : " />
                                         <Run Text="{Binding Mode=OneWay, Converter={StaticResource CharacterToLevelConverter}}" />
-                                    </TextBlock>
-                                    <TextBlock Grid.Row="6">
+                                </TextBlock>
+                                <TextBlock Grid.Row="6">
                                         <Run Text="Fichier source : " />
                                         <Run Text="{Binding SourceDb}" />
-                                    </TextBlock>
-                                </Grid>
+                                </TextBlock>
                             </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </ScrollViewer>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
             <ProgressBar Orientation="Horizontal" Minimum="0" Maximum="100" Value="{Binding Percentage}" />
