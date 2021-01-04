@@ -21,7 +21,7 @@
                 for (int i = 0; i < collection.Count(); i++)
                 {
                     var str = collection.ElementAt(i);
-                    if (i > 0 && i < collection.Count())
+                    if (i > 0)
                     {
                         returnValue = $"{returnValue}, ";
                     }
