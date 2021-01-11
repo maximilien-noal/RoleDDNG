@@ -70,6 +70,11 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             {
                 History.Add(elementsReader.Poco);
             }
+            if (History.Any())
+            {
+                NumberOfDices = History.First().Dices;
+                NumberofSides = History.First().Sides;
+            }
             IsBusy = false;
         }
 
