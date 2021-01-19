@@ -24,11 +24,11 @@ namespace RoleDDNG.ViewModels.DB
             return new AccessDb(source).GetDatabase();
         }
 
-        public static async Task<C> GetCollectionFromQueryAsync<T, C>(string query, string source = "") where C : IList<T>, new()
+        public static async Task<C> GetCollectionFromQueryAsync<T, C>(string query, string source = "", params object[] args) where C : IList<T>, new()
         {
             var collection = new C();
             using var charactersDb = CreateCharactersDb(source);
-            using var elementsReader = await charactersDb.QueryAsync<T>(query).ConfigureAwait(true);
+            using var elementsReader = await charactersDb.QueryAsync<T>(query, args).ConfigureAwait(true);
             while (await elementsReader.ReadAsync().ConfigureAwait(true))
             {
                 collection.Add(elementsReader.Poco);

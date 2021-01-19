@@ -102,5 +102,28 @@ namespace RoleDDNG.Models.Characters
 
         [Column]
         public short? ZoneCritique { get => _zoneCritique; set { Set(nameof(ZoneCritique), ref _zoneCritique, value); } }
+
+        public bool EqualsTo(Objets otherObjet)
+        {
+            return otherObjet.BonusDexMax == BonusDexMax &&
+                    otherObjet.Charge == Charge &&
+                    otherObjet.ClasseArmure == ClasseArmure &&
+                    otherObjet.CoutTotal == CoutTotal &&
+                    otherObjet.DegatDes == DegatDes &&
+                    otherObjet.Description == Description &&
+                    otherObjet.EchecSortProfane == EchecSortProfane &&
+                    otherObjet.GroupeObjet == GroupeObjet &&
+                    otherObjet.MultCrit == MultCrit &&
+                    otherObjet.NomObjet == NomObjet &&
+                    otherObjet.PenaliteArmure == PenaliteArmure &&
+                    otherObjet.PoidsBase == PoidsBase &&
+                    otherObjet.Portee == Portee &&
+                    otherObjet.Resistance == Resistance &&
+                    otherObjet.Solidite == Solidite &&
+                    otherObjet.Taille == Taille &&
+                    otherObjet.Type == Type &&
+                    otherObjet.TypeCa == TypeCa &&
+                    otherObjet.ZoneCritique == ZoneCritique;
+        }
     }
 }

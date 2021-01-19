@@ -57,6 +57,10 @@ namespace RoleDDNG.ViewModels.Menus.Characters
                 foreach (var source in SourceDbFiles)
                 {
                     await LoadDbDataFromFileAsync(source, CommonQueries.DbCharactersAll).ConfigureAwait(true);
+                    foreach (var character in Collection)
+                    {
+                        character.SourceDb = source;
+                    }
                 }
                 IsBusy = false;
             }
@@ -106,14 +110,20 @@ namespace RoleDDNG.ViewModels.Menus.Characters
                     objectsToImport = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Objets, List<Objets>>(DB.CommonQueries.GetAllObjects, dbPath).ConfigureAwait(true);
                     objectsProprieteToImport = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<ObjetsPropriete, List<ObjetsPropriete>>(DB.CommonQueries.GetAllObjectsPropriete, dbPath).ConfigureAwait(true);
                 }
-                foreach (var objectToImport in objectsToImport)
+                for (int i = 0; i < objectsToImport.Count; i++)
                 {
-                    if (currentObjects.Any(x => x.NomObjet == objectToImport.NomObjet))
+                    var objectToImport = objectsToImport[i];
+                    var matchingObject = currentObjects.FirstOrDefault(x => x.NomObjet == objectToImport.NomObjet);
+                    if (!(matchingObject is null) && !matchingObject.EqualsTo(objectToImport))
                     {
-                        await Task.Run(() => targetDb.Execute("delete from ObjetsPropriete where [nomObjet]=@0", objectToImport.NomObjet)).ConfigureAwait(true);
-                        await Task.Run(() => targetDb.Execute("delete from Objets where [nomObjet]=@0", objectToImport.NomObjet)).ConfigureAwait(true);
+                        await Task.Run(() => targetDb.Execute("delete from ObjetsPropriete where [nomObjet]=@0", matchingObject.NomObjet)).ConfigureAwait(true);
+                        await Task.Run(() => targetDb.Execute("delete from Objets where [nomObjet]=@0", matchingObject.NomObjet)).ConfigureAwait(true);
+                        currentObjects.Remove(matchingObject);
                     }
-                    await Task.Run(() => targetDb.Insert(objectToImport)).ConfigureAwait(true);
+                    else if (matchingObject is null)
+                    {
+                        await Task.Run(() => targetDb.Insert(objectToImport)).ConfigureAwait(true);
+                    }
                 }
                 foreach (var objectProprieteToImport in objectsProprieteToImport)
                 {
@@ -134,12 +144,21 @@ namespace RoleDDNG.ViewModels.Menus.Characters
             {
                 var character = Collection[i];
                 var percentage = (i + 1) / Collection.Count * 100;
-                using var targetDb = DB.DatabaseWrapper.CreateCharactersDb();
-                character.Nom = character.ImportName;
-                await Task.Run(() => targetDb.Insert(character)).ConfigureAwait(true);
+                await ImportCharacterAsync(character).ConfigureAwait(true);
                 Report(Tuple.Create(percentage, $"{character.Nom} importé sous le nom {character.ImportName}."));
             }
             CanImport = true;
+        }
+
+        private async Task ImportCharacterAsync(Personnage character)
+        {
+            var targetDb = DatabaseWrapper.CreateCharactersDb();
+            character.Nom = character.ImportName;
+            if (WithObjects && File.Exists(character.SourceDb))
+            {
+                var equipements = await DatabaseWrapper.GetCollectionFromQueryAsync<Equipement, List<Equipement>>("select * from equipement where personnage=@0", character.SourceDb, character.Nom).ConfigureAwait(true);
+            }
+            await Task.Run(() => targetDb.Insert(character)).ConfigureAwait(true);
         }
 
         public AsyncCommand DoImport { get; private set; }
