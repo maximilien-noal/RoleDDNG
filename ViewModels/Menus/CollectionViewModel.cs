@@ -1,5 +1,4 @@
-﻿
-using RoleDDNG.ViewModels.Interfaces;
+﻿using RoleDDNG.ViewModels.Interfaces;
 
 using System.Collections.ObjectModel;
 
@@ -10,7 +9,7 @@ namespace RoleDDNG.ViewModels.Menus
     {
         private ObservableCollection<T> _collectionStore = new ObservableCollection<T>();
 
-        public ObservableCollection<T> Collection { get => _collectionStore; private set { Set(nameof(Collection), ref _collectionStore, value); } }
+        public ObservableCollection<T> Collection { get => _collectionStore; protected set { Set(nameof(Collection), ref _collectionStore, value); } }
 
         protected void SetCollection(ObservableCollection<T> newCollection)
         {

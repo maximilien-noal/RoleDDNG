@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Ioc;
 
 using RoleDDNG.Interfaces.Taskbar;
 using RoleDDNG.Models.Characters;
+using RoleDDNG.ViewModels.DB;
 
 using System;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace RoleDDNG.ViewModels.Menus.Characters
                 IsBusy = true;
                 foreach (var source in SourceDbFiles)
                 {
-                    await base.LoadDbDataFromFileAsync(source).ConfigureAwait(true);
+                    await LoadDbDataFromFileAsync(source, CommonQueries.DbCharactersAll).ConfigureAwait(true);
                 }
                 IsBusy = false;
             }
@@ -68,14 +69,8 @@ namespace RoleDDNG.ViewModels.Menus.Characters
 
         public async Task SetImportNamesAsync()
         {
-            using var targetDb = DB.CharactersDb.Create();
             IsBusy = true;
-            var existingCharacters = new List<Personnage>();
-            using var elementsReader = await targetDb.QueryAsync<Personnage>(DB.CommonQueries.DbCharactersNames).ConfigureAwait(true);
-            while (await elementsReader.ReadAsync().ConfigureAwait(true))
-            {
-                existingCharacters.Add(elementsReader.Poco);
-            }
+            var existingCharacters = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Personnage, List<Personnage>>(CommonQueries.DbCharactersNames).ConfigureAwait(true);
             IsBusy = false;
             for (int i = 0; i < Collection.Count; i++)
             {
@@ -99,7 +94,32 @@ namespace RoleDDNG.ViewModels.Menus.Characters
             {
                 return;
             }
-            await Task.Delay(0).ConfigureAwait(true);
+            Report(Tuple.Create(0, "Importation des objets en cours..."));
+            var currentObjects = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Objets, List<Objets>>(DB.CommonQueries.GetObjetsNames).ConfigureAwait(true);
+            using var targetDb = DB.DatabaseWrapper.CreateCharactersDb();
+            var objectsToImport = new List<Objets>();
+            var objectsProprieteToImport = new List<ObjetsPropriete>();
+            foreach (var dbPath in _sourceDbFiles)
+            {
+                if (File.Exists(dbPath))
+                {
+                    objectsToImport = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Objets, List<Objets>>(DB.CommonQueries.GetAllObjects, dbPath).ConfigureAwait(true);
+                    objectsProprieteToImport = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<ObjetsPropriete, List<ObjetsPropriete>>(DB.CommonQueries.GetAllObjectsPropriete, dbPath).ConfigureAwait(true);
+                }
+                foreach (var objectToImport in objectsToImport)
+                {
+                    if (currentObjects.Any(x => x.NomObjet == objectToImport.NomObjet))
+                    {
+                        await Task.Run(() => targetDb.Execute("delete from ObjetsPropriete where [nomObjet]=@0", objectToImport.NomObjet)).ConfigureAwait(true);
+                        await Task.Run(() => targetDb.Execute("delete from Objets where [nomObjet]=@0", objectToImport.NomObjet)).ConfigureAwait(true);
+                    }
+                    await Task.Run(() => targetDb.Insert(objectToImport)).ConfigureAwait(true);
+                }
+                foreach (var objectProprieteToImport in objectsProprieteToImport)
+                {
+                    await Task.Run(() => targetDb.Insert(objectProprieteToImport)).ConfigureAwait(true);
+                }
+            }
         }
 
         private async Task DoImportAsync()
@@ -114,6 +134,9 @@ namespace RoleDDNG.ViewModels.Menus.Characters
             {
                 var character = Collection[i];
                 var percentage = (i + 1) / Collection.Count * 100;
+                using var targetDb = DB.DatabaseWrapper.CreateCharactersDb();
+                character.Nom = character.ImportName;
+                await Task.Run(() => targetDb.Insert(character)).ConfigureAwait(true);
                 Report(Tuple.Create(percentage, $"{character.Nom} importé sous le nom {character.ImportName}."));
             }
             CanImport = true;

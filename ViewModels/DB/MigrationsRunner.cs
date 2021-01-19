@@ -48,7 +48,7 @@ namespace RoleDDNG.ViewModels.DB
         {
             var task = Task.Run(() =>
             {
-                using var db = CharactersDb.Create();
+                using var db = DatabaseWrapper.CreateCharactersDb();
                 if (VersionIsAt(db, 22))
                 {
                     return;
@@ -62,7 +62,7 @@ namespace RoleDDNG.ViewModels.DB
 
         internal static bool NeedsToRun()
         {
-            using var db = CharactersDb.Create();
+            using var db = DatabaseWrapper.CreateCharactersDb();
             return VersionIsAt(db, TargetFinalDbVersion) == false;
         }
     }

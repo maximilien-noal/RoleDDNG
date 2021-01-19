@@ -1,7 +1,8 @@
 ﻿using Hammer.MDI.Control;
+
 using RoleDDNG.ViewModels.Interfaces;
+
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;

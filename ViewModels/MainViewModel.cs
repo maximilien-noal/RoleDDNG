@@ -61,17 +61,21 @@ namespace RoleDDNG.ViewModels
                 return;
             }
             var otherCharactersDatabases = await OpenForeignCharacterDBsAsync().ConfigureAwait(true);
+            if (otherCharactersDatabases.Any() == false)
+            {
+                return;
+            }
             if (otherCharactersDatabases.Any(x => Path.GetFullPath(x).ToUpperInvariant() == Path.GetFullPath(CurrentCharacterDb).ToUpperInvariant()) && otherCharactersDatabases.Count() == 1)
             {
                 MessageBox.Show("Ceci est la base de données de personnages déjà ouverte.");
                 return;
             }
-            if (otherCharactersDatabases.Any(x => Path.GetFullPath(x).ToUpperInvariant() == ProgDb.GetFullPath().ToUpperInvariant()) && otherCharactersDatabases.Count() == 1)
+            if (otherCharactersDatabases.Any(x => Path.GetFullPath(x).ToUpperInvariant() == DB.DatabaseWrapper.GetFullProgDbPath().ToUpperInvariant()) && otherCharactersDatabases.Count() == 1)
             {
                 MessageBox.Show("Ceci est la base de données du programme.");
                 return;
             }
-            otherCharactersDatabases = otherCharactersDatabases.Where(x => Path.GetFullPath(x).ToUpperInvariant() != Path.GetFullPath(CurrentCharacterDb).ToUpperInvariant() && Path.GetFullPath(x).ToUpperInvariant() != ProgDb.GetFullPath().ToUpperInvariant());
+            otherCharactersDatabases = otherCharactersDatabases.Where(x => Path.GetFullPath(x).ToUpperInvariant() != Path.GetFullPath(CurrentCharacterDb).ToUpperInvariant() && Path.GetFullPath(x).ToUpperInvariant() != DB.DatabaseWrapper.GetFullProgDbPath().ToUpperInvariant());
             var viewModel = new CharacterImportViewModel(otherCharactersDatabases);
             Items.Add(viewModel);
         }

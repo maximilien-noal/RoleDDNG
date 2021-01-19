@@ -66,22 +66,22 @@ namespace RoleDDNG.ViewModels.Menus.Tools
 
             var task1 = Task.Run(() =>
             {
-                using var progDb = DB.ProgDb.Create();
+                using var progDb = DB.DatabaseWrapper.CreateProgDb();
                 charactersRaces.AddRange(progDb.Query<RacePersonnage>("select AdjNiv,race from Race"));
             });
             var task2 = Task.Run(() =>
             {
-                using var progDb = DB.ProgDb.Create();
+                using var progDb = DB.DatabaseWrapper.CreateProgDb();
                 charactersArchetypes.AddRange(progDb.Query<Archetype>("select AdjNiv,archetype from Archetype"));
             });
             var task3 = Task.Run(() =>
             {
-                using var charactersDb = DB.CharactersDb.Create();
+                using var charactersDb = DB.DatabaseWrapper.CreateCharactersDb();
                 charactersGifts.AddRange(charactersDb.Query<PersonnageDons>("select nom,dons from PersonnageDons"));
             });
             var task4 = Task.Run(() =>
             {
-                using var charactersDb = DB.CharactersDb.Create();
+                using var charactersDb = DB.DatabaseWrapper.CreateCharactersDb();
                 characters.AddRange(charactersDb.Query<Personnage>(DbCharactersQuery));
             });
 
@@ -137,7 +137,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
                 return;
             }
             FP = Math.Max(Math.Min(FP, 125), 0);
-            var experience = new List<Experience>(await Task.Run(() => DB.ProgDb.Create().Query<Experience>($"select fp{FP} from experience where niveau=@0", SelectedCharacter.NiveauGE)).ConfigureAwait(true));
+            var experience = new List<Experience>(await Task.Run(() => DB.DatabaseWrapper.CreateCharactersDb(DB.DatabaseWrapper.GetFullProgDbPath()).Query<Experience>($"select fp{FP} from experience where niveau=@0", SelectedCharacter.NiveauGE)).ConfigureAwait(true));
             if (experience.Any() == false)
             {
                 return;
@@ -170,7 +170,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             CharactersLog.Add(SelectedCharacter);
             await Task.Run(() =>
             {
-                using var charactersDb = DB.CharactersDb.Create();
+                using var charactersDb = DB.DatabaseWrapper.CreateCharactersDb();
                 return charactersDb.Update(SelectedCharacter, SelectedCharacter.Nom, columns: new string[] { "TotalXP" });
             }).ConfigureAwait(true);
         }

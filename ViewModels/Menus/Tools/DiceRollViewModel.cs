@@ -64,12 +64,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
         public async Task LoadDbDataAsync()
         {
             IsBusy = true;
-            using var charactersDb = DB.CharactersDb.Create();
-            using var elementsReader = await charactersDb.QueryAsync<DiceRoll>(DbDiceRollsQuery).ConfigureAwait(true);
-            while (await elementsReader.ReadAsync().ConfigureAwait(true))
-            {
-                History.Add(elementsReader.Poco);
-            }
+            History = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<DiceRoll, ObservableCollection<DiceRoll>>(DbDiceRollsQuery).ConfigureAwait(true);
             if (History.Any())
             {
                 NumberOfDices = History.First().Dices;
@@ -98,7 +93,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
             };
             var task = Task.Run(() =>
             {
-                using var charactersDb = DB.CharactersDb.Create();
+                using var charactersDb = DB.DatabaseWrapper.CreateCharactersDb();
                 return charactersDb.Insert(history);
             });
             await task.ConfigureAwait(true);

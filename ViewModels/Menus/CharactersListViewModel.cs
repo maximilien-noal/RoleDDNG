@@ -4,14 +4,14 @@ using RoleDDNG.Models.Characters;
 using RoleDDNG.ViewModels.DB;
 using RoleDDNG.ViewModels.Interfaces;
 
-using System.IO;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace RoleDDNG.ViewModels.Menus
 {
     public class CharactersListViewModel : CollectionViewModel<Personnage>, IDbDependentViewModel, IDocumentViewModel
     {
-        private string _sourceDbFile = "";
+        private readonly string _sourceDbFile = "";
         private bool _isBusy;
 
         public bool IsBusy { get => _isBusy; set { Set(nameof(IsBusy), ref _isBusy, value); } }
@@ -30,18 +30,12 @@ namespace RoleDDNG.ViewModels.Menus
             await LoadDbDataFromFileAsync(_sourceDbFile).ConfigureAwait(true);
         }
 
-        protected async Task LoadDbDataFromFileAsync(string source)
+        protected async Task LoadDbDataFromFileAsync(string source, string customQuery = "")
         {
             try
             {
                 IsBusy = true;
-                using var charactersDb = CharactersDb.Create(source);
-                using var elementsReader = await charactersDb.QueryAsync<Personnage>(CommonQueries.DbCharactersAll).ConfigureAwait(true);
-                while (await elementsReader.ReadAsync().ConfigureAwait(true))
-                {
-                    elementsReader.Poco.SourceDb = Path.GetFileName(source);
-                    Collection.Add(elementsReader.Poco);
-                }
+                Collection = await DatabaseWrapper.GetCollectionFromQueryAsync<Personnage, ObservableCollection<Personnage>>(string.IsNullOrWhiteSpace(customQuery) ? CommonQueries.DbCharactersQuick : customQuery, source).ConfigureAwait(true);
                 IsBusy = false;
             }
             catch

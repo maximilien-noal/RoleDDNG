@@ -14,11 +14,6 @@ namespace RoleDDNG.Models.Characters
         [Ignore]
         public bool IsSelected { get => _isSelected; set { Set(nameof(IsSelected), ref _isSelected, value); } }
 
-        private bool _wasProcessed;
-
-        [Ignore]
-        public bool WasProcessed { get => _wasProcessed; set { Set(nameof(WasProcessed), ref _wasProcessed, value); } }
-
         public double GetXpPointsForLevel()
         {
             return GetXpPointsForLevel(NiveauGE);
@@ -346,19 +341,19 @@ namespace RoleDDNG.Models.Characters
         [Column]
         public short? Endurance { get => _endurance; set { Set(nameof(Endurance), ref _endurance, value); } }
 
-        [Column("Energie_Elu_1")]
+        [Column("EnergieElu_1")]
         public string? EnergieElu1 { get => _energieElu1; set { Set(nameof(EnergieElu1), ref _energieElu1, value); } }
 
-        [Column("Energie_Elu_2")]
+        [Column("EnergieElu_2")]
         public string? EnergieElu2 { get => _energieElu2; set { Set(nameof(EnergieElu2), ref _energieElu2, value); } }
 
-        [Column("Energie_Elu_3")]
+        [Column("EnergieElu_3")]
         public string? EnergieElu3 { get => _energieElu3; set { Set(nameof(EnergieElu3), ref _energieElu3, value); } }
 
-        [Column("Energie_Sorcier_1")]
+        [Column("EnergieSorcier_1")]
         public string? EnergieSorcier1 { get => _energieSorcier1; set { Set(nameof(EnergieSorcier1), ref _energieSorcier1, value); } }
 
-        [Column("Energie_Sorcier_2")]
+        [Column("EnergieSorcier_2")]
         public string? EnergieSorcier2 { get => _energieSorcier2; set { Set(nameof(EnergieSorcier2), ref _energieSorcier2, value); } }
 
         [Column]
@@ -391,7 +386,7 @@ namespace RoleDDNG.Models.Characters
         [Column]
         public short? Intuition { get => _intuition; set { Set(nameof(Intuition), ref _intuition, value); } }
 
-        [Column]
+        [Ignore]
         public bool IsBelowNormalXpLevel { get => _isBelowNormalXpLevel; set { Set(nameof(IsBelowNormalXpLevel), ref _isBelowNormalXpLevel, value); } }
 
         [Column]

@@ -16,16 +16,7 @@ namespace RoleDDNG.ViewModels.Menus.Rules
         public async Task LoadDbDataAsync()
         {
             IsBusy = true;
-            using var progDb = DB.ProgDb.Create();
-            using var elementsReader = await progDb.QueryAsync<Don>("select * from Dons order by Nom").ConfigureAwait(true);
-            var collection = new ObservableCollection<Don>();
-            while (await elementsReader.ReadAsync().ConfigureAwait(true))
-            {
-                if (string.IsNullOrWhiteSpace(elementsReader.Poco.Nom) == false)
-                {
-                    collection.Add(elementsReader.Poco);
-                }
-            }
+            var collection = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Don, ObservableCollection<Don>>("select * from Dons order by Nom", DB.DatabaseWrapper.GetFullProgDbPath()).ConfigureAwait(true);
             SetCollection(collection);
             if (Collection.Any())
             {
