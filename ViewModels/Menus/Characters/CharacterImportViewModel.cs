@@ -3,6 +3,8 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 
+using PetaPoco;
+
 using RoleDDNG.Interfaces.Taskbar;
 using RoleDDNG.Models.Characters;
 using RoleDDNG.ViewModels.DB;
@@ -32,14 +34,13 @@ namespace RoleDDNG.ViewModels.Menus.Characters
 
         public IEnumerable<string> SourceDbFiles { get => _sourceDbFiles; set { Set(nameof(SourceDbFiles), ref _sourceDbFiles, value); } }
 
-        private string _targetDbFile;
-
-        public string TargetDbFile { get => Path.GetFileName(_targetDbFile); set { Set(nameof(TargetDbFile), ref _targetDbFile, value); } }
+#pragma warning disable CA1822 // Mark members as static (used for binding)
+        public string TargetDbFile => Path.GetFileName(SimpleIoc.Default.GetInstance<MainViewModel>().CurrentCharacterDb);
+#pragma warning restore CA1822 // Mark members as static (used for binding)
 
         public CharacterImportViewModel(IEnumerable<string> sourceDbFiles) : base("")
         {
             _sourceDbFiles = sourceDbFiles;
-            _targetDbFile = SimpleIoc.Default.GetInstance<MainViewModel>().CurrentCharacterDb;
             DoImport = new AsyncCommand(async () => await DoImportAsync().ConfigureAwait(true));
             SelectAll = new RelayCommand(() => { foreach (var item in Collection) { item.IsSelected = true; } });
             SelectNone = new RelayCommand(() => { foreach (var item in Collection) { item.IsSelected = false; } });
@@ -71,10 +72,14 @@ namespace RoleDDNG.ViewModels.Menus.Characters
             }
         }
 
-        public async Task SetImportNamesAsync()
+        public async Task SetImportNamesAsync(string targetDbFileName = "")
         {
+            if (string.IsNullOrWhiteSpace(targetDbFileName))
+            {
+                targetDbFileName = SimpleIoc.Default.GetInstance<MainViewModel>().CurrentCharacterDb;
+            }
             IsBusy = true;
-            var existingCharacters = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Personnage, List<Personnage>>(CommonQueries.DbCharactersNames).ConfigureAwait(true);
+            var existingCharacters = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Personnage, List<Personnage>>(CommonQueries.DbCharactersNames, targetDbFileName).ConfigureAwait(true);
             IsBusy = false;
             for (int i = 0; i < Collection.Count; i++)
             {
@@ -92,67 +97,89 @@ namespace RoleDDNG.ViewModels.Menus.Characters
         public RelayCommand SelectAll { get; private set; }
         public RelayCommand SelectNone { get; private set; }
 
-        private async Task ImportObjectsAsync()
+        private async Task ImportObjectsAsync(string targetDbFileName)
         {
             if (WithObjects == false)
             {
                 return;
             }
             Report(Tuple.Create(0, "Importation des objets en cours..."));
-            var currentObjects = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Objets, List<Objets>>(DB.CommonQueries.GetObjetsNames).ConfigureAwait(true);
-            using var targetDb = DB.DatabaseWrapper.CreateCharactersDb();
-            var objectsToImport = new List<Objets>();
-            var objectsProprieteToImport = new List<ObjetsPropriete>();
-            foreach (var dbPath in _sourceDbFiles)
+            var existingObjects = new Dictionary<string, Objets>();
+            var exisitingObjetsRows = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Objets, List<Objets>>(DB.CommonQueries.GetAllObjects, targetDbFileName).ConfigureAwait(true);
+            for (int i = 0; i < exisitingObjetsRows.Count; i++)
             {
-                if (File.Exists(dbPath))
+                var existingObject = exisitingObjetsRows[i];
+                existingObjects.Add(existingObject.NomObjet ?? $"{i}", existingObject);
+            }
+            var existingObjectsPropriete = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<ObjetsPropriete, List<ObjetsPropriete>>(DB.CommonQueries.GetAllObjectsPropriete, targetDbFileName).ConfigureAwait(true);
+            using var targetDb = DB.DatabaseWrapper.CreateCharactersDb(targetDbFileName);
+            var objectsToImport = new Dictionary<string, Objets>();
+            var objectsProprieteToImport = new List<ObjetsPropriete>();
+            for (int i = 0; i < _sourceDbFiles.Count(); i++)
+            {
+                var importDbPath = _sourceDbFiles.ElementAt(i);
+                var percentage = (i + 1) / Collection.Count * 100;
+                Report(Tuple.Create(percentage, $"Objets de la base {Path.GetFileName(importDbPath)} importés"));
+                if (File.Exists(importDbPath))
                 {
-                    objectsToImport = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Objets, List<Objets>>(DB.CommonQueries.GetAllObjects, dbPath).ConfigureAwait(true);
-                    objectsProprieteToImport = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<ObjetsPropriete, List<ObjetsPropriete>>(DB.CommonQueries.GetAllObjectsPropriete, dbPath).ConfigureAwait(true);
-                }
-                for (int i = 0; i < objectsToImport.Count; i++)
-                {
-                    var objectToImport = objectsToImport[i];
-                    var matchingObject = currentObjects.FirstOrDefault(x => x.NomObjet == objectToImport.NomObjet);
-                    if (!(matchingObject is null) && !matchingObject.EqualsTo(objectToImport))
+                    var objectsToImportFromDb = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Objets, List<Objets>>(DB.CommonQueries.GetAllObjects, importDbPath).ConfigureAwait(true);
+                    for (int j = 0; j < objectsToImportFromDb.Count; j++)
                     {
-                        await Task.Run(() => targetDb.Execute("delete from ObjetsPropriete where [nomObjet]=@0", matchingObject.NomObjet)).ConfigureAwait(true);
-                        await Task.Run(() => targetDb.Execute("delete from Objets where [nomObjet]=@0", matchingObject.NomObjet)).ConfigureAwait(true);
-                        currentObjects.Remove(matchingObject);
+                        var objetFromDb = objectsToImportFromDb[j];
+                        objectsToImport.Add(objetFromDb.NomObjet ?? $"{j}", objetFromDb);
                     }
-                    else if (matchingObject is null)
+                    objectsProprieteToImport.AddRange(await DB.DatabaseWrapper.GetCollectionFromQueryAsync<ObjetsPropriete, List<ObjetsPropriete>>(DB.CommonQueries.GetAllObjectsPropriete, importDbPath).ConfigureAwait(true));
+                    foreach (var objectToImport in objectsToImport)
                     {
-                        await Task.Run(() => targetDb.Insert(objectToImport)).ConfigureAwait(true);
+                        if (existingObjects.TryGetValue(objectToImport.Key, out var existingObject) && !existingObject.EqualsTo(objectToImport.Value))
+                        {
+                            existingObjects[objectToImport.Key] = objectToImport.Value;
+                        }
                     }
-                }
-                foreach (var objectProprieteToImport in objectsProprieteToImport)
-                {
-                    await Task.Run(() => targetDb.Insert(objectProprieteToImport)).ConfigureAwait(true);
                 }
             }
+            await Task.Run(() => targetDb.Execute("DELETE * FROM OBJETS")).ConfigureAwait(true);
+            await Task.Run(() => targetDb.Execute("DELETE * FROM OBJETSPROPRIETE")).ConfigureAwait(true);
+            await targetDb.BeginTransactionAsync().ConfigureAwait(true);
+            foreach (var objectToImport in objectsToImport)
+            {
+                await Task.Run(() => targetDb.Insert(objectToImport.Value)).ConfigureAwait(true);
+            }
+            foreach (var objectProprieteToImport in objectsProprieteToImport)
+            {
+                await Task.Run(() => targetDb.Insert(objectProprieteToImport)).ConfigureAwait(true);
+            }
+            await Task.Run(() => targetDb.CompleteTransaction()).ConfigureAwait(true);
         }
 
         private async Task DoImportAsync()
         {
             CanImport = false;
-            var objetImportTask = ImportObjectsAsync();
-            var updateImportNamesTask = SetImportNamesAsync();
-            await Task.WhenAll(objetImportTask, updateImportNamesTask).ConfigureAwait(true);
+            if (!File.Exists(SimpleIoc.Default.GetInstance<MainViewModel>().CurrentCharacterDb))
+            {
+                return;
+            }
+            var currentCharacterDbCopy = Path.GetTempFileName();
+            File.Copy(SimpleIoc.Default.GetInstance<MainViewModel>().CurrentCharacterDb, currentCharacterDbCopy, true);
+            await ImportObjectsAsync(currentCharacterDbCopy).ConfigureAwait(true);
+            await SetImportNamesAsync(currentCharacterDbCopy).ConfigureAwait(true);
             SimpleIoc.Default.GetInstance<ITaskbarProgress>().SetValue(new WindowInteropHelper(Application.Current.MainWindow).Handle, 0, 100);
-            Report(Tuple.Create(0, "Importation en cours..."));
+            Report(Tuple.Create(0, "Importation des personnages en cours..."));
+            using var targetDb = DB.DatabaseWrapper.CreateCharactersDb(currentCharacterDbCopy);
             for (int i = 0; i < Collection.Count; i++)
             {
                 var character = Collection[i];
                 var percentage = (i + 1) / Collection.Count * 100;
-                await ImportCharacterAsync(character).ConfigureAwait(true);
+                await ImportCharacterAsync(targetDb, character).ConfigureAwait(true);
                 Report(Tuple.Create(percentage, $"{character.Nom} importé sous le nom {character.ImportName}."));
             }
+            await Task.Run(() => targetDb.CompleteTransaction()).ConfigureAwait(true);
+            File.Copy(currentCharacterDbCopy, SimpleIoc.Default.GetInstance<MainViewModel>().CurrentCharacterDb, true);
             CanImport = true;
         }
 
-        private async Task ImportCharacterAsync(Personnage character)
+        private async Task ImportCharacterAsync(Database targetDb, Personnage character)
         {
-            var targetDb = DatabaseWrapper.CreateCharactersDb();
             character.Nom = character.ImportName;
             if (WithObjects && File.Exists(character.SourceDb))
             {

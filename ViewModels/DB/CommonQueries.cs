@@ -7,7 +7,6 @@
         public const string DbCharactersNames = "select nom from personnage where exclu=false";
         public const string GetObjetsNames = "select NomObjet from Objets";
         public const string GetAllObjects = "select * from Objets";
-
         public const string GetAllObjectsPropriete = "select * from ObjetsPropriete";
     }
 }

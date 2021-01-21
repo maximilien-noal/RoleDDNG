@@ -36,7 +36,7 @@
                     <TextBlock>
                                 <Run Text="{Binding SourceDbFiles, Converter={StaticResource FullPathsToSingleNamesStringConverter}}" />
                                 <Run Text=" ➜ " />
-                                <Run Text="{Binding TargetDbFile}" />
+                                <Run Text="{Binding TargetDbFile, Mode=OneWay}" />
                     </TextBlock>
                 </Label.Content>
             </Label>

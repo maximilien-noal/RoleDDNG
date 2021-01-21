@@ -32,5 +32,15 @@ namespace RoleDDNG.Models.Characters
 
         [Column("valeur")]
         public string? Valeur { get => _valeur; set { Set(nameof(Valeur), ref _valeur, value); } }
+
+        public bool EqualsTo(ObjetsPropriete otherObject)
+        {
+            return
+                NomObjet == otherObject.NomObjet &&
+                Propriete1 == otherObject.Propriete1 &&
+                Propriete2 == otherObject.Propriete2 &&
+                Propriete3 == otherObject.Propriete3 &&
+                Valeur == otherObject.Valeur;
+        }
     }
 }
