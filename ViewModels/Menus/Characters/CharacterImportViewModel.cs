@@ -105,12 +105,8 @@ namespace RoleDDNG.ViewModels.Menus.Characters
             }
             Report(Tuple.Create(0, "Importation des objets en cours..."));
             var existingObjects = new Dictionary<string, Objets>();
-            var exisitingObjetsRows = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Objets, List<Objets>>(DB.CommonQueries.GetAllObjects, targetDbFileName).ConfigureAwait(true);
-            for (int i = 0; i < exisitingObjetsRows.Count; i++)
-            {
-                var existingObject = exisitingObjetsRows[i];
-                existingObjects.Add(existingObject.NomObjet ?? $"{i}", existingObject);
-            }
+            var exisitingObjetsRows = (await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Objets, List<Objets>>(DB.CommonQueries.GetAllObjects, targetDbFileName).ConfigureAwait(true))
+                .ToDictionary((x) => x.NomObjet ?? "", (x) => x);
             var existingObjectsPropriete = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<ObjetsPropriete, List<ObjetsPropriete>>(DB.CommonQueries.GetAllObjectsPropriete, targetDbFileName).ConfigureAwait(true);
             using var targetDb = DB.DatabaseWrapper.CreateCharactersDb(targetDbFileName);
             var objectsToImport = new Dictionary<string, Objets>();
@@ -122,12 +118,8 @@ namespace RoleDDNG.ViewModels.Menus.Characters
                 Report(Tuple.Create(percentage, $"Objets de la base {Path.GetFileName(importDbPath)} importés"));
                 if (File.Exists(importDbPath))
                 {
-                    var objectsToImportFromDb = await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Objets, List<Objets>>(DB.CommonQueries.GetAllObjects, importDbPath).ConfigureAwait(true);
-                    for (int j = 0; j < objectsToImportFromDb.Count; j++)
-                    {
-                        var objetFromDb = objectsToImportFromDb[j];
-                        objectsToImport.Add(objetFromDb.NomObjet ?? $"{j}", objetFromDb);
-                    }
+                    var objectsToImportFromDb = (await DB.DatabaseWrapper.GetCollectionFromQueryAsync<Objets, List<Objets>>(DB.CommonQueries.GetAllObjects, importDbPath).ConfigureAwait(true))
+                        .ToDictionary((x) => x.NomObjet ?? "", (x) => x);
                     objectsProprieteToImport.AddRange(await DB.DatabaseWrapper.GetCollectionFromQueryAsync<ObjetsPropriete, List<ObjetsPropriete>>(DB.CommonQueries.GetAllObjectsPropriete, importDbPath).ConfigureAwait(true));
                     foreach (var objectToImport in objectsToImport)
                     {
