@@ -2,7 +2,7 @@
 
 # RoleDDNG
 
-RoleDD for a new generation of players and creators (unnoficial version)
+RoleDD for a new generation of players and creators (unofficial version)
 
 Uses C# 9 (with Nullable Reference Types enabled), XAML (WPF), .NET 5, MVVMLight (.NET Standard variant), PetaPoco with OleDb, and AdonisUI (for a modern Windows 10 theme).
 
