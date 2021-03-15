@@ -16,7 +16,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/DonsDescriptionsIcon.png" />
     </userControls:WindowContent.Resources>
-    <ScrollViewer Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
+    <ScrollViewer>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -82,12 +82,14 @@
                 <TextBlock  Grid.Row="13" Grid.Column="0" IsEnabled="False" Text="{Binding SelectedItem.Normal}" TextWrapping="Wrap" />
                 <Label  Grid.Row="14" Grid.Column="0">Spécial</Label>
                 <TextBlock  Grid.Row="15" Grid.Column="0" IsEnabled="False" Text="{Binding SelectedItem.Special}" TextWrapping="Wrap" />
-                <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1" Grid.RowSpan="16">
-                    <Label>Explication</Label>
-                    <TextBlock Text="{Binding SelectedItem.Explication}" IsEnabled="False" TextWrapping="Wrap" />
-                    <Label>Résumé</Label>
-                    <TextBlock Text="{Binding SelectedItem.Resume}" TextWrapping="Wrap" />
-                </StackPanel>
+                <ScrollViewer Grid.Row="0" Grid.Column="1" Grid.RowSpan="16">
+                    <StackPanel Orientation="Vertical">
+                        <Label>Explication</Label>
+                        <TextBlock Text="{Binding SelectedItem.Explication}" IsEnabled="False" TextWrapping="Wrap" />
+                        <Label>Résumé</Label>
+                        <TextBlock Text="{Binding SelectedItem.Resume}" TextWrapping="Wrap" />
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
             <Grid
             Grid.RowSpan="3"

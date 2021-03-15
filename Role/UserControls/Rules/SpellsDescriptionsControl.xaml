@@ -20,7 +20,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <ImageBrush x:Key="WindowIcon" ImageSource="/UserControls/Assets/SpellsDescriptionsIcon.png" />
     </userControls:WindowContent.Resources>
-    <ScrollViewer  Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
+    <ScrollViewer >
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

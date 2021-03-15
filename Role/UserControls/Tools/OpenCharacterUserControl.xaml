@@ -22,7 +22,7 @@
         <converters:CharacterToClasseConverter x:Key="CharacterToClasseConverter" />
         <converters:CharacterToLevelConverter x:Key="CharacterToLevelConverter" />
     </usercontrols:WindowContent.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"  Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
         <Grid>
             <ListBox ItemsSource="{Binding Collection}">
                 <ListBox.ItemTemplate>

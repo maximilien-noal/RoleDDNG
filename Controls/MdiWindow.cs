@@ -48,26 +48,6 @@ namespace Hammer.MDI.Control
             return bitmap;
         }
 
-        private bool _limitMeasure;
-
-        private readonly DispatcherTimer _timer;
-
-        protected override Size MeasureOverride(Size constraint)
-        {
-            if (IsLoaded && _limitMeasure)
-            {
-                var oldMaxWidth = GetValue(MaxWidthProperty);
-                var oldMaxHeight = GetValue(MaxHeightProperty);
-                SetCurrentValue(MaxHeightProperty, ActualWidth);
-                SetCurrentValue(MaxWidthProperty, ActualHeight);
-                var size = base.MeasureOverride(new Size(Math.Min(ActualWidth, constraint.Width), Math.Min(ActualHeight, constraint.Height)));
-                SetCurrentValue(MaxHeightProperty, oldMaxHeight);
-                SetCurrentValue(MaxWidthProperty, oldMaxWidth);
-                return size;
-            }
-            return base.MeasureOverride(constraint);
-        }
-
         internal void Maximize()
         {
             SaveLastSizeAndPosition();
@@ -271,12 +251,6 @@ namespace Hammer.MDI.Control
             {
                 button.Icon = brush;
             }
-        }
-
-        public MdiWindow()
-        {
-            _timer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (s, e) => { _limitMeasure = true; _timer?.Stop(); }, Application.Current.Dispatcher);
-            _timer.Start();
         }
 
         public delegate void WindowStateChangedRoutedEventHandler(object sender, WindowStateChangedEventArgs e);

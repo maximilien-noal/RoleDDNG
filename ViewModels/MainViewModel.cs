@@ -37,7 +37,7 @@ namespace RoleDDNG.ViewModels
 
         private bool _isStartingUp = true;
 
-        private ObservableCollection<dynamic> _items = new ObservableCollection<dynamic>();
+        private Dictionary<dynamic, Window> _windows = new Dictionary<dynamic, Window>();
 
         public MainViewModel()
         {
@@ -77,7 +77,7 @@ namespace RoleDDNG.ViewModels
             }
             otherCharactersDatabases = otherCharactersDatabases.Where(x => Path.GetFullPath(x).ToUpperInvariant() != Path.GetFullPath(CurrentCharacterDb).ToUpperInvariant() && Path.GetFullPath(x).ToUpperInvariant() != DB.DatabaseWrapper.GetFullProgDbPath().ToUpperInvariant());
             var viewModel = new CharacterImportViewModel(otherCharactersDatabases);
-            Items.Add(viewModel);
+            ShowWindow(viewModel);
         }
 
         private void ChangeBackgroundMethod() => BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource(BackgroundSource);
@@ -87,8 +87,6 @@ namespace RoleDDNG.ViewModels
         public string CurrentCharacterDb { get => _currentCharacterDb; private set { Set(nameof(CurrentCharacterDb), ref _currentCharacterDb, value); } }
 
         public bool IsBusy { get => _isBusy; private set { Set(nameof(IsBusy), ref _isBusy, value); } }
-
-        public ObservableCollection<object> Items { get => _items; private set { Set(nameof(Items), ref _items, value); } }
 
         public AsyncCommand OpenCharacterImport { get; private set; }
 
@@ -110,10 +108,7 @@ namespace RoleDDNG.ViewModels
 
         public RelayCommand ShowTownGeneratorWindow { get; private set; }
 
-        public async Task ExitAppAsync()
-        {
-            await SaveAppSettingsAsync().ConfigureAwait(true);
-        }
+        public async Task ExitAppAsync() => await SaveAppSettingsAsync().ConfigureAwait(true);
 
         public async Task<bool> LoadAppSettingsAsync()
         {
@@ -141,10 +136,10 @@ namespace RoleDDNG.ViewModels
 
         public void RemoveDocumentViewModel(dynamic viewModel)
         {
-            var itemToRemove = Items.FirstOrDefault(x => viewModel.GetType() == x.GetType());
-            if (itemToRemove != null)
+            if (_windows.TryGetValue(viewModel, out Window window))
             {
-                Items.Remove(itemToRemove);
+                window.Close();
+                _windows.Remove(viewModel);
             }
         }
 
@@ -157,11 +152,17 @@ namespace RoleDDNG.ViewModels
 
         private void AddDocumentViewModel<T>() where T : IDocumentViewModel, new()
         {
-            if (!Items.OfType<T>().Any())
+            if (!_windows.OfType<T>().Any())
             {
                 var viewModel = new T();
-                Items.Add(viewModel);
+                ShowWindow(viewModel);
             }
+        }
+
+        private void ShowWindow(object viewModel)
+        {
+            _windows.Add(viewModel, new ChildWindow() { DataContext = viewModel, Owner = Application.Current.MainWindow });
+            _windows.Last().Value.Show();
         }
 
         private static async Task<IEnumerable<string>> OpenForeignCharacterDBsAsync()

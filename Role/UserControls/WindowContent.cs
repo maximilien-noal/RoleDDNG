@@ -1,7 +1,6 @@
-﻿using Hammer.MDI.Control;
+﻿using RoleDDNG.ViewModels.Interfaces;
 
-using RoleDDNG.ViewModels.Interfaces;
-
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,10 +13,7 @@ namespace RoleDDNG.Role.UserControls
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(WindowContent), new PropertyMetadata(""));
 
-        public WindowContent()
-        {
-            this.Loaded += WindowContent_Loaded;
-        }
+        public WindowContent() => this.Loaded += WindowContent_Loaded;
 
         public string Title
         {
@@ -32,22 +28,6 @@ namespace RoleDDNG.Role.UserControls
             if (DesignerProperties.GetIsInDesignMode(this))
             {
                 return;
-            }
-
-            var imageBrush = this.FindResource("WindowIcon");
-            if (imageBrush is null)
-            {
-                return;
-            }
-            var parent = VisualTreeHelper.GetParent(this);
-            while (!(parent is MdiWindow))
-            {
-                parent = VisualTreeHelper.GetParent(parent);
-            }
-            if (parent is MdiWindow window && imageBrush is ImageBrush brush)
-            {
-                window.SetCurrentValue(MdiWindow.TitleProperty, GetValue(TitleProperty));
-                window.ChangeMenuButtonIcon(brush);
             }
 
             if (DataContext is IDbDependentViewModel viewModel)

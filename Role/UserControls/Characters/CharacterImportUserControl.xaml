@@ -6,7 +6,6 @@
     xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
     xmlns:userControls="clr-namespace:RoleDDNG.Role.UserControls"
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-    xmlns:Extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
     Title="Import de personnages d'une autre base de données"
     mc:Ignorable="d"
     d:DesignHeight="450" d:DesignWidth="800"
@@ -45,7 +44,7 @@
                 <Button Margin="4" Command="{Binding SelectNone}">Aucun personnage</Button>
                 <CheckBox Margin="4" IsChecked="{Binding WithObjects, Mode=TwoWay}">Avec les objets</CheckBox>
             </StackPanel>
-            <ListBox Grid.Row="2" ItemsSource="{Binding Collection}" Extensions:ScrollViewerExtension.HorizontalScrollBarExpansionMode="AlwaysExpand" Extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="AlwaysExpand">
+            <ListBox Grid.Row="2" ItemsSource="{Binding Collection}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
