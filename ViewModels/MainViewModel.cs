@@ -37,7 +37,9 @@ namespace RoleDDNG.ViewModels
 
         private bool _isStartingUp = true;
 
-        private Dictionary<dynamic, Window> _windows = new Dictionary<dynamic, Window>();
+        private object? _shownViewModel = null;
+
+        public object? ShownViewModel { get => _shownViewModel; set { Set(nameof(ShownViewModel), ref _shownViewModel, value); } }
 
         public MainViewModel()
         {
@@ -45,7 +47,7 @@ namespace RoleDDNG.ViewModels
             ChangeBackgroundCommand = new RelayCommand(ChangeBackgroundMethod);
             ShowDiceRollWindow = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<DiceRollViewModel>().ConfigureAwait(true));
             ShowCharactersXpWindow = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<CharactersXpViewModel>().ConfigureAwait(true));
-            ShowTownGeneratorWindow = new RelayCommand(() => AddDocumentViewModel<TownGeneratorViewModel>());
+            ShowTownGeneratorWindow = new RelayCommand(() => ShowViewModel<TownGeneratorViewModel>());
             OpenCharactersDataBase = new AsyncCommand(async () => await AskAndOpenCharacterDbFileAsync().ConfigureAwait(true));
             OpenCharacterSheet = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<OpenCharacterViewModel>().ConfigureAwait(true));
             OpenRacesDescriptions = new AsyncCommand(async () => await OpenDbDependantViewModelAsync<RacesDescriptionsViewModel>().ConfigureAwait(true));
@@ -77,7 +79,7 @@ namespace RoleDDNG.ViewModels
             }
             otherCharactersDatabases = otherCharactersDatabases.Where(x => Path.GetFullPath(x).ToUpperInvariant() != Path.GetFullPath(CurrentCharacterDb).ToUpperInvariant() && Path.GetFullPath(x).ToUpperInvariant() != DB.DatabaseWrapper.GetFullProgDbPath().ToUpperInvariant());
             var viewModel = new CharacterImportViewModel(otherCharactersDatabases);
-            ShowWindow(viewModel);
+            ShownViewModel = viewModel;
         }
 
         private void ChangeBackgroundMethod() => BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource(BackgroundSource);
@@ -134,15 +136,6 @@ namespace RoleDDNG.ViewModels
             return foundCharacterDb;
         }
 
-        public void RemoveDocumentViewModel(dynamic viewModel)
-        {
-            if (_windows.TryGetValue(viewModel, out Window window))
-            {
-                window.Close();
-                _windows.Remove(viewModel);
-            }
-        }
-
         private static async Task<string> AskForCharactersDbFileAsync(string title = "Ouvrir une base de données de personnages...")
         {
             var fileDialog = SimpleIoc.Default.GetInstance<IFileDialog>();
@@ -150,20 +143,7 @@ namespace RoleDDNG.ViewModels
             return dbFile;
         }
 
-        private void AddDocumentViewModel<T>() where T : IDocumentViewModel, new()
-        {
-            if (!_windows.OfType<T>().Any())
-            {
-                var viewModel = new T();
-                ShowWindow(viewModel);
-            }
-        }
-
-        private void ShowWindow(object viewModel)
-        {
-            _windows.Add(viewModel, new ChildWindow() { DataContext = viewModel, Owner = Application.Current.MainWindow });
-            _windows.Last().Value.Show();
-        }
+        private void ShowViewModel<T>() where T : IDocumentViewModel, new() => ShownViewModel = new T();
 
         private static async Task<IEnumerable<string>> OpenForeignCharacterDBsAsync()
         {
@@ -203,7 +183,7 @@ namespace RoleDDNG.ViewModels
         {
             if (await OpenCharacterDbIfNoneOpenAndRunMigrationsAsync().ConfigureAwait(true))
             {
-                AddDocumentViewModel<T>();
+                ShowViewModel<T>();
             }
         }
 

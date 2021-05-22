@@ -30,7 +30,7 @@ namespace RoleDDNG.Role
             var logFilePath = Path.Combine(
                                 Environment.GetFolderPath(
                                     Environment.SpecialFolder.ApplicationData),
-                                    "RoleDDNG\\ROLE.LOG");
+                                    Path.Combine(nameof(RoleDDNG),"ROLE.LOG"));
 
             _logger = new LoggerConfiguration()
                 .WriteTo.Async(config => config.File(logFilePath)).CreateLogger();
@@ -53,12 +53,16 @@ namespace RoleDDNG.Role
             base.OnStartup(e);
             try
             {
-                WatchTheme();
-                CHangeThemeIfWindowsChangedIt();
+                if (OSVersionHelper.WindowsVersionHelper.Windows10Release >= OSVersionHelper.Windows10Release.May2019)
+                {
+                    WatchTheme();
+                    ChangeThemeIfWindowsChangedIt();
+                }
             }
             catch
             {
-                //No OS support for themes. Not worth crashing for.
+                //Not a version of Windows 10 that supports themes, despite checking for it.
+                //Not worth crashing for. Not worth logging for.
             }
         }
 
@@ -88,7 +92,7 @@ namespace RoleDDNG.Role
             return registryValue > 0 ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme;
         }
 
-        private void CHangeThemeIfWindowsChangedIt()
+        private void ChangeThemeIfWindowsChangedIt()
         {
             var newWindowsTheme = GetWindowsTheme();
             if (_currentTheme != newWindowsTheme)
@@ -107,7 +111,7 @@ namespace RoleDDNG.Role
 
         private void Watcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
-            CHangeThemeIfWindowsChangedIt();
+            ChangeThemeIfWindowsChangedIt();
         }
 
         private void WatchTheme()

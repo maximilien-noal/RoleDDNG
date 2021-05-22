@@ -13,6 +13,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="AdonisUI" Version="1.16.0" />
+    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.16.0" />
     <PackageReference Include="PetaPoco.Compiled" Version="6.0.459" />
     <PackageReference Include="System.Data.OleDb" Version="5.0.0" />
     <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.2" />

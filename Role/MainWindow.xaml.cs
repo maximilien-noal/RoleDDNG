@@ -13,9 +13,11 @@ using RoleDDNG.OSServices.Windows.Taskbar;
 using RoleDDNG.Role.Backgrounds;
 using RoleDDNG.Role.Dialogs;
 using RoleDDNG.Role.PInvoke;
+using RoleDDNG.Role.UserControls;
 using RoleDDNG.Serialization;
 using RoleDDNG.ViewModels;
 
+using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -67,12 +69,26 @@ namespace RoleDDNG.Role
 
         private async void Window_SourceInitialized(object sender, System.EventArgs e)
         {
-            var foundCharacterDb = await SimpleIoc.Default.GetInstance<MainViewModel>().LoadAppSettingsAsync().ConfigureAwait(true);
+            var mainViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
+            mainViewModel.PropertyChanged += OnMainViewModelPropertyChanged;
+            var foundCharacterDb = await mainViewModel.LoadAppSettingsAsync().ConfigureAwait(true);
             var windowPlacement = SimpleIoc.Default.GetInstance<AppSettings>().MainWindowPlacement;
             SimpleIoc.Default.GetInstance<IWindowPlacer>().SetWindowPlacement(new WindowInteropHelper(this).Handle, ref windowPlacement);
             if (foundCharacterDb)
             {
-                await SimpleIoc.Default.GetInstance<MainViewModel>().OpenCharacterSheet.ExecuteAsync().ConfigureAwait(true);
+                await mainViewModel.OpenCharacterSheet.ExecuteAsync().ConfigureAwait(true);
+            }
+        }
+
+        private void OnMainViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(MainViewModel.ShownViewModel) && sender is MainViewModel vm && vm.ShownViewModel != null)
+            {
+                var existingWindow = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.DataContext != null && x.DataContext.GetType() == vm.ShownViewModel.GetType());
+                if (existingWindow is null)
+                {
+                    new ChildWindow() { DataContext = vm.ShownViewModel, Owner = Application.Current.MainWindow }.Show();
+                }
             }
         }
 
