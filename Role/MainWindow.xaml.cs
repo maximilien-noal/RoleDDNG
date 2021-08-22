@@ -58,7 +58,7 @@ namespace RoleDDNG.Role
 
 #pragma warning disable VSTHRD100 // Avoid async void methods (this is an event)
 
-        private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private async void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
         {
             Closing -= MainWindow_Closing;
             SimpleIoc.Default.GetInstance<IWindowPlacer>().GetWindowPlacement(new WindowInteropHelper(this).Handle, out WindowPlacement windowPlacement);

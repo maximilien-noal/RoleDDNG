@@ -11,13 +11,13 @@
     <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="PetaPoco.Compiled" Version="6.0.459" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.8.55">
+    <PackageReference Include="PetaPoco.Compiled" Version="6.0.480" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.10.56">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="MvvmLightStd10" Version="5.4.1.2" />
-    <PackageReference Include="WpfAnalyzers" Version="3.5.2">
+    <PackageReference Include="WpfAnalyzers" Version="3.5.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
