@@ -127,8 +127,8 @@
                     <Border Background="{Binding Background, ElementName=MainWindowInstance}" />
                     <Image
                         Source="{Binding BackgroundSource}" />
-                    <TabControl x:Name="TabView"
-                        SelectedItem="{Binding SelectedWindow}"
+                    <TabControl x:Name="TabView" Opacity="0.95"
+                        SelectedItem="{Binding SelectedWindow, Mode=TwoWay}"
                         ItemsSource="{Binding Items}">
                         <TabControl.ItemTemplate>
                             <DataTemplate>
