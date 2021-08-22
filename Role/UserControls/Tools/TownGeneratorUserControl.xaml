@@ -11,7 +11,6 @@
     xmlns:localBehaviors="clr-namespace:RoleDDNG.Role.Behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
-    Title="Générateur de ville"
     DataContext="{Binding Source={StaticResource Locator}, Path=TownGenerator}"
     mc:Ignorable="d">
     <usercontrols:WindowContent.Resources>

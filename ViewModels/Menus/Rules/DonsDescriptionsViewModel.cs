@@ -9,6 +9,7 @@ namespace RoleDDNG.ViewModels.Menus.Rules
 {
     public class DonsDescriptionsViewModel : CollectionSlideShowViewModel<Don>, IDocumentViewModel, IDbDependentViewModel
     {
+        public string Title => "Desc. des dons";
         private bool _isBusy;
 
         public bool IsBusy { get => _isBusy; set { Set(nameof(IsBusy), ref _isBusy, value); } }

@@ -9,6 +9,7 @@ namespace RoleDDNG.ViewModels.Menus.Rules
 {
     public class SpellsDescriptionsViewModel : CollectionSlideShowViewModel<Spell>, IDocumentViewModel, IDbDependentViewModel
     {
+        public string Title => "Desc. des sorts";
         private bool _isBusy;
 
         public bool IsBusy { get => _isBusy; set { Set(nameof(IsBusy), ref _isBusy, value); } }

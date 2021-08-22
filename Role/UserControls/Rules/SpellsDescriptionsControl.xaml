@@ -8,7 +8,6 @@
     xmlns:userControls="clr-namespace:RoleDDNG.Role.UserControls"
     xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
     xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
-    Title="Description des sorts"
     DataContext="{Binding Source={StaticResource Locator}, Path=SpellsDescriptions}"
     mc:Ignorable="d"
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"

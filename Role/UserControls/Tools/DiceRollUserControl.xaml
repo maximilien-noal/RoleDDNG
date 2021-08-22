@@ -8,7 +8,6 @@
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     xmlns:Extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
     xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
-    Title="Lanceur de dés"
     DataContext="{Binding Source={StaticResource Locator}, Path=DiceRoll}"
     mc:Ignorable="d"
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">

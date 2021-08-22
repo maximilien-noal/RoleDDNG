@@ -10,7 +10,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    Title="Accéder à un personnage"
     DataContext="{Binding Source={StaticResource Locator}, Path=OpenCharacter}"
     mc:Ignorable="d"
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">

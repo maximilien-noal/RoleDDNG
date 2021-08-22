@@ -78,6 +78,7 @@ namespace RoleDDNG.ViewModels
             otherCharactersDatabases = otherCharactersDatabases.Where(x => Path.GetFullPath(x).ToUpperInvariant() != Path.GetFullPath(CurrentCharacterDb).ToUpperInvariant() && Path.GetFullPath(x).ToUpperInvariant() != DB.DatabaseWrapper.GetFullProgDbPath().ToUpperInvariant());
             var viewModel = new CharacterImportViewModel(otherCharactersDatabases);
             Items.Add(viewModel);
+            SelectedWindow = Items.LastOrDefault();
         }
 
         private void ChangeBackgroundMethod() => BackgroundSource = SimpleIoc.Default.GetInstance<IBackgroundSource>().GetBackgroundSource(BackgroundSource);
@@ -161,7 +162,10 @@ namespace RoleDDNG.ViewModels
             {
                 var viewModel = new T();
                 Items.Add(viewModel);
+                SelectedWindow = Items.LastOrDefault();
             }
+            SelectedWindow = Items.FirstOrDefault(x => x != null && x.GetType() == typeof(T));
+
         }
 
         private static async Task<IEnumerable<string>> OpenForeignCharacterDBsAsync()
@@ -255,5 +259,9 @@ namespace RoleDDNG.ViewModels
             await SimpleIoc.Default.GetInstance<IAsyncSerializer<AppSettings>>().SerializeAsync(_appSettingsFilePath, SimpleIoc.Default.GetInstance<AppSettings>()).ConfigureAwait(true);
             IsBusy = false;
         }
+
+        private object? selectedWindow;
+
+        public object? SelectedWindow { get => selectedWindow; set => Set(ref selectedWindow, value); }
     }
 }

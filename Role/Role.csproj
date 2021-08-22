@@ -58,6 +58,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dirkster.AvalonDock" Version="4.51.1" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
     <PackageReference Include="AdonisUI" Version="1.16.0" />
@@ -79,7 +80,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Controls\Hammer.MDIContainer.Control.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\OSServices\Windows\OSServices.Windows.csproj" />
     <ProjectReference Include="..\Serialization\Serialization.csproj" />

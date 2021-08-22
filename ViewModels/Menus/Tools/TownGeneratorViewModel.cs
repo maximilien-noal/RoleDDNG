@@ -13,6 +13,7 @@ namespace RoleDDNG.ViewModels.Menus.Tools
 {
     public class TownGeneratorViewModel : ViewModelBase, IDocumentViewModel
     {
+        public string Title => "Générateur de villes";
         private int _dimePercentage = 10;
 
         private bool _isBusy;

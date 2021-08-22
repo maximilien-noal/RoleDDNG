@@ -21,6 +21,7 @@ namespace RoleDDNG.ViewModels.Menus.Characters
 {
     public class CharacterImportViewModel : CharactersListViewModel, IProgress<Tuple<int, string>>
     {
+        public new string Title => "Import de personnages";
         private bool _withObjects = true;
         private IEnumerable<string> _sourceDbFiles;
 

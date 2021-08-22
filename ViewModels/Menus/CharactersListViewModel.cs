@@ -11,6 +11,7 @@ namespace RoleDDNG.ViewModels.Menus
 {
     public class CharactersListViewModel : CollectionViewModel<Personnage>, IDbDependentViewModel, IDocumentViewModel
     {
+        public string Title => "Accéder à un perso";
         private readonly string _sourceDbFile = "";
         private bool _isBusy;
 

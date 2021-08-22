@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29319.158
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{92753968-60EA-422C-B355-AF066FA9BEA7}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModels", "ViewModels\ViewModels.csproj", "{7F3602BF-A30E-4BB3-A841-34A57C5FFDED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "Interfaces\Interfaces.csproj", "{A9DCEB29-CB60-477C-B45B-6BD1F6F23196}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hammer.MDIContainer.Control", "Controls\Hammer.MDIContainer.Control.csproj", "{B68F597B-B085-4B0E-8DB9-2DE0420306FC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSServices.Windows", "OSServices\Windows\OSServices.Windows.csproj", "{24AA0210-2AE4-47B9-8B64-FDFA3CB5D91A}"
 EndProject
@@ -77,18 +75,6 @@ Global
 		{A9DCEB29-CB60-477C-B45B-6BD1F6F23196}.Release|x64.Build.0 = Release|Any CPU
 		{A9DCEB29-CB60-477C-B45B-6BD1F6F23196}.Release|x86.ActiveCfg = Release|Any CPU
 		{A9DCEB29-CB60-477C-B45B-6BD1F6F23196}.Release|x86.Build.0 = Release|Any CPU
-		{B68F597B-B085-4B0E-8DB9-2DE0420306FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B68F597B-B085-4B0E-8DB9-2DE0420306FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B68F597B-B085-4B0E-8DB9-2DE0420306FC}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B68F597B-B085-4B0E-8DB9-2DE0420306FC}.Debug|x64.Build.0 = Debug|Any CPU
-		{B68F597B-B085-4B0E-8DB9-2DE0420306FC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B68F597B-B085-4B0E-8DB9-2DE0420306FC}.Debug|x86.Build.0 = Debug|Any CPU
-		{B68F597B-B085-4B0E-8DB9-2DE0420306FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B68F597B-B085-4B0E-8DB9-2DE0420306FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B68F597B-B085-4B0E-8DB9-2DE0420306FC}.Release|x64.ActiveCfg = Release|Any CPU
-		{B68F597B-B085-4B0E-8DB9-2DE0420306FC}.Release|x64.Build.0 = Release|Any CPU
-		{B68F597B-B085-4B0E-8DB9-2DE0420306FC}.Release|x86.ActiveCfg = Release|Any CPU
-		{B68F597B-B085-4B0E-8DB9-2DE0420306FC}.Release|x86.Build.0 = Release|Any CPU
 		{24AA0210-2AE4-47B9-8B64-FDFA3CB5D91A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24AA0210-2AE4-47B9-8B64-FDFA3CB5D91A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24AA0210-2AE4-47B9-8B64-FDFA3CB5D91A}.Debug|x64.ActiveCfg = Debug|Any CPU

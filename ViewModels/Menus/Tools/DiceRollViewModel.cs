@@ -19,6 +19,8 @@ namespace RoleDDNG.ViewModels.Menus.Tools
 {
     public class DiceRollViewModel : ViewModelBase, IDocumentViewModel, IDbDependentViewModel
     {
+        public string Title => "Lanceur de dés";
+
         private const string DbDiceRollsQuery = "SELECT TOP 300 Results,DSum,DDateTime,Sides,Dices FROM DiceRoll WHERE Personnage=\"\" ORDER BY DDateTime DESC;";
 
         private int _numberOfDices = 1;

@@ -2,7 +2,6 @@
     x:Class="RoleDDNG.Role.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:MDI="clr-namespace:Hammer.MDI.Control;assembly=Hammer.MDIContainer.Control"
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -128,9 +127,15 @@
                     <Border Background="{Binding Background, ElementName=MainWindowInstance}" />
                     <Image
                         Source="{Binding BackgroundSource}" />
-                    <MDI:MdiContainer
+                    <TabControl x:Name="TabView"
+                        SelectedItem="{Binding SelectedWindow}"
                         ItemsSource="{Binding Items}">
-                    </MDI:MdiContainer>
+                        <TabControl.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Title}" />
+                            </DataTemplate>
+                        </TabControl.ItemTemplate>
+                    </TabControl>
                 </Grid>
             </Button.Content>
         </Button>

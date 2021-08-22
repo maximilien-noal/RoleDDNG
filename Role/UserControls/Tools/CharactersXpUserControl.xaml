@@ -8,7 +8,6 @@
     xmlns:userControls="clr-namespace:RoleDDNG.Role.UserControls"
     xmlns:converters="clr-namespace:RoleDDNG.Role.Converters"
     xmlns:models="clr-namespace:RoleDDNG.Models.Characters;assembly=Models"
-    Title="Expérience des personnages"
     DataContext="{Binding Source={StaticResource Locator}, Path=CharactersXp}"
     mc:Ignorable="d"
     Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"

@@ -10,6 +10,7 @@ namespace RoleDDNG.ViewModels.Menus.Rules
 {
     public class RacesDescriptionsViewModel : CollectionSlideShowViewModel<RacePersonnage>, IDocumentViewModel, IDbDependentViewModel
     {
+        public string Title => "Desc. des races";
         private bool _isBusy;
 
         public bool IsBusy { get => _isBusy; set { Set(nameof(IsBusy), ref _isBusy, value); } }
