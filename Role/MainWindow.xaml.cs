@@ -10,9 +10,9 @@ using RoleDDNG.Models.Options;
 using RoleDDNG.Models.Structs;
 using RoleDDNG.OSServices.Windows.Dialogs;
 using RoleDDNG.OSServices.Windows.Taskbar;
+using RoleDDNG.OSServices.Windows.Window;
 using RoleDDNG.Role.Backgrounds;
 using RoleDDNG.Role.Dialogs;
-using RoleDDNG.Role.PInvoke;
 using RoleDDNG.Serialization;
 using RoleDDNG.ViewModels;
 

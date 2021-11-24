@@ -5,7 +5,7 @@ using RoleDDNG.Interfaces.Window;
 using RoleDDNG.Models.Structs;
 using RoleDDNG.OSServices.Windows.PInvoke;
 
-namespace RoleDDNG.Role.PInvoke
+namespace RoleDDNG.OSServices.Windows.Window
 {
     public class HwndPlacer : IWindowPlacer
     {
